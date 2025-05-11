@@ -1,0 +1,418 @@
+"use client";
+
+import React from "react";
+
+import {
+  File,
+  Forward,
+  MoreHorizontal,
+  Plus,
+  Pencil,
+  Trash2,
+  Search,
+  Tag,
+  Code,
+  Eye,
+  RotateCcw,
+  Send,
+  XIcon,
+  CopyPlus,
+} from "lucide-react";
+
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+
+interface Filter {
+  keywords: string | undefined;
+  tags: string[] | undefined;
+  active: boolean[] | undefined;
+  type: ("HTTP" | "TCP")[] | undefined;
+  visibility: boolean[] | undefined;
+}
+
+export function NavMonitors({
+  monitors,
+}: {
+  monitors: {
+    tags: string[];
+    name: string;
+    url: string;
+  }[];
+}) {
+  const { isMobile } = useSidebar();
+  const [filter, setFilter] = React.useState<Filter>({
+    keywords: undefined,
+    tags: [],
+    active: [],
+    type: [],
+    visibility: [],
+  });
+
+  function handleFilterChange<T extends keyof Filter>(
+    key: T,
+    value: NonNullable<Filter[T]> extends (infer U)[] ? U : Filter[T]
+  ) {
+    setFilter((prev) => {
+      if (key === "keywords") {
+        return {
+          ...prev,
+          [key]: value as string,
+        };
+      }
+
+      const prevArray = prev[key] as unknown[];
+      return {
+        ...prev,
+        [key]: prevArray?.includes(value)
+          ? prevArray.filter((v) => v !== value)
+          : [...(prevArray || []), value],
+      };
+    });
+  }
+
+  const filteredMonitors = monitors.filter((item) =>
+    filter.tags?.length
+      ? item.tags.some((tag) => filter.tags?.includes(tag))
+      : true
+  );
+
+  return (
+    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+      <SidebarGroupLabel
+        className="flex items-center justify-between pr-1"
+        style={{ paddingRight: 4 }}
+      >
+        <span>
+          Monitors{" "}
+          <code className="text-muted-foreground">
+            ({filteredMonitors.length}
+            {filteredMonitors.length !== monitors.length
+              ? `/${monitors.length}`
+              : ""}
+            )
+          </code>
+        </span>
+        <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <DropdownMenuTrigger asChild>
+                    <SidebarMenuAction className="relative top-0 right-0">
+                      <Search className="text-muted-foreground" />
+                      <span className="sr-only">Filter</span>
+                    </SidebarMenuAction>
+                  </DropdownMenuTrigger>
+                </TooltipTrigger>
+                <TooltipContent side="left" align="center">
+                  Filter Monitors
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <DropdownMenuContent
+              className="w-56"
+              side={isMobile ? "bottom" : "right"}
+              align={isMobile ? "end" : "start"}
+            >
+              <DropdownMenuLabel>Filter options</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem asChild>
+                  <Input
+                    type="text"
+                    tabIndex={0}
+                    className="h-8"
+                    onKeyDown={(e) => {
+                      e.stopPropagation();
+                    }}
+                    placeholder="Keywords"
+                    onChange={(e) => {
+                      console.log("input change with e:", e);
+                      handleFilterChange("keywords", e.target.value);
+                    }}
+                    onClick={(e) => e.preventDefault()}
+                    onSelect={(e) => e.preventDefault()}
+                  />
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger className="flex items-center gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+                    <Tag className="text-muted-foreground" />
+                    Tags
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                      <DropdownMenuCheckboxItem
+                        checked={filter.tags?.includes("Production")}
+                        onSelect={(e) => {
+                          e.preventDefault();
+                          handleFilterChange("tags", "Production");
+                        }}
+                      >
+                        Production
+                      </DropdownMenuCheckboxItem>
+                      <DropdownMenuCheckboxItem
+                        checked={filter.tags?.includes("Development")}
+                        onSelect={(e) => {
+                          e.preventDefault();
+                          handleFilterChange("tags", "Development");
+                        }}
+                      >
+                        Development
+                      </DropdownMenuCheckboxItem>
+                      <DropdownMenuCheckboxItem
+                        checked={filter.tags?.includes("Staging")}
+                        onSelect={(e) => {
+                          e.preventDefault();
+                          handleFilterChange("tags", "Staging");
+                        }}
+                      >
+                        Staging
+                      </DropdownMenuCheckboxItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger className="flex items-center gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+                    <Send className="text-muted-foreground" />
+                    Active
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                      <DropdownMenuCheckboxItem
+                        checked={filter.active?.includes(true)}
+                        onSelect={(e) => {
+                          e.preventDefault();
+                          handleFilterChange("active", true);
+                        }}
+                      >
+                        Yes
+                      </DropdownMenuCheckboxItem>
+                      <DropdownMenuCheckboxItem
+                        checked={filter.active?.includes(false)}
+                        onSelect={(e) => {
+                          e.preventDefault();
+                          handleFilterChange("active", false);
+                        }}
+                      >
+                        No
+                      </DropdownMenuCheckboxItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger className="flex items-center gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+                    <Code className="text-muted-foreground" />
+                    Type
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                      <DropdownMenuCheckboxItem
+                        checked={filter.type?.includes("HTTP")}
+                        onSelect={(e) => {
+                          e.preventDefault();
+                          handleFilterChange("type", "HTTP");
+                        }}
+                      >
+                        HTTP
+                      </DropdownMenuCheckboxItem>
+                      <DropdownMenuCheckboxItem
+                        checked={filter.type?.includes("TCP")}
+                        onSelect={(e) => {
+                          e.preventDefault();
+                          handleFilterChange("type", "TCP");
+                        }}
+                      >
+                        TCP
+                      </DropdownMenuCheckboxItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger className="flex items-center gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+                    <Eye className="text-muted-foreground" />
+                    Visibility
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                      <DropdownMenuCheckboxItem
+                        checked={filter.visibility?.includes(true)}
+                        onSelect={(e) => {
+                          e.preventDefault();
+                          handleFilterChange("visibility", true);
+                        }}
+                      >
+                        Public
+                      </DropdownMenuCheckboxItem>
+                      <DropdownMenuCheckboxItem
+                        checked={filter.visibility?.includes(false)}
+                        onSelect={(e) => {
+                          e.preventDefault();
+                          handleFilterChange("visibility", false);
+                        }}
+                      >
+                        Private
+                      </DropdownMenuCheckboxItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault();
+                  setFilter({
+                    keywords: undefined,
+                    tags: undefined,
+                    active: undefined,
+                    type: undefined,
+                    visibility: undefined,
+                  });
+                }}
+              >
+                <RotateCcw /> Clear filters
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <SidebarMenuAction className="relative top-0 right-0 border">
+                  <Plus className="text-muted-foreground" />
+                  <span className="sr-only">Create Monitor</span>
+                </SidebarMenuAction>
+              </TooltipTrigger>
+              <TooltipContent side="right" align="center">
+                Create Monitor
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      </SidebarGroupLabel>
+      <SidebarMenu>
+        <SidebarMenuItem className="flex flex-wrap gap-0.5 mx-2">
+          {Object.keys(filter).map((key) => {
+            const filterValue = filter[key as keyof Filter];
+            if (typeof filterValue === "string") {
+              return (
+                <Badge
+                  key={`${key}-${filterValue}`}
+                  variant="outline"
+                  className="overflow-visible"
+                >
+                  {filterValue}
+                  <button
+                    className="focus-visible:border-ring focus-visible:ring-ring/50 text-foreground/60 hover:text-foreground -my-[5px] -ms-0.5 -me-2 inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-[inherit] p-0 transition-[color,box-shadow] outline-none focus-visible:ring-[3px]"
+                    onClick={() => {
+                      handleFilterChange(key as keyof Filter, filterValue);
+                    }}
+                    aria-label="Delete"
+                  >
+                    <XIcon className="size-3" aria-hidden="true" />
+                  </button>
+                </Badge>
+              );
+            }
+            if (Array.isArray(filterValue)) {
+              return filterValue.map((item) => {
+                return (
+                  <Badge
+                    key={`${key}-${item}`}
+                    variant="outline"
+                    className="overflow-visible"
+                  >
+                    {item.toString()}
+                    <button
+                      className="focus-visible:border-ring focus-visible:ring-ring/50 text-foreground/60 hover:text-foreground -my-[5px] -ms-0.5 -me-2 inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-[inherit] p-0 transition-[color,box-shadow] outline-none focus-visible:ring-[3px]"
+                      onClick={() => {
+                        // @ts-expect-error we know that the item is a string
+                        handleFilterChange(key as keyof Filter, item);
+                      }}
+                      aria-label="Delete"
+                    >
+                      <XIcon className="size-3" aria-hidden="true" />
+                    </button>
+                  </Badge>
+                );
+              });
+            }
+            return null;
+          })}
+        </SidebarMenuItem>
+        {filteredMonitors.map((item) => (
+          <SidebarMenuItem key={item.name}>
+            <SidebarMenuButton asChild>
+              <a href={item.url}>
+                <span>{item.name}</span>
+              </a>
+            </SidebarMenuButton>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuAction showOnHover>
+                  <MoreHorizontal />
+                  <span className="sr-only">More</span>
+                </SidebarMenuAction>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="w-36 rounded-lg"
+                side={isMobile ? "bottom" : "right"}
+                align={isMobile ? "end" : "start"}
+              >
+                <DropdownMenuItem>
+                  <Pencil className="text-muted-foreground" />
+                  <span>Edit</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Forward className="text-muted-foreground" />
+                  <span>Share</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <CopyPlus className="text-muted-foreground" />
+                  <span>Duplicate</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <File className="text-muted-foreground" />
+                  <span>Export</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem variant="destructive">
+                  <Trash2 className="text-muted-foreground" />
+                  <span>Delete</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        ))}
+      </SidebarMenu>
+    </SidebarGroup>
+  );
+}
