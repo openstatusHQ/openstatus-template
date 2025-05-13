@@ -17,6 +17,7 @@ import {
   Send,
   XIcon,
   CopyPlus,
+  Copy,
 } from "lucide-react";
 
 import {
@@ -394,6 +395,10 @@ export function NavMonitors({
                 <DropdownMenuItem>
                   <Forward className="text-muted-foreground" />
                   <span>Share</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Copy className="text-muted-foreground" />
+                  <span>Copy ID</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <CopyPlus className="text-muted-foreground" />

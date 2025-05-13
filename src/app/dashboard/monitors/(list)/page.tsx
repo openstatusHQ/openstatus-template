@@ -10,7 +10,6 @@ import {
   MetricCardTitle,
   MetricCardValue,
 } from "@/components/metric/metric-card";
-import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { monitors } from "@/data/monitors";
 import { columns } from "./columns";

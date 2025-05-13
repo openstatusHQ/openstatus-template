@@ -9,6 +9,7 @@ import {
   Zap,
   Trash2,
   CopyPlus,
+  Copy,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,11 @@ const data = [
     {
       label: "Share",
       icon: Forward,
+      variant: "default" as const,
+    },
+    {
+      label: "Copy ID",
+      icon: Copy,
       variant: "default" as const,
     },
     {

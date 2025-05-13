@@ -24,7 +24,7 @@ export default function Page() {
         <SectionHeader>
           <SectionTitle>Overview</SectionTitle>
           <SectionDescription>
-            Welcome to the OpenStatus dashboard.
+            Welcome to your OpenStatus dashboard.
           </SectionDescription>
         </SectionHeader>
         <MetricCardGroup>

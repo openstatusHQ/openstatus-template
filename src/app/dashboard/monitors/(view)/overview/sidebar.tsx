@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/tooltip";
 import { CircleCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "@/components/common/link";
 
 export function Sidebar() {
   return (
@@ -47,7 +48,7 @@ export function Sidebar() {
         {
           label: "Notifiers",
           items: [
-            { label: "Name", value: "Team" },
+            { label: "Name", value: <Link href="#">Team</Link> },
             { label: "Type", value: "Email", isNested: true },
             { label: "Adress", value: "me@openstatus.dev", isNested: true },
           ],

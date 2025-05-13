@@ -1,3 +1,4 @@
+import { Link } from "@/components/common/link";
 import { SidebarRight } from "@/components/nav/sidebar-right";
 import {
   TooltipContent,
@@ -46,7 +47,7 @@ export function Sidebar() {
         {
           label: "Latest Reports",
           items: [
-            { label: "Name", value: "Downtime API" },
+            { label: "Name", value: <Link href="#">Downtime API</Link> },
             {
               label: "Status",
               value: <span className="text-green-500">Operational</span>,

@@ -9,6 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
 
 export function NavOverview({
   items,
@@ -19,13 +20,14 @@ export function NavOverview({
     icon: LucideIcon;
   }[];
 }) {
+  const pathname = usePathname();
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Overview</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
+            <SidebarMenuButton isActive={pathname.includes(item.url)} asChild>
               <a href={item.url}>
                 <item.icon />
                 <span>{item.name}</span>
