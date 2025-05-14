@@ -1,18 +1,42 @@
 "use client";
 
-import { Link } from "@/components/common/link";
+import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import { StatusReport } from "@/data/status-reports";
 import { ColumnDef } from "@tanstack/react-table";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { DataTableRowActions } from "./data-table-row-actions";
 
 export const columns: ColumnDef<StatusReport>[] = [
   {
+    id: "expander",
+    header: () => null,
+    cell: ({ row }) => {
+      return row.getCanExpand() ? (
+        <Button
+          {...{
+            className: "size-7 shadow-none text-muted-foreground",
+            onClick: row.getToggleExpandedHandler(),
+            "aria-expanded": row.getIsExpanded(),
+            "aria-label": row.getIsExpanded()
+              ? `Collapse details for ${row.original.name}`
+              : `Expand details for ${row.original.name}`,
+            size: "icon",
+            variant: "ghost",
+          }}
+        >
+          {row.getIsExpanded() ? (
+            <ChevronUp className="opacity-60" size={16} aria-hidden="true" />
+          ) : (
+            <ChevronDown className="opacity-60" size={16} aria-hidden="true" />
+          )}
+        </Button>
+      ) : undefined;
+    },
+  },
+  {
     accessorKey: "name",
     header: "Name",
-    cell: ({ row }) => {
-      const value = String(row.getValue("name"));
-      return <Link href={`monitors/overview`}>{value}</Link>;
-    },
     enableSorting: false,
     enableHiding: false,
   },
@@ -66,5 +90,9 @@ export const columns: ColumnDef<StatusReport>[] = [
       return <div className="text-muted-foreground">-</div>;
     },
     enableHiding: false,
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];

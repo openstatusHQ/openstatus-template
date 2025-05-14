@@ -18,13 +18,12 @@ export function Breadcrumb() {
         {
           type: "select",
           items: [
-            { value: "overview", label: "Overview", icon: LayoutGrid },
-            { value: "edit", label: "Edit", icon: Pencil },
             {
               value: "status-reports",
               label: "Status Reports",
               icon: Megaphone,
             },
+            { value: "edit", label: "Edit", icon: Pencil },
           ],
         },
       ]}

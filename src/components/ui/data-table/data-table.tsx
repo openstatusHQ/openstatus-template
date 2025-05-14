@@ -8,6 +8,7 @@ import {
   VisibilityState,
   flexRender,
   getCoreRowModel,
+  getExpandedRowModel,
   getFacetedRowModel,
   getFacetedUniqueValues,
   getFilteredRowModel,
@@ -24,15 +25,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Fragment } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  rowComponent?: React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  rowComponent,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -62,6 +66,9 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
+    getExpandedRowModel: getExpandedRowModel(),
+    // @ts-expect-error as we have an id in the data
+    getRowCanExpand: (row) => Boolean(row.original.id),
   });
 
   return (
@@ -87,16 +94,30 @@ export function DataTable<TData, TValue>({
       <TableBody>
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row) => (
-            <TableRow
-              key={row.id}
-              data-state={row.getIsSelected() && "selected"}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
+            <Fragment key={row.id}>
+              <TableRow
+                data-state={
+                  (row.getIsSelected() || row.getIsExpanded()) && "selected"
+                }
+                className="data-[state=selected]:bg-muted/50"
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+              {row.getIsExpanded() && (
+                <TableRow className="hover:bg-background">
+                  <TableCell
+                    className="p-0"
+                    colSpan={row.getVisibleCells().length}
+                  >
+                    {rowComponent}
+                  </TableCell>
+                </TableRow>
+              )}
+            </Fragment>
           ))
         ) : (
           <TableRow>
