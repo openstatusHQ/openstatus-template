@@ -1,15 +1,20 @@
 import {
+  SectionDescription,
   SectionGroup,
-  SectionGroupHeader,
-  SectionGroupTitle,
+  SectionHeader,
+  SectionTitle,
 } from "@/components/content/section";
 
 export default function Page() {
   return (
     <SectionGroup>
-      <SectionGroupHeader>
-        <SectionGroupTitle>OpenStatus Status</SectionGroupTitle>
-      </SectionGroupHeader>
+      <SectionHeader>
+        <SectionTitle>Status Pages</SectionTitle>
+        <SectionDescription>
+          Create and manage your status pages.
+        </SectionDescription>
+        {/* add data-table here */}
+      </SectionHeader>
     </SectionGroup>
   );
 }
