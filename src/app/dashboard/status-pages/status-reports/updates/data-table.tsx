@@ -38,6 +38,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
+import { TabsContent } from "@/components/ui/tabs";
+import { TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs } from "@/components/ui/tabs";
 
 const colors = {
   operational: "text-green-500/80",
@@ -49,7 +52,7 @@ export function DataTable() {
     <Table className="w-full">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[px]">
+          <TableHead className="w-7">
             <span className="sr-only">Status</span>
           </TableHead>
           <TableHead>Message</TableHead>
@@ -67,20 +70,19 @@ export function DataTable() {
             <Sheet key={update.id}>
               <SheetTrigger asChild>
                 <TableRow>
-                  <TableCell className="w-[51px]">
-                    <Icon
-                      className={cn(colors[update.status], "ml-1")}
-                      size={20}
-                    />
+                  <TableCell>
+                    <div className="p-1">
+                      <Icon className={cn(colors[update.status])} size={20} />
+                    </div>
                   </TableCell>
                   <TableCell>
                     <p className="text-wrap">{update.message}</p>
                   </TableCell>
-                  <TableCell>{update.date.toLocaleString()}</TableCell>
-                  <TableCell>
-                    <div className="mr-2">
-                      <DataTableRowActions />
-                    </div>
+                  <TableCell className="text-muted-foreground w-[170px]">
+                    {update.date.toLocaleString()}
+                  </TableCell>
+                  <TableCell className="w-8">
+                    <DataTableRowActions />
                   </TableCell>
                 </TableRow>
               </SheetTrigger>
@@ -122,14 +124,37 @@ export function DataTable() {
                     </FormCardContent>
                     <FormCardSeparator />
                     <FormCardContent>
-                      <div className="grid gap-1.5">
-                        <Label>Message</Label>
-                        <Textarea rows={6} defaultValue={update.message} />
-                      </div>
+                      <Tabs defaultValue="tab-1">
+                        <TabsList>
+                          <TabsTrigger value="tab-1">Writing</TabsTrigger>
+                          <TabsTrigger value="tab-2">Preview</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="tab-1">
+                          <div className="grid gap-1.5">
+                            <Label>Message</Label>
+                            <Textarea rows={6} defaultValue={update.message} />
+                            <p className="text-muted-foreground text-sm">
+                              Markdown support
+                            </p>
+                          </div>
+                        </TabsContent>
+                        <TabsContent value="tab-2">
+                          <div className="grid gap-1.5">
+                            <Label>Preview</Label>
+                            <p className="text-foreground py-2 px-3 text-sm border rounded-md">
+                              {update.message}
+                            </p>
+                          </div>
+                        </TabsContent>
+                      </Tabs>
                     </FormCardContent>
                   </FormCard>
                 </FormCardGroup>
                 <SheetFooter>
+                  <p className="text-muted-foreground/70 text-xs">
+                    Last Updated{" "}
+                    <time>{update.updatedAt.toLocaleString()}</time>
+                  </p>
                   <Button>Submit</Button>
                 </SheetFooter>
               </SheetContent>

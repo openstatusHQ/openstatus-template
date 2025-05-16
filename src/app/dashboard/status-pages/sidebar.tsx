@@ -6,6 +6,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { maintenances } from "@/data/maintenances";
+import { statusReports } from "@/data/status-reports";
+
+const report = statusReports[0];
+const maintenance = maintenances[0];
 
 export function Sidebar() {
   return (
@@ -17,7 +22,7 @@ export function Sidebar() {
           items: [
             {
               label: "Slug",
-              value: "openstatus",
+              value: <Link href="#">openstatus</Link>,
             },
             { label: "Domain", value: "status.openstatus.dev" },
             {
@@ -45,42 +50,59 @@ export function Sidebar() {
           ],
         },
         {
-          label: "Latest Reports",
+          label: "Last Report",
           items: [
-            { label: "Name", value: <Link href="#">Downtime API</Link> },
+            { label: "Name", value: report.name },
             {
-              label: "Status",
-              value: <span className="text-green-500">Operational</span>,
+              label: "Started",
+              value: <SidebarTooltipDate date={report.startedAt} />,
               isNested: true,
             },
             {
-              label: "Started",
-              value: (
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <span className="underline decoration-dashed underline-offset-2 decoration-muted-foreground/50">
-                        {new Date().toLocaleDateString("en-US", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })}
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent align="center" side="left">
-                      {new Date().toLocaleString("en-US")}
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              ),
+              label: "Status",
+              value: <span className="text-green-500">{report.status}</span>,
               isNested: true,
             },
           ],
         },
         {
-          label: "Latest Maintenances",
+          label: "Last Maintenance",
+          items: [
+            { label: "Name", value: maintenance.title },
+            {
+              label: "Started",
+              value: <SidebarTooltipDate date={maintenance.startDate} />,
+              isNested: true,
+            },
+            {
+              label: "Duration",
+              value: maintenance.duration,
+              isNested: true,
+            },
+          ],
         },
       ]}
     />
+  );
+}
+
+function SidebarTooltipDate({ date }: { date: Date }) {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger>
+          <span className="underline decoration-dashed underline-offset-2 decoration-muted-foreground/50">
+            {date.toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })}
+          </span>
+        </TooltipTrigger>
+        <TooltipContent align="center" side="left">
+          {date.toLocaleString("en-US")}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

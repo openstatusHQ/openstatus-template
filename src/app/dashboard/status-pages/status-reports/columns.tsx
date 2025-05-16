@@ -33,6 +33,9 @@ export const columns: ColumnDef<StatusReport>[] = [
         </Button>
       ) : undefined;
     },
+    meta: {
+      headerClassName: "w-7",
+    },
   },
   {
     accessorKey: "name",
@@ -49,6 +52,19 @@ export const columns: ColumnDef<StatusReport>[] = [
         return <div className="font-mono text-green-500">{value}</div>;
       }
       return <div className="font-mono text-muted-foreground">{value}</div>;
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "duration",
+    header: "Duration",
+    cell: ({ row }) => {
+      return (
+        <div className="text-muted-foreground font-mono">
+          {row.getValue("duration")}
+        </div>
+      );
     },
     enableSorting: false,
     enableHiding: false,
@@ -71,28 +87,15 @@ export const columns: ColumnDef<StatusReport>[] = [
       return <div className="text-muted-foreground">-</div>;
     },
     enableHiding: false,
-  },
-  {
-    accessorKey: "updatedAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Last Update" />
-    ),
-    cell: ({ row }) => {
-      const value = row.getValue("updatedAt");
-      if (value instanceof Date) {
-        return (
-          <div className="text-muted-foreground">{value.toLocaleString()}</div>
-        );
-      }
-      if (typeof value === "string") {
-        return <div className="text-muted-foreground">{value}</div>;
-      }
-      return <div className="text-muted-foreground">-</div>;
+    meta: {
+      cellClassName: "w-[170px]",
     },
-    enableHiding: false,
   },
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,
+    meta: {
+      cellClassName: "w-8",
+    },
   },
 ];

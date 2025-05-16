@@ -1,7 +1,7 @@
 "use client";
 
 import { NavBreadcrumb } from "@/components/nav/nav-breadcrumb";
-import { Megaphone, Pencil, LayoutGrid } from "lucide-react";
+import { Megaphone, Pencil, LayoutGrid, Hammer, Users } from "lucide-react";
 
 // TODO: make it dynamic
 
@@ -18,12 +18,14 @@ export function Breadcrumb() {
         {
           type: "select",
           items: [
+            { value: "edit", label: "Edit", icon: Pencil },
             {
               value: "status-reports",
               label: "Status Reports",
               icon: Megaphone,
             },
-            { value: "edit", label: "Edit", icon: Pencil },
+            { value: "maintenances", label: "Maintenances", icon: Hammer },
+            { value: "subscribers", label: "Subscribers", icon: Users },
           ],
         },
       ]}
