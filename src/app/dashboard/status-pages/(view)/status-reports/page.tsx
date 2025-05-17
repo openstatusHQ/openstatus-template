@@ -6,8 +6,9 @@ import {
   SectionDescription,
 } from "@/components/content/section";
 import { DataTable } from "@/components/ui/data-table/data-table";
-import { maintenances } from "@/data/maintenances";
-import { columns } from "./columns";
+import { statusReports } from "@/data/status-reports";
+import { DataTable as UpdatesDataTable } from "@/components/data-table/status-report-updates/data-table";
+import { columns } from "@/components/data-table/status-reports/columns";
 
 export default function Page() {
   return (
@@ -16,10 +17,14 @@ export default function Page() {
         <SectionHeader>
           <SectionTitle>OpenStatus Status</SectionTitle>
           <SectionDescription>
-            See our maintenances and scheduled downtimes.
+            See our uptime history and status reports.
           </SectionDescription>
         </SectionHeader>
-        <DataTable columns={columns} data={maintenances} />
+        <DataTable
+          columns={columns}
+          data={statusReports}
+          rowComponent={<UpdatesDataTable />}
+        />
       </Section>
     </SectionGroup>
   );

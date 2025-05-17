@@ -16,12 +16,13 @@ import { SidebarMetadata, SidebarMetadataProps } from "./sidebar-metadata";
 type SidebarRightProps = React.ComponentProps<typeof Sidebar> & {
   header: string;
   metadata: SidebarMetadataProps[];
-  // footerAction
+  footerButton?: React.ComponentProps<typeof SidebarMenuButton>;
 };
 
 export function SidebarRight({
   header,
   metadata,
+  footerButton,
   ...props
 }: SidebarRightProps) {
   return (
@@ -44,16 +45,15 @@ export function SidebarRight({
         ))}
       </SidebarContent>
       <SidebarSeparator className="mx-0" />
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton>
-              <Plus />
-              <span>Trigger Check</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
+      {footerButton ? (
+        <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton {...footerButton} />
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
+      ) : null}
     </Sidebar>
   );
 }

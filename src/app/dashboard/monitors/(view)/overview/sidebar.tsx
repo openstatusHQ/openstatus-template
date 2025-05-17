@@ -1,3 +1,5 @@
+"use client";
+
 import { SidebarRight } from "@/components/nav/sidebar-right";
 import {
   TooltipContent,
@@ -5,7 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { CircleCheck } from "lucide-react";
+import { CircleCheck, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "@/components/common/link";
 
@@ -89,6 +91,15 @@ export function Sidebar() {
           }),
         },
       ]}
+      footerButton={{
+        onClick: () => console.log("Trigger Check"),
+        children: (
+          <>
+            <Plus />
+            <span>Trigger Check</span>
+          </>
+        ),
+      }}
     />
   );
 }

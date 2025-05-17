@@ -3,10 +3,9 @@ import {
   AppHeaderActions,
   AppHeaderContent,
 } from "@/components/nav/app-header";
-import { NavActions } from "@/components/nav/nav-actions";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Sidebar } from "./sidebar";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Breadcrumb } from "./breadcrumb";
+import { NavActions } from "@/components/nav/nav-actions";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -20,14 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <NavActions />
         </AppHeaderActions>
       </AppHeader>
-      <main className="flex-1">
-        <div className="flex flex-1 flex-row">
-          <div className="flex-1 w-full">{children}</div>
-          <SidebarProvider className="flex-0">
-            <Sidebar />
-          </SidebarProvider>
-        </div>
-      </main>
+      <main className="flex-1">{children}</main>
     </div>
   );
 }

@@ -8,9 +8,12 @@ import {
 } from "@/components/ui/tooltip";
 import { maintenances } from "@/data/maintenances";
 import { statusReports } from "@/data/status-reports";
+import { ExternalLink } from "lucide-react";
+import { statusPages } from "@/data/status-pages";
 
 const report = statusReports[0];
 const maintenance = maintenances[0];
+const statusPage = statusPages[0];
 
 export function Sidebar() {
   return (
@@ -22,20 +25,24 @@ export function Sidebar() {
           items: [
             {
               label: "Slug",
-              value: <Link href="#">openstatus</Link>,
+              value: <Link href="#">{statusPage.slug}</Link>,
             },
-            { label: "Domain", value: "status.openstatus.dev" },
+            { label: "Domain", value: statusPage.domain },
             {
               label: "favicon",
-              value: <div className="rounded border bg-muted size-4" />,
+              value: (
+                <div className="rounded border bg-muted size-4 overflow-hidden">
+                  <img src={statusPage.favicon} alt="favicon" />
+                </div>
+              ),
             },
           ],
         },
         {
           label: "Configuration",
           items: [
-            { label: "Protected", value: "true" },
-            { label: "Show values", value: "true" },
+            { label: "Protected", value: String(statusPage.protected) },
+            { label: "Show values", value: String(statusPage.showValues) },
           ],
         },
         {
@@ -82,6 +89,14 @@ export function Sidebar() {
           ],
         },
       ]}
+      footerButton={{
+        children: (
+          <>
+            <ExternalLink />
+            <span>Visit Status Page</span>
+          </>
+        ),
+      }}
     />
   );
 }

@@ -12,7 +12,7 @@ import {
 import { icons } from "@/data/icons";
 import { statusReports } from "@/data/status-reports";
 import { cn } from "@/lib/utils";
-import { DataTableRowActions } from "../data-table-row-actions";
+import { DataTableRowActions } from "./data-table-row-actions";
 import {
   Sheet,
   SheetContent,
