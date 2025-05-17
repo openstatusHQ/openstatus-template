@@ -51,6 +51,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 interface Filter {
   keywords: string | undefined;
@@ -372,9 +373,9 @@ export function NavMonitors({
         {filteredMonitors.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
-              <a href={item.url}>
+              <Link href={item.url}>
                 <span>{item.name}</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

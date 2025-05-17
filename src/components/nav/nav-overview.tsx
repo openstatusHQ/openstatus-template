@@ -10,6 +10,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export function NavOverview({
   items,
@@ -28,10 +29,10 @@ export function NavOverview({
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton isActive={pathname.includes(item.url)} asChild>
-              <a href={item.url}>
+              <Link href={item.url}>
                 <item.icon />
                 <span>{item.name}</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}

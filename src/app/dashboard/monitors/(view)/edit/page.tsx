@@ -1,10 +1,10 @@
-import { Example } from "@/components/form/example";
 import {
   Section,
   SectionGroup,
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
+import { FormStatusPageUpdate } from "@/components/form/status-pages/update";
 
 export default function Page() {
   return (
@@ -13,7 +13,7 @@ export default function Page() {
         <SectionHeader>
           <SectionTitle>OpenStatus API</SectionTitle>
         </SectionHeader>
-        <Example />
+        <FormStatusPageUpdate />
       </Section>
     </SectionGroup>
   );

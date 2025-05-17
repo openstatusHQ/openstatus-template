@@ -5,7 +5,6 @@ import {
   AudioWaveform,
   Command,
   GalleryVerticalEnd,
-  Activity,
   LayoutGrid,
   Workflow,
   Cog,
@@ -48,64 +47,42 @@ const data = {
       plan: "Enterprise",
     },
   ],
-  navMain: [
-    {
-      title: "Monitors",
-      url: "#",
-      icon: Activity,
-      isActive: true,
-      items: [
-        {
-          title: "OpenStatus Marketing",
-          url: "#",
-        },
-        {
-          title: "OpenStatus API",
-          url: "#",
-        },
-        {
-          title: "OpenStatus Dashboard",
-          url: "#",
-        },
-      ],
-    },
-  ],
   monitors: [
     {
       name: "OpenStatus Marketing",
-      url: "#",
+      url: "/dashboard/monitors/overview",
       tags: ["Production"],
     },
     {
       name: "OpenStatus API",
-      url: "#",
+      url: "/dashboard/monitors/overview",
       tags: ["Production"],
     },
     {
       name: "OpenStatus Dashboard",
-      url: "#",
+      url: "/dashboard/monitors/overview",
       tags: ["Production"],
     },
     {
       name: "Lightweight OS",
-      url: "#",
+      url: "/dashboard/monitors/overview",
       tags: ["Development"],
     },
     {
       name: "Astro Status Page",
-      url: "#",
+      url: "/dashboard/monitors/overview",
       tags: ["Development"],
     },
     {
       name: "Vercel Edge Ping",
-      url: "#",
+      url: "/dashboard/monitors/overview",
       tags: ["Staging"],
     },
   ],
   statusPages: [
     {
       name: "OpenStatus Status",
-      url: "#",
+      url: "/dashboard/status-pages/status-reports",
     },
   ],
   overview: [
