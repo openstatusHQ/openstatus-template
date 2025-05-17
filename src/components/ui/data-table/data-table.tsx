@@ -26,18 +26,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Fragment } from "react";
-import { cn } from "@/lib/utils";
-
+import type { DataTableActionBarProps } from "./data-table-action-bar";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   rowComponent?: React.ReactNode;
+  actionBar?: React.ComponentType<DataTableActionBarProps<TData>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   rowComponent,
+  actionBar,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -135,6 +136,7 @@ export function DataTable<TData, TValue>({
           </TableRow>
         )}
       </TableBody>
+      {actionBar ? React.createElement(actionBar, { table }) : null}
     </Table>
   );
 }

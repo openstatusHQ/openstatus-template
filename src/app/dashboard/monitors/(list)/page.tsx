@@ -13,6 +13,7 @@ import {
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { monitors } from "@/data/monitors";
 import { columns } from "./columns";
+import { MonitorDataTableActionBar } from "./data-table-action-bar";
 
 export default function Page() {
   return (
@@ -43,7 +44,11 @@ export default function Page() {
         </MetricCardGroup>
       </Section>
       <Section>
-        <DataTable columns={columns} data={monitors} />
+        <DataTable
+          columns={columns}
+          data={monitors}
+          actionBar={MonitorDataTableActionBar}
+        />
       </Section>
     </SectionGroup>
   );
