@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { cva, VariantProps } from "class-variance-authority";
 
 // py-0
-const formCardVariants = cva("w-full py-0 shadow-none gap-4", {
+const formCardVariants = cva("group w-full py-0 shadow-none gap-4", {
   variants: {
     variant: {
       default: "",
@@ -39,8 +39,6 @@ export function FormCard({
   );
 }
 
-// TODO: if we use the formcardheader, we have too much padding on the top
-
 export function FormCardHeader({
   children,
   className,
@@ -48,7 +46,10 @@ export function FormCardHeader({
 }: React.ComponentProps<"div">) {
   return (
     <CardHeader
-      className={cn("pt-4 [.border-b]:pb-4 px-4", className)}
+      className={cn(
+        "pt-4 [.border-b]:pb-4 px-4 group-has-data-[slot=card-upgrade]:opacity-50 group-has-data-[slot=card-upgrade]:pointer-events-none",
+        className
+      )}
       {...props}
     >
       {children}
@@ -74,7 +75,13 @@ export function FormCardContent({
   ...props
 }: React.ComponentProps<"div">) {
   return (
-    <CardContent className={cn("px-4", className)} {...props}>
+    <CardContent
+      className={cn(
+        "px-4 group-has-data-[slot=card-upgrade]:opacity-50 group-has-data-[slot=card-upgrade]:pointer-events-none",
+        className
+      )}
+      {...props}
+    >
       {children}
     </CardContent>
   );
@@ -123,7 +130,11 @@ export function FormCardFooterInfo({
   ...props
 }: React.ComponentProps<"div">) {
   return (
-    <div className={cn("text-sm text-muted-foreground", className)} {...props}>
+    <div
+      data-slot="card-footer-info"
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props}
+    >
       {children}
     </div>
   );
@@ -135,7 +146,27 @@ export function FormCardGroup({
   ...props
 }: React.ComponentProps<"div">) {
   return (
-    <div className={cn("flex flex-col gap-4", className)} {...props}>
+    <div
+      data-slot="card-group"
+      className={cn("flex flex-col gap-4", className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+export function FormCardUpgrade({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-upgrade"
+      className={cn("hidden", className)}
+      {...props}
+    >
       {children}
     </div>
   );
