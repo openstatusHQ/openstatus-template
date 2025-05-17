@@ -1,12 +1,6 @@
-import {
-  AppHeader,
-  AppHeaderActions,
-  AppHeaderContent,
-} from "@/components/nav/app-header";
+import { AppHeader, AppHeaderContent } from "@/components/nav/app-header";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Breadcrumb } from "./breadcrumb";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,13 +10,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <SidebarTrigger />
           <Breadcrumb />
         </AppHeaderContent>
-        <AppHeaderActions>
-          <Button size="sm" asChild>
-            <Link href="/dashboard/status-pages/create">
-              Create Status Page
-            </Link>
-          </Button>
-        </AppHeaderActions>
       </AppHeader>
       <main className="flex-1 w-full">{children}</main>
     </div>

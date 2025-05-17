@@ -20,13 +20,13 @@ import { Form, FormDescription } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { FormAlertDialog } from "@/components/forms/form-alert-dialog";
 import { InputWithAddons } from "@/components/common/input-with-addons";
-import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Lock } from "lucide-react";
 import {
   EmptyStateContainer,
   EmptyStateTitle,
 } from "@/components/content/empty-state";
+import { FormGeneral } from "./form-general";
 
 export function FormStatusPageUpdate() {
   const form = useForm();
@@ -34,47 +34,14 @@ export function FormStatusPageUpdate() {
     <FormCardGroup>
       <FormCard>
         <FormCardHeader>
-          <FormCardTitle>Basic Information</FormCardTitle>
+          <FormCardTitle>General</FormCardTitle>
           <FormCardDescription>
-            The basic configuration for your status page.
+            Configure the essential details for your status page.
           </FormCardDescription>
         </FormCardHeader>
+        <FormCardSeparator />
         <FormCardContent>
-          <Form {...form}>
-            <form className="grid gap-4">
-              <div className="grid gap-1.5">
-                <Label>Title</Label>
-                <Input placeholder="My Status Page" />
-                <FormDescription>
-                  The title of your status page.
-                </FormDescription>
-              </div>
-              <div className="grid gap-1.5">
-                <Label>Slug</Label>
-                <InputWithAddons
-                  placeholder="status"
-                  trailing=".openstatus.dev"
-                />
-                <FormDescription>
-                  The subdomain for your status page. At least 3 chars.
-                </FormDescription>
-              </div>
-              <div className="grid gap-1.5">
-                <Label>Favicon</Label>
-                <div className="flex flex-row items-center space-x-2">
-                  <div className="size-[36px] bg-muted rounded-md border"></div>
-                  <Input type="file" />
-                </div>
-              </div>
-              <div className="grid gap-1.5 col-span-full">
-                <Label>Description</Label>
-                <Textarea />
-                <FormDescription>
-                  The description of your status page.
-                </FormDescription>
-              </div>
-            </form>
-          </Form>
+          <FormGeneral />
         </FormCardContent>
         <FormCardFooter>
           <Button>Submit</Button>

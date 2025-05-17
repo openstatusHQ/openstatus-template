@@ -12,17 +12,20 @@ import { Separator } from "@/components/ui/separator";
 import { cva, VariantProps } from "class-variance-authority";
 
 // py-0
-const formCardVariants = cva("group w-full py-0 shadow-none gap-4", {
-  variants: {
-    variant: {
-      default: "",
-      destructive: "border-destructive",
+const formCardVariants = cva(
+  "group relative w-full overflow-hidden py-0 shadow-none gap-4",
+  {
+    variants: {
+      variant: {
+        default: "",
+        destructive: "border-destructive",
+      },
+      defaultVariants: {
+        variant: "default",
+      },
     },
-    defaultVariants: {
-      variant: "default",
-    },
-  },
-});
+  }
+);
 
 // NOTE: Add a formcardprovider to share the variant prop
 
@@ -165,6 +168,25 @@ export function FormCardUpgrade({
     <div
       data-slot="card-upgrade"
       className={cn("hidden", className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+export function FormCardEmpty({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-empty"
+      className={cn(
+        "absolute z-10 inset-0 bg-background opacity-70 blur pointer-events-none",
+        className
+      )}
       {...props}
     >
       {children}

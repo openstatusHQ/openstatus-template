@@ -4,16 +4,16 @@ import {
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
-import { FormStatusPageUpdate } from "@/components/forms/status-page/update";
+import { FormStatusPageCreate } from "@/components/forms/status-page/create";
 
 export default function Page() {
   return (
     <SectionGroup>
       <Section>
         <SectionHeader>
-          <SectionTitle>OpenStatus API</SectionTitle>
+          <SectionTitle>Create Status Page</SectionTitle>
         </SectionHeader>
-        <FormStatusPageUpdate />
+        <FormStatusPageCreate />
       </Section>
     </SectionGroup>
   );

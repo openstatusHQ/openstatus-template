@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* safelist */
+/* @source inline("backdrop-blur-sm"); */
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
