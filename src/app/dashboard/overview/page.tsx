@@ -2,6 +2,7 @@ import {
   SectionDescription,
   SectionGroup,
   SectionHeader,
+  SectionHeaderRow,
   SectionTitle,
 } from "@/components/content/section";
 
@@ -16,6 +17,8 @@ import {
   EmptyStateContainer,
   EmptyStateTitle,
 } from "@/components/content/empty-state";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 export default function Page() {
   return (
@@ -74,25 +77,37 @@ export default function Page() {
         </EmptyStateContainer>
       </Section>
       <Section>
-        <SectionHeader>
-          <SectionTitle>Reports</SectionTitle>
-          <SectionDescription>
-            Reports over the last 30 days.
-          </SectionDescription>
-        </SectionHeader>
+        <SectionHeaderRow>
+          <SectionHeader>
+            <SectionTitle>Reports</SectionTitle>
+            <SectionDescription>
+              Reports over the last 30 days.
+            </SectionDescription>
+          </SectionHeader>
+          <Button data-section="action" size="sm" variant="ghost">
+            <Plus />
+            Create
+          </Button>
+        </SectionHeaderRow>
         <EmptyStateContainer>
           <EmptyStateTitle>No reports found</EmptyStateTitle>
         </EmptyStateContainer>
       </Section>
       <Section>
-        <SectionHeader>
-          <SectionTitle>Maintenance</SectionTitle>
-          <SectionDescription>
-            Maintenance over the last 30 days.
-          </SectionDescription>
-        </SectionHeader>
+        <SectionHeaderRow>
+          <SectionHeader>
+            <SectionTitle>Maintenance</SectionTitle>
+            <SectionDescription>
+              Maintenance over the last 30 days.
+            </SectionDescription>
+          </SectionHeader>
+          <Button data-section="action" size="sm" variant="ghost">
+            <Plus />
+            Create
+          </Button>
+        </SectionHeaderRow>
         <EmptyStateContainer>
-          <EmptyStateTitle>No maintenance found</EmptyStateTitle>
+          <EmptyStateTitle>No maintenances found</EmptyStateTitle>
         </EmptyStateContainer>
       </Section>
     </SectionGroup>

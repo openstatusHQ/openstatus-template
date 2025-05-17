@@ -18,7 +18,25 @@ export function SectionHeader({
   ...props
 }: React.ComponentProps<"div">) {
   return (
-    <div className={cn("space-y-1.5", className)} {...props}>
+    <div className={cn("flex flex-col gap-1.5", className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+export function SectionHeaderRow({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      className={cn(
+        "flex flex-row gap-1.5 items-end justify-between",
+        className
+      )}
+      {...props}
+    >
       {children}
     </div>
   );
