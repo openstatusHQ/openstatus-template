@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Plus } from "lucide-react";
 
 import {
   Sidebar,

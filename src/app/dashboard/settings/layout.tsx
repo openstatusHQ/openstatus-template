@@ -15,9 +15,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               {
                 type: "select",
                 items: [
-                  { label: "General", icon: Cog },
-                  { label: "Billing", icon: CreditCard },
-                  { label: "Account", icon: User },
+                  { value: "general", label: "General", icon: Cog },
+                  { value: "billing", label: "Billing", icon: CreditCard },
+                  { value: "account", label: "Account", icon: User },
                 ],
               },
             ]}
