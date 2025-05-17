@@ -10,6 +10,7 @@ import {
   FormCardFooterInfo,
   FormCardHeader,
   FormCardTitle,
+  FormCardUpgrade,
 } from "@/components/forms/form-card";
 import {
   FormCard,
@@ -78,6 +79,7 @@ export default function Page() {
           <SectionTitle>Members</SectionTitle>
         </SectionHeader>
         <FormCard>
+          <FormCardUpgrade />
           <FormCardHeader>
             <FormCardTitle>Team</FormCardTitle>
             <FormCardDescription>Manage your team members.</FormCardDescription>
