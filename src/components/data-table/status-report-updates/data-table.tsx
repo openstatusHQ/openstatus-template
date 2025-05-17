@@ -27,7 +27,7 @@ import {
   FormCardContent,
   FormCardGroup,
   FormCardSeparator,
-} from "@/components/form/form-card";
+} from "@/components/forms/form-card";
 import { Label } from "@/components/ui/label";
 import {
   Select,

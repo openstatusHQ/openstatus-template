@@ -4,7 +4,7 @@ import {
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
-import { FormStatusPageUpdate } from "@/components/form/status-pages/update";
+import { FormStatusPageUpdate } from "@/components/forms/status-page/update";
 
 export default function Page() {
   return (

@@ -11,14 +11,14 @@ import {
   FormCardSeparator,
   FormCardTitle,
   FormCardUpgrade,
-} from "@/components/form/form-card";
+} from "@/components/forms/form-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "@/components/common/link";
 import { Form, FormDescription } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { FormAlertDialog } from "@/components/form/form-alert-dialog";
+import { FormAlertDialog } from "@/components/forms/form-alert-dialog";
 import { InputWithAddons } from "@/components/common/input-with-addons";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";

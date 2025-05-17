@@ -10,12 +10,12 @@ import {
   FormCardFooterInfo,
   FormCardHeader,
   FormCardTitle,
-} from "@/components/form/form-card";
+} from "@/components/forms/form-card";
 import {
   FormCard,
   FormCardContent,
   FormCardFooter,
-} from "@/components/form/form-card";
+} from "@/components/forms/form-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
