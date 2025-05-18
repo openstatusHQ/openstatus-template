@@ -119,7 +119,7 @@ function RowActions() {
           <Button
             size="icon"
             variant="ghost"
-            className="shadow-none"
+            className="size-8"
             aria-label="Edit item"
           >
             <Ellipsis size={16} aria-hidden="true" />
