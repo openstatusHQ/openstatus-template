@@ -116,7 +116,13 @@ export function QuickActions({
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-      <AlertDialogContent>
+      <AlertDialogContent
+        onCloseAutoFocus={(event) => {
+          // NOTE: bug where the body is not clickable after closing the alert dialog
+          event.preventDefault();
+          document.body.style.pointerEvents = "";
+        }}
+      >
         <AlertDialogHeader>
           <AlertDialogTitle>
             Are you sure about deleting `{deleteAction?.title}`?
