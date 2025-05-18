@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NavStatusPages } from "@/components/nav/nav-status-pages";
 import { NavOverview } from "@/components/nav/nav-overview";
+import { NavChecklist } from "./nav-checklist";
 // This is sample data.
 const data = {
   user: {
@@ -135,6 +136,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMonitors monitors={data.monitors} />
       </SidebarContent>
       <SidebarFooter>
+        <NavChecklist />
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />
