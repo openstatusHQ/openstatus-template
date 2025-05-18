@@ -122,7 +122,7 @@ export default function Page() {
           </FormCardContent>
           <FormCardFooter>
             <FormCardFooterInfo>
-              This feature is avaiable on the <Link href="#">Pro plan</Link>.
+              This feature is available on the <Link href="#">Pro plan</Link>.
             </FormCardFooterInfo>
             <Button size="sm">
               <Lock />

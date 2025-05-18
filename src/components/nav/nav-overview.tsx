@@ -8,6 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -19,23 +20,34 @@ export function NavOverview({
     name: string;
     url: string;
     icon: LucideIcon;
+    hideOnExpanded?: boolean;
   }[];
 }) {
   const pathname = usePathname();
+  const { state } = useSidebar();
   return (
-    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+    <SidebarGroup>
       <SidebarGroupLabel>Overview</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton isActive={pathname.includes(item.url)} asChild>
-              <Link href={item.url}>
-                <item.icon />
-                <span>{item.name}</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        ))}
+        {items
+          .filter((item) => {
+            if (!item.hideOnExpanded) return true;
+            return state === "collapsed";
+          })
+          .map((item) => (
+            <SidebarMenuItem key={item.name}>
+              <SidebarMenuButton
+                isActive={pathname.includes(item.url)}
+                asChild
+                tooltip={item.name}
+              >
+                <Link href={item.url}>
+                  <item.icon />
+                  <span>{item.name}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
       </SidebarMenu>
     </SidebarGroup>
   );

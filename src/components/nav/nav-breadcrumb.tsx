@@ -48,14 +48,16 @@ export function NavBreadcrumb({ items }: NavBreadcrumbProps) {
       <BreadcrumbList>
         {items.map((item, i) => (
           <Fragment key={i}>
-            <BreadcrumbItem className="hidden md:block">
+            <BreadcrumbItem>
               {item.type === "link" ? (
                 <BreadcrumbLink asChild>
                   <Link href={item.href}>{item.label}</Link>
                 </BreadcrumbLink>
               ) : null}
               {item.type === "page" ? (
-                <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                <BreadcrumbPage className="hidden md:block max-w-[120px] truncate">
+                  {item.label}
+                </BreadcrumbPage>
               ) : null}
               {item.type === "select" ? (
                 <Select

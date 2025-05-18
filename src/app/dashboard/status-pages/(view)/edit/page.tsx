@@ -1,5 +1,6 @@
 import {
   Section,
+  SectionDescription,
   SectionGroup,
   SectionHeader,
   SectionTitle,
@@ -12,6 +13,7 @@ export default function Page() {
       <Section>
         <SectionHeader>
           <SectionTitle>OpenStatus Status</SectionTitle>
+          <SectionDescription>Customize your status page.</SectionDescription>
         </SectionHeader>
         <FormStatusPageUpdate />
       </Section>

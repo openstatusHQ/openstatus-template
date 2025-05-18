@@ -9,6 +9,8 @@ import {
   Workflow,
   Cog,
   Bell,
+  PanelTop,
+  Activity,
 } from "lucide-react";
 
 import { NavMonitors } from "@/components/nav/nav-monitors";
@@ -105,6 +107,18 @@ const data = {
       name: "Settings",
       url: "/dashboard/settings",
       icon: Cog,
+    },
+    {
+      name: "Status Pages",
+      url: "/dashboard/status-pages",
+      icon: PanelTop,
+      hideOnExpanded: true,
+    },
+    {
+      name: "Monitors",
+      url: "/dashboard/monitors",
+      icon: Activity,
+      hideOnExpanded: true,
     },
   ],
 };
