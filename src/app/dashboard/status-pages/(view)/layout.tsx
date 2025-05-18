@@ -5,7 +5,7 @@ import {
 } from "@/components/nav/app-header";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Breadcrumb } from "./breadcrumb";
-import { NavActions } from "@/components/nav/nav-actions";
+import { NavActions } from "./nav-actions";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

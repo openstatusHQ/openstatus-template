@@ -1,14 +1,7 @@
 "use client";
 
-import { Folder, Forward, MoreHorizontal, Plus, Trash2 } from "lucide-react";
+import { MoreHorizontal, Plus } from "lucide-react";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -26,6 +19,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useRouter } from "next/navigation";
+import { getActions } from "@/data/status-pages.client";
+import { QuickActions } from "@/components/dropdowns/quick-actions";
+
 export function NavStatusPages({
   statusPages,
 }: {
@@ -36,6 +32,9 @@ export function NavStatusPages({
 }) {
   const { isMobile } = useSidebar();
   const router = useRouter();
+  const actions = getActions({
+    edit: () => router.push(`/dashboard/status-pages/edit`),
+  });
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -71,33 +70,20 @@ export function NavStatusPages({
                 <span>{item.name}</span>
               </Link>
             </SidebarMenuButton>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuAction showOnHover>
-                  <MoreHorizontal />
-                  <span className="sr-only">More</span>
-                </SidebarMenuAction>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-36 rounded-lg"
-                side={isMobile ? "bottom" : "right"}
-                align={isMobile ? "end" : "start"}
-              >
-                <DropdownMenuItem>
-                  <Folder className="text-muted-foreground" />
-                  <span>View</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Forward className="text-muted-foreground" />
-                  <span>Share</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem variant="destructive">
-                  <Trash2 className="text-muted-foreground" />
-                  <span>Delete</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <QuickActions
+              actions={actions}
+              deleteAction={{
+                title: "Monitor",
+                confirmationValue: "delete monitor",
+              }}
+              side={isMobile ? "bottom" : "right"}
+              align={isMobile ? "end" : "start"}
+            >
+              <SidebarMenuAction showOnHover>
+                <MoreHorizontal />
+                <span className="sr-only">More</span>
+              </SidebarMenuAction>
+            </QuickActions>
           </SidebarMenuItem>
         ))}
       </SidebarMenu>

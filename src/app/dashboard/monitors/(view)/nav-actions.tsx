@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Copy,
-  CopyPlus,
-  File,
-  Forward,
-  Pencil,
-  Trash2,
-  Zap,
-} from "lucide-react";
+import { Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -18,52 +10,13 @@ import {
 } from "@/components/ui/tooltip";
 import { QuickActions } from "@/components/dropdowns/quick-actions";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { getActions } from "@/data/monitors.client";
 
 export function NavActions() {
   const router = useRouter();
-
-  const actions = useMemo(() => {
-    return [
-      {
-        id: "edit",
-        label: "Edit",
-        icon: Pencil,
-        variant: "default" as const,
-        onClick: () => router.push(`/dashboard/monitors/edit`),
-      },
-      {
-        id: "share",
-        label: "Share",
-        icon: Forward,
-        variant: "default" as const,
-      },
-      {
-        id: "copy-id",
-        label: "Copy ID",
-        icon: Copy,
-        variant: "default" as const,
-      },
-      {
-        id: "duplicate",
-        label: "Duplicate",
-        icon: CopyPlus,
-        variant: "default" as const,
-      },
-      {
-        id: "export",
-        label: "Export",
-        icon: File,
-        variant: "default" as const,
-      },
-      {
-        id: "delete",
-        label: "Delete",
-        icon: Trash2,
-        variant: "destructive" as const,
-      },
-    ];
-  }, [router]);
+  const actions = getActions({
+    edit: () => router.push(`/dashboard/monitors/edit`),
+  });
 
   return (
     <div className="flex items-center gap-2 text-sm">

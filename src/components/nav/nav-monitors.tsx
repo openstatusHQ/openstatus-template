@@ -3,12 +3,8 @@
 import React from "react";
 
 import {
-  File,
-  Forward,
   MoreHorizontal,
   Plus,
-  Pencil,
-  Trash2,
   Search,
   Tag,
   Code,
@@ -16,8 +12,6 @@ import {
   RotateCcw,
   Send,
   XIcon,
-  CopyPlus,
-  Copy,
 } from "lucide-react";
 
 import {
@@ -52,6 +46,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { QuickActions } from "@/components/dropdowns/quick-actions";
+import { getActions } from "@/data/monitors.client";
+import { useRouter } from "next/navigation";
 
 interface Filter {
   keywords: string | undefined;
@@ -77,6 +74,10 @@ export function NavMonitors({
     active: [],
     type: [],
     visibility: [],
+  });
+  const router = useRouter();
+  const actions = getActions({
+    edit: () => router.push(`/dashboard/monitors/edit`),
   });
 
   function handleFilterChange<T extends keyof Filter>(
@@ -377,45 +378,20 @@ export function NavMonitors({
                 <span>{item.name}</span>
               </Link>
             </SidebarMenuButton>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuAction showOnHover>
-                  <MoreHorizontal />
-                  <span className="sr-only">More</span>
-                </SidebarMenuAction>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-36 rounded-lg"
-                side={isMobile ? "bottom" : "right"}
-                align={isMobile ? "end" : "start"}
-              >
-                <DropdownMenuItem>
-                  <Pencil className="text-muted-foreground" />
-                  <span>Edit</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Forward className="text-muted-foreground" />
-                  <span>Share</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Copy className="text-muted-foreground" />
-                  <span>Copy ID</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <CopyPlus className="text-muted-foreground" />
-                  <span>Duplicate</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <File className="text-muted-foreground" />
-                  <span>Export</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem variant="destructive">
-                  <Trash2 className="text-muted-foreground" />
-                  <span>Delete</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <QuickActions
+              actions={actions}
+              deleteAction={{
+                title: "Monitor",
+                confirmationValue: "delete monitor",
+              }}
+              side={isMobile ? "bottom" : "right"}
+              align={isMobile ? "end" : "start"}
+            >
+              <SidebarMenuAction showOnHover>
+                <MoreHorizontal />
+                <span className="sr-only">More</span>
+              </SidebarMenuAction>
+            </QuickActions>
           </SidebarMenuItem>
         ))}
       </SidebarMenu>

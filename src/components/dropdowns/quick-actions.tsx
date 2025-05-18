@@ -31,12 +31,13 @@ import { Input } from "@/components/ui/input";
 
 interface QuickActionsProps extends React.ComponentProps<typeof Button> {
   align?: DropdownMenuContentProps["align"];
+  side?: DropdownMenuContentProps["side"];
   actions: {
     id: string;
     label: string;
     icon: LucideIcon;
     variant: "default" | "destructive";
-    onClick?: () => void;
+    onClick?: () => Promise<void> | void;
   }[];
   deleteAction?: {
     title: string;
@@ -47,9 +48,11 @@ interface QuickActionsProps extends React.ComponentProps<typeof Button> {
 
 export function QuickActions({
   align = "end",
+  side,
   className,
   actions,
   deleteAction,
+  children,
   ...props
 }: QuickActionsProps) {
   const [value, setValue] = useState("");
@@ -72,16 +75,18 @@ export function QuickActions({
     <AlertDialog open={open} onOpenChange={setOpen}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={className ?? "h-7 w-7 data-[state=open]:bg-accent"}
-            {...props}
-          >
-            <MoreHorizontal />
-          </Button>
+          {children ?? (
+            <Button
+              variant="ghost"
+              size="icon"
+              className={className ?? "h-7 w-7 data-[state=open]:bg-accent"}
+              {...props}
+            >
+              <MoreHorizontal />
+            </Button>
+          )}
         </DropdownMenuTrigger>
-        <DropdownMenuContent align={align} className="w-36">
+        <DropdownMenuContent align={align} side={side} className="w-36">
           <DropdownMenuLabel className="sr-only">
             Quick Actions
           </DropdownMenuLabel>
