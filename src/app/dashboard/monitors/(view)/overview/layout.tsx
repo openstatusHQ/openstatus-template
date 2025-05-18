@@ -3,11 +3,11 @@ import { Sidebar } from "./sidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-1 flex-row">
+    <SidebarProvider>
       <div className="flex-1 w-full">{children}</div>
-      <SidebarProvider className="flex-0">
+      <div className="hidden lg:block">
         <Sidebar />
-      </SidebarProvider>
-    </div>
+      </div>
+    </SidebarProvider>
   );
 }

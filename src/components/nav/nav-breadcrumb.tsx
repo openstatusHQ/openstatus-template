@@ -50,7 +50,7 @@ export function NavBreadcrumb({ items }: NavBreadcrumbProps) {
           <Fragment key={i}>
             <BreadcrumbItem>
               {item.type === "link" ? (
-                <BreadcrumbLink asChild>
+                <BreadcrumbLink className="hidden md:block" asChild>
                   <Link href={item.href}>{item.label}</Link>
                 </BreadcrumbLink>
               ) : null}

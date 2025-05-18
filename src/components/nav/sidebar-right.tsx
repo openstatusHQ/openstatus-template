@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 import {
@@ -9,8 +11,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { SidebarMetadata, SidebarMetadataProps } from "./sidebar-metadata";
+import { Button } from "@/components/ui/button";
+import { PanelRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type SidebarRightProps = React.ComponentProps<typeof Sidebar> & {
   header: string;
@@ -26,8 +32,9 @@ export function SidebarRight({
 }: SidebarRightProps) {
   return (
     <Sidebar
-      collapsible="none"
-      className="sticky hidden lg:flex top-14 h-[calc(100svh_-_56px)] border-l bg-background"
+      collapsible="offcanvas"
+      side="right"
+      className="top-14 h-[calc(100svh_-_56px)] flex"
       style={
         {
           // "--sidebar-width": "300px",
@@ -35,8 +42,11 @@ export function SidebarRight({
       }
       {...props}
     >
-      <SidebarHeader className="border-b border-sidebar-border">
+      <SidebarHeader className="border-b border-sidebar-border relative">
         {header}
+        <div className="absolute inset-y-0 -left-9 z-10 items-center justify-center flex">
+          <SidebarTrigger />
+        </div>
       </SidebarHeader>
       <SidebarContent className="flex flex-col gap-0">
         {metadata.map((item) => (
@@ -54,5 +64,31 @@ export function SidebarRight({
         </SidebarFooter>
       ) : null}
     </Sidebar>
+  );
+}
+
+export function SidebarTrigger({
+  className,
+  onClick,
+  ...props
+}: React.ComponentProps<typeof Button>) {
+  const { toggleSidebar } = useSidebar();
+
+  return (
+    <Button
+      data-sidebar="trigger"
+      data-slot="sidebar-trigger"
+      variant="ghost"
+      size="icon"
+      className={cn("size-7", className)}
+      onClick={(event) => {
+        onClick?.(event);
+        toggleSidebar();
+      }}
+      {...props}
+    >
+      <PanelRight />
+      <span className="sr-only">Toggle Sidebar</span>
+    </Button>
   );
 }
