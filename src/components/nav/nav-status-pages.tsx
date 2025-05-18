@@ -1,6 +1,6 @@
 "use client";
 
-import { Folder, Forward, MoreHorizontal, Trash2 } from "lucide-react";
+import { Folder, Forward, MoreHorizontal, Plus, Trash2 } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -19,7 +19,13 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useRouter } from "next/navigation";
 export function NavStatusPages({
   statusPages,
 }: {
@@ -29,6 +35,7 @@ export function NavStatusPages({
   }[];
 }) {
   const { isMobile } = useSidebar();
+  const router = useRouter();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -37,6 +44,24 @@ export function NavStatusPages({
           Status Pages{" "}
           <code className="text-muted-foreground">({statusPages.length})</code>
         </span>
+        <div className="flex items-center gap-2">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <SidebarMenuAction
+                  className="relative top-0 right-0 border"
+                  onClick={() => router.push("/dashboard/status-pages/create")}
+                >
+                  <Plus className="text-muted-foreground" />
+                  <span className="sr-only">Create Status Page</span>
+                </SidebarMenuAction>
+              </TooltipTrigger>
+              <TooltipContent side="right" align="center">
+                Create Status Page
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       </SidebarGroupLabel>
       <SidebarMenu>
         {statusPages.map((item) => (

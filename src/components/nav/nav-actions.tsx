@@ -69,7 +69,7 @@ const data = [
 export function NavActions() {
   return (
     <div className="flex items-center gap-2 text-sm">
-      <div className="hidden font-medium text-muted-foreground md:inline-block">
+      <div className="hidden font-medium text-muted-foreground lg:inline-block">
         Last ping 5m ago
         <span className="relative inline-flex ml-1.5">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />

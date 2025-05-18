@@ -55,7 +55,7 @@ export function NavBreadcrumb({ items }: NavBreadcrumbProps) {
                 </BreadcrumbLink>
               ) : null}
               {item.type === "page" ? (
-                <BreadcrumbPage className="hidden md:block max-w-[120px] truncate">
+                <BreadcrumbPage className="hidden md:block max-w-[120px] truncate lg:max-w-[200px]">
                   {item.label}
                 </BreadcrumbPage>
               ) : null}

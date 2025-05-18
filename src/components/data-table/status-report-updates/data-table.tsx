@@ -87,7 +87,7 @@ export function DataTable() {
                 </TableRow>
               </SheetTrigger>
               <SheetContent>
-                <SheetHeader>
+                <SheetHeader className="border-b">
                   <SheetTitle>Status Report Update</SheetTitle>
                   <SheetDescription>
                     Configure and update the status of your report.
@@ -150,7 +150,7 @@ export function DataTable() {
                     </FormCardContent>
                   </FormCard>
                 </FormCardGroup>
-                <SheetFooter>
+                <SheetFooter className="border-t">
                   <p className="text-muted-foreground/70 text-xs">
                     Last Updated{" "}
                     <time>{update.updatedAt.toLocaleString()}</time>
