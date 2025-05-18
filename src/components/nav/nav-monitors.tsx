@@ -309,7 +309,10 @@ export function NavMonitors({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <SidebarMenuAction className="relative top-0 right-0 border">
+                <SidebarMenuAction
+                  className="relative top-0 right-0 border"
+                  onClick={() => router.push("/dashboard/monitors/create")}
+                >
                   <Plus className="text-muted-foreground" />
                   <span className="sr-only">Create Monitor</span>
                 </SidebarMenuAction>

@@ -1,22 +1,19 @@
 import {
   Section,
-  SectionDescription,
   SectionGroup,
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
-import { FormMonitorUpdate } from "@/components/forms/monitor/update";
+import { FormMonitorCreate } from "@/components/forms/monitor/create";
 
 export default function Page() {
   return (
     <SectionGroup>
       <Section>
         <SectionHeader>
-          <SectionTitle>OpenStatus API</SectionTitle>
-          <SectionDescription>Customize your monitor.</SectionDescription>
+          <SectionTitle>Create Monitor</SectionTitle>
         </SectionHeader>
-        {/* TODO: */}
-        <FormMonitorUpdate />
+        <FormMonitorCreate />
       </Section>
     </SectionGroup>
   );

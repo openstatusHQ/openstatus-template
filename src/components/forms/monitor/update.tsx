@@ -13,22 +13,20 @@ import {
   FormCardUpgrade,
 } from "@/components/forms/form-card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "@/components/common/link";
 import { Form, FormDescription } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { FormAlertDialog } from "@/components/forms/form-alert-dialog";
-import { InputWithAddons } from "@/components/common/input-with-addons";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Lock } from "lucide-react";
 import {
   EmptyStateContainer,
   EmptyStateTitle,
 } from "@/components/content/empty-state";
+import { FormGeneral } from "./form-general";
+import { Input } from "@/components/ui/input";
 
-export function Example() {
+export function FormMonitorUpdate() {
   const form = useForm();
   return (
     <FormCardGroup>
@@ -36,45 +34,12 @@ export function Example() {
         <FormCardHeader>
           <FormCardTitle>Basic Information</FormCardTitle>
           <FormCardDescription>
-            The basic configuration for your status page.
+            The basic configuration for your monitor.
           </FormCardDescription>
         </FormCardHeader>
+        <FormCardSeparator />
         <FormCardContent>
-          <Form {...form}>
-            <form className="grid gap-4">
-              <div className="grid gap-1.5">
-                <Label>Title</Label>
-                <Input placeholder="My Status Page" />
-                <FormDescription>
-                  The title of your status page.
-                </FormDescription>
-              </div>
-              <div className="grid gap-1.5">
-                <Label>Slug</Label>
-                <InputWithAddons
-                  placeholder="status"
-                  trailing=".openstatus.dev"
-                />
-                <FormDescription>
-                  The subdomain for your status page. At least 3 chars.
-                </FormDescription>
-              </div>
-              <div className="grid gap-1.5">
-                <Label>Favicon</Label>
-                <div className="flex flex-row items-center space-x-2">
-                  <div className="size-[36px] bg-muted rounded-md border"></div>
-                  <Input type="file" />
-                </div>
-              </div>
-              <div className="grid gap-1.5 col-span-full">
-                <Label>Description</Label>
-                <Textarea />
-                <FormDescription>
-                  The description of your status page.
-                </FormDescription>
-              </div>
-            </form>
-          </Form>
+          <FormGeneral />
         </FormCardContent>
         <FormCardFooter>
           <Button>Submit</Button>
@@ -82,33 +47,77 @@ export function Example() {
       </FormCard>
       <FormCard>
         <FormCardHeader>
-          <FormCardTitle>Monitors</FormCardTitle>
+          <FormCardTitle>Scheduling & Regions</FormCardTitle>
           <FormCardDescription>
-            Add monitors to your status page.
+            Configure the scheduling and regions for your monitor.
           </FormCardDescription>
         </FormCardHeader>
         <FormCardContent>
           <EmptyStateContainer>
-            <EmptyStateTitle>No monitors</EmptyStateTitle>
+            <EmptyStateTitle>No scheduling or regions</EmptyStateTitle>
           </EmptyStateContainer>
         </FormCardContent>
-        <FormCardSeparator />
+        <FormCardFooter>
+          <Button>Submit</Button>
+        </FormCardFooter>
+      </FormCard>
+      <FormCard>
+        <FormCardHeader>
+          <FormCardTitle>Assertions & Timeout</FormCardTitle>
+          <FormCardDescription>
+            Configure the assertions and timeout for your monitor.
+          </FormCardDescription>
+        </FormCardHeader>
+        <FormCardContent>
+          <EmptyStateContainer>
+            <EmptyStateTitle>No assertions or timeout</EmptyStateTitle>
+          </EmptyStateContainer>
+        </FormCardContent>
+        <FormCardFooter>
+          <Button>Submit</Button>
+        </FormCardFooter>
+      </FormCard>
+      <FormCard>
+        <FormCardHeader>
+          <FormCardTitle>Status Pages</FormCardTitle>
+          <FormCardDescription>
+            Add status pages to your monitor.
+          </FormCardDescription>
+        </FormCardHeader>
         <FormCardContent>
           <Form {...form}>
             <form>
-              <div className="flex flex-row items-start space-x-3 space-y-0">
-                <Checkbox />
-                <div className="space-y-1 leading-none">
-                  <Label>Show values</Label>
-                  <FormDescription>
-                    Toggle the visibility of the values on the status page.
-                    Share your uptime and the number of request to your
-                    endpoint.
-                  </FormDescription>
-                </div>
+              <div className="grid gap-1.5">
+                <Label>Description</Label>
+                <Input placeholder="My Status Page" />
+                <FormDescription>
+                  Provide your users with information about it.
+                </FormDescription>
               </div>
             </form>
           </Form>
+        </FormCardContent>
+        <FormCardSeparator />
+        <FormCardContent>
+          <EmptyStateContainer>
+            <EmptyStateTitle>No status pages</EmptyStateTitle>
+          </EmptyStateContainer>
+        </FormCardContent>
+        <FormCardFooter>
+          <Button>Submit</Button>
+        </FormCardFooter>
+      </FormCard>
+      <FormCard>
+        <FormCardHeader>
+          <FormCardTitle>Notifiers</FormCardTitle>
+          <FormCardDescription>
+            Get notified when your monitor is degraded or down.
+          </FormCardDescription>
+        </FormCardHeader>
+        <FormCardContent>
+          <EmptyStateContainer>
+            <EmptyStateTitle>No notifiers</EmptyStateTitle>
+          </EmptyStateContainer>
         </FormCardContent>
         <FormCardFooter>
           <Button>Submit</Button>
@@ -117,60 +126,24 @@ export function Example() {
       <FormCard>
         <FormCardUpgrade />
         <FormCardHeader>
-          <FormCardTitle>Custom Domain</FormCardTitle>
+          <FormCardTitle>OpenTelemetry</FormCardTitle>
           <FormCardDescription>
-            Use your own domain for your status page.
-          </FormCardDescription>
-        </FormCardHeader>
-        <FormCardContent>
-          <div className="grid gap-1.5">
-            <Label>Domain</Label>
-            <InputWithAddons
-              placeholder="status.openstatus.dev"
-              leading="https://"
-            />
-          </div>
-        </FormCardContent>
-        <FormCardFooter>
-          <FormCardFooterInfo>
-            Learn more about <Link href="#">Custom Domain</Link>.
-          </FormCardFooterInfo>
-          <Button>
-            <Lock />
-            Upgrade
-          </Button>
-        </FormCardFooter>
-      </FormCard>
-      <FormCard>
-        <FormCardUpgrade />
-        <FormCardHeader>
-          <FormCardTitle>Password Protection</FormCardTitle>
-          <FormCardDescription>
-            Protect your status page with a password.
+            Configure your OpenTelemetry Exporter.
           </FormCardDescription>
         </FormCardHeader>
         <FormCardContent>
           <Form {...form}>
-            <form className="grid gap-4">
-              <div className="flex flex-row items-start space-x-3 space-y-0">
-                <Checkbox />
-                <div className="space-y-1 leading-none">
-                  <Label>Enable Password Protection</Label>
-                  <FormDescription>
-                    Hide the page from the public
-                  </FormDescription>
-                </div>
-              </div>
+            <form>
               <div className="grid gap-1.5">
-                <Label>Password</Label>
-                <Input />
+                <Label>Endpoint</Label>
+                <Input placeholder="https://otel.openstatus.dev/api/v1/metrics" />
               </div>
             </form>
           </Form>
         </FormCardContent>
         <FormCardFooter>
           <FormCardFooterInfo>
-            Learn more about <Link href="#">Password Protection</Link>.
+            Learn more about <Link href="#">OTel</Link>.
           </FormCardFooterInfo>
           <Button>
             <Lock />
