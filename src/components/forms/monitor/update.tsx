@@ -78,6 +78,34 @@ export function FormMonitorUpdate() {
         </FormCardFooter>
       </FormCard>
       <FormCard>
+        <FormCardUpgrade />
+        <FormCardHeader>
+          <FormCardTitle>OpenTelemetry</FormCardTitle>
+          <FormCardDescription>
+            Configure your OpenTelemetry Exporter.
+          </FormCardDescription>
+        </FormCardHeader>
+        <FormCardContent>
+          <Form {...form}>
+            <form>
+              <div className="grid gap-1.5">
+                <Label>Endpoint</Label>
+                <Input placeholder="https://otel.openstatus.dev/api/v1/metrics" />
+              </div>
+            </form>
+          </Form>
+        </FormCardContent>
+        <FormCardFooter>
+          <FormCardFooterInfo>
+            Learn more about <Link href="#">OTel</Link>.
+          </FormCardFooterInfo>
+          <Button>
+            <Lock />
+            Upgrade
+          </Button>
+        </FormCardFooter>
+      </FormCard>
+      <FormCard>
         <FormCardHeader>
           <FormCardTitle>Status Pages</FormCardTitle>
           <FormCardDescription>
@@ -121,34 +149,6 @@ export function FormMonitorUpdate() {
         </FormCardContent>
         <FormCardFooter>
           <Button>Submit</Button>
-        </FormCardFooter>
-      </FormCard>
-      <FormCard>
-        <FormCardUpgrade />
-        <FormCardHeader>
-          <FormCardTitle>OpenTelemetry</FormCardTitle>
-          <FormCardDescription>
-            Configure your OpenTelemetry Exporter.
-          </FormCardDescription>
-        </FormCardHeader>
-        <FormCardContent>
-          <Form {...form}>
-            <form>
-              <div className="grid gap-1.5">
-                <Label>Endpoint</Label>
-                <Input placeholder="https://otel.openstatus.dev/api/v1/metrics" />
-              </div>
-            </form>
-          </Form>
-        </FormCardContent>
-        <FormCardFooter>
-          <FormCardFooterInfo>
-            Learn more about <Link href="#">OTel</Link>.
-          </FormCardFooterInfo>
-          <Button>
-            <Lock />
-            Upgrade
-          </Button>
         </FormCardFooter>
       </FormCard>
       <FormCard variant="destructive">
