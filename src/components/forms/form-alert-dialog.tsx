@@ -19,12 +19,14 @@ interface FormAlertDialogProps {
   title: string;
   confirmationValue: string;
   submitAction?: () => Promise<void>;
+  children?: React.ReactNode;
 }
 
 export function FormAlertDialog({
   title,
   confirmationValue,
   submitAction,
+  children,
 }: FormAlertDialogProps) {
   const [value, setValue] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -45,7 +47,7 @@ export function FormAlertDialog({
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">Delete</Button>
+        {children ?? <Button variant="destructive">Delete</Button>}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
