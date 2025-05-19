@@ -13,7 +13,7 @@ import {
 } from "@/components/content/section";
 
 import { Section } from "@/components/content/section";
-import { columns } from "@/components/data-table/subscriber/columns";
+import { columns } from "@/components/data-table/subscribers/columns";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { subscribers } from "@/data/subscribers";
 import { Lock } from "lucide-react";

@@ -19,6 +19,9 @@ import {
 } from "@/components/content/empty-state";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { DataTable } from "@/components/ui/data-table/data-table";
+import { incidents } from "@/data/incidents";
+import { columns } from "@/components/data-table/incidents/columns";
 
 export default function Page() {
   return (
@@ -72,9 +75,7 @@ export default function Page() {
             Incidents over the last 30 days.
           </SectionDescription>
         </SectionHeader>
-        <EmptyStateContainer>
-          <EmptyStateTitle>No incidents found</EmptyStateTitle>
-        </EmptyStateContainer>
+        <DataTable columns={columns} data={incidents} />
       </Section>
       <Section>
         <SectionHeaderRow>
