@@ -7,11 +7,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { CircleCheck, Plus } from "lucide-react";
+import { CircleCheck, Logs } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "@/components/common/link";
+import { useRouter } from "next/navigation";
 
 export function Sidebar() {
+  const router = useRouter();
   return (
     <SidebarRight
       header="Monitor"
@@ -57,46 +59,48 @@ export function Sidebar() {
         },
         {
           label: "Last Logs",
-          items: Array.from({ length: 20 }).map((_, index) => {
-            const date = new Date(new Date().getTime() - index * 500000);
-            return {
-              label: [
-                "Amsterdam",
-                "Frankfurt",
-                "New York",
-                "Singapore",
-                "Johannesburg",
-              ][index % 5],
-              value: (
-                <div className="flex justify-between items-center gap-2">
-                  <CircleCheck className="w-4 h-4 text-green-500" />
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <span className="underline decoration-dashed underline-offset-2 decoration-muted-foreground/50">
-                          {date.toLocaleTimeString("en-US", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent align="center" side="left">
-                        {date.toLocaleString("en-US")}
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              ),
-            };
-          }),
+          items: [
+            ...Array.from({ length: 20 }).map((_, index) => {
+              const date = new Date(new Date().getTime() - index * 500000);
+              return {
+                label: [
+                  "Amsterdam",
+                  "Frankfurt",
+                  "New York",
+                  "Singapore",
+                  "Johannesburg",
+                ][index % 5],
+                value: (
+                  <div className="flex justify-between items-center gap-2">
+                    <CircleCheck className="w-4 h-4 text-green-500" />
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <span className="underline decoration-dashed underline-offset-2 decoration-muted-foreground/50">
+                            {date.toLocaleTimeString("en-US", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent align="center" side="left">
+                          {date.toLocaleString("en-US")}
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                ),
+              };
+            }),
+          ],
         },
       ]}
       footerButton={{
-        onClick: () => console.log("Trigger Check"),
+        onClick: () => router.push("/dashboard/monitors/logs"),
         children: (
           <>
-            <Plus />
-            <span>Trigger Check</span>
+            <Logs />
+            <span>View all logs</span>
           </>
         ),
       }}

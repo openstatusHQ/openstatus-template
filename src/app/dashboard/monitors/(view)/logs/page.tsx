@@ -1,7 +1,10 @@
-// import {
-//   EmptyStateContainer,
-//   EmptyStateTitle,
-// } from "@/components/content/empty-state";
+import { Link } from "@/components/common/link";
+import {
+  BillingOverlay,
+  BillingOverlayButton,
+  BillingOverlayContainer,
+  BillingOverlayDescription,
+} from "@/components/content/billing-overlay";
 import {
   SectionDescription,
   SectionGroup,
@@ -14,7 +17,7 @@ import { columns } from "@/components/data-table/response-logs/columns";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { responseLogs } from "@/data/response-logs";
-import { X } from "lucide-react";
+import { Lock, X } from "lucide-react";
 
 export default function Page() {
   return (
@@ -35,13 +38,22 @@ export default function Page() {
         </div>
       </Section>
       <Section>
-        {/* <EmptyStateContainer>
-          <EmptyStateTitle>Coming Soon</EmptyStateTitle>
-        </EmptyStateContainer> */}
-        <DataTable
-          columns={columns}
-          data={Array.from({ length: 100 }).map(() => responseLogs[0])}
-        />
+        <BillingOverlayContainer>
+          <DataTable
+            columns={columns}
+            data={Array.from({ length: 100 }).map(() => responseLogs[0])}
+          />
+          <BillingOverlay>
+            <BillingOverlayButton>
+              <Lock />
+              Upgrade to Pro
+            </BillingOverlayButton>
+            <BillingOverlayDescription>
+              Access response headers, timing phases and more for each request.{" "}
+              <Link href="#">Learn more</Link>.
+            </BillingOverlayDescription>
+          </BillingOverlay>
+        </BillingOverlayContainer>
       </Section>
     </SectionGroup>
   );
