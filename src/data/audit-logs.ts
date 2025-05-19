@@ -10,7 +10,7 @@ export const auditLogs = [
     action: "monitor.failed" as const,
     metadata: {
       region: "ams",
-      statusCode: 500,
+      status: 500,
       latency: 1400,
     } as const,
   },
