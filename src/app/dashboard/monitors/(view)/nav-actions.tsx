@@ -11,11 +11,16 @@ import {
 import { QuickActions } from "@/components/dropdowns/quick-actions";
 import { useRouter } from "next/navigation";
 import { getActions } from "@/data/monitors.client";
+import { toast } from "sonner";
 
 export function NavActions() {
   const router = useRouter();
   const actions = getActions({
     edit: () => router.push(`/dashboard/monitors/edit`),
+    "copy-id": () => {
+      navigator.clipboard.writeText("ID");
+      toast.success("Monitor ID copied to clipboard");
+    },
   });
 
   return (

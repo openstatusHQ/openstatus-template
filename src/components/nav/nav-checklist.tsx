@@ -5,7 +5,7 @@ import {
   SidebarMenuAction,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Check, Minus, X } from "lucide-react";
+import { X, CircleDashed, CircleCheck } from "lucide-react";
 import { Link } from "@/components/common/link";
 
 const items = [
@@ -31,12 +31,12 @@ export function NavChecklist() {
           >
             {item.checked ? (
               <>
-                <Check className="text-green-500" size={12} />
+                <CircleCheck className="text-green-500" size={12} />
                 <span>{item.title}</span>
               </>
             ) : (
               <>
-                <Minus className="text-muted-foreground/50" size={12} />
+                <CircleDashed className="text-muted-foreground/50" size={12} />
                 <Link href="#">{item.title}</Link>
               </>
             )}

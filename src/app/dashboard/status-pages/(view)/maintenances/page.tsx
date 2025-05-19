@@ -4,21 +4,30 @@ import {
   SectionHeader,
   SectionTitle,
   SectionDescription,
+  SectionHeaderRow,
 } from "@/components/content/section";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { maintenances } from "@/data/maintenances";
 import { columns } from "@/components/data-table/maintenances/columns";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 export default function Page() {
   return (
     <SectionGroup>
       <Section>
-        <SectionHeader>
-          <SectionTitle>OpenStatus Status</SectionTitle>
-          <SectionDescription>
-            See our maintenances and scheduled downtimes.
-          </SectionDescription>
-        </SectionHeader>
+        <SectionHeaderRow>
+          <SectionHeader>
+            <SectionTitle>Maintenances</SectionTitle>
+            <SectionDescription>
+              See our maintenances and scheduled downtimes.
+            </SectionDescription>
+          </SectionHeader>
+          <Button data-section="action" size="sm" variant="ghost">
+            <Plus />
+            Create Maintenance
+          </Button>
+        </SectionHeaderRow>
         <DataTable columns={columns} data={maintenances} />
       </Section>
     </SectionGroup>

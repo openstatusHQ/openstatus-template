@@ -21,6 +21,7 @@ import {
 import { useRouter } from "next/navigation";
 import { getActions } from "@/data/status-pages.client";
 import { QuickActions } from "@/components/dropdowns/quick-actions";
+import { toast } from "sonner";
 
 export function NavStatusPages({
   statusPages,
@@ -34,6 +35,10 @@ export function NavStatusPages({
   const router = useRouter();
   const actions = getActions({
     edit: () => router.push(`/dashboard/status-pages/edit`),
+    "copy-id": () => {
+      navigator.clipboard.writeText("ID");
+      toast.success("Status Page ID copied to clipboard");
+    },
   });
 
   return (

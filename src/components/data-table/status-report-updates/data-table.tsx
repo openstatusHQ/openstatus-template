@@ -41,6 +41,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { TabsContent } from "@/components/ui/tabs";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tabs } from "@/components/ui/tabs";
+import { Plus } from "lucide-react";
 
 const colors = {
   operational: "text-green-500/80",
@@ -58,7 +59,10 @@ export function DataTable() {
           <TableHead>Message</TableHead>
           <TableHead>Date</TableHead>
           <TableHead className="w-[px]">
-            <span className="sr-only">Open menu</span>
+            <Button variant="ghost" className="flex h-8 w-8 p-0 ml-auto">
+              <Plus />
+              <span className="sr-only">Create Update</span>
+            </Button>
           </TableHead>
         </TableRow>
       </TableHeader>

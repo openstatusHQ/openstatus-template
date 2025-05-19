@@ -49,6 +49,7 @@ import Link from "next/link";
 import { QuickActions } from "@/components/dropdowns/quick-actions";
 import { getActions } from "@/data/monitors.client";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface Filter {
   keywords: string | undefined;
@@ -78,6 +79,10 @@ export function NavMonitors({
   const router = useRouter();
   const actions = getActions({
     edit: () => router.push(`/dashboard/monitors/edit`),
+    "copy-id": () => {
+      navigator.clipboard.writeText("ID");
+      toast.success("Monitor ID copied to clipboard");
+    },
   });
 
   function handleFilterChange<T extends keyof Filter>(
