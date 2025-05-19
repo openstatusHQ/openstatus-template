@@ -1,9 +1,11 @@
 export const monitors = [
   {
+    id: "1",
     name: "OpenStatus Marketing",
+    description: "Marketing website for OpenStatus",
     active: true,
     status: "Normal",
-    url: "#",
+    url: "https://openstatus.dev",
     tags: ["Production"],
     lastIncident: undefined,
     p50: 110,
@@ -11,7 +13,9 @@ export const monitors = [
     p99: 250,
   },
   {
+    id: "2",
     name: "OpenStatus API",
+    description: "API for OpenStatus",
     active: true,
     status: "Normal",
     url: "#",
@@ -22,7 +26,9 @@ export const monitors = [
     p99: 501,
   },
   {
+    id: "3",
     name: "OpenStatus Dashboard",
+    description: "Dashboard for OpenStatus",
     active: true,
     status: "Normal",
     url: "#",
@@ -33,8 +39,10 @@ export const monitors = [
     p99: 250,
   },
   {
+    id: "4",
     name: "Lightweight OS",
-    active: true,
+    description: "Lightweight Operations System",
+    active: false,
     status: "Inactive",
     url: "#",
     tags: ["Development"],
@@ -44,7 +52,9 @@ export const monitors = [
     p99: undefined,
   },
   {
+    id: "5",
     name: "Astro Status Page",
+    description: "Status page for Astro",
     active: true,
     status: "Normal",
     url: "#",
@@ -55,7 +65,9 @@ export const monitors = [
     p99: 250,
   },
   {
+    id: "6",
     name: "Vercel Edge Ping",
+    description: "Ping for Vercel Edge",
     active: true,
     status: "Normal",
     url: "#",

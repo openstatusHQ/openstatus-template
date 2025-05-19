@@ -10,10 +10,12 @@ import { maintenances } from "@/data/maintenances";
 import { statusReports } from "@/data/status-reports";
 import { ExternalLink } from "lucide-react";
 import { statusPages } from "@/data/status-pages";
+import { monitors } from "@/data/monitors";
 
 const report = statusReports[0];
 const maintenance = maintenances[0];
 const statusPage = statusPages[0];
+const monitor = monitors[0];
 
 export function Sidebar() {
   return (
@@ -46,12 +48,17 @@ export function Sidebar() {
           ],
         },
         {
-          label: "Montitors",
+          label: "Monitors",
           items: [
-            { label: "Name", value: "OpenStatus API" },
+            {
+              label: "Name",
+              value: (
+                <Link href="/dashboard/monitors/overview">{monitor.name}</Link>
+              ),
+            },
             {
               label: "URL",
-              value: "https://api.openstatus.dev",
+              value: monitor.url,
               isNested: true,
             },
           ],
@@ -59,7 +66,14 @@ export function Sidebar() {
         {
           label: "Last Report",
           items: [
-            { label: "Name", value: report.name },
+            {
+              label: "Name",
+              value: (
+                <Link href="/dashboard/status-pages/reports">
+                  {report.name}
+                </Link>
+              ),
+            },
             {
               label: "Started",
               value: <SidebarTooltipDate date={report.startedAt} />,
@@ -75,7 +89,14 @@ export function Sidebar() {
         {
           label: "Last Maintenance",
           items: [
-            { label: "Name", value: maintenance.title },
+            {
+              label: "Name",
+              value: (
+                <Link href="/dashboard/status-pages/maintenances">
+                  {maintenance.title}
+                </Link>
+              ),
+            },
             {
               label: "Started",
               value: <SidebarTooltipDate date={maintenance.startDate} />,
