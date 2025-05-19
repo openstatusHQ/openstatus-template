@@ -43,10 +43,10 @@ export function Sidebar() {
             { label: "Public", value: "false" },
           ],
         },
-        {
-          label: "Integrations",
-          items: [],
-        },
+        // {
+        //   label: "Integrations",
+        //   items: [],
+        // },
         {
           label: "Notifiers",
           items: [

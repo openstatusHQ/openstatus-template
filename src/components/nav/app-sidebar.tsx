@@ -6,7 +6,6 @@ import {
   Command,
   GalleryVerticalEnd,
   LayoutGrid,
-  Workflow,
   Cog,
   Bell,
   PanelTop,
@@ -93,11 +92,6 @@ const data = {
       name: "Overview",
       url: "/dashboard/overview",
       icon: LayoutGrid,
-    },
-    {
-      name: "Integrations",
-      url: "#",
-      icon: Workflow,
     },
     {
       name: "Notifiers",

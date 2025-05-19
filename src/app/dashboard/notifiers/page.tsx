@@ -17,6 +17,10 @@ import {
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
+import { FormCardGroup } from "@/components/forms/form-card";
+import { FormCard } from "@/components/forms/form-card";
+import { FormCardContent } from "@/components/forms/form-card";
+import { NotifierForm } from "@/components/forms/notifier/form";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -67,15 +71,21 @@ export default function Page() {
                   </ActionCard>
                 </SheetTrigger>
                 <SheetContent>
-                  <SheetHeader>
+                  <SheetHeader className="border-b">
                     <SheetTitle>Notifier</SheetTitle>
                     <SheetDescription>
                       Make changes to your profile here. Click save when
                       you&apos;re done.
                     </SheetDescription>
                   </SheetHeader>
-                  <div className="grid gap-4 p-4">Hello World</div>
-                  <SheetFooter>
+                  <FormCardGroup>
+                    <FormCard className="border-none">
+                      <FormCardContent>
+                        <NotifierForm />
+                      </FormCardContent>
+                    </FormCard>
+                  </FormCardGroup>
+                  <SheetFooter className="border-t">
                     <SheetClose asChild>
                       <Button type="submit">Save changes</Button>
                     </SheetClose>
