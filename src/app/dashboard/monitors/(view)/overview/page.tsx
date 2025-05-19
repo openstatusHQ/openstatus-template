@@ -1,7 +1,6 @@
 import { ChartBarUptime } from "@/components/chart/chart-bar-uptime";
 import { ChartAreaLatency } from "@/components/chart/chart-area-latency";
 import { MetricExample } from "@/components/metric/example";
-import { EmptyStateExample } from "@/components/content/example";
 import { Button } from "@/components/ui/button";
 import { ExampleRegionTable } from "@/components/example/example-region-container";
 import { X } from "lucide-react";
@@ -12,6 +11,9 @@ import {
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
+import { auditLogs } from "@/data/audit-logs";
+import { DataTable } from "@/components/ui/data-table/data-table";
+import { columns } from "@/components/data-table/audit-logs/columns";
 
 export default function Page() {
   return (
@@ -55,12 +57,12 @@ export default function Page() {
       </Section>
       <Section>
         <SectionHeader>
-          <SectionTitle>Incidents</SectionTitle>
+          <SectionTitle>Audit Log</SectionTitle>
           <SectionDescription>
-            Incidents over the last 30 days
+            What&apos;s happening on your monitor
           </SectionDescription>
         </SectionHeader>
-        <EmptyStateExample />
+        <DataTable columns={columns} data={auditLogs} />
       </Section>
       <Section>
         <SectionHeader>
