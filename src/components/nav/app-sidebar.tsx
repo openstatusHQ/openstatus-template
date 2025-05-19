@@ -134,9 +134,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavOverview items={data.overview} />
         <NavStatusPages statusPages={data.statusPages} />
         <NavMonitors monitors={data.monitors} />
+        <div className="mt-auto p-2">
+          <NavChecklist />
+        </div>
       </SidebarContent>
       <SidebarFooter>
-        <NavChecklist />
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />
