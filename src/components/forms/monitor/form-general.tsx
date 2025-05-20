@@ -35,6 +35,7 @@ import {
   FormCardDescription,
   FormCardFooter,
   FormCardHeader,
+  FormCardSeparator,
   FormCardTitle,
 } from "../form-card";
 import { DevTool } from "@hookform/devtools";
@@ -113,6 +114,9 @@ export function FormGeneral() {
                 </FormItem>
               )}
             />
+          </FormCardContent>
+          <FormCardSeparator />
+          <FormCardContent className="grid gap-4">
             <Tabs defaultValue="http">
               <TabsList>
                 <TabsTrigger value="http">HTTP</TabsTrigger>
