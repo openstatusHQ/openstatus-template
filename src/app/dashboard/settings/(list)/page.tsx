@@ -1,7 +1,6 @@
 import { Link } from "@/components/common/link";
 import {
   ActionCard,
-  ActionCardContent,
   ActionCardDescription,
   ActionCardGroup,
   ActionCardHeader,
