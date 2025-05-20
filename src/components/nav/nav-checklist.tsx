@@ -9,9 +9,17 @@ import { X, CircleDashed, CircleCheck } from "lucide-react";
 import { Link } from "@/components/common/link";
 
 const items = [
-  { title: "Create Monitor", checked: true },
-  { title: "Create Status Page", checked: true },
-  { title: "Create Notifier", checked: false },
+  {
+    title: "Create Monitor",
+    checked: true,
+    href: "/dashboard/monitors/create",
+  },
+  {
+    title: "Create Status Page",
+    checked: true,
+    href: "/dashboard/status-pages/create",
+  },
+  { title: "Create Notifier", checked: false, href: "/dashboard/notifiers" },
 ];
 
 export function NavChecklist() {
@@ -37,7 +45,7 @@ export function NavChecklist() {
             ) : (
               <>
                 <CircleDashed className="text-muted-foreground/50" size={12} />
-                <Link href="#">{item.title}</Link>
+                <Link href={item.href}>{item.title}</Link>
               </>
             )}
           </SidebarMenuItem>

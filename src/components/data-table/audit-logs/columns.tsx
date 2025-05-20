@@ -35,7 +35,7 @@ export const columns: ColumnDef<AuditLog>[] = [
   },
   {
     accessorKey: "metadata",
-    header: "Metadata",
+    header: "Information",
     enableSorting: false,
     enableHiding: false,
     cell: ({ row }) => {

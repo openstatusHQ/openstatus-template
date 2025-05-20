@@ -1,3 +1,5 @@
+"use client";
+
 import { ChartBarUptime } from "@/components/chart/chart-bar-uptime";
 import { ChartAreaLatency } from "@/components/chart/chart-area-latency";
 import { MetricExample } from "@/components/metric/example";
@@ -14,6 +16,8 @@ import {
 import { auditLogs } from "@/data/audit-logs";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { columns } from "@/components/data-table/audit-logs/columns";
+import { BlockWrapper } from "@/components/content/block-wrapper";
+import { DataTablePaginationSimple } from "@/components/ui/data-table/data-table-pagination";
 
 export default function Page() {
   return (
@@ -62,7 +66,13 @@ export default function Page() {
             What&apos;s happening on your monitor
           </SectionDescription>
         </SectionHeader>
-        <DataTable columns={columns} data={auditLogs} />
+        <BlockWrapper>
+          <DataTable
+            columns={columns}
+            data={auditLogs}
+            paginationComponent={DataTablePaginationSimple}
+          />
+        </BlockWrapper>
       </Section>
       <Section>
         <SectionHeader>
