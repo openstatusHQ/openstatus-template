@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  EmptyStateContainer,
-  EmptyStateTitle,
-} from "@/components/content/empty-state";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -22,9 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, X } from "lucide-react";
+import { Globe, Network, Plus, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,9 +35,13 @@ import {
 } from "../form-card";
 import { DevTool } from "@hookform/devtools";
 import { toast } from "sonner";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+const TYPES = ["HTTP", "TCP"] as const;
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
+  type: z.enum(TYPES).optional(),
   method: z.enum(["GET", "POST", "PUT", "DELETE", "PATCH"]),
   url: z.string(),
   headers: z.array(
@@ -61,6 +60,7 @@ export function FormGeneral() {
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",
+      type: undefined,
       method: "GET",
       url: "",
       headers: [],
@@ -68,6 +68,7 @@ export function FormGeneral() {
     },
   });
   const [isPending, startTransition] = useTransition();
+  const watchType = form.watch("type");
 
   function submitAction(values: FormValues) {
     if (isPending) return;
@@ -116,184 +117,220 @@ export function FormGeneral() {
             />
           </FormCardContent>
           <FormCardSeparator />
-          <FormCardContent className="grid gap-4">
-            <Tabs defaultValue="http">
-              <TabsList>
-                <TabsTrigger value="http">HTTP</TabsTrigger>
-                <TabsTrigger value="tcp">TCP</TabsTrigger>
-              </TabsList>
-              <TabsContent value="http" className="grid gap-4">
-                <FormField
-                  control={form.control}
-                  name="method"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Method</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+          <FormCardContent>
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Type</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-row gap-2 max-w-sm"
+                    >
+                      <FormItem className="flex-1 border-input has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative flex cursor-pointer flex-row items-center gap-3 rounded-md border px-2 py-3 text-center shadow-xs transition-[color,box-shadow] outline-none has-focus-visible:ring-[3px]">
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a method" />
-                          </SelectTrigger>
+                          <RadioGroupItem value="HTTP" className="sr-only" />
                         </FormControl>
-                        <SelectContent>
-                          <SelectItem value="GET">GET</SelectItem>
-                          <SelectItem value="POST">POST</SelectItem>
-                          <SelectItem value="PUT">PUT</SelectItem>
-                          <SelectItem value="DELETE">DELETE</SelectItem>
-                          <SelectItem value="PATCH">PATCH</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="url"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>URL</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="https://openstatus.dev"
-                          {...field}
+                        <Globe
+                          className="text-muted-foreground"
+                          size={16}
+                          aria-hidden="true"
                         />
+                        <FormLabel className="text-foreground cursor-pointer text-xs leading-none font-medium after:absolute after:inset-0">
+                          HTTP
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem className="flex-1 border-input has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative flex cursor-pointer flex-row items-center gap-3 rounded-md border px-2 py-3 text-center shadow-xs transition-[color,box-shadow] outline-none has-focus-visible:ring-[3px]">
+                        <FormControl>
+                          <RadioGroupItem value="TCP" className="sr-only" />
+                        </FormControl>
+                        <Network
+                          className="text-muted-foreground"
+                          size={16}
+                          aria-hidden="true"
+                        />
+                        <FormLabel className="text-foreground cursor-pointer text-xs leading-none font-medium after:absolute after:inset-0">
+                          TCP
+                        </FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </FormCardContent>
+          {watchType === "HTTP" && (
+            <FormCardContent className="grid gap-4">
+              <FormField
+                control={form.control}
+                name="method"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Method</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a method" />
+                        </SelectTrigger>
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="headers"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Request Headers</FormLabel>
-                      {field.value.map((header, index) => (
-                        <div
-                          key={index}
-                          className="flex flex-row items-center gap-2"
-                        >
-                          <Input
-                            placeholder="Key"
-                            value={header.key}
-                            onChange={(e) => {
-                              const newHeaders = [...field.value];
-                              newHeaders[index] = {
-                                ...newHeaders[index],
-                                key: e.target.value,
-                              };
-                              field.onChange(newHeaders);
-                            }}
-                          />
-                          <Input
-                            placeholder="Value"
-                            value={header.value}
-                            onChange={(e) => {
-                              const newHeaders = [...field.value];
-                              newHeaders[index] = {
-                                ...newHeaders[index],
-                                value: e.target.value,
-                              };
-                              field.onChange(newHeaders);
-                            }}
-                          />
-                          <Button
-                            size="icon"
-                            variant="ghost"
-                            onClick={() => {
-                              const newHeaders = field.value.filter(
-                                (_, i) => i !== index
-                              );
-                              field.onChange(newHeaders);
-                            }}
-                          >
-                            <X />
-                          </Button>
-                        </div>
-                      ))}
-                      <div>
+                      <SelectContent>
+                        <SelectItem value="GET">GET</SelectItem>
+                        <SelectItem value="POST">POST</SelectItem>
+                        <SelectItem value="PUT">PUT</SelectItem>
+                        <SelectItem value="DELETE">DELETE</SelectItem>
+                        <SelectItem value="PATCH">PATCH</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="url"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>URL</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://openstatus.dev" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="headers"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Request Headers</FormLabel>
+                    {field.value.map((header, index) => (
+                      <div
+                        key={index}
+                        className="flex flex-row items-center gap-2"
+                      >
+                        <Input
+                          placeholder="Key"
+                          value={header.key}
+                          onChange={(e) => {
+                            const newHeaders = [...field.value];
+                            newHeaders[index] = {
+                              ...newHeaders[index],
+                              key: e.target.value,
+                            };
+                            field.onChange(newHeaders);
+                          }}
+                        />
+                        <Input
+                          placeholder="Value"
+                          value={header.value}
+                          onChange={(e) => {
+                            const newHeaders = [...field.value];
+                            newHeaders[index] = {
+                              ...newHeaders[index],
+                              value: e.target.value,
+                            };
+                            field.onChange(newHeaders);
+                          }}
+                        />
                         <Button
-                          size="sm"
+                          size="icon"
+                          variant="ghost"
                           onClick={() => {
-                            field.onChange([
-                              ...field.value,
-                              { key: "", value: "" },
-                            ]);
+                            const newHeaders = field.value.filter(
+                              (_, i) => i !== index
+                            );
+                            field.onChange(newHeaders);
                           }}
                         >
-                          Add Header
+                          <X />
                         </Button>
                       </div>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="body"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Body</FormLabel>
-                      <FormControl>
-                        <Textarea {...field} />
-                      </FormControl>
-                      <FormDescription>Write your payload</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div className="grid gap-1.5">
-                  <FormLabel>Assertions</FormLabel>
-                  <FormDescription>
-                    Validate the response to ensure your service is working as
-                    expected.
-                    <br />
-                    By default, we check for a{" "}
-                    <span className="text-foreground font-medium">
-                      2xx status code
-                    </span>
-                    .
-                  </FormDescription>
-                  <div className="flex gap-1.5">
-                    <Button variant="outline">
-                      <Plus />
-                      Status assertion
-                    </Button>
-                    <Button variant="outline">
-                      <Plus />
-                      Header assertion
-                    </Button>
-                    <Button variant="outline">
-                      <Plus />
-                      Body assertion
-                    </Button>
-                  </div>
+                    ))}
+                    <div>
+                      <Button
+                        size="sm"
+                        onClick={() => {
+                          field.onChange([
+                            ...field.value,
+                            { key: "", value: "" },
+                          ]);
+                        }}
+                      >
+                        Add Header
+                      </Button>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="body"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Body</FormLabel>
+                    <FormControl>
+                      <Textarea {...field} />
+                    </FormControl>
+                    <FormDescription>Write your payload</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="grid gap-1.5">
+                <FormLabel>Assertions</FormLabel>
+                <FormDescription>
+                  Validate the response to ensure your service is working as
+                  expected.
+                  <br />
+                  By default, we check for a{" "}
+                  <span className="text-foreground font-medium">
+                    2xx status code
+                  </span>
+                  .
+                </FormDescription>
+                <div className="flex flex-wrap gap-1.5">
+                  <Button variant="outline">
+                    <Plus />
+                    Status assertion
+                  </Button>
+                  <Button variant="outline">
+                    <Plus />
+                    Header assertion
+                  </Button>
+                  <Button variant="outline">
+                    <Plus />
+                    Body assertion
+                  </Button>
                 </div>
-              </TabsContent>
-              <TabsContent value="tcp" className="grid gap-4">
-                <FormField
-                  control={form.control}
-                  name="url"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>URI</FormLabel>
-                      <FormControl>
-                        <Input placeholder="127.0.0.0.1:8080" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <EmptyStateContainer>
-                  <EmptyStateTitle>No assertions for TCP</EmptyStateTitle>
-                </EmptyStateContainer>
-              </TabsContent>
-            </Tabs>
-          </FormCardContent>
+              </div>
+            </FormCardContent>
+          )}
+          {watchType === "TCP" && (
+            <FormCardContent className="grid gap-4">
+              <FormField
+                control={form.control}
+                name="url"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>URI</FormLabel>
+                    <FormControl>
+                      <Input placeholder="127.0.0.0.1:8080" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </FormCardContent>
+          )}
           <FormCardFooter>
             <Button type="submit" disabled={isPending}>
               {isPending ? "Submitting..." : "Submit"}
