@@ -70,6 +70,7 @@ export function FormGeneral() {
   });
   const [isPending, startTransition] = useTransition();
   const watchType = form.watch("type");
+  const watchMethod = form.watch("method");
 
   function submitAction(values: FormValues) {
     if (isPending) return;
@@ -259,6 +260,7 @@ export function FormGeneral() {
                     <div>
                       <Button
                         size="sm"
+                        variant="outline"
                         type="button"
                         onClick={() => {
                           field.onChange([
@@ -275,20 +277,22 @@ export function FormGeneral() {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="body"
-                render={({ field }) => (
-                  <FormItem className="col-span-full">
-                    <FormLabel>Body</FormLabel>
-                    <FormControl>
-                      <Textarea {...field} />
-                    </FormControl>
-                    <FormDescription>Write your payload</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {watchMethod === "POST" && (
+                <FormField
+                  control={form.control}
+                  name="body"
+                  render={({ field }) => (
+                    <FormItem className="col-span-full">
+                      <FormLabel>Body</FormLabel>
+                      <FormControl>
+                        <Textarea {...field} />
+                      </FormControl>
+                      <FormDescription>Write your payload</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
               <div className="grid gap-1.5 col-span-full">
                 <FormLabel>Assertions</FormLabel>
                 <FormDescription>
