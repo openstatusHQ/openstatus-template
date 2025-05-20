@@ -53,47 +53,53 @@ export default function Page() {
           </SectionDescription>
         </SectionHeader>
         <ActionCardGroup className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {["Slack", "Email", "SMS", "Discord", "Telegram", "Webhook"].map(
-            (notifier) => (
-              <Sheet key={notifier}>
-                <SheetTrigger asChild>
-                  {/* ActionCard */}
-                  <ActionCard>
-                    <ActionCardHeader>
-                      <div className="flex items-center gap-2">
-                        <div className="size-6 rounded-md bg-muted border border-border" />
-                        <ActionCardTitle>{notifier}</ActionCardTitle>
-                      </div>
-                      <ActionCardDescription>
-                        Send notifications to {notifier}
-                      </ActionCardDescription>
-                    </ActionCardHeader>
-                  </ActionCard>
-                </SheetTrigger>
-                <SheetContent>
-                  <SheetHeader className="border-b">
-                    <SheetTitle>Notifier</SheetTitle>
-                    <SheetDescription>
-                      Make changes to your profile here. Click save when
-                      you&apos;re done.
-                    </SheetDescription>
-                  </SheetHeader>
-                  <FormCardGroup>
-                    <FormCard className="border-none">
-                      <FormCardContent>
-                        <NotifierForm />
-                      </FormCardContent>
-                    </FormCard>
-                  </FormCardGroup>
-                  <SheetFooter className="border-t">
-                    <SheetClose asChild>
-                      <Button type="submit">Save changes</Button>
-                    </SheetClose>
-                  </SheetFooter>
-                </SheetContent>
-              </Sheet>
-            )
-          )}
+          {[
+            "Slack",
+            "Email",
+            "SMS",
+            "Discord",
+            "Telegram",
+            "Webhook",
+            "OpsGenie",
+            "PagerDuty",
+          ].map((notifier) => (
+            <Sheet key={notifier}>
+              <SheetTrigger asChild>
+                <ActionCard>
+                  <ActionCardHeader>
+                    <div className="flex items-center gap-2">
+                      <div className="size-6 rounded-md bg-muted border border-border" />
+                      <ActionCardTitle>{notifier}</ActionCardTitle>
+                    </div>
+                    <ActionCardDescription>
+                      Send notifications to {notifier}
+                    </ActionCardDescription>
+                  </ActionCardHeader>
+                </ActionCard>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader className="border-b">
+                  <SheetTitle>Notifier</SheetTitle>
+                  <SheetDescription>
+                    Make changes to your profile here. Click save when
+                    you&apos;re done.
+                  </SheetDescription>
+                </SheetHeader>
+                <FormCardGroup>
+                  <FormCard className="border-none">
+                    <FormCardContent>
+                      <NotifierForm />
+                    </FormCardContent>
+                  </FormCard>
+                </FormCardGroup>
+                <SheetFooter className="border-t">
+                  <SheetClose asChild>
+                    <Button type="submit">Save changes</Button>
+                  </SheetClose>
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
+          ))}
         </ActionCardGroup>
       </Section>
     </SectionGroup>

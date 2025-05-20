@@ -65,7 +65,7 @@ export default function Page() {
             <FormCardHeader>
               <FormCardTitle>Slug</FormCardTitle>
               <FormCardDescription>
-                This is the unique slug for your workspace.
+                The unique slug for your workspace.
               </FormCardDescription>
             </FormCardHeader>
             <FormCardContent>
