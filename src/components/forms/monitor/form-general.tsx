@@ -123,7 +123,7 @@ export function FormGeneral() {
               name="type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Type</FormLabel>
+                  <FormLabel>Monitoring Type</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -321,14 +321,40 @@ export function FormGeneral() {
                 name="url"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>URI</FormLabel>
+                    <FormLabel>Host:Port</FormLabel>
                     <FormControl>
                       <Input placeholder="127.0.0.0.1:8080" {...field} />
                     </FormControl>
                     <FormMessage />
+                    <FormDescription>
+                      The input supports both IPv4 addresses and IPv6 addresses.
+                    </FormDescription>
                   </FormItem>
                 )}
               />
+              <div className="text-sm text-muted-foreground">
+                Examples:
+                <ul className="list-disc list-inside">
+                  <li>
+                    Domain:{" "}
+                    <span className="font-mono text-foreground">
+                      openstatus.dev:443
+                    </span>
+                  </li>
+                  <li>
+                    IPv4:{" "}
+                    <span className="font-mono text-foreground">
+                      192.168.1.1:443
+                    </span>
+                  </li>
+                  <li>
+                    IPv6:{" "}
+                    <span className="font-mono text-foreground">
+                      [2001:db8:85a3:8d3:1319:8a2e:370:7348]:443
+                    </span>
+                  </li>
+                </ul>
+              </div>
             </FormCardContent>
           )}
           <FormCardFooter>
