@@ -57,7 +57,7 @@ export default function Page() {
       </Section>
       <Section>
         <SectionHeader>
-          <SectionTitle>Audit Log</SectionTitle>
+          <SectionTitle>Timeline</SectionTitle>
           <SectionDescription>
             What&apos;s happening on your monitor
           </SectionDescription>
