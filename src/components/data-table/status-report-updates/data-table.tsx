@@ -61,7 +61,7 @@ export function DataTable() {
           <TableHead className="w-[px]">
             <Button variant="ghost" className="flex h-8 w-8 p-0 ml-auto">
               <Plus />
-              <span className="sr-only">Create Update</span>
+              <span className="sr-only">Create Status Report Update</span>
             </Button>
           </TableHead>
         </TableRow>

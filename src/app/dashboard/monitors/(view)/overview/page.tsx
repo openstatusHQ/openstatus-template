@@ -18,6 +18,12 @@ import { DataTable } from "@/components/ui/data-table/data-table";
 import { columns } from "@/components/data-table/audit-logs/columns";
 import { BlockWrapper } from "@/components/content/block-wrapper";
 import { DataTablePaginationSimple } from "@/components/ui/data-table/data-table-pagination";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import DatePicker from "@/components/date-picker";
 
 export default function Page() {
   return (
@@ -28,9 +34,16 @@ export default function Page() {
           <SectionDescription>https://api.openstatus.dev</SectionDescription>
         </SectionHeader>
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="sm">
-            Last 30d
-          </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm">
+                Last 7 days
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <DatePicker />
+            </PopoverContent>
+          </Popover>
           <Button variant="outline" size="sm">
             All Regions
           </Button>

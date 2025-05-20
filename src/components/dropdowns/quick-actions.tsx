@@ -96,7 +96,10 @@ export function QuickActions({
               <DropdownMenuGroup key={item.id}>
                 <DropdownMenuItem
                   variant={item.variant}
-                  onClick={() => item.onClick?.()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    item.onClick?.();
+                  }}
                 >
                   <item.icon className="text-muted-foreground" />
                   <span>{item.label}</span>
@@ -107,7 +110,13 @@ export function QuickActions({
             <>
               <DropdownMenuSeparator />
               <AlertDialogTrigger asChild>
-                <DropdownMenuItem variant="destructive">
+                <DropdownMenuItem
+                  variant="destructive"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteAction.submitAction?.();
+                  }}
+                >
                   <Trash2 className="text-muted-foreground" />
                   Delete
                 </DropdownMenuItem>
@@ -143,7 +152,9 @@ export function QuickActions({
           <Input value={value} onChange={(e) => setValue(e.target.value)} />
         </form>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel onClick={(e) => e.stopPropagation()}>
+            Cancel
+          </AlertDialogCancel>
           <AlertDialogAction
             className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60"
             disabled={value !== deleteAction?.confirmationValue || isPending}

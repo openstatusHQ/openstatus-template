@@ -14,8 +14,14 @@ import {
 
 import { Section } from "@/components/content/section";
 import { columns } from "@/components/data-table/response-logs/columns";
+import DatePicker from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table/data-table";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { responseLogs } from "@/data/response-logs";
 import { Lock, X } from "lucide-react";
 
@@ -28,9 +34,16 @@ export default function Page() {
           <SectionDescription>https://api.openstatus.dev</SectionDescription>
         </SectionHeader>
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="sm">
-            Last 30d
-          </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm">
+                Last 7 days
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <DatePicker />
+            </PopoverContent>
+          </Popover>
           <Button variant="ghost" size="sm">
             <X />
             Reset
