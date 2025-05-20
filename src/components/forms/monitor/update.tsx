@@ -25,6 +25,7 @@ import {
 } from "@/components/content/empty-state";
 import { FormGeneral } from "./form-general";
 import { Input } from "@/components/ui/input";
+import { FormResponseTime } from "./form-response-time";
 
 export function FormMonitorUpdate() {
   const form = useForm();
@@ -32,9 +33,9 @@ export function FormMonitorUpdate() {
     <FormCardGroup>
       <FormCard>
         <FormCardHeader>
-          <FormCardTitle>Basic Information</FormCardTitle>
+          <FormCardTitle>General</FormCardTitle>
           <FormCardDescription>
-            The basic configuration for your monitor.
+            Define your request and assertions. Choose between HTTP or TCP.
           </FormCardDescription>
         </FormCardHeader>
         <FormCardSeparator />
@@ -63,18 +64,16 @@ export function FormMonitorUpdate() {
       </FormCard>
       <FormCard>
         <FormCardHeader>
-          <FormCardTitle>Assertions & Timeout</FormCardTitle>
+          <FormCardTitle>Response Time Thresholds</FormCardTitle>
           <FormCardDescription>
-            Configure the assertions and timeout for your monitor.
+            Configure your degraded and timeout thresholds.
           </FormCardDescription>
         </FormCardHeader>
         <FormCardContent>
-          <EmptyStateContainer>
-            <EmptyStateTitle>No assertions or timeout</EmptyStateTitle>
-          </EmptyStateContainer>
+          <FormResponseTime />
         </FormCardContent>
         <FormCardFooter>
-          <Button>Submit</Button>
+          <Button form="form-response-time">Submit</Button>
         </FormCardFooter>
       </FormCard>
       <FormCard>

@@ -23,9 +23,9 @@ export function FormMonitorCreate() {
     <FormCardGroup>
       <FormCard>
         <FormCardHeader>
-          <FormCardTitle>Basic Information</FormCardTitle>
+          <FormCardTitle>General</FormCardTitle>
           <FormCardDescription>
-            The basic configuration for your monitor.
+            Define your request and assertions. Choose between HTTP or TCP.
           </FormCardDescription>
         </FormCardHeader>
         <FormCardSeparator />
