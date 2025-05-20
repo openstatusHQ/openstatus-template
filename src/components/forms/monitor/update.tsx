@@ -62,20 +62,7 @@ export function FormMonitorUpdate() {
           <Button>Submit</Button>
         </FormCardFooter>
       </FormCard>
-      <FormCard>
-        <FormCardHeader>
-          <FormCardTitle>Response Time Thresholds</FormCardTitle>
-          <FormCardDescription>
-            Configure your degraded and timeout thresholds.
-          </FormCardDescription>
-        </FormCardHeader>
-        <FormCardContent>
-          <FormResponseTime />
-        </FormCardContent>
-        <FormCardFooter>
-          <Button form="form-response-time">Submit</Button>
-        </FormCardFooter>
-      </FormCard>
+      <FormResponseTime />
       <FormCard>
         <FormCardUpgrade />
         <FormCardHeader>

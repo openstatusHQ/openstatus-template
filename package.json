@@ -10,6 +10,7 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
+    "@hookform/devtools": "^4.4.0",
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-alert-dialog": "^1.1.13",
     "@radix-ui/react-avatar": "^1.1.7",

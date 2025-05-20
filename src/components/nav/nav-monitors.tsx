@@ -48,7 +48,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { QuickActions } from "@/components/dropdowns/quick-actions";
 import { getActions } from "@/data/monitors.client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface Filter {
@@ -77,6 +77,7 @@ export function NavMonitors({
     visibility: [],
   });
   const router = useRouter();
+  const pathname = usePathname();
   const actions = getActions({
     edit: () => router.push(`/dashboard/monitors/edit`),
     "copy-id": () => {
@@ -379,29 +380,34 @@ export function NavMonitors({
             return null;
           })}
         </SidebarMenuItem>
-        {filteredMonitors.map((item) => (
-          <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <Link href={item.url}>
-                <span>{item.name}</span>
-              </Link>
-            </SidebarMenuButton>
-            <QuickActions
-              actions={actions}
-              deleteAction={{
-                title: "Monitor",
-                confirmationValue: "delete monitor",
-              }}
-              side={isMobile ? "bottom" : "right"}
-              align={isMobile ? "end" : "start"}
-            >
-              <SidebarMenuAction showOnHover>
-                <MoreHorizontal />
-                <span className="sr-only">More</span>
-              </SidebarMenuAction>
-            </QuickActions>
-          </SidebarMenuItem>
-        ))}
+        {filteredMonitors.map((item) => {
+          // NOTE: once you have a router, you can use it to check if the item is active
+          const isActive = item.url.startsWith(pathname);
+          console.log({ isActive });
+          return (
+            <SidebarMenuItem key={item.name}>
+              <SidebarMenuButton asChild>
+                <Link href={item.url}>
+                  <span>{item.name}</span>
+                </Link>
+              </SidebarMenuButton>
+              <QuickActions
+                actions={actions}
+                deleteAction={{
+                  title: "Monitor",
+                  confirmationValue: "delete monitor",
+                }}
+                side={isMobile ? "bottom" : "right"}
+                align={isMobile ? "end" : "start"}
+              >
+                <SidebarMenuAction showOnHover>
+                  <MoreHorizontal />
+                  <span className="sr-only">More</span>
+                </SidebarMenuAction>
+              </QuickActions>
+            </SidebarMenuItem>
+          );
+        })}
       </SidebarMenu>
     </SidebarGroup>
   );
