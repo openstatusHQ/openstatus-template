@@ -23,8 +23,10 @@ export default function Page() {
     <SectionGroup>
       <Section>
         <SectionHeader>
-          <SectionTitle>OpenStatus Status</SectionTitle>
-          <SectionDescription>https://api.openstatus.dev</SectionDescription>
+          <SectionTitle>OpenStatus Status Page</SectionTitle>
+          <SectionDescription>
+            Allow your users to subscribe to status page updates.
+          </SectionDescription>
         </SectionHeader>
       </Section>
       <Section>
@@ -36,10 +38,10 @@ export default function Page() {
           <BillingOverlay>
             <BillingOverlayButton>
               <Lock />
-              Upgrade to Team
+              Upgrade to Starter
             </BillingOverlayButton>
             <BillingOverlayDescription>
-              Allow your users to subscribe to status page updates.{" "}
+              Keep your users in the loop with status page updates.{" "}
               <Link href="#">Learn more</Link>.
             </BillingOverlayDescription>
           </BillingOverlay>
