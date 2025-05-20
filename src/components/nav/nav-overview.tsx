@@ -27,7 +27,7 @@ export function NavOverview({
   const { state } = useSidebar();
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Overview</SidebarGroupLabel>
+      <SidebarGroupLabel>Workspace</SidebarGroupLabel>
       <SidebarMenu>
         {items
           .filter((item) => {

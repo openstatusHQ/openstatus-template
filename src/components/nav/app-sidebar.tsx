@@ -86,7 +86,7 @@ const data = {
     },
     {
       name: "Settings",
-      url: "/dashboard/settings",
+      url: "/dashboard/settings/general",
       icon: Cog,
     },
     {
