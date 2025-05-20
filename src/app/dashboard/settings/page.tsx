@@ -140,6 +140,44 @@ export default function Page() {
           </FormCardFooter>
         </FormCard>
       </Section>
+      <Section>
+        <SectionHeader>
+          <SectionTitle>API</SectionTitle>
+        </SectionHeader>
+        <FormCard>
+          <FormCardHeader>
+            <FormCardTitle>API Key</FormCardTitle>
+            <FormCardDescription>
+              Create and revoke your API key.
+            </FormCardDescription>
+          </FormCardHeader>
+          <FormCardContent>
+            <Table>
+              <TableBody>
+                <TableRow className="[&>:not(:last-child)]:border-r">
+                  <TableHead className="bg-muted/50 h-auto">
+                    Created At
+                  </TableHead>
+                  <TableCell>{new Date().toLocaleDateString()}</TableCell>
+                </TableRow>
+                <TableRow className="[&>:not(:last-child)]:border-r">
+                  <TableHead className="bg-muted/50 h-auto">Token</TableHead>
+                  <TableCell>os_3ZJh...</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </FormCardContent>
+          <FormCardFooter>
+            <FormCardFooterInfo>
+              Trigger monitors via CLI or API or create your own status page.{" "}
+              <Link href="#">Learn more</Link>.
+            </FormCardFooterInfo>
+            <Button variant="destructive" size="sm">
+              Revoke
+            </Button>
+          </FormCardFooter>
+        </FormCard>
+      </Section>
     </SectionGroup>
   );
 }

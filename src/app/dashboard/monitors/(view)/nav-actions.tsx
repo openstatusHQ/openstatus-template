@@ -39,7 +39,7 @@ export function NavActions() {
               <Zap />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Trigger Monitor</TooltipContent>
+          <TooltipContent>Test Monitor</TooltipContent>
         </Tooltip>
       </TooltipProvider>
       <QuickActions

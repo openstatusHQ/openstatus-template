@@ -1,20 +1,11 @@
 "use client";
 
 import * as React from "react";
-import {
-  AudioWaveform,
-  Command,
-  GalleryVerticalEnd,
-  LayoutGrid,
-  Cog,
-  Bell,
-  PanelTop,
-  Activity,
-} from "lucide-react";
+import { LayoutGrid, Cog, Bell, PanelTop, Activity } from "lucide-react";
 
 import { NavMonitors } from "@/components/nav/nav-monitors";
 import { NavUser } from "@/components/nav/nav-user";
-import { TeamSwitcher } from "@/components/nav/team-switcher";
+import { OrganizationSwitcher } from "@/components/nav/organization-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -32,21 +23,16 @@ const data = {
     email: "max@openstatus.dev",
     avatar: "/avatars/shadcn.jpg",
   },
-  teams: [
+  orgs: [
     {
       name: "OpenStatus",
-      logo: GalleryVerticalEnd,
-      plan: "Startup",
+      slug: "easy-peasy",
+      plan: "Hobby",
     },
     {
       name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Enterprise",
+      slug: "acme-corp",
+      plan: "Starter",
     },
   ],
   monitors: [
@@ -122,7 +108,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <OrganizationSwitcher orgs={data.orgs} />
       </SidebarHeader>
       <SidebarContent>
         <NavOverview items={data.overview} />
