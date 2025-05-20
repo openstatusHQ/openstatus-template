@@ -38,11 +38,12 @@ import { toast } from "sonner";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const TYPES = ["HTTP", "TCP"] as const;
+const METHODS = ["GET", "POST", "PUT", "DELETE", "PATCH"] as const;
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
   type: z.enum(TYPES).optional(),
-  method: z.enum(["GET", "POST", "PUT", "DELETE", "PATCH"]),
+  method: z.enum(METHODS),
   url: z.string(),
   headers: z.array(
     z.object({
@@ -128,9 +129,9 @@ export function FormGeneral() {
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      className="flex flex-row gap-2 max-w-sm"
+                      className="grid gap-4 grid-cols-4"
                     >
-                      <FormItem className="flex-1 border-input has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative flex cursor-pointer flex-row items-center gap-3 rounded-md border px-2 py-3 text-center shadow-xs transition-[color,box-shadow] outline-none has-focus-visible:ring-[3px]">
+                      <FormItem className="border-input has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative flex cursor-pointer flex-row items-center gap-3 rounded-md border px-2 py-3 text-center shadow-xs transition-[color,box-shadow] outline-none has-focus-visible:ring-[3px]">
                         <FormControl>
                           <RadioGroupItem value="HTTP" className="sr-only" />
                         </FormControl>
@@ -143,7 +144,7 @@ export function FormGeneral() {
                           HTTP
                         </FormLabel>
                       </FormItem>
-                      <FormItem className="flex-1 border-input has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative flex cursor-pointer flex-row items-center gap-3 rounded-md border px-2 py-3 text-center shadow-xs transition-[color,box-shadow] outline-none has-focus-visible:ring-[3px]">
+                      <FormItem className="border-input has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative flex cursor-pointer flex-row items-center gap-3 rounded-md border px-2 py-3 text-center shadow-xs transition-[color,box-shadow] outline-none has-focus-visible:ring-[3px]">
                         <FormControl>
                           <RadioGroupItem value="TCP" className="sr-only" />
                         </FormControl>
@@ -163,29 +164,30 @@ export function FormGeneral() {
               )}
             />
           </FormCardContent>
+          {watchType ? <FormCardSeparator /> : null}
           {watchType === "HTTP" && (
-            <FormCardContent className="grid gap-4">
+            <FormCardContent className="grid gap-4 grid-cols-4">
               <FormField
                 control={form.control}
                 name="method"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="col-span-1">
                     <FormLabel>Method</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select a method" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="GET">GET</SelectItem>
-                        <SelectItem value="POST">POST</SelectItem>
-                        <SelectItem value="PUT">PUT</SelectItem>
-                        <SelectItem value="DELETE">DELETE</SelectItem>
-                        <SelectItem value="PATCH">PATCH</SelectItem>
+                        {METHODS.map((method) => (
+                          <SelectItem key={method} value={method}>
+                            {method}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -196,7 +198,7 @@ export function FormGeneral() {
                 control={form.control}
                 name="url"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="col-span-3">
                     <FormLabel>URL</FormLabel>
                     <FormControl>
                       <Input placeholder="https://openstatus.dev" {...field} />
@@ -209,7 +211,7 @@ export function FormGeneral() {
                 control={form.control}
                 name="headers"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="col-span-full">
                     <FormLabel>Request Headers</FormLabel>
                     {field.value.map((header, index) => (
                       <div
@@ -257,6 +259,7 @@ export function FormGeneral() {
                     <div>
                       <Button
                         size="sm"
+                        type="button"
                         onClick={() => {
                           field.onChange([
                             ...field.value,
@@ -264,6 +267,7 @@ export function FormGeneral() {
                           ]);
                         }}
                       >
+                        <Plus />
                         Add Header
                       </Button>
                     </div>
@@ -275,7 +279,7 @@ export function FormGeneral() {
                 control={form.control}
                 name="body"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="col-span-full">
                     <FormLabel>Body</FormLabel>
                     <FormControl>
                       <Textarea {...field} />
@@ -285,7 +289,7 @@ export function FormGeneral() {
                   </FormItem>
                 )}
               />
-              <div className="grid gap-1.5">
+              <div className="grid gap-1.5 col-span-full">
                 <FormLabel>Assertions</FormLabel>
                 <FormDescription>
                   Validate the response to ensure your service is working as
@@ -298,15 +302,15 @@ export function FormGeneral() {
                   .
                 </FormDescription>
                 <div className="flex flex-wrap gap-1.5">
-                  <Button variant="outline">
+                  <Button variant="outline" size="sm" type="button">
                     <Plus />
                     Status assertion
                   </Button>
-                  <Button variant="outline">
+                  <Button variant="outline" size="sm" type="button">
                     <Plus />
                     Header assertion
                   </Button>
-                  <Button variant="outline">
+                  <Button variant="outline" size="sm" type="button">
                     <Plus />
                     Body assertion
                   </Button>
