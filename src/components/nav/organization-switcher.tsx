@@ -24,7 +24,6 @@ export function OrganizationSwitcher({
   orgs: {
     name: string;
     slug: string;
-    logo: React.ElementType;
     plan: string;
   }[];
 }) {
