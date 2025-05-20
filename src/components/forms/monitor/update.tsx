@@ -26,28 +26,14 @@ import {
 import { FormGeneral } from "./form-general";
 import { Input } from "@/components/ui/input";
 import { FormResponseTime } from "./form-response-time";
+import { FormSchedulingRegions } from "./form-scheduling-regions";
 
 export function FormMonitorUpdate() {
   const form = useForm();
   return (
     <FormCardGroup>
       <FormGeneral />
-      <FormCard>
-        <FormCardHeader>
-          <FormCardTitle>Scheduling & Regions</FormCardTitle>
-          <FormCardDescription>
-            Configure the scheduling and regions for your monitor.
-          </FormCardDescription>
-        </FormCardHeader>
-        <FormCardContent>
-          <EmptyStateContainer>
-            <EmptyStateTitle>No scheduling or regions</EmptyStateTitle>
-          </EmptyStateContainer>
-        </FormCardContent>
-        <FormCardFooter>
-          <Button>Submit</Button>
-        </FormCardFooter>
-      </FormCard>
+      <FormSchedulingRegions />
       <FormResponseTime />
       <FormCard>
         <FormCardUpgrade />
