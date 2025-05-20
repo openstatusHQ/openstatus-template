@@ -25,6 +25,7 @@ import {
 } from "../form-card";
 import { Button } from "@/components/ui/button";
 import { DevTool } from "@hookform/devtools";
+import { toast } from "sonner";
 
 const DEGRADED = 30_000;
 const TIMEOUT = 45_000;
@@ -34,8 +35,10 @@ const schema = z.object({
   timeout: z.number(),
 });
 
+type FormValues = z.infer<typeof schema>;
+
 export function FormResponseTime() {
-  const form = useForm<z.infer<typeof schema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
       degraded: DEGRADED,
@@ -44,12 +47,21 @@ export function FormResponseTime() {
   });
   const [isPending, startTransition] = useTransition();
 
-  function submitAction(values: z.infer<typeof schema>) {
+  function submitAction(values: FormValues) {
     if (isPending) return;
 
     startTransition(async () => {
-      console.log(values);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      try {
+        const promise = new Promise((resolve) => setTimeout(resolve, 1000));
+        toast.promise(promise, {
+          loading: "Saving...",
+          success: () => JSON.stringify(values),
+          error: "Failed to save",
+        });
+        await promise;
+      } catch (error) {
+        console.error(error);
+      }
     });
   }
 

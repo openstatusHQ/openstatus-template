@@ -4,13 +4,11 @@ import {
   FormCard,
   FormCardContent,
   FormCardDescription,
-  FormCardFooter,
   FormCardGroup,
   FormCardHeader,
   FormCardSeparator,
   FormCardTitle,
 } from "@/components/forms/form-card";
-import { Button } from "@/components/ui/button";
 import {
   EmptyStateContainer,
   EmptyStateText,
@@ -21,21 +19,7 @@ import { FormGeneral } from "./form-general";
 export function FormMonitorCreate() {
   return (
     <FormCardGroup>
-      <FormCard>
-        <FormCardHeader>
-          <FormCardTitle>General</FormCardTitle>
-          <FormCardDescription>
-            Define your request and assertions. Choose between HTTP or TCP.
-          </FormCardDescription>
-        </FormCardHeader>
-        <FormCardSeparator />
-        <FormCardContent>
-          <FormGeneral />
-        </FormCardContent>
-        <FormCardFooter>
-          <Button>Submit</Button>
-        </FormCardFooter>
-      </FormCard>
+      <FormGeneral />
       <FormCard>
         <FormCardHeader>
           <FormCardTitle>Advanced Settings</FormCardTitle>

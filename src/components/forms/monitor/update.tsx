@@ -31,21 +31,7 @@ export function FormMonitorUpdate() {
   const form = useForm();
   return (
     <FormCardGroup>
-      <FormCard>
-        <FormCardHeader>
-          <FormCardTitle>General</FormCardTitle>
-          <FormCardDescription>
-            Define your request and assertions. Choose between HTTP or TCP.
-          </FormCardDescription>
-        </FormCardHeader>
-        <FormCardSeparator />
-        <FormCardContent>
-          <FormGeneral />
-        </FormCardContent>
-        <FormCardFooter>
-          <Button>Submit</Button>
-        </FormCardFooter>
-      </FormCard>
+      <FormGeneral />
       <FormCard>
         <FormCardHeader>
           <FormCardTitle>Scheduling & Regions</FormCardTitle>
