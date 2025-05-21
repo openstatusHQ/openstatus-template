@@ -147,7 +147,12 @@ export function FormSchedulingRegions({
                       {Object.entries(GROUPED_REGIONS).map(([continent, r]) => {
                         return (
                           <div key={continent} className="space-y-2">
-                            <FormLabel>{continent}</FormLabel>
+                            <FormLabel>
+                              {continent}{" "}
+                              <span className="text-muted-foreground/70 font-mono font-normal text-xs align-baseline">
+                                ({r.length})
+                              </span>
+                            </FormLabel>
                             <div className="grid grid-cols-2 gap-2">
                               {r.map((region) => {
                                 const config = regions.find(
