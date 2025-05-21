@@ -6,6 +6,8 @@ import {
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
+import { DataTable as MembersDataTable } from "@/components/data-table/settings/members/data-table";
+import { DataTable as ApiKeyDataTable } from "@/components/data-table/settings/api-key/data-table";
 import {
   FormCardDescription,
   FormCardFooterInfo,
@@ -21,16 +23,9 @@ import {
 } from "@/components/forms/form-card";
 import { FormWorkspace } from "@/components/forms/settings/form-workspace";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, Ellipsis, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
+import { FormSlug } from "@/components/forms/settings/form-slug";
 
 export default function Page() {
   return (
@@ -44,25 +39,7 @@ export default function Page() {
         </SectionHeader>
         <FormCardGroup>
           <FormWorkspace />
-          <FormCard>
-            <FormCardHeader>
-              <FormCardTitle>Slug</FormCardTitle>
-              <FormCardDescription>
-                The unique slug for your workspace.
-              </FormCardDescription>
-            </FormCardHeader>
-            <FormCardContent>
-              <Button variant="outline" size="sm">
-                easy-peasy
-                <Copy size={16} className="text-muted-foreground" />
-              </Button>
-            </FormCardContent>
-            <FormCardFooter className="[&>:last-child]:ml-0">
-              <FormCardFooterInfo>
-                Used when interacting with the API or for help on Discord.
-              </FormCardFooterInfo>
-            </FormCardFooter>
-          </FormCard>
+          <FormSlug />
           <FormCard>
             <FormCardUpgrade />
             <FormCardHeader>
@@ -78,39 +55,7 @@ export default function Page() {
                   <TabsTrigger value="pending">Pending</TabsTrigger>
                 </TabsList>
                 <TabsContent value="members">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Role</TableHead>
-                        <TableHead>Created</TableHead>
-                        <TableHead>
-                          <span className="sr-only">Actions</span>
-                        </TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>Maximilian Kaske</TableCell>
-                        <TableCell>max@openstatus.dev</TableCell>
-                        <TableCell>Admin</TableCell>
-                        <TableCell>2021-01-01</TableCell>
-                        <TableCell>
-                          <div className="flex justify-end">
-                            <Button
-                              size="icon"
-                              variant="ghost"
-                              className="size-5"
-                              aria-label="Edit member"
-                            >
-                              <Ellipsis size={16} aria-hidden="true" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
+                  <MembersDataTable />
                 </TabsContent>
                 <TabsContent value="pending"></TabsContent>
               </Tabs>
@@ -133,20 +78,7 @@ export default function Page() {
               </FormCardDescription>
             </FormCardHeader>
             <FormCardContent>
-              <Table>
-                <TableBody>
-                  <TableRow className="[&>:not(:last-child)]:border-r">
-                    <TableHead className="bg-muted/50 h-auto">
-                      Created At
-                    </TableHead>
-                    <TableCell>{new Date().toLocaleDateString()}</TableCell>
-                  </TableRow>
-                  <TableRow className="[&>:not(:last-child)]:border-r">
-                    <TableHead className="bg-muted/50 h-auto">Token</TableHead>
-                    <TableCell>os_3ZJh...</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+              <ApiKeyDataTable />
             </FormCardContent>
             <FormCardFooter>
               <FormCardFooterInfo>

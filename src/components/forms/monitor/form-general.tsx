@@ -36,6 +36,7 @@ import {
 import { DevTool } from "@hookform/devtools";
 import { toast } from "sonner";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Link } from "@/components/common/link";
 
 const TYPES = ["HTTP", "TCP"] as const;
 const METHODS = ["GET", "POST", "PUT", "DELETE", "PATCH"] as const;
@@ -158,6 +159,9 @@ export function FormGeneral({ defaultValues }: { defaultValues?: FormValues }) {
                           TCP
                         </FormLabel>
                       </FormItem>
+                      <div className="text-xs text-muted-foreground self-end sm:place-self-end col-span-2">
+                        Missing a type? <Link href="/contact">Contact us</Link>
+                      </div>
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
