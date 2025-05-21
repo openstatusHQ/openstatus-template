@@ -118,33 +118,43 @@ export function FormSchedulingRegions({
             <FormField
               control={form.control}
               name="regions"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel>Regions</FormLabel>
                   <FormControl>
                     <div className="grid grid-cols-2 gap-2">
                       {REGIONS.map((region) => (
-                        <div
+                        <FormField
                           key={region}
-                          className="flex items-center space-x-2"
-                        >
-                          <Checkbox
-                            id={region}
-                            checked={field.value?.includes(region) || false}
-                            onCheckedChange={(checked) => {
-                              if (checked) {
-                                field.onChange([...field.value, region]);
-                              } else {
-                                field.onChange(
-                                  field.value?.filter((r) => r !== region)
-                                );
-                              }
-                            }}
-                          />
-                          <label htmlFor={region} className="text-sm">
-                            {region}
-                          </label>
-                        </div>
+                          control={form.control}
+                          name="regions"
+                          render={({ field }) => (
+                            <FormItem
+                              key={region}
+                              className="flex items-center"
+                            >
+                              <Checkbox
+                                id={region}
+                                checked={field.value?.includes(region) || false}
+                                onCheckedChange={(checked) => {
+                                  if (checked) {
+                                    field.onChange([...field.value, region]);
+                                  } else {
+                                    field.onChange(
+                                      field.value?.filter((r) => r !== region)
+                                    );
+                                  }
+                                }}
+                              />
+                              <FormLabel
+                                htmlFor={region}
+                                className="text-sm font-normal"
+                              >
+                                {region}
+                              </FormLabel>
+                            </FormItem>
+                          )}
+                        />
                       ))}
                     </div>
                   </FormControl>

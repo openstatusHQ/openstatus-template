@@ -13,15 +13,24 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
-import { Form } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { toast } from "sonner";
 import {
   EmptyStateContainer,
   EmptyStateTitle,
 } from "@/components/content/empty-state";
+import { notifiers } from "@/data/notifiers";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const schema = z.object({
-  // Add schema fields when needed
+  notifiers: z.array(z.number()),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -33,11 +42,9 @@ export function FormNotifiers({
 }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues:
-      defaultValues ??
-      {
-        // Add default values when needed
-      },
+    defaultValues: defaultValues ?? {
+      notifiers: [],
+    },
   });
   const [isPending, startTransition] = useTransition();
 
@@ -70,9 +77,63 @@ export function FormNotifiers({
             </FormCardDescription>
           </FormCardHeader>
           <FormCardContent>
-            <EmptyStateContainer>
-              <EmptyStateTitle>No notifiers</EmptyStateTitle>
-            </EmptyStateContainer>
+            {/* NOTE: we want to display the empty state */}
+            {[].length > 0 ? (
+              <FormField
+                control={form.control}
+                name="notifiers"
+                render={() => (
+                  <FormItem>
+                    <FormLabel className="text-base">
+                      List of Notifiers
+                    </FormLabel>
+                    {notifiers.map((item) => (
+                      <FormField
+                        key={item.id}
+                        control={form.control}
+                        name="notifiers"
+                        render={({ field }) => {
+                          return (
+                            <FormItem
+                              key={item.id}
+                              className="flex items-center"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  checked={
+                                    field.value?.includes(item.id) || false
+                                  }
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([
+                                          ...field.value,
+                                          item.id,
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== item.id
+                                          )
+                                        );
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="text-sm font-normal">
+                                {item.name}
+                              </FormLabel>
+                            </FormItem>
+                          );
+                        }}
+                      />
+                    ))}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ) : (
+              <EmptyStateContainer>
+                <EmptyStateTitle>No notifiers</EmptyStateTitle>
+              </EmptyStateContainer>
+            )}
           </FormCardContent>
           <FormCardFooter>
             <Button type="submit" disabled={isPending}>

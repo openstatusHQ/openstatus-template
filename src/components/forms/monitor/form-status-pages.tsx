@@ -29,9 +29,12 @@ import {
   EmptyStateContainer,
   EmptyStateTitle,
 } from "@/components/content/empty-state";
+import { statusPages } from "@/data/status-pages";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const schema = z.object({
   description: z.string().optional(),
+  statusPages: z.array(z.number()),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -45,6 +48,7 @@ export function FormStatusPages({
     resolver: zodResolver(schema),
     defaultValues: defaultValues ?? {
       description: "",
+      statusPages: [],
     },
   });
   const [isPending, startTransition] = useTransition();
@@ -88,7 +92,8 @@ export function FormStatusPages({
                     <Input placeholder="My Status Page" {...field} />
                   </FormControl>
                   <FormDescription>
-                    Provide your users with information about it.
+                    A tooltip with extra information about the monitor will be
+                    displayed.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -97,9 +102,62 @@ export function FormStatusPages({
           </FormCardContent>
           <FormCardSeparator />
           <FormCardContent>
-            <EmptyStateContainer>
-              <EmptyStateTitle>No status pages</EmptyStateTitle>
-            </EmptyStateContainer>
+            {statusPages.length > 0 ? (
+              <FormField
+                control={form.control}
+                name="statusPages"
+                render={() => (
+                  <FormItem>
+                    <FormLabel className="text-base">
+                      List of Status Pages
+                    </FormLabel>
+                    {statusPages.map((item) => (
+                      <FormField
+                        key={item.id}
+                        control={form.control}
+                        name="statusPages"
+                        render={({ field }) => {
+                          return (
+                            <FormItem
+                              key={item.id}
+                              className="flex items-center"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  checked={
+                                    field.value?.includes(item.id) || false
+                                  }
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([
+                                          ...field.value,
+                                          item.id,
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== item.id
+                                          )
+                                        );
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="text-sm font-normal">
+                                {item.name}
+                              </FormLabel>
+                            </FormItem>
+                          );
+                        }}
+                      />
+                    ))}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ) : (
+              <EmptyStateContainer>
+                <EmptyStateTitle>No status pages</EmptyStateTitle>
+              </EmptyStateContainer>
+            )}
           </FormCardContent>
           <FormCardFooter>
             <Button type="submit" disabled={isPending}>
