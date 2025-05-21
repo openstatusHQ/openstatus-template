@@ -35,7 +35,7 @@ export function NavUser({
     avatar: string;
   };
 }) {
-  const { isMobile } = useSidebar();
+  const { isMobile, setOpenMobile } = useSidebar();
 
   return (
     <SidebarMenu>
@@ -87,13 +87,19 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <Link href="/dashboard/settings/account">
+                <Link
+                  href="/dashboard/settings/account"
+                  onClick={() => setOpenMobile(false)}
+                >
                   <User />
                   Account
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/dashboard/settings/billing">
+                <Link
+                  href="/dashboard/settings/billing"
+                  onClick={() => setOpenMobile(false)}
+                >
                   <CreditCard />
                   Billing
                 </Link>

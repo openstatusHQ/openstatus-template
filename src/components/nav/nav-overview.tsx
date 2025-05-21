@@ -24,7 +24,7 @@ export function NavOverview({
   }[];
 }) {
   const pathname = usePathname();
-  const { state } = useSidebar();
+  const { state, setOpenMobile } = useSidebar();
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Workspace</SidebarGroupLabel>
@@ -41,7 +41,7 @@ export function NavOverview({
                 asChild
                 tooltip={item.name}
               >
-                <Link href={item.url}>
+                <Link href={item.url} onClick={() => setOpenMobile(false)}>
                   <item.icon />
                   <span>{item.name}</span>
                 </Link>

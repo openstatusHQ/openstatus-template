@@ -31,7 +31,7 @@ export function NavStatusPages({
     url: string;
   }[];
 }) {
-  const { isMobile } = useSidebar();
+  const { isMobile, setOpenMobile } = useSidebar();
   const router = useRouter();
   const pathname = usePathname();
   const actions = getActions({
@@ -76,7 +76,7 @@ export function NavStatusPages({
           return (
             <SidebarMenuItem key={item.name}>
               <SidebarMenuButton asChild>
-                <Link href={item.url}>
+                <Link href={item.url} onClick={() => setOpenMobile(false)}>
                   <span>{item.name}</span>
                 </Link>
               </SidebarMenuButton>

@@ -68,7 +68,7 @@ export function NavMonitors({
     url: string;
   }[];
 }) {
-  const { isMobile } = useSidebar();
+  const { isMobile, setOpenMobile } = useSidebar();
   const [filter, setFilter] = React.useState<Filter>({
     keywords: undefined,
     tags: [],
@@ -387,7 +387,7 @@ export function NavMonitors({
           return (
             <SidebarMenuItem key={item.name}>
               <SidebarMenuButton asChild>
-                <Link href={item.url}>
+                <Link href={item.url} onClick={() => setOpenMobile(false)}>
                   <span>{item.name}</span>
                 </Link>
               </SidebarMenuButton>
