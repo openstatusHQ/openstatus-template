@@ -61,7 +61,7 @@ export function FormSchedulingRegions({
   });
   const [isPending, startTransition] = useTransition();
   const watchPeriodicity = form.watch("periodicity");
-
+  const watchRegions = form.watch("regions");
   function submitAction(values: FormValues) {
     if (isPending) return;
 
@@ -145,14 +145,50 @@ export function FormSchedulingRegions({
                   <FormControl>
                     <div className="grid gap-4">
                       {Object.entries(GROUPED_REGIONS).map(([continent, r]) => {
+                        const isAllSelected = r.every((region) =>
+                          watchRegions?.includes(region)
+                        );
                         return (
                           <div key={continent} className="space-y-2">
-                            <FormLabel>
-                              {continent}{" "}
-                              <span className="text-muted-foreground/70 font-mono font-normal text-xs align-baseline">
-                                ({r.length})
-                              </span>
-                            </FormLabel>
+                            <div className="flex items-center justify-between">
+                              <FormLabel>
+                                {continent}{" "}
+                                <span className="text-muted-foreground/70 font-mono font-normal text-xs align-baseline">
+                                  ({r.length})
+                                </span>
+                              </FormLabel>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                type="button"
+                                className={cn(
+                                  isAllSelected && "text-muted-foreground"
+                                )}
+                                onClick={() => {
+                                  if (!isAllSelected) {
+                                    // Add all regions from this continent
+                                    const newRegions = [...watchRegions];
+                                    r.forEach((region) => {
+                                      if (!newRegions.includes(region)) {
+                                        newRegions.push(region);
+                                      }
+                                    });
+                                    form.setValue("regions", newRegions);
+                                  } else {
+                                    // Remove all regions from this continent
+                                    form.setValue(
+                                      "regions",
+                                      watchRegions?.filter(
+                                        (region) =>
+                                          !r.includes(region as Region)
+                                      )
+                                    );
+                                  }
+                                }}
+                              >
+                                Select all
+                              </Button>
+                            </div>
                             <div className="grid grid-cols-2 gap-2">
                               {r.map((region) => {
                                 const config = regions.find(
