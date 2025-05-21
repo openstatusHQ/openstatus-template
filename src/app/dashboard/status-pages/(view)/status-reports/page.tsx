@@ -24,10 +24,12 @@ export default function Page() {
               See our uptime history and status reports.
             </SectionDescription>
           </SectionHeader>
-          <Button data-section="action" size="sm" variant="ghost">
-            <Plus />
-            Create Status Report
-          </Button>
+          <div>
+            <Button data-section="action" size="sm" variant="ghost">
+              <Plus />
+              Create Status Report
+            </Button>
+          </div>
         </SectionHeaderRow>
         <DataTable
           columns={columns}

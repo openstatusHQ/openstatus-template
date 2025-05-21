@@ -23,10 +23,12 @@ export default function Page() {
               See our maintenances and scheduled downtimes.
             </SectionDescription>
           </SectionHeader>
-          <Button data-section="action" size="sm" variant="ghost">
-            <Plus />
-            Create Maintenance
-          </Button>
+          <div>
+            <Button data-section="action" size="sm" variant="ghost">
+              <Plus />
+              Create Maintenance
+            </Button>
+          </div>
         </SectionHeaderRow>
         <DataTable columns={columns} data={maintenances} />
       </Section>

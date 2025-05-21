@@ -32,7 +32,7 @@ export function SectionHeaderRow({
   return (
     <div
       className={cn(
-        "flex flex-row gap-1.5 items-end justify-between",
+        "flex flex-col sm:flex-row gap-1.5 sm:items-end sm:justify-between",
         className
       )}
       {...props}
