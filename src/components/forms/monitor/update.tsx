@@ -8,6 +8,7 @@ import { FormOtel } from "./form-otel";
 import { FormStatusPages } from "./form-status-pages";
 import { FormNotifiers } from "./form-notifiers";
 import { FormDangerZone } from "./form-danger-zone";
+import { FormVisibility } from "./form-visibility";
 
 export function FormMonitorUpdate() {
   return (
@@ -15,9 +16,10 @@ export function FormMonitorUpdate() {
       <FormGeneral />
       <FormSchedulingRegions />
       <FormResponseTime />
-      <FormOtel />
       <FormStatusPages />
       <FormNotifiers />
+      <FormOtel />
+      <FormVisibility />
       <FormDangerZone />
     </FormCardGroup>
   );
