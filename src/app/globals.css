@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 
 /* safelist */
-/* @source inline("-left-9"); */
+@source inline("has-data-[slot=slider-range]:bg-red-500");
 
 @custom-variant dark (&:is(.dark *));
 

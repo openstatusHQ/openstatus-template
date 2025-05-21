@@ -17,10 +17,9 @@ import {
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
-import { FormCardGroup } from "@/components/forms/form-card";
-import { FormCard } from "@/components/forms/form-card";
-import { FormCardContent } from "@/components/forms/form-card";
-import { NotifierForm } from "@/components/forms/notifier/form";
+import { FormCard, FormCardContent } from "@/components/forms/form-card";
+import { FormSlack } from "@/components/forms/notifier/form-slack";
+import { FormDiscord } from "@/components/forms/notifier/form-discord";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -31,6 +30,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { FormSms } from "@/components/forms/notifier/form-sms";
+import { FormEmail } from "@/components/forms/notifier/form-email";
+import { FormWebhook } from "@/components/forms/notifier/form-webhook";
 
 export default function Page() {
   return (
@@ -57,7 +59,7 @@ export default function Page() {
             "Email",
             "SMS",
             "Discord",
-            "Telegram",
+            // "Telegram",
             "Webhook",
             "OpsGenie",
             "PagerDuty",
@@ -84,13 +86,15 @@ export default function Page() {
                     you&apos;re done.
                   </SheetDescription>
                 </SheetHeader>
-                <FormCardGroup>
-                  <FormCard className="border-none">
-                    <FormCardContent>
-                      <NotifierForm />
-                    </FormCardContent>
-                  </FormCard>
-                </FormCardGroup>
+                <FormCard className="border-none">
+                  <FormCardContent>
+                    {notifier === "Slack" && <FormSlack />}
+                    {notifier === "Discord" && <FormDiscord />}
+                    {notifier === "Email" && <FormEmail />}
+                    {notifier === "SMS" && <FormSms />}
+                    {notifier === "Webhook" && <FormWebhook />}
+                  </FormCardContent>
+                </FormCard>
                 <SheetFooter className="border-t">
                   <Button type="submit" form="notifier-form">
                     Save changes

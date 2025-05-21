@@ -1,6 +1,6 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
+import {} from "@/components/ui/checkbox";
 import {
   FormControl,
   FormDescription,
@@ -17,25 +17,22 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { Label } from "@/components/ui/label";
-import { monitors } from "@/data/monitors";
+import { Link } from "@/components/common/link";
 
 const schema = z.object({
   name: z.string(),
+  provider: z.literal("slack"),
   webhookUrl: z.string(),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-export function NotifierForm({
-  defaultValues,
-}: {
-  defaultValues?: FormValues;
-}) {
+export function FormSlack({ defaultValues }: { defaultValues?: FormValues }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues ?? {
       name: "",
+      provider: "slack",
       webhookUrl: "",
     },
   });
@@ -92,27 +89,13 @@ export function NotifierForm({
                 <Input placeholder="https://example.com/webhook" {...field} />
               </FormControl>
               <FormMessage />
+              <FormDescription>
+                Enter the webhook URL to your Slack channel.{" "}
+                <Link href="#">Read more</Link>.
+              </FormDescription>
             </FormItem>
           )}
         />
-        <div className="grid gap-1.5">
-          <Label>Monitors</Label>
-          <FormDescription>
-            Select the monitors you want to notify.
-          </FormDescription>
-          <div className="grid gap-3">
-            <div className="flex items-center gap-2">
-              <Checkbox id="all" />
-              <Label htmlFor="all">Select all</Label>
-            </div>
-            {monitors.map((item) => (
-              <div key={item.id} className="flex items-center gap-2">
-                <Checkbox id={item.id} />
-                <Label htmlFor={item.id}>{item.name}</Label>
-              </div>
-            ))}
-          </div>
-        </div>
       </form>
     </Form>
   );

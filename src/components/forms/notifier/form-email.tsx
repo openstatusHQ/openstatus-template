@@ -1,6 +1,6 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
+import {} from "@/components/ui/checkbox";
 import {
   FormControl,
   FormDescription,
@@ -17,26 +17,22 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { Label } from "@/components/ui/label";
-import { monitors } from "@/data/monitors";
 
 const schema = z.object({
   name: z.string(),
-  webhookUrl: z.string(),
+  provider: z.literal("email"),
+  email: z.string(),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-export function NotifierForm({
-  defaultValues,
-}: {
-  defaultValues?: FormValues;
-}) {
+export function FormEmail({ defaultValues }: { defaultValues?: FormValues }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues ?? {
       name: "",
-      webhookUrl: "",
+      provider: "email",
+      email: "",
     },
   });
   const [isPending, startTransition] = useTransition();
@@ -84,35 +80,24 @@ export function NotifierForm({
         />
         <FormField
           control={form.control}
-          name="webhookUrl"
+          name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Webhook URL</FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="https://example.com/webhook" {...field} />
+                <Input
+                  placeholder="max@openstatus.dev"
+                  type="email"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
+              <FormDescription>
+                Enter the email address to send notifications to.
+              </FormDescription>
             </FormItem>
           )}
         />
-        <div className="grid gap-1.5">
-          <Label>Monitors</Label>
-          <FormDescription>
-            Select the monitors you want to notify.
-          </FormDescription>
-          <div className="grid gap-3">
-            <div className="flex items-center gap-2">
-              <Checkbox id="all" />
-              <Label htmlFor="all">Select all</Label>
-            </div>
-            {monitors.map((item) => (
-              <div key={item.id} className="flex items-center gap-2">
-                <Checkbox id={item.id} />
-                <Label htmlFor={item.id}>{item.name}</Label>
-              </div>
-            ))}
-          </div>
-        </div>
       </form>
     </Form>
   );
