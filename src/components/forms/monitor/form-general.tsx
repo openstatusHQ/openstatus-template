@@ -32,7 +32,7 @@ import {
   FormCardHeader,
   FormCardSeparator,
   FormCardTitle,
-} from "../form-card";
+} from "@/components/forms/form-card";
 import { DevTool } from "@hookform/devtools";
 import { toast } from "sonner";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";

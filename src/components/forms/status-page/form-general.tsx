@@ -23,7 +23,7 @@ import {
   FormCardHeader,
   FormCardSeparator,
   FormCardTitle,
-} from "../form-card";
+} from "@/components/forms/form-card";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { useTransition } from "react";

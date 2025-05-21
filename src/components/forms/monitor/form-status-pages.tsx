@@ -1,20 +1,6 @@
 "use client";
 
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-
-import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
+import { Button } from "@/components/ui/button";
 import {
   FormCard,
   FormCardContent,
@@ -22,27 +8,39 @@ import {
   FormCardFooter,
   FormCardHeader,
   FormCardTitle,
+  FormCardSeparator,
 } from "@/components/forms/form-card";
-import { Button } from "@/components/ui/button";
-import { DevTool } from "@hookform/devtools";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-
-const DEGRADED = 30_000;
-const TIMEOUT = 45_000;
+import {
+  EmptyStateContainer,
+  EmptyStateTitle,
+} from "@/components/content/empty-state";
 
 const schema = z.object({
-  degraded: z.number(),
-  timeout: z.number(),
+  description: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-export function FormResponseTime() {
+export function FormStatusPages() {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      degraded: DEGRADED,
-      timeout: TIMEOUT,
+      description: "",
     },
   });
   const [isPending, startTransition] = useTransition();
@@ -70,44 +68,34 @@ export function FormResponseTime() {
       <form onSubmit={form.handleSubmit(submitAction)}>
         <FormCard>
           <FormCardHeader>
-            <FormCardTitle>Response Time Thresholds</FormCardTitle>
+            <FormCardTitle>Status Pages</FormCardTitle>
             <FormCardDescription>
-              Configure your degraded and timeout thresholds.
+              Add status pages to your monitor.
             </FormCardDescription>
           </FormCardHeader>
-          <FormCardContent className="grid gap-4">
+          <FormCardContent>
             <FormField
               control={form.control}
-              name="degraded"
+              name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Degraded (in ms.)</FormLabel>
+                  <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Input placeholder="30000" type="number" {...field} />
+                    <Input placeholder="My Status Page" {...field} />
                   </FormControl>
                   <FormDescription>
-                    Time after which the endpoint is considered degraded.
+                    Provide your users with information about it.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="timeout"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Timeout (in ms.)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="45000" type="number" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Max. time allowed for request to complete.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          </FormCardContent>
+          <FormCardSeparator />
+          <FormCardContent>
+            <EmptyStateContainer>
+              <EmptyStateTitle>No status pages</EmptyStateTitle>
+            </EmptyStateContainer>
           </FormCardContent>
           <FormCardFooter>
             <Button type="submit" disabled={isPending}>
@@ -116,7 +104,6 @@ export function FormResponseTime() {
           </FormCardFooter>
         </FormCard>
       </form>
-      <DevTool control={form.control} />
     </Form>
   );
 }

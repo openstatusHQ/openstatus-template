@@ -8,7 +8,7 @@ import {
   FormCardFooter,
   FormCardHeader,
   FormCardTitle,
-} from "../form-card";
+} from "@/components/forms/form-card";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
