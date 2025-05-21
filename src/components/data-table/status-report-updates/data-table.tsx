@@ -22,33 +22,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  FormCard,
-  FormCardContent,
-  FormCardGroup,
-  FormCardSeparator,
-} from "@/components/forms/form-card";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar";
-import { TabsContent } from "@/components/ui/tabs";
-import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tabs } from "@/components/ui/tabs";
+import { FormCard, FormCardGroup } from "@/components/forms/form-card";
 import { Plus } from "lucide-react";
-
+import { FormStatusReportUpdate } from "@/components/forms/status-report-update/form";
+import { useState } from "react";
 const colors = {
   operational: "text-green-500/80",
   investigating: "text-red-500/80",
 };
 
 export function DataTable() {
+  const [open, setOpen] = useState(false);
   return (
     <Table className="w-full">
       <TableHeader>
@@ -68,10 +52,9 @@ export function DataTable() {
       </TableHeader>
       <TableBody>
         {statusReports[0].updates.map((update) => {
-          console.log(update);
           const Icon = icons.status[update.status];
           return (
-            <Sheet key={update.id}>
+            <Sheet key={update.id} open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <TableRow>
                   <TableCell>
@@ -99,59 +82,7 @@ export function DataTable() {
                 </SheetHeader>
                 <FormCardGroup>
                   <FormCard className="border-none">
-                    <FormCardContent>
-                      <div className="grid gap-1.5">
-                        <Label>Status</Label>
-                        <Select defaultValue={update.status}>
-                          <SelectTrigger
-                            className={cn(colors[update.status], "font-mono")}
-                          >
-                            <SelectValue placeholder="Select a status" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="operational">
-                              Operational
-                            </SelectItem>
-                            <SelectItem value="investigating">
-                              Investigating
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </FormCardContent>
-                    <FormCardSeparator />
-                    <FormCardContent>
-                      <div className="grid gap-1.5">
-                        <Label>Date</Label>
-                        <Calendar />
-                      </div>
-                    </FormCardContent>
-                    <FormCardSeparator />
-                    <FormCardContent>
-                      <Tabs defaultValue="tab-1">
-                        <TabsList>
-                          <TabsTrigger value="tab-1">Writing</TabsTrigger>
-                          <TabsTrigger value="tab-2">Preview</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="tab-1">
-                          <div className="grid gap-1.5">
-                            <Label>Message</Label>
-                            <Textarea rows={6} defaultValue={update.message} />
-                            <p className="text-muted-foreground text-sm">
-                              Markdown support
-                            </p>
-                          </div>
-                        </TabsContent>
-                        <TabsContent value="tab-2">
-                          <div className="grid gap-1.5">
-                            <Label>Preview</Label>
-                            <p className="text-foreground py-2 px-3 text-sm border rounded-md">
-                              {update.message}
-                            </p>
-                          </div>
-                        </TabsContent>
-                      </Tabs>
-                    </FormCardContent>
+                    <FormStatusReportUpdate onSubmit={() => setOpen(false)} />
                   </FormCard>
                 </FormCardGroup>
                 <SheetFooter className="border-t">
@@ -159,7 +90,9 @@ export function DataTable() {
                     Last Updated{" "}
                     <time>{update.updatedAt.toLocaleString()}</time>
                   </p>
-                  <Button>Submit</Button>
+                  <Button type="submit" form="status-report-update-form">
+                    Submit
+                  </Button>
                 </SheetFooter>
               </SheetContent>
             </Sheet>
