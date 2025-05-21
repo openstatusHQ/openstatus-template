@@ -19,9 +19,8 @@ import {
   FormCardContent,
   FormCardFooter,
 } from "@/components/forms/form-card";
+import { FormWorkspace } from "@/components/forms/settings/form-workspace";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Table,
   TableBody,
@@ -44,23 +43,7 @@ export default function Page() {
           </SectionDescription>
         </SectionHeader>
         <FormCardGroup>
-          <FormCard>
-            <FormCardHeader>
-              <FormCardTitle>Workspace</FormCardTitle>
-              <FormCardDescription>
-                Manage your organization name.
-              </FormCardDescription>
-            </FormCardHeader>
-            <FormCardContent>
-              <div className="grid gap-1.5">
-                <Label>Name</Label>
-                <Input />
-              </div>
-            </FormCardContent>
-            <FormCardFooter>
-              <Button size="sm">Submit</Button>
-            </FormCardFooter>
-          </FormCard>
+          <FormWorkspace />
           <FormCard>
             <FormCardHeader>
               <FormCardTitle>Slug</FormCardTitle>
