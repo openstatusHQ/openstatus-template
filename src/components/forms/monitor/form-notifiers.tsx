@@ -26,12 +26,18 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export function FormNotifiers() {
+export function FormNotifiers({
+  defaultValues,
+}: {
+  defaultValues?: FormValues;
+}) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      // Add default values when needed
-    },
+    defaultValues:
+      defaultValues ??
+      {
+        // Add default values when needed
+      },
   });
   const [isPending, startTransition] = useTransition();
 

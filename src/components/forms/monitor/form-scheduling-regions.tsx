@@ -35,10 +35,14 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export function FormSchedulingRegions() {
+export function FormSchedulingRegions({
+  defaultValues,
+}: {
+  defaultValues?: FormValues;
+}) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       regions: REGIONS,
       periodicity: "10m",
     },

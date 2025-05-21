@@ -38,10 +38,10 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export function FormGeneral() {
+export function FormGeneral({ defaultValues }: { defaultValues?: FormValues }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       title: "",
       slug: "",
       favicon: undefined,

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 interface FormAlertDialogProps {
   title: string;
@@ -35,8 +36,14 @@ export function FormAlertDialog({
   const handleDelete = async () => {
     try {
       startTransition(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const promise = new Promise((resolve) => setTimeout(resolve, 1000));
         await submitAction?.();
+        toast.promise(promise, {
+          loading: "Deleting...",
+          success: "Deleted",
+          error: "Failed to delete",
+        });
+        await promise;
         setOpen(false);
       });
     } catch (error) {

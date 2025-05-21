@@ -26,7 +26,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Lock } from "lucide-react";
-import Link from "next/link";
+import NextLink from "next/link";
+import { Link } from "@/components/common/link";
 
 const LOCKED = true;
 
@@ -99,10 +100,10 @@ export function FormOtel() {
             </FormCardFooterInfo>
             {LOCKED ? (
               <Button asChild>
-                <Link href="/dashboard/settings/billing">
+                <NextLink href="/dashboard/settings/billing">
                   <Lock className="size-4" />
                   Upgrade
-                </Link>
+                </NextLink>
               </Button>
             ) : (
               <Button type="submit" disabled={isPending}>
