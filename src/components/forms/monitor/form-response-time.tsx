@@ -79,12 +79,12 @@ export function FormResponseTime({
               Configure your degraded and timeout thresholds.
             </FormCardDescription>
           </FormCardHeader>
-          <FormCardContent className="grid gap-4">
+          <FormCardContent className="grid sm:grid-cols-2 gap-4">
             <FormField
               control={form.control}
               name="degraded"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="self-start">
                   <FormLabel>Degraded (in ms.)</FormLabel>
                   <FormControl>
                     <Input placeholder="30000" type="number" {...field} />
@@ -100,7 +100,7 @@ export function FormResponseTime({
               control={form.control}
               name="timeout"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="self-start">
                   <FormLabel>Timeout (in ms.)</FormLabel>
                   <FormControl>
                     <Input placeholder="45000" type="number" {...field} />
