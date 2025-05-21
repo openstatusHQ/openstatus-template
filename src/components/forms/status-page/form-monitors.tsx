@@ -63,6 +63,7 @@ import { Link } from "@/components/common/link";
 // TODO: add type selection + reordering
 
 const IDS = monitors.slice(0, 3).map((monitor) => monitor.id);
+const DISABLED_TYPES = ["none"];
 
 const schema = z.object({
   monitors: z.array(
@@ -152,7 +153,7 @@ export function FormMonitors({
               name="monitors"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Monitors</FormLabel>
+                  <FormLabel className="sr-only">Monitors</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -267,6 +268,18 @@ export function FormMonitors({
   );
 }
 
+const types = {
+  all: {
+    label: "Show all uptime",
+  },
+  hide: {
+    label: "Hide values",
+  },
+  none: {
+    label: "Only status reports",
+  },
+};
+
 interface MonitorRowProps
   extends Omit<React.ComponentPropsWithoutRef<typeof SortableItem>, "value"> {
   monitor: Monitor;
@@ -292,13 +305,22 @@ function MonitorRow({ monitor, ...props }: MonitorRowProps) {
         </div>
         <div>
           <Select>
-            <SelectTrigger className="h-7 w-full">
+            <SelectTrigger className="h-7 w-full shadow-none">
               <SelectValue placeholder="Select type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Show all uptime</SelectItem>
-              <SelectItem value="hide">Hide values</SelectItem>
-              <SelectItem value="none">Only status reports</SelectItem>
+              {Object.entries(types).map(([key, value]) => (
+                <SelectItem
+                  key={key}
+                  value={key}
+                  disabled={DISABLED_TYPES.includes(key)}
+                >
+                  {value.label}{" "}
+                  {DISABLED_TYPES.includes(key) && (
+                    <span className="text-xs text-foreground">(Upgrade)</span>
+                  )}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
