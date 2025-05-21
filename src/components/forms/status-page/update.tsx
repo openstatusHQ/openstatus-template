@@ -28,8 +28,8 @@ export function FormStatusPageUpdate() {
   const form = useForm();
   return (
     <FormCardGroup>
-      <FormGeneral />
       <FormMonitors />
+      <FormGeneral />
       <FormCustomDomain />
       <FormCard>
         <FormCardUpgrade />

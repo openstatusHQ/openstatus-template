@@ -6,16 +6,19 @@ import {
   FormCardContent,
   FormCardDescription,
   FormCardFooter,
+  FormCardFooterInfo,
   FormCardHeader,
+  FormCardSeparator,
   FormCardTitle,
 } from "@/components/forms/form-card";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,11 +29,49 @@ import {
   EmptyStateContainer,
   EmptyStateTitle,
 } from "@/components/content/empty-state";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Monitor } from "@/data/monitors";
+import { PopoverContent } from "@/components/ui/popover";
+import { Popover, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { Check, ChevronsUpDown, GripVertical } from "lucide-react";
+import { UniqueIdentifier } from "@dnd-kit/core";
+import {
+  Sortable,
+  SortableContent,
+  SortableItem,
+  SortableItemHandle,
+  SortableOverlay,
+} from "@/components/ui/sortable";
 import { monitors } from "@/data/monitors";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Link } from "@/components/common/link";
+
+// TODO: add type selection + reordering
+
+const IDS = monitors.slice(0, 3).map((monitor) => monitor.id);
 
 const schema = z.object({
-  monitors: z.array(z.number()),
+  monitors: z.array(
+    z.object({
+      id: z.number(),
+      order: z.number(),
+      type: z.enum(["all", "hide", "none"]),
+    })
+  ),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -43,10 +84,39 @@ export function FormMonitors({
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues ?? {
-      monitors: [],
+      monitors: IDS.map((id, index) => ({ id, order: index, type: "all" })),
     },
   });
+  const watchMonitors = form.watch("monitors");
   const [isPending, startTransition] = useTransition();
+  const [data, setData] = useState<Monitor[]>(
+    monitors.filter((monitor) => IDS.includes(monitor.id))
+  );
+
+  useEffect(() => {
+    setData(
+      monitors.filter((monitor) =>
+        watchMonitors.some((m) => m.id === monitor.id)
+      )
+    );
+  }, [watchMonitors]);
+
+  const onValueChange = useCallback((newMonitors: Monitor[]) => {
+    setData(newMonitors);
+  }, []);
+
+  const getItemValue = useCallback((item: Monitor) => item.id, []);
+
+  const renderOverlay = useCallback(
+    ({ value }: { value: UniqueIdentifier }) => {
+      const monitor = data.find((monitor) => monitor.id === value);
+      if (!monitor) return null;
+
+      return <MonitorRow monitor={monitor} form={form} />;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data]
+  );
 
   function submitAction(values: FormValues) {
     if (isPending) return;
@@ -77,67 +147,116 @@ export function FormMonitors({
             </FormCardDescription>
           </FormCardHeader>
           <FormCardContent>
-            {monitors.length > 0 ? (
-              <FormField
-                control={form.control}
-                name="monitors"
-                render={() => (
-                  <FormItem>
-                    <FormLabel className="text-base">
-                      List of Monitors
-                    </FormLabel>
-                    {monitors.map((item) => (
-                      <FormField
-                        key={item.id}
-                        control={form.control}
-                        name="monitors"
-                        render={({ field }) => {
-                          return (
-                            <FormItem
-                              key={item.id}
-                              className="flex items-center"
-                            >
-                              <FormControl>
-                                <Checkbox
-                                  checked={
-                                    field.value?.includes(item.id) || false
+            <FormField
+              control={form.control}
+              name="monitors"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Monitors</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "w-[200px] justify-between",
+                            !field.value && "text-muted-foreground"
+                          )}
+                          size="sm"
+                        >
+                          {field.value.length > 0
+                            ? `${field.value.length} monitors selected`
+                            : "Select monitors"}
+                          <ChevronsUpDown className="opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput
+                          placeholder="Search monitors..."
+                          className="h-9"
+                        />
+                        <CommandList>
+                          <CommandEmpty>No monitors found.</CommandEmpty>
+                          <CommandGroup>
+                            {monitors.map((monitor) => (
+                              <CommandItem
+                                value={monitor.name}
+                                key={monitor.id}
+                                onSelect={() => {
+                                  if (
+                                    field.value.some((m) => m.id === monitor.id)
+                                  ) {
+                                    form.setValue(
+                                      "monitors",
+                                      field.value.filter(
+                                        (m) => m.id !== monitor.id
+                                      )
+                                    );
+                                  } else {
+                                    form.setValue("monitors", [
+                                      ...field.value,
+                                      { id: monitor.id, order: 0, type: "all" },
+                                    ]);
                                   }
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([
-                                          ...field.value,
-                                          item.id,
-                                        ])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== item.id
-                                          )
-                                        );
-                                  }}
+                                }}
+                              >
+                                {monitor.name}
+                                <Check
+                                  className={cn(
+                                    "ml-auto",
+                                    field.value.some((m) => m.id === monitor.id)
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
                                 />
-                              </FormControl>
-                              <FormLabel className="text-sm font-normal">
-                                {item.name}
-                                <span className="text-xs text-muted-foreground font-mono">
-                                  {item.url}
-                                </span>
-                              </FormLabel>
-                            </FormItem>
-                          );
-                        }}
-                      />
-                    ))}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <FormDescription>
+                    Select the monitors you want to display on your status page.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </FormCardContent>
+          <FormCardSeparator />
+          <FormCardContent>
+            {data.length ? (
+              <Sortable
+                value={data}
+                onValueChange={onValueChange}
+                getItemValue={getItemValue}
+                orientation="vertical"
+              >
+                <SortableContent className="grid gap-2">
+                  {data.map((monitor) => (
+                    <MonitorRow
+                      key={monitor.id}
+                      monitor={monitor}
+                      form={form}
+                    />
+                  ))}
+                  <SortableOverlay>{renderOverlay}</SortableOverlay>
+                </SortableContent>
+              </Sortable>
             ) : (
               <EmptyStateContainer>
-                <EmptyStateTitle>No monitors</EmptyStateTitle>
+                <EmptyStateTitle>No monitors selected</EmptyStateTitle>
               </EmptyStateContainer>
             )}
           </FormCardContent>
           <FormCardFooter>
+            <FormCardFooterInfo>
+              Learn more about monitor <Link href="#">display options</Link>.
+            </FormCardFooterInfo>
             <Button type="submit" disabled={isPending}>
               {isPending ? "Submitting..." : "Submit"}
             </Button>
@@ -145,5 +264,45 @@ export function FormMonitors({
         </FormCard>
       </form>
     </Form>
+  );
+}
+
+interface MonitorRowProps
+  extends Omit<React.ComponentPropsWithoutRef<typeof SortableItem>, "value"> {
+  monitor: Monitor;
+  form: UseFormReturn<FormValues>;
+}
+
+function MonitorRow({ monitor, ...props }: MonitorRowProps) {
+  return (
+    <SortableItem value={monitor.id} asChild {...props}>
+      <div className="grid grid-cols-3 gap-2">
+        <div className="flex flex-row items-center gap-4 self-center">
+          <SortableItemHandle>
+            <GripVertical
+              size={16}
+              aria-hidden="true"
+              className="text-muted-foreground"
+            />
+          </SortableItemHandle>
+          <span className="truncate text-sm">{monitor.name}</span>
+        </div>
+        <div className="truncate self-center text-sm text-muted-foreground">
+          {monitor.url}
+        </div>
+        <div>
+          <Select>
+            <SelectTrigger className="h-7 w-full">
+              <SelectValue placeholder="Select type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Show all uptime</SelectItem>
+              <SelectItem value="hide">Hide values</SelectItem>
+              <SelectItem value="none">Only status reports</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+    </SortableItem>
   );
 }
