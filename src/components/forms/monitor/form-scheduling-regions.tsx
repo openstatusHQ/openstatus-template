@@ -20,6 +20,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -28,7 +29,7 @@ import { cn } from "@/lib/utils";
 import { type Region, regions } from "@/data/regions";
 
 const REGIONS = ["ams", "fra", "iad", "syd", "jnb", "gru"] satisfies Region[];
-const PERIODICITY = ["30sec", "1m", "5m", "10m", "30m", "1h"] as const;
+const PERIODICITY = ["30s", "1m", "5m", "10m", "30m", "1h"] as const;
 
 const GROUPED_REGIONS = regions.reduce((acc, region) => {
   const continent = region.continent;
@@ -59,6 +60,7 @@ export function FormSchedulingRegions({
     },
   });
   const [isPending, startTransition] = useTransition();
+  const watchPeriodicity = form.watch("periodicity");
 
   function submitAction(values: FormValues) {
     if (isPending) return;
@@ -104,6 +106,11 @@ export function FormSchedulingRegions({
                         onValueChange={(value) => {
                           field.onChange(PERIODICITY[value[0]]);
                         }}
+                        className={cn(
+                          // NOTE: used for disabled steps
+                          ["30s", "1m", "5m"].includes(watchPeriodicity) &&
+                            "[&_[data-slot=slider-range]]:bg-destructive"
+                        )}
                       />
                       <span
                         className="text-muted-foreground mt-3 flex w-full items-center justify-between gap-1 px-2.5 text-xs font-medium"
@@ -123,6 +130,7 @@ export function FormSchedulingRegions({
                       </span>
                     </div>
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
