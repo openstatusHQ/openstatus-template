@@ -107,8 +107,8 @@ export function NotifierForm({
             </div>
             {monitors.map((item) => (
               <div key={item.id} className="flex items-center gap-2">
-                <Checkbox id={item.id} />
-                <Label htmlFor={item.id}>{item.name}</Label>
+                <Checkbox id={String(item.id)} />
+                <Label htmlFor={String(item.id)}>{item.name}</Label>
               </div>
             ))}
           </div>
