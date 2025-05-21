@@ -7,6 +7,7 @@ import {
   FormCardDescription,
   FormCardFooter,
   FormCardHeader,
+  FormCardSeparator,
   FormCardTitle,
 } from "@/components/forms/form-card";
 import { useForm } from "react-hook-form";
@@ -24,9 +25,19 @@ import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import { type Region, regions } from "@/data/regions";
 
-const REGIONS = ["ams", "fra", "lon", "nyc", "sfo", "sgp", "tor"];
+const REGIONS = ["ams", "fra", "iad", "syd", "jnb", "gru"] satisfies Region[];
 const PERIODICITY = ["30sec", "1m", "5m", "10m", "30m", "1h"] as const;
+
+const GROUPED_REGIONS = regions.reduce((acc, region) => {
+  const continent = region.continent;
+  if (!acc[continent]) {
+    acc[continent] = [];
+  }
+  acc[continent].push(region.code);
+  return acc;
+}, {} as Record<string, Region[]>);
 
 const schema = z.object({
   regions: z.array(z.string()),
@@ -115,47 +126,76 @@ export function FormSchedulingRegions({
                 </FormItem>
               )}
             />
+          </FormCardContent>
+          <FormCardSeparator />
+          <FormCardContent>
             <FormField
               control={form.control}
               name="regions"
               render={() => (
                 <FormItem>
-                  <FormLabel>Regions</FormLabel>
                   <FormControl>
-                    <div className="grid grid-cols-2 gap-2">
-                      {REGIONS.map((region) => (
-                        <FormField
-                          key={region}
-                          control={form.control}
-                          name="regions"
-                          render={({ field }) => (
-                            <FormItem
-                              key={region}
-                              className="flex items-center"
-                            >
-                              <Checkbox
-                                id={region}
-                                checked={field.value?.includes(region) || false}
-                                onCheckedChange={(checked) => {
-                                  if (checked) {
-                                    field.onChange([...field.value, region]);
-                                  } else {
-                                    field.onChange(
-                                      field.value?.filter((r) => r !== region)
-                                    );
-                                  }
-                                }}
-                              />
-                              <FormLabel
-                                htmlFor={region}
-                                className="text-sm font-normal"
-                              >
-                                {region}
-                              </FormLabel>
-                            </FormItem>
-                          )}
-                        />
-                      ))}
+                    <div className="grid gap-4">
+                      {Object.entries(GROUPED_REGIONS).map(([continent, r]) => {
+                        return (
+                          <div key={continent} className="space-y-2">
+                            <FormLabel>{continent}</FormLabel>
+                            <div className="grid grid-cols-2 gap-2">
+                              {r.map((region) => {
+                                const config = regions.find(
+                                  (r) => r.code === region
+                                );
+                                return (
+                                  <FormField
+                                    key={region}
+                                    control={form.control}
+                                    name="regions"
+                                    render={({ field }) => (
+                                      <FormItem
+                                        key={region}
+                                        className="flex items-center"
+                                      >
+                                        <Checkbox
+                                          id={region}
+                                          checked={
+                                            field.value?.includes(region) ||
+                                            false
+                                          }
+                                          onCheckedChange={(checked) => {
+                                            if (checked) {
+                                              field.onChange([
+                                                ...field.value,
+                                                region,
+                                              ]);
+                                            } else {
+                                              field.onChange(
+                                                field.value?.filter(
+                                                  (r) => r !== region
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        <FormLabel
+                                          htmlFor={region}
+                                          className="text-sm font-normal font-mono"
+                                        >
+                                          <span className="text-nowrap">
+                                            {region} {config?.flag}
+                                          </span>
+                                          <span className="text-muted-foreground text-xs leading-[inherit] font-normal">
+                                            {config?.location}
+                                          </span>
+                                        </FormLabel>
+                                      </FormItem>
+                                    )}
+                                  />
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </FormControl>
                 </FormItem>
