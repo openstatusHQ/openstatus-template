@@ -1,10 +1,15 @@
 import {
+  EmptyStateContainer,
+  EmptyStateTitle,
+} from "@/components/content/empty-state";
+import { EmptyStateText } from "@/components/content/empty-state";
+import {
   Section,
   SectionGroup,
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
-import { FormMonitorCreate } from "@/components/forms/monitor/create";
+import { FormGeneral } from "@/components/forms/monitor/form-general";
 
 export default function Page() {
   return (
@@ -13,7 +18,19 @@ export default function Page() {
         <SectionHeader>
           <SectionTitle>Create Monitor</SectionTitle>
         </SectionHeader>
-        <FormMonitorCreate />
+        <FormGeneral />
+      </Section>
+      <Section>
+        <EmptyStateContainer>
+          <EmptyStateTitle>Create and start customizing</EmptyStateTitle>
+          <EmptyStateText>
+            Change the <span className="text-foreground">periodicity</span>, set
+            up the <span className="text-foreground">regions</span>,{" "}
+            <span className="text-foreground">timeout</span> or{" "}
+            <span className="text-foreground">degraded</span> duration and
+            more...
+          </EmptyStateText>
+        </EmptyStateContainer>
       </Section>
     </SectionGroup>
   );

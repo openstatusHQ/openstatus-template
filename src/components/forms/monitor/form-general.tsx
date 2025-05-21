@@ -42,7 +42,7 @@ const METHODS = ["GET", "POST", "PUT", "DELETE", "PATCH"] as const;
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
-  type: z.enum(TYPES).optional(),
+  type: z.enum(TYPES),
   method: z.enum(METHODS),
   url: z.string(),
   headers: z.array(
@@ -130,14 +130,14 @@ export function FormGeneral() {
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      className="grid gap-4 grid-cols-4"
+                      className="grid gap-4 grid-cols-2 sm:grid-cols-4"
                     >
-                      <FormItem className="border-input has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative flex cursor-pointer flex-row items-center gap-3 rounded-md border px-2 py-3 text-center shadow-xs transition-[color,box-shadow] outline-none has-focus-visible:ring-[3px]">
+                      <FormItem className="border-input has-aria-[invalid=true]:border-destructive has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative flex cursor-pointer flex-row items-center gap-3 rounded-md border px-2 py-3 text-center shadow-xs transition-[color,box-shadow] outline-none has-focus-visible:ring-[3px]">
                         <FormControl>
                           <RadioGroupItem value="HTTP" className="sr-only" />
                         </FormControl>
                         <Globe
-                          className="text-muted-foreground"
+                          className="text-muted-foreground shrink-0"
                           size={16}
                           aria-hidden="true"
                         />
@@ -145,12 +145,12 @@ export function FormGeneral() {
                           HTTP
                         </FormLabel>
                       </FormItem>
-                      <FormItem className="border-input has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative flex cursor-pointer flex-row items-center gap-3 rounded-md border px-2 py-3 text-center shadow-xs transition-[color,box-shadow] outline-none has-focus-visible:ring-[3px]">
+                      <FormItem className="border-input has-aria-[invalid=true]:border-destructive has-data-[state=checked]:border-primary/50 has-focus-visible:border-ring has-focus-visible:ring-ring/50 relative flex cursor-pointer flex-row items-center gap-3 rounded-md border px-2 py-3 text-center shadow-xs transition-[color,box-shadow] outline-none has-focus-visible:ring-[3px]">
                         <FormControl>
                           <RadioGroupItem value="TCP" className="sr-only" />
                         </FormControl>
                         <Network
-                          className="text-muted-foreground"
+                          className="text-muted-foreground shrink-0"
                           size={16}
                           aria-hidden="true"
                         />
