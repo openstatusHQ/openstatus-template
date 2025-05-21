@@ -3,41 +3,61 @@
 import { useTheme } from "next-themes";
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Laptop, Moon, Sun } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export function ThemeToggle() {
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // NOTE: hydration error if we don't do this
+  if (!mounted) {
+    return (
+      <Select>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Select theme" />
+        </SelectTrigger>
+      </Select>
+    );
+  }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Sun className="dark:-rotate-90 h-4 w-4 rotate-0 scale-100 transition-all dark:scale-0" />
-          <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" side="right">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          <Sun className="h-4 w-4" />
-          <span>Light</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          <Moon className="h-4 w-4" />
-          <span>Dark</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          <Laptop className="h-4 w-4" />
-          <span>System</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Select value={theme} onValueChange={setTheme}>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue defaultValue={theme} placeholder="Select theme" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="light">
+          <div className="flex items-center gap-2">
+            <Sun className="h-4 w-4" />
+            <span>Light</span>
+          </div>
+        </SelectItem>
+        <SelectItem value="dark">
+          <div className="flex items-center gap-2">
+            <Moon className="h-4 w-4" />
+            <span>Dark</span>
+          </div>
+        </SelectItem>
+        <SelectItem value="system">
+          <div className="flex items-center gap-2">
+            <Laptop className="h-4 w-4" />
+            <span>System</span>
+          </div>
+        </SelectItem>
+      </SelectContent>
+    </Select>
   );
 }
