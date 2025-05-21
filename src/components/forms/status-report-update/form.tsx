@@ -44,7 +44,7 @@ const schema = z.object({
   date: z.date(),
 });
 
-type FormValues = z.infer<typeof schema>;
+export type FormValues = z.infer<typeof schema>;
 
 export function FormStatusReportUpdate({
   defaultValue,
