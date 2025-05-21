@@ -24,7 +24,6 @@ import { NotifierForm } from "@/components/forms/notifier/form";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -93,9 +92,9 @@ export default function Page() {
                   </FormCard>
                 </FormCardGroup>
                 <SheetFooter className="border-t">
-                  <SheetClose asChild>
-                    <Button type="submit">Save changes</Button>
-                  </SheetClose>
+                  <Button type="submit" form="notifier-form">
+                    Save changes
+                  </Button>
                 </SheetFooter>
               </SheetContent>
             </Sheet>

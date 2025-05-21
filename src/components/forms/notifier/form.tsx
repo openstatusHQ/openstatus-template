@@ -1,31 +1,99 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { FormDescription } from "@/components/ui/form";
+import {} from "@/components/ui/checkbox";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { monitors } from "@/data/monitors";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { toast } from "sonner";
 
-export function NotifierForm() {
-  const form = useForm();
+const schema = z.object({
+  name: z.string(),
+  webhookUrl: z.string(),
+});
+
+type FormValues = z.infer<typeof schema>;
+
+export function NotifierForm({
+  defaultValues,
+}: {
+  defaultValues?: FormValues;
+}) {
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: defaultValues ?? {
+      name: "",
+      webhookUrl: "",
+    },
+  });
+  const [isPending, startTransition] = useTransition();
+
+  function submitAction(values: FormValues) {
+    if (isPending) return;
+
+    startTransition(async () => {
+      try {
+        const promise = new Promise((resolve) => setTimeout(resolve, 1000));
+        toast.promise(promise, {
+          loading: "Saving...",
+          success: () => JSON.stringify(values),
+          error: "Failed to save",
+        });
+        await promise;
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  }
+
   return (
     <Form {...form}>
-      <form className="grid gap-4">
-        <div className="grid gap-1.5">
-          <Label>Name</Label>
-          <Input placeholder="My Notifier" />
-          <FormDescription>
-            Enter a descriptive name for your notifier.
-          </FormDescription>
-        </div>
-        <div className="grid gap-1.5">
-          <Label>Webhook URL</Label>
-          <Input placeholder="https://example.com/webhook" />
-        </div>
-        <div className="grid gap-1.5">
+      <form
+        id="notifier-form"
+        className="grid gap-4"
+        onSubmit={form.handleSubmit(submitAction)}
+      >
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="My Notifier" {...field} />
+              </FormControl>
+              <FormMessage />
+              <FormDescription>
+                Enter a descriptive name for your notifier.
+              </FormDescription>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="webhookUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Webhook URL</FormLabel>
+              <FormControl>
+                <Input placeholder="https://example.com/webhook" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* <div className="grid gap-1.5">
           <Label>Monitors</Label>
           <FormDescription>
             Select the monitors you want to notify.
@@ -42,7 +110,7 @@ export function NotifierForm() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </form>
     </Form>
   );
