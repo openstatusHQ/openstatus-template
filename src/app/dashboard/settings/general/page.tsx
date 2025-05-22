@@ -6,7 +6,6 @@ import {
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
-import { DataTable as MembersDataTable } from "@/components/data-table/settings/members/data-table";
 import { DataTable as ApiKeyDataTable } from "@/components/data-table/settings/api-key/data-table";
 import {
   FormCardDescription,
@@ -14,7 +13,6 @@ import {
   FormCardGroup,
   FormCardHeader,
   FormCardTitle,
-  FormCardUpgrade,
 } from "@/components/forms/form-card";
 import {
   FormCard,
@@ -23,9 +21,8 @@ import {
 } from "@/components/forms/form-card";
 import { FormWorkspace } from "@/components/forms/settings/form-workspace";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Lock } from "lucide-react";
 import { FormSlug } from "@/components/forms/settings/form-slug";
+import { FormMembers } from "@/components/forms/settings/form-members";
 
 export default function Page() {
   return (
@@ -40,36 +37,7 @@ export default function Page() {
         <FormCardGroup>
           <FormWorkspace />
           <FormSlug />
-          <FormCard>
-            <FormCardUpgrade />
-            <FormCardHeader>
-              <FormCardTitle>Team</FormCardTitle>
-              <FormCardDescription>
-                Manage your team members.
-              </FormCardDescription>
-            </FormCardHeader>
-            <FormCardContent>
-              <Tabs defaultValue="members">
-                <TabsList>
-                  <TabsTrigger value="members">Members</TabsTrigger>
-                  <TabsTrigger value="pending">Pending</TabsTrigger>
-                </TabsList>
-                <TabsContent value="members">
-                  <MembersDataTable />
-                </TabsContent>
-                <TabsContent value="pending"></TabsContent>
-              </Tabs>
-            </FormCardContent>
-            <FormCardFooter>
-              <FormCardFooterInfo>
-                This feature is available on the <Link href="#">Pro plan</Link>.
-              </FormCardFooterInfo>
-              <Button size="sm">
-                <Lock />
-                Upgrade
-              </Button>
-            </FormCardFooter>
-          </FormCard>
+          <FormMembers />
           <FormCard>
             <FormCardHeader>
               <FormCardTitle>API Key</FormCardTitle>

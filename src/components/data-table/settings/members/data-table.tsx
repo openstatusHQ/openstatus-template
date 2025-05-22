@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { QuickActions } from "@/components/dropdowns/quick-actions";
 import {
   Table,
   TableBody,
@@ -7,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Ellipsis } from "lucide-react";
 
 export function DataTable() {
   return (
@@ -31,14 +30,12 @@ export function DataTable() {
           <TableCell>2021-01-01</TableCell>
           <TableCell>
             <div className="flex justify-end">
-              <Button
-                size="icon"
-                variant="ghost"
-                className="size-5"
-                aria-label="Edit member"
-              >
-                <Ellipsis size={16} aria-hidden="true" />
-              </Button>
+              <QuickActions
+                deleteAction={{
+                  title: "User",
+                  confirmationValue: "delete",
+                }}
+              />
             </div>
           </TableCell>
         </TableRow>
