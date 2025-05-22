@@ -28,6 +28,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 interface QuickActionsProps extends React.ComponentProps<typeof Button> {
   align?: DropdownMenuContentProps["align"];
@@ -65,8 +66,14 @@ export function QuickActions({
   const handleDelete = async () => {
     try {
       startTransition(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const promise = new Promise((resolve) => setTimeout(resolve, 1000));
         await deleteAction?.submitAction?.();
+        toast.promise(promise, {
+          loading: "Deleting...",
+          success: "Deleted",
+          error: "Failed to delete",
+        });
+        await promise;
         setOpen(false);
       });
     } catch (error) {
