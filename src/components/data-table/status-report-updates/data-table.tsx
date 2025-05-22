@@ -33,7 +33,11 @@ export function DataTable() {
           <TableHead>Date</TableHead>
           <TableHead className="w-[px]">
             <FormSheetStatusReportUpdate>
-              <Button variant="ghost" className="flex h-8 w-8 p-0 ml-auto">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="flex h-7 w-7 p-0 ml-auto"
+              >
                 <Plus />
                 <span className="sr-only">Create Status Report Update</span>
               </Button>

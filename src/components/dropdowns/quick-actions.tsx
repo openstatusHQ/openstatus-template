@@ -32,7 +32,7 @@ import { Input } from "@/components/ui/input";
 interface QuickActionsProps extends React.ComponentProps<typeof Button> {
   align?: DropdownMenuContentProps["align"];
   side?: DropdownMenuContentProps["side"];
-  actions: {
+  actions?: {
     id: string;
     label: string;
     icon: LucideIcon;
@@ -41,7 +41,10 @@ interface QuickActionsProps extends React.ComponentProps<typeof Button> {
   }[];
   deleteAction?: {
     title: string;
-    confirmationValue: string;
+    /**
+     * If set, an input field will require the user input to validate deletion
+     */
+    confirmationValue?: string;
     submitAction?: () => Promise<void>;
   };
 }
@@ -91,7 +94,7 @@ export function QuickActions({
             Quick Actions
           </DropdownMenuLabel>
           {actions
-            .filter((item) => item.id !== "delete")
+            ?.filter((item) => item.id !== "delete")
             .map((item) => (
               <DropdownMenuGroup key={item.id}>
                 <DropdownMenuItem
@@ -108,7 +111,8 @@ export function QuickActions({
             ))}
           {deleteAction && (
             <>
-              <DropdownMenuSeparator />
+              {/* NOTE: add a separator only if actions exist */}
+              {actions?.length ? <DropdownMenuSeparator /> : null}
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem
                   variant="destructive"
@@ -141,23 +145,29 @@ export function QuickActions({
             from the database.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <form id="form-alert-dialog" className="space-y-0.5">
-          <p className="text-muted-foreground text-xs">
-            Please write &apos;
-            <span className="font-semibold">
-              {deleteAction?.confirmationValue}
-            </span>
-            &apos; to confirm
-          </p>
-          <Input value={value} onChange={(e) => setValue(e.target.value)} />
-        </form>
+        {deleteAction?.confirmationValue ? (
+          <form id="form-alert-dialog" className="space-y-0.5">
+            <p className="text-muted-foreground text-xs">
+              Please write &apos;
+              <span className="font-semibold">
+                {deleteAction?.confirmationValue}
+              </span>
+              &apos; to confirm
+            </p>
+            <Input value={value} onChange={(e) => setValue(e.target.value)} />
+          </form>
+        ) : null}
         <AlertDialogFooter>
           <AlertDialogCancel onClick={(e) => e.stopPropagation()}>
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
             className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60"
-            disabled={value !== deleteAction?.confirmationValue || isPending}
+            disabled={
+              (deleteAction?.confirmationValue &&
+                value !== deleteAction?.confirmationValue) ||
+              isPending
+            }
             form="form-alert-dialog"
             type="submit"
             onClick={(e) => {
