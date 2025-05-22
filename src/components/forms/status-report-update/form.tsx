@@ -50,15 +50,17 @@ const schema = z.object({
 export type FormValues = z.infer<typeof schema>;
 
 export function FormStatusReportUpdate({
-  defaultValue,
+  defaultValues,
   onSubmit,
-}: {
-  defaultValue?: FormValues;
+  className,
+  ...props
+}: Omit<React.ComponentProps<"form">, "onSubmit"> & {
+  defaultValues?: FormValues;
   onSubmit?: (values: FormValues) => Promise<void> | void;
 }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: defaultValue ?? {
+    defaultValues: defaultValues ?? {
       status: "operational",
       message: "",
       date: new Date(),
@@ -90,9 +92,9 @@ export function FormStatusReportUpdate({
   return (
     <Form {...form}>
       <form
-        id="status-report-update-form"
-        className="grid gap-4"
+        className={cn("grid gap-4", className)}
         onSubmit={form.handleSubmit(submitAction)}
+        {...props}
       >
         <FormCardContent>
           <FormField

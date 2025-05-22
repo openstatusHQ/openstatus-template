@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { Link } from "@/components/common/link";
+import { cn } from "@/lib/utils";
 
 const schema = z.object({
   name: z.string(),
@@ -27,7 +28,15 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export function FormDiscord({ defaultValues }: { defaultValues?: FormValues }) {
+export function FormDiscord({
+  defaultValues,
+  onSubmit,
+  className,
+  ...props
+}: Omit<React.ComponentProps<"form">, "onSubmit"> & {
+  defaultValues?: FormValues;
+  onSubmit?: (values: FormValues) => Promise<void> | void;
+}) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues ?? {
@@ -44,6 +53,7 @@ export function FormDiscord({ defaultValues }: { defaultValues?: FormValues }) {
     startTransition(async () => {
       try {
         const promise = new Promise((resolve) => setTimeout(resolve, 1000));
+        onSubmit?.(values);
         toast.promise(promise, {
           loading: "Saving...",
           success: () => JSON.stringify(values),
@@ -59,9 +69,9 @@ export function FormDiscord({ defaultValues }: { defaultValues?: FormValues }) {
   return (
     <Form {...form}>
       <form
-        id="notifier-form"
-        className="grid gap-4"
+        className={cn("grid gap-4", className)}
         onSubmit={form.handleSubmit(submitAction)}
+        {...props}
       >
         <FormField
           control={form.control}

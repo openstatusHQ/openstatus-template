@@ -39,8 +39,11 @@ type FormValues = z.infer<typeof schema>;
 
 export function FormResponseTime({
   defaultValues,
-}: {
+  onSubmit,
+  ...props
+}: Omit<React.ComponentProps<"form">, "onSubmit"> & {
   defaultValues?: FormValues;
+  onSubmit?: (values: FormValues) => Promise<void> | void;
 }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -57,6 +60,7 @@ export function FormResponseTime({
     startTransition(async () => {
       try {
         const promise = new Promise((resolve) => setTimeout(resolve, 1000));
+        onSubmit?.(values);
         toast.promise(promise, {
           loading: "Saving...",
           success: () => JSON.stringify(values),
@@ -71,7 +75,7 @@ export function FormResponseTime({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submitAction)}>
+      <form onSubmit={form.handleSubmit(submitAction)} {...props}>
         <FormCard>
           <FormCardHeader>
             <FormCardTitle>Response Time Thresholds</FormCardTitle>

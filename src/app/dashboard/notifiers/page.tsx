@@ -88,11 +88,15 @@ export default function Page() {
                 </SheetHeader>
                 <FormCard className="border-none">
                   <FormCardContent>
-                    {notifier === "Slack" && <FormSlack />}
-                    {notifier === "Discord" && <FormDiscord />}
-                    {notifier === "Email" && <FormEmail />}
-                    {notifier === "SMS" && <FormSms />}
-                    {notifier === "Webhook" && <FormWebhook />}
+                    {notifier === "Slack" && <FormSlack id="notifier-form" />}
+                    {notifier === "Discord" && (
+                      <FormDiscord id="notifier-form" />
+                    )}
+                    {notifier === "Email" && <FormEmail id="notifier-form" />}
+                    {notifier === "SMS" && <FormSms id="notifier-form" />}
+                    {notifier === "Webhook" && (
+                      <FormWebhook id="notifier-form" />
+                    )}
                   </FormCardContent>
                 </FormCard>
                 <SheetFooter className="border-t">

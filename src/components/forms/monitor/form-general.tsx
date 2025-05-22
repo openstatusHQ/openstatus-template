@@ -57,7 +57,14 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export function FormGeneral({ defaultValues }: { defaultValues?: FormValues }) {
+export function FormGeneral({
+  defaultValues,
+  onSubmit,
+  ...props
+}: Omit<React.ComponentProps<"form">, "onSubmit"> & {
+  defaultValues?: FormValues;
+  onSubmit?: (values: FormValues) => Promise<void> | void;
+}) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues ?? {
@@ -79,6 +86,7 @@ export function FormGeneral({ defaultValues }: { defaultValues?: FormValues }) {
     startTransition(async () => {
       try {
         const promise = new Promise((resolve) => setTimeout(resolve, 1000));
+        onSubmit?.(values);
         toast.promise(promise, {
           loading: "Saving...",
           success: () => JSON.stringify(values),
@@ -93,7 +101,7 @@ export function FormGeneral({ defaultValues }: { defaultValues?: FormValues }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submitAction)}>
+      <form onSubmit={form.handleSubmit(submitAction)} {...props}>
         <FormCard>
           <FormCardHeader>
             <FormCardTitle>Monitor Configuration</FormCardTitle>

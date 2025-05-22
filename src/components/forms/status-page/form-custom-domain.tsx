@@ -20,7 +20,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { useTransition } from "react";
+import React, { useTransition } from "react";
 import { toast } from "sonner";
 import { Link } from "@/components/common/link";
 
@@ -34,8 +34,11 @@ type FormValues = z.infer<typeof schema>;
 
 export function FormCustomDomain({
   defaultValues,
-}: {
+  onSubmit,
+  ...props
+}: Omit<React.ComponentProps<"form">, "onSubmit"> & {
   defaultValues?: FormValues;
+  onSubmit?: (values: FormValues) => Promise<void> | void;
 }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -51,6 +54,7 @@ export function FormCustomDomain({
     startTransition(async () => {
       try {
         const promise = new Promise((resolve) => setTimeout(resolve, 1000));
+        onSubmit?.(values);
         toast.promise(promise, {
           loading: "Saving...",
           success: () => JSON.stringify(values),
@@ -65,7 +69,7 @@ export function FormCustomDomain({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submitAction)}>
+      <form onSubmit={form.handleSubmit(submitAction)} {...props}>
         <FormCard>
           <FormCardUpgrade />
           <FormCardHeader>

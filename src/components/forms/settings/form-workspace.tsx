@@ -30,10 +30,17 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export function FormWorkspace() {
+export function FormWorkspace({
+  defaultValues,
+  onSubmit,
+  ...props
+}: Omit<React.ComponentProps<"form">, "onSubmit"> & {
+  defaultValues?: FormValues;
+  onSubmit?: (values: FormValues) => Promise<void> | void;
+}) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       name: "",
     },
   });
@@ -45,6 +52,7 @@ export function FormWorkspace() {
     startTransition(async () => {
       try {
         const promise = new Promise((resolve) => setTimeout(resolve, 1000));
+        onSubmit?.(values);
         toast.promise(promise, {
           loading: "Saving...",
           success: () => JSON.stringify(values),
@@ -59,7 +67,7 @@ export function FormWorkspace() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submitAction)}>
+      <form onSubmit={form.handleSubmit(submitAction)} {...props}>
         <FormCard>
           <FormCardHeader>
             <FormCardTitle>Workspace</FormCardTitle>

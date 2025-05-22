@@ -35,8 +35,9 @@ export function FormSheetStatusReportUpdate({
         <FormCardGroup>
           <FormCard className="border-none">
             <FormStatusReportUpdate
+              id="status-report-update-form"
               onSubmit={() => setOpen(false)}
-              defaultValue={defaultValues}
+              defaultValues={defaultValues}
             />
           </FormCard>
         </FormCardGroup>

@@ -23,10 +23,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { useTransition } from "react";
+import React, { useTransition } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { monitors } from "@/data/monitors";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 const schema = z.object({
   title: z.string(),
@@ -39,15 +40,17 @@ const schema = z.object({
 export type FormValues = z.infer<typeof schema>;
 
 export function FormMaintenance({
-  defaultValue,
+  defaultValues,
   onSubmit,
-}: {
-  defaultValue?: FormValues;
+  className,
+  ...props
+}: Omit<React.ComponentProps<"form">, "onSubmit"> & {
+  defaultValues?: FormValues;
   onSubmit?: (values: FormValues) => Promise<void> | void;
 }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: defaultValue ?? {
+    defaultValues: defaultValues ?? {
       title: "",
       message: "",
       startDate: new Date(),
@@ -80,9 +83,9 @@ export function FormMaintenance({
   return (
     <Form {...form}>
       <form
-        id="maintenance-form"
-        className="grid gap-4"
+        className={cn("grid gap-4", className)}
         onSubmit={form.handleSubmit(submitAction)}
+        {...props}
       >
         <FormCardContent>
           <FormField
@@ -157,7 +160,8 @@ export function FormMaintenance({
               <FormItem>
                 <FormLabel>Monitors</FormLabel>
                 <FormDescription>
-                  Select the monitors you want to notify.
+                  Connected monitors will be automatically deactivated for the
+                  period of time.
                 </FormDescription>
                 <div className="grid gap-3">
                   <div className="flex items-center gap-2">

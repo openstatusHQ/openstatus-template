@@ -37,10 +37,17 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export function FormOtel() {
+export function FormOtel({
+  defaultValues,
+  onSubmit,
+  ...props
+}: Omit<React.ComponentProps<"form">, "onSubmit"> & {
+  defaultValues?: FormValues;
+  onSubmit?: (values: FormValues) => Promise<void> | void;
+}) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       endpoint: "https://otel.openstatus.dev/api/v1/metrics",
     },
   });
@@ -52,6 +59,7 @@ export function FormOtel() {
     startTransition(async () => {
       try {
         const promise = new Promise((resolve) => setTimeout(resolve, 1000));
+        onSubmit?.(values);
         toast.promise(promise, {
           loading: "Saving...",
           success: () => JSON.stringify(values),
@@ -66,7 +74,7 @@ export function FormOtel() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submitAction)}>
+      <form onSubmit={form.handleSubmit(submitAction)} {...props}>
         <FormCard>
           <FormCardUpgrade />
           <FormCardHeader>
