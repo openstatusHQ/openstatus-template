@@ -116,6 +116,25 @@ export function FormMaintenance({
           <div className="grid gap-1.5">
             <Label>End Date</Label>
             <Calendar className="p-0" />
+            {/* <div className="border-t p-3">
+              <div className="flex items-center gap-3">
+                <Label htmlFor="time" className="text-xs">
+                  Enter time
+                </Label>
+                <div className="relative grow">
+                  <Input
+                    id="time"
+                    type="time"
+                    step="1"
+                    defaultValue="12:00:00"
+                    className="peer appearance-none ps-9 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                  />
+                  <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
+                    <Clock size={16} aria-hidden="true" />
+                  </div>
+                </div>
+              </div>
+            </div> */}
           </div>
         </FormCardContent>
         <FormCardSeparator />
