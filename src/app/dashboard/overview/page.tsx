@@ -22,7 +22,7 @@ import { Plus } from "lucide-react";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { incidents } from "@/data/incidents";
 import { columns } from "@/components/data-table/incidents/columns";
-import { FormSheetStatusReportUpdate } from "@/components/forms/status-report-update/sheet";
+import { FormSheetStatusReport } from "@/components/forms/status-report/sheet";
 import { FormSheetMaintenance } from "@/components/forms/maintenance/sheet";
 
 export default function Page() {
@@ -89,12 +89,12 @@ export default function Page() {
           </SectionHeader>
           {/* Should be FormSheetStatusReport **NOT** -Update */}
           <div>
-            <FormSheetStatusReportUpdate>
+            <FormSheetStatusReport>
               <Button data-section="action" size="sm" variant="ghost">
                 <Plus />
                 Create
               </Button>
-            </FormSheetStatusReportUpdate>
+            </FormSheetStatusReport>
           </div>
         </SectionHeaderRow>
         <EmptyStateContainer>
