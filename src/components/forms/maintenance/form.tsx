@@ -1,18 +1,10 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import {
   FormCardContent,
   FormCardSeparator,
 } from "@/components/forms/form-card";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { TabsContent } from "@/components/ui/tabs";
@@ -34,22 +26,19 @@ import { toast } from "sonner";
 import { useTransition } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { monitors } from "@/data/monitors";
-
-const colors = {
-  operational: "text-green-500/80",
-  investigating: "text-red-500/80",
-};
+import { Input } from "@/components/ui/input";
 
 const schema = z.object({
-  status: z.enum(["operational", "investigating"]),
+  title: z.string(),
   message: z.string(),
-  date: z.date(),
+  startDate: z.date(),
+  endDate: z.date(),
   monitors: z.array(z.number()),
 });
 
 export type FormValues = z.infer<typeof schema>;
 
-export function FormStatusReportUpdate({
+export function FormMaintenance({
   defaultValue,
   onSubmit,
 }: {
@@ -59,9 +48,10 @@ export function FormStatusReportUpdate({
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: defaultValue ?? {
-      status: "operational",
+      title: "",
       message: "",
-      date: new Date(),
+      startDate: new Date(),
+      endDate: new Date(),
       monitors: [],
     },
   });
@@ -90,34 +80,19 @@ export function FormStatusReportUpdate({
   return (
     <Form {...form}>
       <form
-        id="status-report-update-form"
+        id="maintenance-form"
         className="grid gap-4"
         onSubmit={form.handleSubmit(submitAction)}
       >
         <FormCardContent>
           <FormField
             control={form.control}
-            name="status"
+            name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Status</FormLabel>
+                <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Select
-                    defaultValue={field.value}
-                    onValueChange={field.onChange}
-                  >
-                    <SelectTrigger
-                      className={cn(colors[field.value], "font-mono")}
-                    >
-                      <SelectValue placeholder="Select a status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="operational">Operational</SelectItem>
-                      <SelectItem value="investigating">
-                        Investigating
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Input placeholder="DB migration..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -128,7 +103,15 @@ export function FormStatusReportUpdate({
         <FormCardContent>
           {/* TODO: */}
           <div className="grid gap-1.5">
-            <Label>Date</Label>
+            <Label>Start Date</Label>
+            <Calendar className="p-0" />
+          </div>
+        </FormCardContent>
+        <FormCardSeparator />
+        <FormCardContent>
+          {/* TODO: */}
+          <div className="grid gap-1.5">
+            <Label>End Date</Label>
             <Calendar className="p-0" />
           </div>
         </FormCardContent>
