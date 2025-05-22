@@ -12,6 +12,7 @@ import { DataTable as UpdatesDataTable } from "@/components/data-table/status-re
 import { columns } from "@/components/data-table/status-reports/columns";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FormSheetStatusReport } from "@/components/forms/status-report/sheet";
 
 export default function Page() {
   return (
@@ -25,10 +26,12 @@ export default function Page() {
             </SectionDescription>
           </SectionHeader>
           <div>
-            <Button data-section="action" size="sm" variant="ghost">
-              <Plus />
-              Create Status Report
-            </Button>
+            <FormSheetStatusReport>
+              <Button data-section="action" size="sm" variant="ghost">
+                <Plus />
+                Create Status Report
+              </Button>
+            </FormSheetStatusReport>
           </div>
         </SectionHeaderRow>
         <DataTable

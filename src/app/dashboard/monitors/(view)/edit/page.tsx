@@ -15,7 +15,6 @@ export default function Page() {
           <SectionTitle>OpenStatus API</SectionTitle>
           <SectionDescription>Customize your monitor.</SectionDescription>
         </SectionHeader>
-        {/* TODO: */}
         <FormMonitorUpdate />
       </Section>
     </SectionGroup>

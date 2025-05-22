@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
+  Row,
   SortingState,
   VisibilityState,
   flexRender,
@@ -34,6 +35,7 @@ interface DataTableProps<TData, TValue> {
   rowComponent?: React.ReactNode;
   actionBar?: React.ComponentType<DataTableActionBarProps<TData>>;
   paginationComponent?: React.ComponentType<DataTablePaginationProps<TData>>;
+  onRowClick?: (row: Row<TData>) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -42,6 +44,7 @@ export function DataTable<TData, TValue>({
   rowComponent,
   actionBar,
   paginationComponent,
+  onRowClick,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -109,6 +112,7 @@ export function DataTable<TData, TValue>({
                   data-state={
                     (row.getIsSelected() || row.getIsExpanded()) && "selected"
                   }
+                  onClick={() => onRowClick?.(row)}
                   className="data-[state=selected]:bg-muted/50"
                 >
                   {row.getVisibleCells().map((cell) => (

@@ -32,10 +32,12 @@ export function DataTable() {
           <TableHead>Message</TableHead>
           <TableHead>Date</TableHead>
           <TableHead className="w-[px]">
-            <Button variant="ghost" className="flex h-8 w-8 p-0 ml-auto">
-              <Plus />
-              <span className="sr-only">Create Status Report Update</span>
-            </Button>
+            <FormSheetStatusReportUpdate>
+              <Button variant="ghost" className="flex h-8 w-8 p-0 ml-auto">
+                <Plus />
+                <span className="sr-only">Create Status Report Update</span>
+              </Button>
+            </FormSheetStatusReportUpdate>
           </TableHead>
         </TableRow>
       </TableHeader>
@@ -43,24 +45,22 @@ export function DataTable() {
         {statusReports[0].updates.map((update) => {
           const Icon = icons.status[update.status];
           return (
-            <FormSheetStatusReportUpdate key={update.id} defaultValues={update}>
-              <TableRow>
-                <TableCell>
-                  <div className="p-1">
-                    <Icon className={cn(colors[update.status])} size={20} />
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <p className="text-wrap">{update.message}</p>
-                </TableCell>
-                <TableCell className="text-muted-foreground w-[170px]">
-                  {update.date.toLocaleString()}
-                </TableCell>
-                <TableCell className="w-8">
-                  <DataTableRowActions />
-                </TableCell>
-              </TableRow>
-            </FormSheetStatusReportUpdate>
+            <TableRow key={update.id}>
+              <TableCell>
+                <div className="p-1">
+                  <Icon className={cn(colors[update.status])} size={20} />
+                </div>
+              </TableCell>
+              <TableCell>
+                <p className="text-wrap">{update.message}</p>
+              </TableCell>
+              <TableCell className="text-muted-foreground w-[170px]">
+                {update.date.toLocaleString()}
+              </TableCell>
+              <TableCell className="w-8">
+                <DataTableRowActions />
+              </TableCell>
+            </TableRow>
           );
         })}
       </TableBody>

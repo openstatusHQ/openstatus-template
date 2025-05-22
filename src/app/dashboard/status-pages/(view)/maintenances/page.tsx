@@ -11,6 +11,7 @@ import { maintenances } from "@/data/maintenances";
 import { columns } from "@/components/data-table/maintenances/columns";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { FormSheetMaintenance } from "@/components/forms/maintenance/sheet";
 
 export default function Page() {
   return (
@@ -24,10 +25,12 @@ export default function Page() {
             </SectionDescription>
           </SectionHeader>
           <div>
-            <Button data-section="action" size="sm" variant="ghost">
-              <Plus />
-              Create Maintenance
-            </Button>
+            <FormSheetMaintenance>
+              <Button data-section="action" size="sm" variant="ghost">
+                <Plus />
+                Create Maintenance
+              </Button>
+            </FormSheetMaintenance>
           </div>
         </SectionHeaderRow>
         <DataTable columns={columns} data={maintenances} />
