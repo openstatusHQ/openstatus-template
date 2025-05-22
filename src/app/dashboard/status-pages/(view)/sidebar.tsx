@@ -12,6 +12,10 @@ import { ExternalLink } from "lucide-react";
 import { statusPages } from "@/data/status-pages";
 import { monitors } from "@/data/monitors";
 
+// NOTE: This is a static badge URL.
+const BADGE_URL =
+  "https://openstatus.dev/status-page/hello-world/badge?size=sm&theme=light";
+
 const report = statusReports[0];
 const maintenance = maintenances[0];
 const statusPage = statusPages[0];
@@ -31,11 +35,24 @@ export function Sidebar() {
             },
             { label: "Domain", value: statusPage.domain },
             {
-              label: "favicon",
+              label: "Favicon",
               value: (
                 <div className="rounded border bg-muted size-4 overflow-hidden">
                   <img src={statusPage.favicon} alt="favicon" />
                 </div>
+              ),
+            },
+            {
+              label: "Badge",
+              value: (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger className="align-middle">
+                      <img className="h-5" src={BADGE_URL} />
+                    </TooltipTrigger>
+                    <TooltipContent>Learn more about the badge.</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               ),
             },
           ],
