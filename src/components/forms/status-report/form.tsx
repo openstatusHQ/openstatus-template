@@ -161,7 +161,7 @@ export function FormStatusReport({
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Date</FormLabel>
-                <Popover open={true}>
+                <Popover modal>
                   <FormControl>
                     <PopoverTrigger asChild>
                       <Button
