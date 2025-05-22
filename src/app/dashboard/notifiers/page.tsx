@@ -21,18 +21,18 @@ import { FormCard, FormCardContent } from "@/components/forms/form-card";
 import { FormSlack } from "@/components/forms/notifier/form-slack";
 import { FormDiscord } from "@/components/forms/notifier/form-discord";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { FormSms } from "@/components/forms/notifier/form-sms";
 import { FormEmail } from "@/components/forms/notifier/form-email";
 import { FormWebhook } from "@/components/forms/notifier/form-webhook";
+import {
+  FormSheetContent,
+  FormSheetDescription,
+  FormSheetFooter,
+  FormSheetHeader,
+  FormSheetTitle,
+  FormSheetTrigger,
+} from "@/components/forms/form-sheet";
+import { FormSheet } from "@/components/forms/form-sheet";
 
 export default function Page() {
   return (
@@ -64,8 +64,8 @@ export default function Page() {
             "OpsGenie",
             "PagerDuty",
           ].map((notifier) => (
-            <Sheet key={notifier}>
-              <SheetTrigger asChild>
+            <FormSheet key={notifier}>
+              <FormSheetTrigger asChild>
                 <ActionCard>
                   <ActionCardHeader>
                     <div className="flex items-center gap-2">
@@ -77,17 +77,17 @@ export default function Page() {
                     </ActionCardDescription>
                   </ActionCardHeader>
                 </ActionCard>
-              </SheetTrigger>
-              <SheetContent>
-                <SheetHeader className="border-b">
-                  <SheetTitle>Notifier</SheetTitle>
-                  <SheetDescription>
+              </FormSheetTrigger>
+              <FormSheetContent>
+                <FormSheetHeader>
+                  <FormSheetTitle>Notifier</FormSheetTitle>
+                  <FormSheetDescription>
                     Make changes to your profile here. Click save when
                     you&apos;re done.
-                  </SheetDescription>
-                </SheetHeader>
-                <FormCard className="border-none">
-                  <FormCardContent>
+                  </FormSheetDescription>
+                </FormSheetHeader>
+                <FormCard className="border-none overflow-auto">
+                  <FormCardContent className="my-4">
                     {notifier === "Slack" && <FormSlack id="notifier-form" />}
                     {notifier === "Discord" && (
                       <FormDiscord id="notifier-form" />
@@ -99,13 +99,13 @@ export default function Page() {
                     )}
                   </FormCardContent>
                 </FormCard>
-                <SheetFooter className="border-t">
+                <FormSheetFooter>
                   <Button type="submit" form="notifier-form">
                     Save changes
                   </Button>
-                </SheetFooter>
-              </SheetContent>
-            </Sheet>
+                </FormSheetFooter>
+              </FormSheetContent>
+            </FormSheet>
           ))}
         </ActionCardGroup>
       </Section>

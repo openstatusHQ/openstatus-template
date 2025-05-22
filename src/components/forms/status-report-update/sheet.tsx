@@ -1,57 +1,61 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { FormCard, FormCardGroup } from "@/components/forms/form-card";
 import {
   FormStatusReportUpdate,
   FormValues,
 } from "@/components/forms/status-report-update/form";
 import { useState } from "react";
+import {
+  FormSheet,
+  FormSheetContent,
+  FormSheetDescription,
+  FormSheetFooter,
+  FormSheetFooterInfo,
+  FormSheetHeader,
+  FormSheetTitle,
+  FormSheetTrigger,
+} from "@/components/forms/form-sheet";
 
 export function FormSheetStatusReportUpdate({
   children,
   defaultValues,
-}: React.ComponentProps<typeof SheetTrigger> & { defaultValues?: FormValues }) {
+}: React.ComponentProps<typeof FormSheetTrigger> & {
+  defaultValues?: FormValues;
+}) {
   const [open, setOpen] = useState(false);
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent>
-        <SheetHeader className="border-b">
-          <SheetTitle>Status Report Update</SheetTitle>
-          <SheetDescription>
+    <FormSheet open={open} onOpenChange={setOpen}>
+      <FormSheetTrigger asChild>{children}</FormSheetTrigger>
+      <FormSheetContent>
+        <FormSheetHeader>
+          <FormSheetTitle>Status Report Update</FormSheetTitle>
+          <FormSheetDescription>
             Configure and update the status of your report.
-          </SheetDescription>
-        </SheetHeader>
-        <FormCardGroup>
-          <FormCard className="border-none">
+          </FormSheetDescription>
+        </FormSheetHeader>
+        <FormCardGroup className="overflow-y-scroll">
+          <FormCard className="border-none overflow-auto">
             <FormStatusReportUpdate
               id="status-report-update-form"
+              className="my-4"
               onSubmit={() => setOpen(false)}
               defaultValues={defaultValues}
             />
           </FormCard>
         </FormCardGroup>
-        <SheetFooter className="border-t">
+        <FormSheetFooter>
           {defaultValues ? (
-            <p className="text-muted-foreground/70 text-xs">
+            <FormSheetFooterInfo>
               Last Updated <time>{defaultValues.date.toLocaleString()}</time>
-            </p>
+            </FormSheetFooterInfo>
           ) : null}
           <Button type="submit" form="status-report-update-form">
             Submit
           </Button>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+        </FormSheetFooter>
+      </FormSheetContent>
+    </FormSheet>
   );
 }
