@@ -9,6 +9,7 @@ import { FormStatusPages } from "./form-status-pages";
 import { FormNotifiers } from "./form-notifiers";
 import { FormDangerZone } from "./form-danger-zone";
 import { FormVisibility } from "./form-visibility";
+import { FormRetry } from "./form-retry";
 
 export function FormMonitorUpdate() {
   return (
@@ -18,6 +19,7 @@ export function FormMonitorUpdate() {
       <FormResponseTime />
       <FormStatusPages />
       <FormNotifiers />
+      <FormRetry />
       <FormOtel />
       <FormVisibility />
       <FormDangerZone />
