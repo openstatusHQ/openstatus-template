@@ -29,7 +29,7 @@ import {
 import { Fragment } from "react";
 import type { DataTableActionBarProps } from "./data-table-action-bar";
 import { DataTablePaginationProps } from "./data-table-pagination";
-interface DataTableProps<TData, TValue> {
+export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   rowComponent?: React.ReactNode;

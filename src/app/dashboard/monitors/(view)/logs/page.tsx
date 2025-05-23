@@ -13,10 +13,9 @@ import {
 } from "@/components/content/section";
 
 import { Section } from "@/components/content/section";
-import { columns } from "@/components/data-table/response-logs/columns";
+import { DataTable } from "@/components/data-table/response-logs/data-table";
 import DatePicker from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/ui/data-table/data-table";
 import {
   Popover,
   PopoverContent,
@@ -24,6 +23,8 @@ import {
 } from "@/components/ui/popover";
 import { responseLogs } from "@/data/response-logs";
 import { Lock, X } from "lucide-react";
+
+const LOCKED = false;
 
 export default function Page() {
   return (
@@ -51,22 +52,29 @@ export default function Page() {
         </div>
       </Section>
       <Section>
-        <BillingOverlayContainer>
+        {LOCKED ? (
+          <BillingOverlayContainer>
+            <DataTable
+              data={Array.from({ length: 100 }).map(() => responseLogs[0])}
+            />
+            <BillingOverlay>
+              <BillingOverlayButton asChild>
+                <Link href="/dashboard/settings/billing">
+                  <Lock />
+                  Upgrade to Pro
+                </Link>
+              </BillingOverlayButton>
+              <BillingOverlayDescription>
+                Access response headers, timing phases and more for each
+                request. <Link href="#">Learn more</Link>.
+              </BillingOverlayDescription>
+            </BillingOverlay>
+          </BillingOverlayContainer>
+        ) : (
           <DataTable
-            columns={columns}
             data={Array.from({ length: 100 }).map(() => responseLogs[0])}
           />
-          <BillingOverlay>
-            <BillingOverlayButton>
-              <Lock />
-              Upgrade to Pro
-            </BillingOverlayButton>
-            <BillingOverlayDescription>
-              Access response headers, timing phases and more for each request.{" "}
-              <Link href="#">Learn more</Link>.
-            </BillingOverlayDescription>
-          </BillingOverlay>
-        </BillingOverlayContainer>
+        )}
       </Section>
     </SectionGroup>
   );
