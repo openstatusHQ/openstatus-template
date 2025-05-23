@@ -23,6 +23,16 @@ export function NavActions() {
     },
   });
 
+  async function testAction() {
+    const promise = new Promise((resolve) => setTimeout(resolve, 1000));
+    toast.promise(promise, {
+      loading: "Checking...",
+      success: "Success",
+      error: "Failed",
+    });
+    await promise;
+  }
+
   return (
     <div className="flex items-center gap-2 text-sm">
       <div className="hidden font-medium text-muted-foreground lg:inline-block">
@@ -35,7 +45,12 @@ export function NavActions() {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-7 w-7">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7"
+              onClick={testAction}
+            >
               <Zap />
             </Button>
           </TooltipTrigger>
