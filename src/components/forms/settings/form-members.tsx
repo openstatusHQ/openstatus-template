@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/form";
 import { members } from "@/data/members";
 
-const LOCKED = false;
+const LOCKED = true;
 
 const schema = z.object({
   email: z.string().email(),

@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { Incident } from "@/data/incidents";
 import { Link } from "@/components/common/link";
+import { DataTableCellDate } from "../data-table-cell-date";
 
 export const columns: ColumnDef<Incident>[] = [
   {
@@ -14,47 +15,8 @@ export const columns: ColumnDef<Incident>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const value = String(row.getValue("monitor"));
-      return <Link href="/dashboard/monitors/incidents">{value}</Link>;
+      return <Link href="/dashboard/monitors/overview">{value}</Link>;
     },
-  },
-  {
-    accessorKey: "cause",
-    header: "Cause",
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "message",
-    header: "Message",
-    enableSorting: false,
-    enableHiding: false,
-    cell: ({ row }) => {
-      const value = String(row.getValue("message"));
-      return (
-        <div className="text-muted-foreground max-w-[200px] truncate">
-          {value}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "startedAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Started At" />
-    ),
-    cell: ({ row }) => {
-      const value = row.getValue("startedAt");
-      if (value instanceof Date) {
-        return (
-          <div className="text-muted-foreground">{value.toLocaleString()}</div>
-        );
-      }
-      if (typeof value === "string") {
-        return <div className="text-muted-foreground">{value}</div>;
-      }
-      return <div className="text-muted-foreground">-</div>;
-    },
-    enableHiding: false,
   },
   {
     accessorKey: "duration",
@@ -66,6 +28,32 @@ export const columns: ColumnDef<Incident>[] = [
         </div>
       );
     },
+  },
+  {
+    accessorKey: "startedAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Started At" />
+    ),
+    cell: ({ row }) => <DataTableCellDate value={row.getValue("startedAt")} />,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "acknowledged",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Acknowledged" />
+    ),
+    cell: ({ row }) => (
+      <DataTableCellDate value={row.getValue("acknowledged")} />
+    ),
+    enableHiding: false,
+  },
+  {
+    accessorKey: "resolvedAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Resolved At" />
+    ),
+    cell: ({ row }) => <DataTableCellDate value={row.getValue("resolvedAt")} />,
+    enableHiding: false,
   },
   {
     id: "actions",

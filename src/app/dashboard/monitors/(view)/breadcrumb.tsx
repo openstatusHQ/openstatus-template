@@ -1,7 +1,7 @@
 "use client";
 
 import { NavBreadcrumb } from "@/components/nav/nav-breadcrumb";
-import { Pencil } from "lucide-react";
+import { Pencil, Siren } from "lucide-react";
 import { Logs } from "lucide-react";
 import { LayoutGrid } from "lucide-react";
 
@@ -19,6 +19,7 @@ export function Breadcrumb() {
             { value: "overview", label: "Overview", icon: LayoutGrid },
             { value: "logs", label: "Logs", icon: Logs },
             { value: "edit", label: "Edit", icon: Pencil },
+            { value: "incidents", label: "Incidents", icon: Siren },
           ],
         },
       ]}
