@@ -1,4 +1,9 @@
-import { Button } from "@/components/ui/button";
+import {
+  EmptyStateContainer,
+  EmptyStateText,
+  EmptyStateTitle,
+} from "@/components/content/empty-state";
+import { QuickActions } from "@/components/dropdowns/quick-actions";
 import {
   Table,
   TableBody,
@@ -7,39 +12,47 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Ellipsis } from "lucide-react";
+import type { Invitation } from "@/data/invitations";
 
-export function DataTable() {
+export function DataTable({ data }: { data: Invitation[] }) {
+  if (data.length === 0) {
+    return (
+      <EmptyStateContainer>
+        <EmptyStateTitle>No pending invitations</EmptyStateTitle>
+        <EmptyStateText>Only active invitations are shown here.</EmptyStateText>
+      </EmptyStateContainer>
+    );
+  }
+
   return (
     <Table>
       <TableHeader>
         <TableRow>
           <TableHead>Email</TableHead>
           <TableHead>Role</TableHead>
-          <TableHead>Created</TableHead>
+          <TableHead>Created At</TableHead>
+          <TableHead>Expires At</TableHead>
+          <TableHead>Accepted At</TableHead>
           <TableHead>
             <span className="sr-only">Actions</span>
           </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell>thibault@openstatus.dev</TableCell>
-          <TableCell>Member</TableCell>
-          <TableCell>2021-01-01</TableCell>
-          <TableCell>
-            <div className="flex justify-end">
-              <Button
-                size="icon"
-                variant="ghost"
-                className="size-5"
-                aria-label="Edit member"
-              >
-                <Ellipsis size={16} aria-hidden="true" />
-              </Button>
-            </div>
-          </TableCell>
-        </TableRow>
+        {data.map((item) => (
+          <TableRow key={item.id}>
+            <TableCell>{item.email}</TableCell>
+            <TableCell>{item.role}</TableCell>
+            <TableCell>{item.createdAt}</TableCell>
+            <TableCell>{item.expiresAt}</TableCell>
+            <TableCell>{item.acceptedAt}</TableCell>
+            <TableCell>
+              <div className="flex justify-end">
+                <QuickActions deleteAction={{ title: "Invitation" }} />
+              </div>
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );

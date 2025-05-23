@@ -7,8 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import type { Member } from "@/data/members";
 
-export function DataTable() {
+export function DataTable({ data }: { data: Member[] }) {
   return (
     <Table>
       <TableHeader>
@@ -23,22 +24,24 @@ export function DataTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell>Maximilian Kaske</TableCell>
-          <TableCell>max@openstatus.dev</TableCell>
-          <TableCell>Admin</TableCell>
-          <TableCell>2021-01-01</TableCell>
-          <TableCell>
-            <div className="flex justify-end">
-              <QuickActions
-                deleteAction={{
-                  title: "User",
-                  confirmationValue: "delete",
-                }}
-              />
-            </div>
-          </TableCell>
-        </TableRow>
+        {data.map((item) => (
+          <TableRow key={item.id}>
+            <TableCell>{item.name}</TableCell>
+            <TableCell>{item.email}</TableCell>
+            <TableCell>{item.role}</TableCell>
+            <TableCell>{item.createdAt}</TableCell>
+            <TableCell>
+              <div className="flex justify-end">
+                <QuickActions
+                  deleteAction={{
+                    title: "User",
+                    confirmationValue: "delete",
+                  }}
+                />
+              </div>
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );

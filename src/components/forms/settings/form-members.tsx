@@ -20,6 +20,7 @@ import { Tabs } from "@/components/ui/tabs";
 import { Lock } from "lucide-react";
 
 import { DataTable as MembersDataTable } from "@/components/data-table/settings/members/data-table";
+import { DataTable as InvitationsDataTable } from "@/components/data-table/settings/invitations/data-table";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { useTransition } from "react";
@@ -34,8 +35,9 @@ import {
   FormField,
   FormItem,
 } from "@/components/ui/form";
+import { members } from "@/data/members";
 
-const LOCKED = true;
+const LOCKED = false;
 
 const schema = z.object({
   email: z.string().email(),
@@ -89,9 +91,11 @@ export function FormMembers() {
                 <TabsTrigger value="pending">Pending</TabsTrigger>
               </TabsList>
               <TabsContent value="members">
-                <MembersDataTable />
+                <MembersDataTable data={members} />
               </TabsContent>
-              <TabsContent value="pending"></TabsContent>
+              <TabsContent value="pending">
+                <InvitationsDataTable data={[]} />
+              </TabsContent>
             </Tabs>
           </FormCardContent>
           <FormCardSeparator />
