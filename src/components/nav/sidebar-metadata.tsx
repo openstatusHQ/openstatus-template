@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/table";
 import {
   EmptyStateContainer,
-  EmptyStateText,
+  EmptyStateDescription,
 } from "@/components/content/empty-state";
 
 export type SidebarMetadataProps = {
@@ -52,7 +52,7 @@ export function SidebarMetadata({ label, items }: SidebarMetadataProps) {
               <SidebarMetadataTable items={items} />
             ) : (
               <EmptyStateContainer className="m-2">
-                <EmptyStateText>No {label}</EmptyStateText>
+                <EmptyStateDescription>No {label}</EmptyStateDescription>
               </EmptyStateContainer>
             )}
           </SidebarGroupContent>

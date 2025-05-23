@@ -1,5 +1,5 @@
 import {
-  EmptyStateText,
+  EmptyStateDescription,
   EmptyStateTitle,
 } from "@/components/content/empty-state";
 import { EmptyStateContainer } from "@/components/content/empty-state";
@@ -23,12 +23,12 @@ export default function Page() {
       <Section>
         <EmptyStateContainer>
           <EmptyStateTitle>Create and start customizing</EmptyStateTitle>
-          <EmptyStateText>
+          <EmptyStateDescription>
             Connect your <span className="text-foreground">monitors</span>, set
             up a <span className="text-foreground">custom domain</span>,{" "}
             <span className="text-foreground">password protect</span> it and
             more...
-          </EmptyStateText>
+          </EmptyStateDescription>
         </EmptyStateContainer>
       </Section>
     </SectionGroup>

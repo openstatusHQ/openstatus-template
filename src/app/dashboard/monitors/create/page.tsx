@@ -2,7 +2,7 @@ import {
   EmptyStateContainer,
   EmptyStateTitle,
 } from "@/components/content/empty-state";
-import { EmptyStateText } from "@/components/content/empty-state";
+import { EmptyStateDescription } from "@/components/content/empty-state";
 import {
   Section,
   SectionGroup,
@@ -23,13 +23,13 @@ export default function Page() {
       <Section>
         <EmptyStateContainer>
           <EmptyStateTitle>Create and start customizing</EmptyStateTitle>
-          <EmptyStateText>
+          <EmptyStateDescription>
             Change the <span className="text-foreground">periodicity</span>, set
             up the <span className="text-foreground">regions</span>,{" "}
             <span className="text-foreground">timeout</span> or{" "}
             <span className="text-foreground">degraded</span> duration and
             more...
-          </EmptyStateText>
+          </EmptyStateDescription>
         </EmptyStateContainer>
       </Section>
     </SectionGroup>

@@ -30,7 +30,7 @@ export function EmptyStateTitle({
   );
 }
 
-export function EmptyStateText({
+export function EmptyStateDescription({
   children,
   className,
   ...props

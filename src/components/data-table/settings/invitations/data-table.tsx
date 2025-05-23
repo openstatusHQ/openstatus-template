@@ -1,6 +1,6 @@
 import {
   EmptyStateContainer,
-  EmptyStateText,
+  EmptyStateDescription,
   EmptyStateTitle,
 } from "@/components/content/empty-state";
 import { QuickActions } from "@/components/dropdowns/quick-actions";
@@ -19,7 +19,9 @@ export function DataTable({ data }: { data: Invitation[] }) {
     return (
       <EmptyStateContainer>
         <EmptyStateTitle>No pending invitations</EmptyStateTitle>
-        <EmptyStateText>Only active invitations are shown here.</EmptyStateText>
+        <EmptyStateDescription>
+          Only active invitations are shown here.
+        </EmptyStateDescription>
       </EmptyStateContainer>
     );
   }
