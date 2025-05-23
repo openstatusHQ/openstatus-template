@@ -71,7 +71,7 @@ export function FormCustomDomain({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(submitAction)} {...props}>
         <FormCard>
-          <FormCardUpgrade />
+          {LOCKED ? <FormCardUpgrade /> : null}
           <FormCardHeader>
             <FormCardTitle>Custom Domain</FormCardTitle>
             <FormCardDescription>

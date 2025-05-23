@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { Input } from "../ui/input";
 
 export interface InputWithAddonsProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -17,24 +18,26 @@ const InputWithAddons = React.forwardRef<
   InputWithAddonsProps
 >(({ leading, trailing, className, ...props }, ref) => {
   return (
-    <div className="border-input ring-offset-background group flex h-9 w-full rounded-md border bg-transparent focus-within:outline-none focus-within:ring-[3px] focus-within:border-ring focus-within:ring-ring/50 overflow-hidden text-base shadow-xs transition-[color,box-shadow] md:text-sm">
+    <div className={cn("flex rounded-md shadow-xs", className)}>
       {leading ? (
-        <div className="border-input bg-muted border-r px-3 py-1 flex items-center justify-center">
+        <span className="border-input bg-muted text-muted-foreground inline-flex items-center rounded-s-md border px-3 text-sm">
           {leading}
-        </div>
+        </span>
       ) : null}
-      <input
-        className={cn(
-          "bg-background placeholder:text-muted-foreground w-full rounded-md px-3 py-1 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50",
-          className
-        )}
+      <Input
         ref={ref}
+        className={cn("shadow-none z-10", {
+          "rounded-s-none -ms-px": leading,
+          "rounded-e-none -me-px": trailing,
+        })}
+        placeholder="google.com"
+        type="text"
         {...props}
       />
       {trailing ? (
-        <div className="border-input bg-muted border-l px-3 py-1 flex items-center justify-center">
+        <span className="border-input bg-muted text-muted-foreground inline-flex items-center rounded-e-md border px-3 text-sm">
           {trailing}
-        </div>
+        </span>
       ) : null}
     </div>
   );
