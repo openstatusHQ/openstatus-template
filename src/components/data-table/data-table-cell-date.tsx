@@ -1,3 +1,5 @@
+// TODO: rename to TableCellDate
+// TODO: create TableCellLink (with arrow icon)
 export function DataTableCellDate({ value }: { value: unknown }) {
   if (value instanceof Date) {
     return (
