@@ -6,6 +6,7 @@ import {
   FormCardContent,
   FormCardDescription,
   FormCardFooter,
+  FormCardFooterInfo,
   FormCardHeader,
   FormCardSeparator,
   FormCardTitle,
@@ -27,6 +28,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { type Region, regions } from "@/data/regions";
+import { Link } from "@/components/common/link";
 
 const REGIONS = ["ams", "fra", "iad", "syd", "jnb", "gru"] satisfies Region[];
 const PERIODICITY = ["30s", "1m", "5m", "10m", "30m", "1h"] as const;
@@ -258,6 +260,10 @@ export function FormSchedulingRegions({
             />
           </FormCardContent>
           <FormCardFooter>
+            <FormCardFooterInfo>
+              Learn more about <Link href="#">Regions</Link> and{" "}
+              <Link href="#">Periodicity</Link>.
+            </FormCardFooterInfo>
             <Button type="submit" disabled={isPending}>
               {isPending ? "Submitting..." : "Submit"}
             </Button>
