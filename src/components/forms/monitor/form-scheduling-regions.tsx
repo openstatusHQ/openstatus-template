@@ -27,20 +27,12 @@ import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
-import { type Region, regions } from "@/data/regions";
+import { groupedRegions, type Region, regions } from "@/data/regions";
 import { Link } from "@/components/common/link";
 
 const REGIONS = ["ams", "fra", "iad", "syd", "jnb", "gru"] satisfies Region[];
 const PERIODICITY = ["30s", "1m", "5m", "10m", "30m", "1h"] as const;
-
-const GROUPED_REGIONS = regions.reduce((acc, region) => {
-  const continent = region.continent;
-  if (!acc[continent]) {
-    acc[continent] = [];
-  }
-  acc[continent].push(region.code);
-  return acc;
-}, {} as Record<string, Region[]>);
+const GROUPED_REGIONS = groupedRegions;
 
 const schema = z.object({
   regions: z.array(z.string()),

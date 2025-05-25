@@ -212,3 +212,12 @@ export const regions = [
 ] as const;
 
 export type Region = (typeof regions)[number]["code"];
+
+export const groupedRegions = regions.reduce((acc, region) => {
+  const continent = region.continent;
+  if (!acc[continent]) {
+    acc[continent] = [];
+  }
+  acc[continent].push(region.code);
+  return acc;
+}, {} as Record<string, Region[]>);

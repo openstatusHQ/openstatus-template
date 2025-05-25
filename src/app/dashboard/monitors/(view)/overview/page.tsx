@@ -4,8 +4,7 @@ import { ChartBarUptime } from "@/components/chart/chart-bar-uptime";
 import { ChartAreaLatency } from "@/components/chart/chart-area-latency";
 import { MetricExample } from "@/components/metric/example";
 import { Button } from "@/components/ui/button";
-import { ExampleRegionTable } from "@/components/example/example-region-container";
-import { X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import {
   Section,
   SectionDescription,
@@ -24,8 +23,26 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import DatePicker from "@/components/date-picker";
+import {
+  Command,
+  CommandEmpty,
+  CommandItem,
+  CommandGroup,
+  CommandList,
+  CommandInput,
+  CommandSeparator,
+} from "@/components/ui/command";
+import { groupedRegions, Region, regions } from "@/data/regions";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { regionMetrics } from "@/data/region-metrics";
+import { columns as regionColumns } from "@/components/data-table/response-logs/regions/columns";
 
 export default function Page() {
+  const [selectedRegions, setSelectedRegions] = useState<Region[]>(
+    regions.map((r) => r.code)
+  );
+
   return (
     <SectionGroup>
       <Section>
@@ -44,9 +61,80 @@ export default function Page() {
               <DatePicker />
             </PopoverContent>
           </Popover>
-          <Button variant="outline" size="sm">
-            All Regions
-          </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm">
+                {selectedRegions.length === regions.length
+                  ? "All Regions"
+                  : `${selectedRegions.length} Regions`}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent align="start" className="w-[200px] p-0">
+              <Command>
+                <CommandInput placeholder="Search region..." />
+                <CommandList>
+                  <CommandEmpty>No region found.</CommandEmpty>
+                  <CommandGroup>
+                    <CommandItem
+                      onSelect={() => {
+                        setSelectedRegions(
+                          selectedRegions.length === regions.length
+                            ? []
+                            : regions.map((r) => r.code)
+                        );
+                      }}
+                    >
+                      {selectedRegions.length === regions.length
+                        ? "Unselect All"
+                        : "Select All"}
+                    </CommandItem>
+                  </CommandGroup>
+                  <CommandSeparator />
+                  {Object.entries(groupedRegions).map(
+                    ([continent, regionCodes]) => (
+                      <CommandGroup key={continent} heading={continent}>
+                        {regions
+                          .filter((region) => regionCodes.includes(region.code))
+                          .map((region) => (
+                            <CommandItem
+                              key={region.code}
+                              value={region.code}
+                              keywords={[
+                                region.code,
+                                region.location,
+                                region.continent,
+                                region.flag,
+                              ]}
+                              onSelect={() => {
+                                setSelectedRegions((prev) =>
+                                  prev.includes(region.code)
+                                    ? prev.filter((r) => r !== region.code)
+                                    : [...prev, region.code]
+                                );
+                              }}
+                            >
+                              <span className="mr-1">{region.flag}</span>
+                              {region.code}
+                              <span className="ml-1 text-muted-foreground text-xs truncate">
+                                {region.location}
+                              </span>
+                              <Check
+                                className={cn(
+                                  "ml-auto",
+                                  selectedRegions.includes(region.code)
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
+                      </CommandGroup>
+                    )
+                  )}
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
           <Button variant="ghost" size="sm">
             <X />
             Reset
@@ -94,7 +182,7 @@ export default function Page() {
             Every region&apos;s latency over the last 24 hours
           </SectionDescription>
         </SectionHeader>
-        <ExampleRegionTable />
+        <DataTable data={regionMetrics} columns={regionColumns} />
       </Section>
     </SectionGroup>
   );
