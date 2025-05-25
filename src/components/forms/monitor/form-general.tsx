@@ -29,6 +29,7 @@ import {
   FormCardContent,
   FormCardDescription,
   FormCardFooter,
+  FormCardFooterInfo,
   FormCardHeader,
   FormCardSeparator,
   FormCardTitle,
@@ -40,6 +41,8 @@ import { Link } from "@/components/common/link";
 
 const TYPES = ["HTTP", "TCP"] as const;
 const METHODS = ["GET", "POST", "PUT", "DELETE", "PATCH"] as const;
+const ASSERTION_TYPES = ["status", "header", "body"] as const;
+const ASSERTION_EQ = ["eq", "neq", "gt", "gte", "lt", "lte"] as const;
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -53,6 +56,13 @@ const schema = z.object({
     })
   ),
   body: z.string().optional(),
+  assertions: z.array(
+    z.object({
+      type: z.enum(ASSERTION_TYPES),
+      eq: z.string(),
+      value: z.string(),
+    })
+  ),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -73,6 +83,7 @@ export function FormGeneral({
       method: "GET",
       url: "",
       headers: [],
+      assertions: [],
       body: "",
     },
   });
@@ -179,160 +190,244 @@ export function FormGeneral({
           </FormCardContent>
           {watchType ? <FormCardSeparator /> : null}
           {watchType === "HTTP" && (
-            <FormCardContent className="grid gap-4 grid-cols-4">
-              <FormField
-                control={form.control}
-                name="method"
-                render={({ field }) => (
-                  <FormItem className="col-span-1">
-                    <FormLabel>Method</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select a method" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {METHODS.map((method) => (
-                          <SelectItem key={method} value={method}>
-                            {method}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="url"
-                render={({ field }) => (
-                  <FormItem className="col-span-3">
-                    <FormLabel>URL</FormLabel>
-                    <FormControl>
-                      <Input placeholder="https://openstatus.dev" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="headers"
-                render={({ field }) => (
-                  <FormItem className="col-span-full">
-                    <FormLabel>Request Headers</FormLabel>
-                    {field.value.map((header, index) => (
-                      <div
-                        key={index}
-                        className="flex flex-row items-center gap-2"
-                      >
-                        <Input
-                          placeholder="Key"
-                          value={header.key}
-                          onChange={(e) => {
-                            const newHeaders = [...field.value];
-                            newHeaders[index] = {
-                              ...newHeaders[index],
-                              key: e.target.value,
-                            };
-                            field.onChange(newHeaders);
-                          }}
-                        />
-                        <Input
-                          placeholder="Value"
-                          value={header.value}
-                          onChange={(e) => {
-                            const newHeaders = [...field.value];
-                            newHeaders[index] = {
-                              ...newHeaders[index],
-                              value: e.target.value,
-                            };
-                            field.onChange(newHeaders);
-                          }}
-                        />
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          onClick={() => {
-                            const newHeaders = field.value.filter(
-                              (_, i) => i !== index
-                            );
-                            field.onChange(newHeaders);
-                          }}
-                        >
-                          <X />
-                        </Button>
-                      </div>
-                    ))}
-                    <div>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        type="button"
-                        onClick={() => {
-                          field.onChange([
-                            ...field.value,
-                            { key: "", value: "" },
-                          ]);
-                        }}
-                      >
-                        <Plus />
-                        Add Header
-                      </Button>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {watchMethod === "POST" && (
+            <>
+              <FormCardContent className="grid gap-4 grid-cols-4">
                 <FormField
                   control={form.control}
-                  name="body"
+                  name="method"
                   render={({ field }) => (
-                    <FormItem className="col-span-full">
-                      <FormLabel>Body</FormLabel>
-                      <FormControl>
-                        <Textarea {...field} />
-                      </FormControl>
-                      <FormDescription>Write your payload</FormDescription>
+                    <FormItem className="col-span-1">
+                      <FormLabel>Method</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select a method" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {METHODS.map((method) => (
+                            <SelectItem key={method} value={method}>
+                              {method}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              )}
-              <div className="grid gap-1.5 col-span-full">
-                <FormLabel>Assertions</FormLabel>
-                <FormDescription>
-                  Validate the response to ensure your service is working as
-                  expected.
-                  <br />
-                  By default, we check for a{" "}
-                  <span className="text-foreground font-medium">
-                    2xx status code
-                  </span>
-                  .
-                </FormDescription>
-                <div className="flex flex-wrap gap-1.5">
-                  <Button variant="outline" size="sm" type="button">
-                    <Plus />
-                    Status assertion
-                  </Button>
-                  <Button variant="outline" size="sm" type="button">
-                    <Plus />
-                    Header assertion
-                  </Button>
-                  <Button variant="outline" size="sm" type="button">
-                    <Plus />
-                    Body assertion
-                  </Button>
-                </div>
-              </div>
-            </FormCardContent>
+                <FormField
+                  control={form.control}
+                  name="url"
+                  render={({ field }) => (
+                    <FormItem className="col-span-3">
+                      <FormLabel>URL</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="https://openstatus.dev"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="headers"
+                  render={({ field }) => (
+                    <FormItem className="col-span-full">
+                      <FormLabel>Request Headers</FormLabel>
+                      {field.value.map((header, index) => (
+                        <div key={index} className="grid gap-2 grid-cols-5">
+                          <Input
+                            placeholder="Key"
+                            className="col-span-2"
+                            value={header.key}
+                            onChange={(e) => {
+                              const newHeaders = [...field.value];
+                              newHeaders[index] = {
+                                ...newHeaders[index],
+                                key: e.target.value,
+                              };
+                              field.onChange(newHeaders);
+                            }}
+                          />
+                          <Input
+                            placeholder="Value"
+                            className="col-span-2"
+                            value={header.value}
+                            onChange={(e) => {
+                              const newHeaders = [...field.value];
+                              newHeaders[index] = {
+                                ...newHeaders[index],
+                                value: e.target.value,
+                              };
+                              field.onChange(newHeaders);
+                            }}
+                          />
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={() => {
+                              const newHeaders = field.value.filter(
+                                (_, i) => i !== index
+                              );
+                              field.onChange(newHeaders);
+                            }}
+                          >
+                            <X />
+                          </Button>
+                        </div>
+                      ))}
+                      <div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          type="button"
+                          onClick={() => {
+                            field.onChange([
+                              ...field.value,
+                              { key: "", value: "" },
+                            ]);
+                          }}
+                        >
+                          <Plus />
+                          Add Header
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {watchMethod === "POST" && (
+                  <FormField
+                    control={form.control}
+                    name="body"
+                    render={({ field }) => (
+                      <FormItem className="col-span-full">
+                        <FormLabel>Body</FormLabel>
+                        <FormControl>
+                          <Textarea {...field} />
+                        </FormControl>
+                        <FormDescription>Write your payload</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+              </FormCardContent>
+              <FormCardSeparator />
+              <FormCardContent>
+                <FormField
+                  control={form.control}
+                  name="assertions"
+                  render={({ field }) => (
+                    <FormItem className="col-span-full">
+                      <FormLabel>Assertions</FormLabel>
+                      <FormDescription>
+                        Validate the response to ensure your service is working
+                        as expected. <br />
+                        Add body, header, or status assertions.
+                      </FormDescription>
+                      {field.value.map((assertion, index) => (
+                        <div key={index} className="grid gap-2 grid-cols-5">
+                          <Select
+                            value={assertion.type}
+                            onValueChange={(value) => {
+                              const newAssertions = [...field.value];
+                              newAssertions[index] = {
+                                ...newAssertions[index],
+                                type: value as (typeof ASSERTION_TYPES)[number],
+                              };
+                              field.onChange(newAssertions);
+                            }}
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {ASSERTION_TYPES.map((type) => (
+                                <SelectItem key={type} value={type}>
+                                  {type}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <Select
+                            value={assertion.eq}
+                            onValueChange={(value) => {
+                              const newAssertions = [...field.value];
+                              newAssertions[index] = {
+                                ...newAssertions[index],
+                                eq: value as (typeof ASSERTION_EQ)[number],
+                              };
+                              field.onChange(newAssertions);
+                            }}
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select eq" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {ASSERTION_EQ.map((eq) => (
+                                <SelectItem key={eq} value={eq}>
+                                  {eq}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <Input
+                            placeholder="Value"
+                            className="w-full col-span-2"
+                            value={assertion.value}
+                            onChange={(e) => {
+                              const newAssertions = [...field.value];
+                              newAssertions[index] = {
+                                ...newAssertions[index],
+                                value: e.target.value,
+                              };
+                              field.onChange(newAssertions);
+                            }}
+                          />
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={() => {
+                              const newAssertions = field.value.filter(
+                                (_, i) => i !== index
+                              );
+                              field.onChange(newAssertions);
+                            }}
+                          >
+                            <X />
+                          </Button>
+                        </div>
+                      ))}
+                      <div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          type="button"
+                          onClick={() => {
+                            field.onChange([
+                              ...field.value,
+                              { type: "status", value: "" },
+                            ]);
+                          }}
+                        >
+                          <Plus />
+                          Add Assertion
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormCardContent>
+            </>
           )}
           {watchType === "TCP" && (
             <FormCardContent className="grid gap-4">
@@ -378,6 +473,10 @@ export function FormGeneral({
             </FormCardContent>
           )}
           <FormCardFooter>
+            <FormCardFooterInfo>
+              Learn more about <Link href="#">Monitor Type</Link> and{" "}
+              <Link href="#">Assertions</Link>.
+            </FormCardFooterInfo>
             <Button type="submit" disabled={isPending}>
               {isPending ? "Submitting..." : "Submit"}
             </Button>
