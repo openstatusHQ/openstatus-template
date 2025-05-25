@@ -14,6 +14,7 @@ import { monitors } from "@/data/monitors";
 import { TableCellLink } from "@/components/data-table/table-cell-link";
 import { TableCellNumber } from "@/components/data-table/table-cell-number";
 import { formatDistanceStrict } from "date-fns";
+import { TableCellBoolean } from "@/components/data-table/table-cell-boolean";
 
 // NOTE:
 const BADGE_URL =
@@ -69,8 +70,14 @@ export function Sidebar() {
         {
           label: "Configuration",
           items: [
-            { label: "Protected", value: String(statusPage.protected) },
-            { label: "Show values", value: String(statusPage.showValues) },
+            {
+              label: "Protected",
+              value: <TableCellBoolean value={statusPage.protected} />,
+            },
+            {
+              label: "Show values",
+              value: <TableCellBoolean value={statusPage.showValues} />,
+            },
           ],
         },
         {

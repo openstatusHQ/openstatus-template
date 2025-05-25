@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
+// TODO: rename to DataTableViewer?
+
 export function DataTableSheetContent({
   children,
   className,
