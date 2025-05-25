@@ -58,7 +58,7 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                 <TableHead className="bg-muted/50 text-muted-foreground font-normal">
                   Timestamp
                 </TableHead>
-                <TableCell className="font-mono">
+                <TableCell className="font-mono whitespace-normal">
                   {selectedRow?.timestamp}
                 </TableCell>
               </TableRow>
@@ -66,7 +66,7 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                 <TableHead className="bg-muted/50 text-muted-foreground font-normal">
                   Status
                 </TableHead>
-                <TableCell className="font-mono">
+                <TableCell className="font-mono whitespace-normal">
                   {selectedRow?.status}
                 </TableCell>
               </TableRow>
@@ -74,13 +74,15 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                 <TableHead className="bg-muted/50 text-muted-foreground font-normal">
                   URL
                 </TableHead>
-                <TableCell className="font-mono">{selectedRow?.url}</TableCell>
+                <TableCell className="font-mono whitespace-normal">
+                  {selectedRow?.url}
+                </TableCell>
               </TableRow>
               <TableRow className="[&>:not(:last-child)]:border-r">
                 <TableHead className="bg-muted/50 text-muted-foreground font-normal">
                   Latency
                 </TableHead>
-                <TableCell className="font-mono">
+                <TableCell className="font-mono whitespace-normal">
                   {selectedRow?.latency}ms
                 </TableCell>
               </TableRow>
@@ -88,7 +90,7 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                 <TableHead className="bg-muted/50 text-muted-foreground font-normal">
                   Region
                 </TableHead>
-                <TableCell className="font-mono">
+                <TableCell className="font-mono whitespace-normal">
                   {regionConfig?.flag} {regionConfig?.code}{" "}
                   <span className="text-muted-foreground">
                     {regionConfig?.location}
@@ -107,7 +109,9 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                     <TableHead className="bg-muted/50 text-muted-foreground font-normal">
                       {key}
                     </TableHead>
-                    <TableCell className="font-mono">{value}</TableCell>
+                    <TableCell className="font-mono whitespace-normal">
+                      {value}
+                    </TableCell>
                   </TableRow>
                 )
               )}
@@ -123,7 +127,7 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                     <TableHead className="bg-muted/50 text-muted-foreground font-normal">
                       <span className="uppercase">{key}</span>
                     </TableHead>
-                    <TableCell className="font-mono">
+                    <TableCell className="font-mono whitespace-normal">
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex-1">
                           <span className="text-muted-foreground">
