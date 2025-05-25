@@ -33,6 +33,7 @@ import { statusPages } from "@/data/status-pages";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const schema = z.object({
+  name: z.string().optional(),
   description: z.string().optional(),
   statusPages: z.array(z.number()),
 });
@@ -50,6 +51,7 @@ export function FormStatusPages({
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues ?? {
+      name: "",
       description: "",
       statusPages: [],
     },
@@ -85,12 +87,29 @@ export function FormStatusPages({
               Add status pages to your monitor.
             </FormCardDescription>
           </FormCardHeader>
-          <FormCardContent>
+          <FormCardContent className="grid gap-4 sm:grid-cols-3">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="sm:col-span-2">
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="OpenStatus API" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Name on the status page. If not provided, monitor&apos;s
+                    name will be used.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="sm:col-span-full">
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Input placeholder="My Status Page" {...field} />
