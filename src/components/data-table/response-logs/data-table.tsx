@@ -27,6 +27,7 @@ import { TableCellDate } from "@/components/data-table/table-cell-date";
 import { TableCellNumber } from "@/components/data-table/table-cell-number";
 import { statusCodes } from "@/data/status-codes";
 import { Separator } from "@/components/ui/separator";
+import { ResponseLogsDataTableToolbar } from "@/components/data-table/response-logs/data-table-toolbar";
 
 export function DataTable({ data }: { data: ResponseLog[] }) {
   // TODO: use rowSelection from tanstack-table
@@ -50,6 +51,7 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
         // />
         onRowClick={(row) => setSelectedRow(row.original)}
         paginationComponent={DataTablePagination}
+        toolbarComponent={ResponseLogsDataTableToolbar}
       />
       <DataTableSheet
         open={!!selectedRow}
@@ -221,6 +223,7 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                   </TableRow>
                 </>
               )}
+              {/* TODO: add assertions */}
             </TableBody>
           </Table>
           <Separator />

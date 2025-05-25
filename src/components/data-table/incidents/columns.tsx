@@ -28,19 +28,6 @@ export const columns: ColumnDef<Incident>[] = [
     },
   },
   {
-    id: "duration",
-    accessorFn: (row) => formatDistanceStrict(row.startedAt, row.resolvedAt),
-    header: "Duration",
-    cell: ({ row }) => {
-      const value = row.getValue("duration");
-      if (typeof value === "string") {
-        const [amount, unit] = value.split(" ");
-        return <TableCellNumber value={amount} unit={unit} />;
-      }
-      return <TableCellNumber value={value} />;
-    },
-  },
-  {
     accessorKey: "startedAt",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Started At" />
@@ -63,6 +50,19 @@ export const columns: ColumnDef<Incident>[] = [
     ),
     cell: ({ row }) => <TableCellDate value={row.getValue("resolvedAt")} />,
     enableHiding: false,
+  },
+  {
+    id: "duration",
+    accessorFn: (row) => formatDistanceStrict(row.startedAt, row.resolvedAt),
+    header: "Duration",
+    cell: ({ row }) => {
+      const value = row.getValue("duration");
+      if (typeof value === "string") {
+        const [amount, unit] = value.split(" ");
+        return <TableCellNumber value={amount} unit={unit} />;
+      }
+      return <TableCellNumber value={value} />;
+    },
   },
   {
     id: "actions",

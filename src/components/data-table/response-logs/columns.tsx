@@ -58,15 +58,6 @@ export const columns: ColumnDef<ResponseLog>[] = [
     },
   },
   {
-    accessorKey: "url",
-    header: "URL",
-    enableSorting: false,
-    enableHiding: false,
-    meta: {
-      cellClassName: "text-muted-foreground",
-    },
-  },
-  {
     accessorKey: "status",
     header: "Status",
     enableSorting: false,
@@ -84,6 +75,15 @@ export const columns: ColumnDef<ResponseLog>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       return <TableCellNumber value={row.getValue("latency")} unit="ms" />;
+    },
+  },
+  {
+    accessorKey: "region",
+    header: "Region",
+    enableSorting: false,
+    enableHiding: false,
+    meta: {
+      cellClassName: "text-muted-foreground font-mono",
     },
   },
   {

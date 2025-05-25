@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Section,
   SectionGroup,
@@ -14,6 +16,7 @@ import { DataTable } from "@/components/ui/data-table/data-table";
 import { monitors } from "@/data/monitors";
 import { columns } from "@/components/data-table/monitors/columns";
 import { MonitorDataTableActionBar } from "@/components/data-table/monitors/data-table-action-bar";
+import { MonitorDataTableToolbar } from "@/components/data-table/monitors/data-table-toolbar";
 
 export default function Page() {
   return (
@@ -48,6 +51,7 @@ export default function Page() {
           columns={columns}
           data={monitors}
           actionBar={MonitorDataTableActionBar}
+          toolbarComponent={MonitorDataTableToolbar}
         />
       </Section>
     </SectionGroup>
