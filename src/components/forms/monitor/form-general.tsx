@@ -59,8 +59,8 @@ const schema = z.object({
   assertions: z.array(
     z.object({
       type: z.enum(ASSERTION_TYPES),
-      eq: z.string(),
-      value: z.string(),
+      eq: z.enum(ASSERTION_EQ),
+      value: z.string().min(1),
     })
   ),
 });
@@ -242,7 +242,7 @@ export function FormGeneral({
                     <FormItem className="col-span-full">
                       <FormLabel>Request Headers</FormLabel>
                       {field.value.map((header, index) => (
-                        <div key={index} className="grid gap-2 grid-cols-5">
+                        <div key={index} className="grid gap-2 sm:grid-cols-5">
                           <Input
                             placeholder="Key"
                             className="col-span-2"
@@ -333,68 +333,79 @@ export function FormGeneral({
                         as expected. <br />
                         Add body, header, or status assertions.
                       </FormDescription>
-                      {field.value.map((assertion, index) => (
-                        <div key={index} className="grid gap-2 grid-cols-5">
-                          <Select
-                            value={assertion.type}
-                            onValueChange={(value) => {
-                              const newAssertions = [...field.value];
-                              newAssertions[index] = {
-                                ...newAssertions[index],
-                                type: value as (typeof ASSERTION_TYPES)[number],
-                              };
-                              field.onChange(newAssertions);
-                            }}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Select type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {ASSERTION_TYPES.map((type) => (
-                                <SelectItem key={type} value={type}>
-                                  {type}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <Select
-                            value={assertion.eq}
-                            onValueChange={(value) => {
-                              const newAssertions = [...field.value];
-                              newAssertions[index] = {
-                                ...newAssertions[index],
-                                eq: value as (typeof ASSERTION_EQ)[number],
-                              };
-                              field.onChange(newAssertions);
-                            }}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Select eq" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {ASSERTION_EQ.map((eq) => (
-                                <SelectItem key={eq} value={eq}>
-                                  {eq}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <Input
-                            placeholder="Value"
-                            className="w-full col-span-2"
-                            value={assertion.value}
-                            onChange={(e) => {
-                              const newAssertions = [...field.value];
-                              newAssertions[index] = {
-                                ...newAssertions[index],
-                                value: e.target.value,
-                              };
-                              field.onChange(newAssertions);
-                            }}
+                      {field.value.map((_, index) => (
+                        <div key={index} className="grid gap-2 sm:grid-cols-5">
+                          <FormField
+                            control={form.control}
+                            name={`assertions.${index}.type`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <Select
+                                  value={field.value}
+                                  onValueChange={field.onChange}
+                                >
+                                  <SelectTrigger
+                                    aria-invalid={
+                                      !!form.formState.errors.assertions?.[
+                                        index
+                                      ]?.type
+                                    }
+                                    className="w-full"
+                                  >
+                                    <SelectValue placeholder="Select type" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {ASSERTION_TYPES.map((type) => (
+                                      <SelectItem key={type} value={type}>
+                                        {type}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name={`assertions.${index}.eq`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <Select
+                                  value={field.value}
+                                  onValueChange={field.onChange}
+                                >
+                                  <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select eq" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {ASSERTION_EQ.map((eq) => (
+                                      <SelectItem key={eq} value={eq}>
+                                        {eq}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name={`assertions.${index}.value`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <Input
+                                  placeholder="Value"
+                                  className="w-full col-span-2"
+                                  {...field}
+                                />
+                              </FormItem>
+                            )}
                           />
                           <Button
                             size="icon"
                             variant="ghost"
+                            type="button"
                             onClick={() => {
                               const newAssertions = field.value.filter(
                                 (_, i) => i !== index
