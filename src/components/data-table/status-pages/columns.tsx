@@ -3,17 +3,25 @@
 import { Link } from "@/components/common/link";
 import type { StatusPage } from "@/data/status-pages";
 import { ColumnDef } from "@tanstack/react-table";
+import { TableCellLink } from "@/components/data-table/table-cell-link";
 
 export const columns: ColumnDef<StatusPage>[] = [
   {
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => {
-      const value = String(row.getValue("name"));
-      return <Link href={`status-pages/status-reports`}>{value}</Link>;
+      return (
+        <TableCellLink
+          href={`status-pages/status-reports`}
+          value={row.getValue("name")}
+        />
+      );
     },
     enableSorting: false,
     enableHiding: false,
+    meta: {
+      cellClassName: "max-w-[150px] min-w-max",
+    },
   },
   {
     accessorKey: "favicon",

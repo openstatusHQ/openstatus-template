@@ -2,6 +2,7 @@ export const responseLogs = [
   {
     id: 1,
     url: "https://api.openstatus.dev",
+    method: "GET",
     status: "200",
     latency: 150,
     timing: {
@@ -22,7 +23,10 @@ export const responseLogs = [
       Date: "Sun, 28 Jan 2024 08:50:13 GMT",
       Server: "Vercel",
     },
-    type: "scheduled" as const,
+    type: "scheduled" as const satisfies "scheduled" | "on-demand",
+    // error message
+    message:
+      "Environment variable 'NEXT_PUBLIC_TEST_KEY' is missing. Please add and redeploy your project.",
   },
 ];
 

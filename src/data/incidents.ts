@@ -4,7 +4,6 @@ export const incidents = [
     startedAt: new Date("2025-05-05 12:00:00"),
     acknowledged: null,
     resolvedAt: new Date("2025-05-05 14:00:00"),
-    duration: "2 hour",
     monitor: "OpenStatus API",
   },
 ];

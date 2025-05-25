@@ -6,6 +6,9 @@ import { StatusReport } from "@/data/status-reports";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { DataTableRowActions } from "./data-table-row-actions";
+import { TableCellNumber } from "@/components/data-table/table-cell-number";
+import { formatDistanceStrict } from "date-fns";
+import { TableCellDate } from "@/components/data-table/table-cell-date";
 
 export const columns: ColumnDef<StatusReport>[] = [
   {
@@ -57,35 +60,33 @@ export const columns: ColumnDef<StatusReport>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "duration",
+    id: "duration",
+    accessorFn: (row) => {
+      const resolvedAt = row.updates.find(
+        (i) => i.status === "operational"
+      )?.date;
+      if (!resolvedAt) return null;
+      return formatDistanceStrict(row.startedAt, resolvedAt);
+    },
     header: "Duration",
     cell: ({ row }) => {
-      return (
-        <div className="text-muted-foreground font-mono">
-          {row.getValue("duration")}
-        </div>
-      );
+      const value = row.getValue("duration");
+      if (typeof value === "string") {
+        const [amount, unit] = value.split(" ");
+        return <TableCellNumber value={amount} unit={unit} />;
+      }
+      if (value === null) {
+        return <div className="font-mono text-destructive">Ongoing</div>;
+      }
+      return <TableCellNumber value={value} />;
     },
-    enableSorting: false,
-    enableHiding: false,
   },
   {
     accessorKey: "startedAt",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Started At" />
     ),
-    cell: ({ row }) => {
-      const value = row.getValue("startedAt");
-      if (value instanceof Date) {
-        return (
-          <div className="text-muted-foreground">{value.toLocaleString()}</div>
-        );
-      }
-      if (typeof value === "string") {
-        return <div className="text-muted-foreground">{value}</div>;
-      }
-      return <div className="text-muted-foreground">-</div>;
-    },
+    cell: ({ row }) => <TableCellDate value={row.getValue("startedAt")} />,
     enableHiding: false,
     meta: {
       cellClassName: "w-[170px]",

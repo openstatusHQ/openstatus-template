@@ -5,7 +5,7 @@ import {
   SectionTitle,
 } from "@/components/content/section";
 import { statusPages } from "@/data/status-pages";
-import { columns } from "./columns";
+import { columns } from "@/components/data-table/status-pages/columns";
 import { DataTable } from "@/components/ui/data-table/data-table";
 
 export default function Page() {

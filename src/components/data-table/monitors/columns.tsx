@@ -44,6 +44,9 @@ export const columns: ColumnDef<Monitor>[] = [
     },
     enableSorting: false,
     enableHiding: false,
+    meta: {
+      cellClassName: "max-w-[150px] min-w-max",
+    },
   },
   {
     accessorKey: "status",

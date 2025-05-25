@@ -11,8 +11,9 @@ import { statusReports } from "@/data/status-reports";
 import { ExternalLink } from "lucide-react";
 import { statusPages } from "@/data/status-pages";
 import { monitors } from "@/data/monitors";
+import { TableCellLink } from "@/components/data-table/table-cell-link";
 
-// NOTE: This is a static badge URL.
+// NOTE:
 const BADGE_URL =
   "https://openstatus.dev/status-page/hello-world/badge?size=sm&theme=light";
 
@@ -70,7 +71,10 @@ export function Sidebar() {
             {
               label: "Name",
               value: (
-                <Link href="/dashboard/monitors/overview">{monitor.name}</Link>
+                <TableCellLink
+                  href="/dashboard/monitors/overview"
+                  value={monitor.name}
+                />
               ),
             },
             {
@@ -86,9 +90,10 @@ export function Sidebar() {
             {
               label: "Name",
               value: (
-                <Link href="/dashboard/status-pages/reports">
-                  {report.name}
-                </Link>
+                <TableCellLink
+                  href="/dashboard/status-pages/reports"
+                  value={report.name}
+                />
               ),
             },
             {
@@ -109,9 +114,10 @@ export function Sidebar() {
             {
               label: "Name",
               value: (
-                <Link href="/dashboard/status-pages/maintenances">
-                  {maintenance.title}
-                </Link>
+                <TableCellLink
+                  href="/dashboard/status-pages/maintenances"
+                  value={maintenance.title}
+                />
               ),
             },
             {

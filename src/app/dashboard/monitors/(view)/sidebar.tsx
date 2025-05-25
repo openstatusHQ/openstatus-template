@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/tooltip";
 import { CircleCheck, Logs } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "@/components/common/link";
 import { useRouter } from "next/navigation";
+import { TableCellLink } from "@/components/data-table/table-cell-link";
 
 export function Sidebar() {
   const router = useRouter();
@@ -52,7 +52,10 @@ export function Sidebar() {
         {
           label: "Notifiers",
           items: [
-            { label: "Name", value: <Link href="#">Team</Link> },
+            {
+              label: "Name",
+              value: <TableCellLink href="#" value="Team" />,
+            },
             { label: "Type", value: "Email", isNested: true },
             { label: "Adress", value: "me@openstatus.dev", isNested: true },
           ],

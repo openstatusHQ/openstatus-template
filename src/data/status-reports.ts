@@ -5,7 +5,6 @@ export const statusReports = [
     startedAt: new Date("2025-01-01 12:00:00"),
     updatedAt: new Date("2025-01-01 12:30:00"),
     status: "operational",
-    duration: "30 min.",
     updates: [
       {
         id: 2,
@@ -34,7 +33,6 @@ export const statusReports = [
     startedAt: new Date("2025-01-04 12:10:00"),
     updatedAt: new Date("2025-01-04 12:30:00"),
     status: "operational",
-    duration: "20 min.",
     updates: [
       {
         id: 2,

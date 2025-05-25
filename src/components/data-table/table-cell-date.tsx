@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
-
-// TODO: add format + FormatConfig
+import { format } from "date-fns";
 
 export function TableCellDate({
   value,
@@ -10,7 +9,7 @@ export function TableCellDate({
   if (value instanceof Date) {
     return (
       <div className={cn("text-muted-foreground", className)} {...props}>
-        {value.toLocaleString()}
+        {format(value, "LLL dd, y HH:mm:ss")}
       </div>
     );
   }

@@ -14,7 +14,7 @@ export function TableCellNumber({
   return (
     <div className={cn("font-mono text-foreground", className)} {...props}>
       {_value}
-      {unit && <span className="text-muted-foreground">{unit}</span>}
+      {unit && <span className="text-muted-foreground p-0.5">{unit}</span>}
     </div>
   );
 }

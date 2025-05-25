@@ -10,7 +10,7 @@ import {
   DataTableSheetFooter,
   DataTableSheetHeader,
 } from "@/components/data-table/data-table-sheet";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -22,6 +22,8 @@ import { Button } from "@/components/ui/button";
 import { Braces, Share, TableProperties } from "lucide-react";
 import { regions } from "@/data/regions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DataTablePagination } from "@/components/ui/data-table/data-table-pagination";
+import { TableCellDate } from "../table-cell-date";
 
 export function DataTable({ data }: { data: ResponseLog[] }) {
   // TODO: use rowSelection from tanstack-table
@@ -41,6 +43,7 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
         //   onCheckedChange={(value) => row.toggleSelected(!!value)}
         // />
         onRowClick={(row) => setSelectedRow(row.original)}
+        paginationComponent={DataTablePagination}
       />
       <DataTableSheet
         open={!!selectedRow}
@@ -60,15 +63,10 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                   Timestamp
                 </TableHead>
                 <TableCell className="font-mono whitespace-normal">
-                  {selectedRow?.timestamp}
-                </TableCell>
-              </TableRow>
-              <TableRow className="[&>:not(:last-child)]:border-r">
-                <TableHead className="bg-muted/50 text-muted-foreground font-normal">
-                  Status
-                </TableHead>
-                <TableCell className="font-mono whitespace-normal">
-                  {selectedRow?.status}
+                  <TableCellDate
+                    value={new Date(selectedRow?.timestamp ?? 0)}
+                    className="text-foreground"
+                  />
                 </TableCell>
               </TableRow>
               <TableRow className="[&>:not(:last-child)]:border-r">
@@ -77,6 +75,22 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                 </TableHead>
                 <TableCell className="font-mono whitespace-normal">
                   {selectedRow?.url}
+                </TableCell>
+              </TableRow>
+              <TableRow className="[&>:not(:last-child)]:border-r">
+                <TableHead className="bg-muted/50 text-muted-foreground font-normal">
+                  Method
+                </TableHead>
+                <TableCell className="font-mono whitespace-normal">
+                  {selectedRow?.method}
+                </TableCell>
+              </TableRow>
+              <TableRow className="[&>:not(:last-child)]:border-r">
+                <TableHead className="bg-muted/50 text-muted-foreground font-normal">
+                  Status
+                </TableHead>
+                <TableCell className="font-mono whitespace-normal">
+                  {selectedRow?.status}
                 </TableCell>
               </TableRow>
               <TableRow className="[&>:not(:last-child)]:border-r">
@@ -184,6 +198,12 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                   </TableRow>
                 )
               )}
+              <TableRow>
+                <TableHead colSpan={2}>Message</TableHead>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan={2}></TableCell>
+              </TableRow>
             </TableBody>
           </Table>
           <DataTableSheetFooter>

@@ -6,6 +6,8 @@ import { DataTableRowActions } from "./data-table-row-actions";
 import { Incident } from "@/data/incidents";
 import { TableCellDate } from "@/components/data-table/table-cell-date";
 import { TableCellLink } from "@/components/data-table/table-cell-link";
+import { TableCellNumber } from "@/components/data-table/table-cell-number";
+import { formatDistanceStrict } from "date-fns";
 
 export const columns: ColumnDef<Incident>[] = [
   {
@@ -21,16 +23,21 @@ export const columns: ColumnDef<Incident>[] = [
         />
       );
     },
+    meta: {
+      cellClassName: "max-w-[150px] min-w-max",
+    },
   },
   {
-    accessorKey: "duration",
+    id: "duration",
+    accessorFn: (row) => formatDistanceStrict(row.startedAt, row.resolvedAt),
     header: "Duration",
     cell: ({ row }) => {
-      return (
-        <div className="text-muted-foreground font-mono">
-          {row.getValue("duration")}
-        </div>
-      );
+      const value = row.getValue("duration");
+      if (typeof value === "string") {
+        const [amount, unit] = value.split(" ");
+        return <TableCellNumber value={amount} unit={unit} />;
+      }
+      return <TableCellNumber value={value} />;
     },
   },
   {
