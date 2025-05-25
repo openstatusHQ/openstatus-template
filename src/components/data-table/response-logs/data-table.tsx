@@ -10,7 +10,7 @@ import {
   DataTableSheetFooter,
   DataTableSheetHeader,
 } from "@/components/data-table/data-table-sheet";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import {
   Table,
   TableBody,
@@ -19,8 +19,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Share } from "lucide-react";
+import { Braces, Share, TableProperties } from "lucide-react";
 import { regions } from "@/data/regions";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function DataTable({ data }: { data: ResponseLog[] }) {
   // TODO: use rowSelection from tanstack-table
@@ -100,21 +101,46 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
               <TableRow>
                 <TableHead colSpan={2}>Headers</TableHead>
               </TableRow>
-              {Object.entries(selectedRow?.headers ?? {}).map(
-                ([key, value]) => (
-                  <TableRow
-                    key={key}
-                    className="[&>:not(:last-child)]:border-r"
-                  >
-                    <TableHead className="bg-muted/50 text-muted-foreground font-normal">
-                      {key}
-                    </TableHead>
-                    <TableCell className="font-mono whitespace-normal">
-                      {value}
-                    </TableCell>
-                  </TableRow>
-                )
-              )}
+              <TableRow className="hover:bg-transparent">
+                <TableCell colSpan={2} className="p-0">
+                  <Tabs defaultValue="table" className="w-full gap-0">
+                    <TabsList className="w-full justify-start border-b rounded-none px-2">
+                      <TabsTrigger value="table">
+                        <TableProperties className="size-3 rotate-180" />
+                      </TabsTrigger>
+                      <TabsTrigger value="raw">
+                        <Braces className="size-3" />
+                      </TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="table">
+                      <Table>
+                        <TableBody>
+                          {Object.entries(selectedRow?.headers ?? {}).map(
+                            ([key, value]) => (
+                              <TableRow
+                                key={key}
+                                className="[&>:not(:last-child)]:border-r"
+                              >
+                                <TableHead className="bg-muted/50 text-muted-foreground font-normal">
+                                  {key}
+                                </TableHead>
+                                <TableCell className="font-mono whitespace-normal">
+                                  {value}
+                                </TableCell>
+                              </TableRow>
+                            )
+                          )}
+                        </TableBody>
+                      </Table>
+                    </TabsContent>
+                    <TabsContent value="raw">
+                      <pre className="p-4 bg-muted/50 rounded-none font-mono text-sm whitespace-pre-wrap">
+                        {JSON.stringify(selectedRow?.headers, null, 2)}
+                      </pre>
+                    </TabsContent>
+                  </Tabs>
+                </TableCell>
+              </TableRow>
               <TableRow>
                 <TableHead colSpan={2}>Timing</TableHead>
               </TableRow>
