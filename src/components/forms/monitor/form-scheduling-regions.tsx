@@ -227,7 +227,7 @@ export function FormSchedulingRegions({
                                         />
                                         <FormLabel
                                           htmlFor={region}
-                                          className="text-sm font-normal font-mono truncate"
+                                          className="text-sm font-normal font-mono truncate w-full"
                                         >
                                           <span className="text-nowrap">
                                             {region} {config?.flag}
