@@ -47,8 +47,10 @@ export default function Page() {
             </FormCardContent>
             <FormCardFooter>
               <FormCardFooterInfo>
-                We use Stripe to manage your billing information and payment
-                methods.
+                Access your{" "}
+                <span className="font-medium">billing information</span>,
+                <span className="font-medium">invoices</span> and{" "}
+                <span className="font-medium">payment methods</span> via Stripe.
               </FormCardFooterInfo>
               <Button size="sm">Customer Portal</Button>
             </FormCardFooter>
