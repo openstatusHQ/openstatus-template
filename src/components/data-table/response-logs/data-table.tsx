@@ -23,13 +23,19 @@ import { Braces, Share, TableProperties } from "lucide-react";
 import { regions } from "@/data/regions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTablePagination } from "@/components/ui/data-table/data-table-pagination";
-import { TableCellDate } from "../table-cell-date";
+import { TableCellDate } from "@/components/data-table/table-cell-date";
+import { TableCellNumber } from "@/components/data-table/table-cell-number";
+import { statusCodes } from "@/data/status-codes";
+import { Separator } from "@/components/ui/separator";
 
 export function DataTable({ data }: { data: ResponseLog[] }) {
   // TODO: use rowSelection from tanstack-table
   const [selectedRow, setSelectedRow] = useState<ResponseLog | null>(null);
   const regionConfig = regions.find(
     (region) => region.code === selectedRow?.region
+  );
+  const statusConfig = statusCodes.find(
+    (status) => status.code === selectedRow?.status
   );
 
   return (
@@ -90,7 +96,10 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                   Status
                 </TableHead>
                 <TableCell className="font-mono whitespace-normal">
-                  {selectedRow?.status}
+                  <TableCellNumber
+                    value={selectedRow?.status}
+                    className={statusConfig?.text}
+                  />
                 </TableCell>
               </TableRow>
               <TableRow className="[&>:not(:last-child)]:border-r">
@@ -98,7 +107,7 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                   Latency
                 </TableHead>
                 <TableCell className="font-mono whitespace-normal">
-                  {selectedRow?.latency}ms
+                  <TableCellNumber value={selectedRow?.latency} unit="ms" />
                 </TableCell>
               </TableRow>
               <TableRow className="[&>:not(:last-child)]:border-r">
@@ -198,14 +207,23 @@ export function DataTable({ data }: { data: ResponseLog[] }) {
                   </TableRow>
                 )
               )}
-              <TableRow>
-                <TableHead colSpan={2}>Message</TableHead>
-              </TableRow>
-              <TableRow>
-                <TableCell colSpan={2}></TableCell>
-              </TableRow>
+              {selectedRow?.message && (
+                <>
+                  <TableRow>
+                    <TableHead colSpan={2}>Message</TableHead>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={2} className="p-0">
+                      <pre className="p-4 bg-muted/50 rounded-none font-mono text-sm whitespace-pre-wrap">
+                        {selectedRow?.message}
+                      </pre>
+                    </TableCell>
+                  </TableRow>
+                </>
+              )}
             </TableBody>
           </Table>
+          <Separator />
           <DataTableSheetFooter>
             <Button variant="outline">
               <Share />

@@ -12,20 +12,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { TableCellDate } from "@/components/data-table/table-cell-date";
 import { TableCellNumber } from "@/components/data-table/table-cell-number";
 import { HoverCardTimestamp } from "@/components/common/hover-card-timestamp";
-import { Clock, Workflow, Lock } from "lucide-react";
+import { Clock, Workflow } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  BillingOverlayButton,
-  BillingOverlay,
-  BillingOverlayContainer,
-  BillingOverlayDescription,
-} from "@/components/content/billing-overlay";
-import Link from "next/link";
+import { statusCodes } from "@/data/status-codes";
 
 const icons = {
   scheduled: Clock,
@@ -33,6 +27,22 @@ const icons = {
 };
 
 export const columns: ColumnDef<ResponseLog>[] = [
+  {
+    accessorKey: "error",
+    header: () => null,
+    enableSorting: false,
+    enableHiding: false,
+    cell: ({ row }) => {
+      const value = row.getValue("error");
+      if (typeof value === "boolean") {
+        if (value) {
+          return <div className="h-2.5 w-2.5 rounded-[2px] bg-destructive" />;
+        }
+        return <div className="h-2.5 w-2.5 rounded-[2px] bg-muted" />;
+      }
+      return <div className="text-muted-foreground">-</div>;
+    },
+  },
   {
     accessorKey: "timestamp",
     header: "Timestamp",
@@ -61,8 +71,10 @@ export const columns: ColumnDef<ResponseLog>[] = [
     header: "Status",
     enableSorting: false,
     enableHiding: false,
-    meta: {
-      cellClassName: "font-mono",
+    cell: ({ row }) => {
+      const value = row.getValue("status");
+      const status = statusCodes.find((s) => s.code === value);
+      return <TableCellNumber value={value} className={status?.text} />;
     },
   },
   {
@@ -115,9 +127,6 @@ export const columns: ColumnDef<ResponseLog>[] = [
   },
 ];
 
-// TODO: add BillingContainer to content if locked
-const LOCKED = true;
-
 function HoverCardTiming({
   timing,
   latency,
@@ -147,24 +156,7 @@ function HoverCardTiming({
       {/* REMINDER: allows us to port the content to the document.body, which is helpful when using opacity-50 on the row element */}
       <HoverCardPortal>
         <HoverCardContent side="bottom" align="end" className="z-10 w-auto p-2">
-          {LOCKED ? (
-            <BillingOverlayContainer>
-              <HoverCardTimingContent {...{ latency, timing }} />
-              <BillingOverlay>
-                <BillingOverlayButton asChild>
-                  <Link href="/dashboard/settings/billing">
-                    <Lock />
-                    Upgrade to Pro
-                  </Link>
-                </BillingOverlayButton>
-                <BillingOverlayDescription>
-                  Access timing phases.
-                </BillingOverlayDescription>
-              </BillingOverlay>
-            </BillingOverlayContainer>
-          ) : (
-            <HoverCardTimingContent {...{ latency, timing }} />
-          )}
+          <HoverCardTimingContent {...{ latency, timing }} />
         </HoverCardContent>
       </HoverCardPortal>
     </HoverCard>

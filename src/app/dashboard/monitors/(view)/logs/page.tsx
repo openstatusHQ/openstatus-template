@@ -26,6 +26,10 @@ import { Lock, X } from "lucide-react";
 
 const LOCKED = false;
 
+const logs = Array.from({ length: 10 })
+  .map(() => responseLogs)
+  .flat();
+
 export default function Page() {
   return (
     <SectionGroup>
@@ -54,9 +58,7 @@ export default function Page() {
       <Section>
         {LOCKED ? (
           <BillingOverlayContainer>
-            <DataTable
-              data={Array.from({ length: 100 }).map(() => responseLogs[0])}
-            />
+            <DataTable data={logs} />
             <BillingOverlay>
               <BillingOverlayButton asChild>
                 <Link href="/dashboard/settings/billing">
@@ -71,9 +73,7 @@ export default function Page() {
             </BillingOverlay>
           </BillingOverlayContainer>
         ) : (
-          <DataTable
-            data={Array.from({ length: 100 }).map(() => responseLogs[0])}
-          />
+          <DataTable data={logs} />
         )}
       </Section>
     </SectionGroup>
