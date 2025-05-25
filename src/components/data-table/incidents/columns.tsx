@@ -4,8 +4,8 @@ import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-col
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { Incident } from "@/data/incidents";
-import { Link } from "@/components/common/link";
-import { DataTableCellDate } from "../data-table-cell-date";
+import { TableCellDate } from "@/components/data-table/table-cell-date";
+import { TableCellLink } from "@/components/data-table/table-cell-link";
 
 export const columns: ColumnDef<Incident>[] = [
   {
@@ -14,8 +14,12 @@ export const columns: ColumnDef<Incident>[] = [
     enableSorting: false,
     enableHiding: false,
     cell: ({ row }) => {
-      const value = String(row.getValue("monitor"));
-      return <Link href="/dashboard/monitors/overview">{value}</Link>;
+      return (
+        <TableCellLink
+          value={row.getValue("monitor")}
+          href="/dashboard/monitors/overview"
+        />
+      );
     },
   },
   {
@@ -34,7 +38,7 @@ export const columns: ColumnDef<Incident>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Started At" />
     ),
-    cell: ({ row }) => <DataTableCellDate value={row.getValue("startedAt")} />,
+    cell: ({ row }) => <TableCellDate value={row.getValue("startedAt")} />,
     enableHiding: false,
   },
   {
@@ -42,9 +46,7 @@ export const columns: ColumnDef<Incident>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Acknowledged" />
     ),
-    cell: ({ row }) => (
-      <DataTableCellDate value={row.getValue("acknowledged")} />
-    ),
+    cell: ({ row }) => <TableCellDate value={row.getValue("acknowledged")} />,
     enableHiding: false,
   },
   {
@@ -52,7 +54,7 @@ export const columns: ColumnDef<Incident>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Resolved At" />
     ),
-    cell: ({ row }) => <DataTableCellDate value={row.getValue("resolvedAt")} />,
+    cell: ({ row }) => <TableCellDate value={row.getValue("resolvedAt")} />,
     enableHiding: false,
   },
   {

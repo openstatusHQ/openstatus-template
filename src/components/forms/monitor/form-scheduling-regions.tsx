@@ -149,16 +149,18 @@ export function FormSchedulingRegions({
                   <FormControl>
                     <div className="grid gap-4">
                       {Object.entries(GROUPED_REGIONS).map(([continent, r]) => {
-                        const isAllSelected = r.every((region) =>
-                          watchRegions?.includes(region)
-                        );
+                        const selected = r.reduce((prev, curr) => {
+                          return prev + (watchRegions.includes(curr) ? 1 : 0);
+                        }, 0);
+                        const isAllSelected = selected === r.length;
+
                         return (
                           <div key={continent} className="space-y-2">
                             <div className="flex items-center justify-between">
                               <FormLabel>
                                 {continent}{" "}
-                                <span className="text-muted-foreground/70 font-mono font-normal text-xs align-baseline">
-                                  ({r.length})
+                                <span className="text-muted-foreground/70 font-mono font-normal text-xs align-baseline tabular-nums">
+                                  ({selected}/{r.length})
                                 </span>
                               </FormLabel>
                               <Button

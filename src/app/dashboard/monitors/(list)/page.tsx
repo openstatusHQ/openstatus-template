@@ -12,8 +12,8 @@ import {
 } from "@/components/metric/metric-card";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { monitors } from "@/data/monitors";
-import { columns } from "./columns";
-import { MonitorDataTableActionBar } from "./data-table-action-bar";
+import { columns } from "@/components/data-table/monitors/columns";
+import { MonitorDataTableActionBar } from "@/components/data-table/monitors/data-table-action-bar";
 
 export default function Page() {
   return (

@@ -1,11 +1,12 @@
 "use client";
 
-import { Link } from "@/components/common/link";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import type { Monitor } from "@/data/monitors";
 import { ColumnDef } from "@tanstack/react-table";
+import { TableCellLink } from "@/components/data-table/table-cell-link";
+import { TableCellNumber } from "@/components/data-table/table-cell-number";
 
 export const columns: ColumnDef<Monitor>[] = [
   {
@@ -34,8 +35,12 @@ export const columns: ColumnDef<Monitor>[] = [
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => {
-      const value = String(row.getValue("name"));
-      return <Link href={`monitors/overview`}>{value}</Link>;
+      return (
+        <TableCellLink
+          value={row.getValue("name")}
+          href={`monitors/overview`}
+        />
+      );
     },
     enableSorting: false,
     enableHiding: false,
@@ -88,13 +93,9 @@ export const columns: ColumnDef<Monitor>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="P50" />
     ),
-    cell: ({ row }) => {
-      const value = parseInt(row.getValue("p50"));
-      if (isNaN(value)) {
-        return <div className="font-mono text-muted-foreground">N/A</div>;
-      }
-      return <div className="font-mono text-muted-foreground">{value}ms</div>;
-    },
+    cell: ({ row }) => (
+      <TableCellNumber value={row.getValue("p50")} unit="ms" />
+    ),
     enableHiding: false,
   },
   {
@@ -102,13 +103,9 @@ export const columns: ColumnDef<Monitor>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="P90" />
     ),
-    cell: ({ row }) => {
-      const value = parseInt(row.getValue("p90"));
-      if (isNaN(value)) {
-        return <div className="font-mono text-muted-foreground">N/A</div>;
-      }
-      return <div className="font-mono text-muted-foreground">{value}ms</div>;
-    },
+    cell: ({ row }) => (
+      <TableCellNumber value={row.getValue("p90")} unit="ms" />
+    ),
     enableHiding: false,
   },
   {
@@ -116,13 +113,9 @@ export const columns: ColumnDef<Monitor>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="P99" />
     ),
-    cell: ({ row }) => {
-      const value = parseInt(row.getValue("p99"));
-      if (isNaN(value)) {
-        return <div className="font-mono text-muted-foreground">N/A</div>;
-      }
-      return <div className="font-mono text-muted-foreground">{value}ms</div>;
-    },
+    cell: ({ row }) => (
+      <TableCellNumber value={row.getValue("p99")} unit="ms" />
+    ),
     enableHiding: false,
   },
 ];
