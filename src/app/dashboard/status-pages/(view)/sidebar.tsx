@@ -12,6 +12,8 @@ import { ExternalLink } from "lucide-react";
 import { statusPages } from "@/data/status-pages";
 import { monitors } from "@/data/monitors";
 import { TableCellLink } from "@/components/data-table/table-cell-link";
+import { TableCellNumber } from "@/components/data-table/table-cell-number";
+import { formatDistanceStrict } from "date-fns";
 
 // NOTE:
 const BADGE_URL =
@@ -23,6 +25,12 @@ const statusPage = statusPages[0];
 const monitor = monitors[0];
 
 export function Sidebar() {
+  const duration = formatDistanceStrict(
+    maintenance.startDate,
+    maintenance.endDate
+  );
+  const [amount, unit] = duration.split(" ");
+
   return (
     <SidebarRight
       header="Status Page"
@@ -127,7 +135,7 @@ export function Sidebar() {
             },
             {
               label: "Duration",
-              value: maintenance.duration,
+              value: <TableCellNumber value={amount} unit={unit} />,
               isNested: true,
             },
           ],

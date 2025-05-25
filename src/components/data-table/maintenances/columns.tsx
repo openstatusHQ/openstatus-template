@@ -4,6 +4,8 @@ import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-col
 import { Maintenance } from "@/data/maintenances";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableRowActions } from "./data-table-row-actions";
+import { formatDistanceStrict } from "date-fns";
+import { TableCellNumber } from "@/components/data-table/table-cell-number";
 
 export const columns: ColumnDef<Maintenance>[] = [
   {
@@ -46,14 +48,16 @@ export const columns: ColumnDef<Maintenance>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "duration",
+    id: "duration",
+    accessorFn: (row) => formatDistanceStrict(row.startDate, row.endDate),
     header: "Duration",
     cell: ({ row }) => {
-      return (
-        <div className="text-muted-foreground font-mono">
-          {row.getValue("duration")}
-        </div>
-      );
+      const value = row.getValue("duration");
+      if (typeof value === "string") {
+        const [amount, unit] = value.split(" ");
+        return <TableCellNumber value={amount} unit={unit} />;
+      }
+      return <TableCellNumber value={value} />;
     },
   },
   {
