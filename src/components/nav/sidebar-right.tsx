@@ -18,6 +18,8 @@ import { Button } from "@/components/ui/button";
 import { PanelRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const SIDEBAR_KEYBOARD_SHORTCUT = "]";
+
 type SidebarRightProps = React.ComponentProps<typeof Sidebar> & {
   header: string;
   metadata: SidebarMetadataProps[];
@@ -42,6 +44,7 @@ export function SidebarRight({
       }
       {...props}
     >
+      <SidebarShortcut />
       <SidebarHeader className="border-b border-sidebar-border relative">
         {header}
         <div className="absolute inset-y-0 -left-9 z-10 items-center justify-center flex">
@@ -91,4 +94,25 @@ export function SidebarTrigger({
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
+}
+
+export function SidebarShortcut() {
+  const { toggleSidebar } = useSidebar();
+
+  // Adds a keyboard shortcut to toggle the sidebar.
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
+        (event.metaKey || event.ctrlKey)
+      ) {
+        event.preventDefault();
+        toggleSidebar();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [toggleSidebar]);
+  return null;
 }

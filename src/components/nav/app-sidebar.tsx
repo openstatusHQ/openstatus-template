@@ -12,10 +12,14 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { NavStatusPages } from "@/components/nav/nav-status-pages";
 import { NavOverview } from "@/components/nav/nav-overview";
 import { NavChecklist } from "./nav-checklist";
+
+const SIDEBAR_KEYBOARD_SHORTCUT = "[";
+
 // This is sample data.
 const data = {
   user: {
@@ -107,6 +111,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
+      <SidebarShortcut />
       <SidebarHeader>
         <OrganizationSwitcher orgs={data.orgs} />
       </SidebarHeader>
@@ -124,4 +129,25 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarRail />
     </Sidebar>
   );
+}
+
+export function SidebarShortcut() {
+  const { toggleSidebar } = useSidebar();
+
+  // Adds a keyboard shortcut to toggle the sidebar.
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
+        (event.metaKey || event.ctrlKey)
+      ) {
+        event.preventDefault();
+        toggleSidebar();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [toggleSidebar]);
+  return null;
 }
