@@ -12,11 +12,19 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { NavStatusPages } from "@/components/nav/nav-status-pages";
 import { NavOverview } from "@/components/nav/nav-overview";
 import { NavChecklist } from "./nav-checklist";
+import {
+  TooltipContent,
+  TooltipTrigger,
+  Tooltip,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
+import { Kbd } from "@/components/common/kbd";
 
 const SIDEBAR_KEYBOARD_SHORTCUT = "[";
 
@@ -111,7 +119,6 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarShortcut />
       <SidebarHeader>
         <OrganizationSwitcher orgs={data.orgs} />
       </SidebarHeader>
@@ -131,7 +138,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   );
 }
 
-export function SidebarShortcut() {
+export function AppSidebarTrigger() {
   const { toggleSidebar } = useSidebar();
 
   // Adds a keyboard shortcut to toggle the sidebar.
@@ -149,5 +156,21 @@ export function SidebarShortcut() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [toggleSidebar]);
-  return null;
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <SidebarTrigger />
+        </TooltipTrigger>
+        <TooltipContent side="right">
+          <p className="mr-px inline-flex items-center gap-1">
+            Toggle Sidebar{" "}
+            <Kbd className="bg-primary text-muted-foreground border-muted-foreground">
+              ⌘+{SIDEBAR_KEYBOARD_SHORTCUT}
+            </Kbd>
+          </p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
 }
