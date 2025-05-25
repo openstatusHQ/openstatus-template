@@ -31,6 +31,7 @@ import {
 } from "@/components/content/empty-state";
 import { statusPages } from "@/data/status-pages";
 import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
 
 const schema = z.object({
   name: z.string().optional(),
@@ -57,6 +58,7 @@ export function FormStatusPages({
     },
   });
   const [isPending, startTransition] = useTransition();
+  const watchStatusPages = form.watch("statusPages");
 
   function submitAction(values: FormValues) {
     if (isPending) return;
@@ -131,9 +133,36 @@ export function FormStatusPages({
                 name="statusPages"
                 render={() => (
                   <FormItem>
-                    <FormLabel className="text-base">
-                      List of Status Pages
-                    </FormLabel>
+                    <div className="flex items-center justify-between">
+                      <FormLabel className="text-base">
+                        List of Status Pages
+                      </FormLabel>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        type="button"
+                        className={cn(
+                          watchStatusPages.length === statusPages.length &&
+                            "text-muted-foreground"
+                        )}
+                        onClick={() => {
+                          const allSelected = statusPages.every((item) =>
+                            watchStatusPages.includes(item.id)
+                          );
+
+                          if (!allSelected) {
+                            form.setValue(
+                              "statusPages",
+                              statusPages.map((item) => item.id)
+                            );
+                          } else {
+                            form.setValue("statusPages", []);
+                          }
+                        }}
+                      >
+                        Select all
+                      </Button>
+                    </div>
                     {statusPages.map((item) => (
                       <FormField
                         key={item.id}
