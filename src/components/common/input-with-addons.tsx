@@ -26,7 +26,7 @@ const InputWithAddons = React.forwardRef<
       ) : null}
       <Input
         ref={ref}
-        className={cn("shadow-none z-10", {
+        className={cn("shadow-none z-1", {
           "rounded-s-none -ms-px": leading,
           "rounded-e-none -me-px": trailing,
         })}
