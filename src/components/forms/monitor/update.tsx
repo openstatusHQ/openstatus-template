@@ -15,8 +15,8 @@ export function FormMonitorUpdate() {
   return (
     <FormCardGroup>
       <FormGeneral />
-      <FormSchedulingRegions />
       <FormResponseTime />
+      <FormSchedulingRegions />
       {/* TODO: add FormTags */}
       <FormStatusPages />
       <FormNotifiers />
