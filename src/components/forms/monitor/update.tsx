@@ -10,14 +10,15 @@ import { FormNotifiers } from "./form-notifiers";
 import { FormDangerZone } from "./form-danger-zone";
 import { FormVisibility } from "./form-visibility";
 import { FormRetry } from "./form-retry";
+import { FormTags } from "./form-tags";
 
 export function FormMonitorUpdate() {
   return (
     <FormCardGroup>
       <FormGeneral />
       <FormResponseTime />
+      <FormTags />
       <FormSchedulingRegions />
-      {/* TODO: add FormTags */}
       <FormStatusPages />
       <FormNotifiers />
       <FormRetry />
