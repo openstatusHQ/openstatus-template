@@ -36,7 +36,10 @@ export function EmptyStateDescription({
   ...props
 }: React.ComponentProps<"p">) {
   return (
-    <p className={cn("text-sm text-muted-foreground", className)} {...props}>
+    <p
+      className={cn("text-sm text-muted-foreground text-center", className)}
+      {...props}
+    >
       {children}
     </p>
   );
