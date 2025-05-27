@@ -59,7 +59,7 @@ export function Sidebar() {
             { label: "Type", value: "Email", isNested: true },
             {
               label: "Adress",
-              value: "justcodeit@openstatus.dev",
+              value: "justdoit@openstatus.dev",
               isNested: true,
             },
           ],
