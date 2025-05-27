@@ -149,7 +149,7 @@ function SidebarMetadataTableCell({
             <TooltipTrigger asChild>
               <span className="block truncate">{props.children}</span>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="left">
               {isCopied ? "Copied" : props.children}
             </TooltipContent>
           </Tooltip>
