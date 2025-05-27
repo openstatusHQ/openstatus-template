@@ -25,6 +25,8 @@ import {
 } from "@/components/content/empty-state";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { cn } from "@/lib/utils";
 
 export type SidebarMetadataProps = {
   label: string;
@@ -105,11 +107,13 @@ function SidebarMetadataTable({
 }
 
 function SidebarMetadataTableCell({
+  className,
   ...props
 }: React.ComponentProps<typeof TableCell>) {
   const ref = React.useRef<HTMLTableCellElement>(null);
   const [isTruncated, setIsTruncated] = React.useState(false);
-  // const { copy } = useCopyToClipboard();
+  const { copy, isCopied } = useCopyToClipboard();
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (ref.current) {
@@ -117,15 +121,37 @@ function SidebarMetadataTableCell({
     }
   }, [ref]);
 
+  const handleClick = () => {
+    if (typeof props.children === "string") {
+      copy(props.children, { withToast: false, timeout: 1000 });
+    }
+  };
+
+  React.useEffect(() => {
+    if (isCopied) setOpen(true);
+  }, [isCopied]);
+
+  console.log(isCopied, isTruncated);
+
   return (
-    <TableCell {...props} ref={ref}>
+    <TableCell
+      {...props}
+      ref={ref}
+      className={cn(
+        typeof props.children === "string" && "cursor-pointer",
+        className
+      )}
+      onClick={handleClick}
+    >
       <TooltipProvider>
-        {isTruncated ? (
-          <Tooltip>
+        {isTruncated || isCopied ? (
+          <Tooltip open={open} onOpenChange={setOpen}>
             <TooltipTrigger asChild>
               <span className="block truncate">{props.children}</span>
             </TooltipTrigger>
-            <TooltipContent>{props.children}</TooltipContent>
+            <TooltipContent>
+              {isCopied ? "Copied" : props.children}
+            </TooltipContent>
           </Tooltip>
         ) : (
           props.children
