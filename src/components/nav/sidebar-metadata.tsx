@@ -23,6 +23,8 @@ import {
   EmptyStateContainer,
   EmptyStateDescription,
 } from "@/components/content/empty-state";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export type SidebarMetadataProps = {
   label: string;
@@ -65,7 +67,12 @@ export function SidebarMetadata({ label, items }: SidebarMetadataProps) {
 function SidebarMetadataTable({
   items,
 }: {
-  items: { label: string; value: React.ReactNode; isNested?: boolean }[];
+  items: {
+    label: string;
+    value: React.ReactNode;
+    isNested?: boolean;
+    tooltip?: string;
+  }[];
 }) {
   return (
     <Table>
@@ -84,10 +91,46 @@ function SidebarMetadataTable({
                 {item.label}
               </div>
             </TableCell>
-            <TableCell className="font-mono">{item.value}</TableCell>
+            {/* <TableCell className="font-mono truncate max-w-0">
+              {item.value}
+            </TableCell> */}
+            <SidebarMetadataTableCell className="font-mono truncate max-w-0">
+              {item.value}
+            </SidebarMetadataTableCell>
           </TableRow>
         ))}
       </TableBody>
     </Table>
+  );
+}
+
+function SidebarMetadataTableCell({
+  ...props
+}: React.ComponentProps<typeof TableCell>) {
+  const ref = React.useRef<HTMLTableCellElement>(null);
+  const [isTruncated, setIsTruncated] = React.useState(false);
+  // const { copy } = useCopyToClipboard();
+
+  React.useEffect(() => {
+    if (ref.current) {
+      setIsTruncated(ref.current.scrollWidth > ref.current.clientWidth);
+    }
+  }, [ref]);
+
+  return (
+    <TableCell {...props} ref={ref}>
+      <TooltipProvider>
+        {isTruncated ? (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="block truncate">{props.children}</span>
+            </TooltipTrigger>
+            <TooltipContent>{props.children}</TooltipContent>
+          </Tooltip>
+        ) : (
+          props.children
+        )}
+      </TooltipProvider>
+    </TableCell>
   );
 }

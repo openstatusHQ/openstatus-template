@@ -18,7 +18,7 @@ export function TableCellLink({
         )}
         {...props}
       >
-        <span className="truncate">{value}</span>
+        <span className="truncate flex-1">{value}</span>
         <ChevronRight className="size-3 flex-shrink-0 text-muted-foreground group-hover/link:text-foreground" />
       </Link>
     );

@@ -18,7 +18,7 @@ export const monitors = [
     description: "API for OpenStatus",
     active: true,
     status: "Normal",
-    url: "https://api.openstatus.dev",
+    url: "https://api.openstatus.dev/v1/ping",
     tags: ["Production", "API"],
     lastIncident: undefined,
     p50: 34,
