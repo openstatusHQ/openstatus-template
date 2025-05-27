@@ -131,8 +131,6 @@ function SidebarMetadataTableCell({
     if (isCopied) setOpen(true);
   }, [isCopied]);
 
-  console.log(isCopied, isTruncated);
-
   return (
     <TableCell
       {...props}
