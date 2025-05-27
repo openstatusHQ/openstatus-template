@@ -57,7 +57,11 @@ export function Sidebar() {
               value: <TableCellLink href="#" value="Team" />,
             },
             { label: "Type", value: "Email", isNested: true },
-            { label: "Adress", value: "me@openstatus.dev", isNested: true },
+            {
+              label: "Adress",
+              value: "justcodeit@openstatus.dev",
+              isNested: true,
+            },
           ],
         },
         {
