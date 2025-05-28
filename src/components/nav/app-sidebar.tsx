@@ -163,7 +163,7 @@ export function AppSidebarTrigger() {
         <TooltipContent side="right">
           <p className="mr-px inline-flex items-center gap-1">
             Toggle Sidebar{" "}
-            <Kbd className="bg-primary text-muted-foreground border-muted-foreground">
+            <Kbd className="bg-primary text-background border-muted-foreground">
               ⌘+{SIDEBAR_KEYBOARD_SHORTCUT}
             </Kbd>
           </p>
