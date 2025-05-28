@@ -105,13 +105,11 @@ const data = {
       name: "Status Pages",
       url: "/dashboard/status-pages",
       icon: PanelTop,
-      hideOnExpanded: true,
     },
     {
       name: "Monitors",
       url: "/dashboard/monitors",
       icon: Activity,
-      hideOnExpanded: true,
     },
   ],
 };
