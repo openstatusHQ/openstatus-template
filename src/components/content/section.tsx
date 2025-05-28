@@ -73,7 +73,7 @@ export function SectionGroup({
 }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("px-4 py-8 space-y-8 w-full max-w-3xl mx-auto", className)}
+      className={cn("px-4 py-8 space-y-8 w-full max-w-4xl mx-auto", className)}
       {...props}
     >
       {children}

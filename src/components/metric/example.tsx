@@ -11,66 +11,74 @@ const metrics = [
     label: "UPTIME",
     value: "99.99%",
     trend: 1.01,
+    variant: "success" as const,
   },
   {
     label: "FAILS",
-    value: "1",
-    trend: 2,
+    value: "0",
+    variant: "destructive" as const,
   },
   {
     label: "DEGRADED",
     value: "0",
     trend: 0,
-  },
-  {
-    label: "INCIDENTS",
-    value: "0",
-    trend: null,
+    variant: "warning" as const,
   },
   {
     label: "TOTAL PINGS",
     value: "8,639",
     trend: null,
+    variant: "ghost" as const,
   },
+  null,
   {
     label: "P50",
     value: "150ms",
     trend: 2,
+    variant: "default" as const,
   },
   {
     label: "P75",
     value: "274ms",
     trend: 1,
+    variant: "default" as const,
   },
   {
     label: "P90",
     value: "397ms",
     trend: 0.5,
+    variant: "default" as const,
   },
   {
     label: "P95",
     value: "447ms",
     trend: 0.24,
+    variant: "default" as const,
   },
   {
     label: "P99",
     value: "1,062ms",
     trend: 1.4,
+    variant: "default" as const,
   },
 ];
 
 export function MetricExample() {
   return (
     <MetricCardGroup>
-      {metrics.map((metric) => (
-        <MetricCard key={metric.label}>
-          <MetricCardTitle>{metric.label}</MetricCardTitle>
-          <div className="flex flex-row items-center gap-2">
-            <MetricCardValue>{metric.value}</MetricCardValue>
-            {metric.trend ? <MetricCardBadge value={metric.trend} /> : null}
-          </div>
-        </MetricCard>
-      ))}
+      {metrics.map((metric) => {
+        if (metric === null)
+          return <div key={metric} className="hidden lg:block" />;
+        return (
+          <MetricCard key={metric.label} variant={metric.variant}>
+            <MetricCardTitle>{metric.label}</MetricCardTitle>
+            <div className="flex flex-row items-center gap-2">
+              <MetricCardValue>{metric.value}</MetricCardValue>
+              {metric.trend ? <MetricCardBadge value={metric.trend} /> : null}
+            </div>
+          </MetricCard>
+        );
+      })}
     </MetricCardGroup>
   );
 }

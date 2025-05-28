@@ -7,7 +7,6 @@ import {
 } from "@/components/content/section";
 import {
   MetricCard,
-  MetricCardFooter,
   MetricCardGroup,
   MetricCardTitle,
   MetricCardValue,
@@ -27,22 +26,18 @@ export default function Page() {
           <MetricCard>
             <MetricCardTitle>Total Number</MetricCardTitle>
             <MetricCardValue>{monitors.length}</MetricCardValue>
-            <MetricCardFooter>active monitors</MetricCardFooter>
           </MetricCard>
           <MetricCard>
             <MetricCardTitle>Active Incidents</MetricCardTitle>
             <MetricCardValue>0</MetricCardValue>
-            <MetricCardFooter>attention required</MetricCardFooter>
           </MetricCard>
           <MetricCard>
             <MetricCardTitle>Uptime</MetricCardTitle>
             <MetricCardValue>100%</MetricCardValue>
-            <MetricCardFooter>accross all regions</MetricCardFooter>
           </MetricCard>
           <MetricCard>
             <MetricCardTitle>Slowest Endpoint</MetricCardTitle>
             <MetricCardValue>530ms</MetricCardValue>
-            <MetricCardFooter>OpenStatus API is slow</MetricCardFooter>
           </MetricCard>
         </MetricCardGroup>
       </Section>

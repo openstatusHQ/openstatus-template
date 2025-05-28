@@ -6,13 +6,32 @@ import { Badge } from "@/components/ui/badge";
 
 import { cn } from "@/lib/utils";
 
+const metricCardVariants = cva(
+  "flex flex-col gap-1 border rounded-lg px-3 py-2 text-card-foreground",
+  {
+    variants: {
+      variant: {
+        default: "border-input bg-card",
+        ghost: "border-transparent",
+        destructive: "border-destructive/50 bg-destructive/5",
+        success: "border-green-500/50 bg-green-500/10",
+        warning: "border-yellow-500/50 bg-yellow-500/10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
+
 export function MetricCard({
   children,
   className,
+  variant,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & VariantProps<typeof metricCardVariants>) {
   return (
-    <div className={cn("flex flex-col gap-1", className)} {...props}>
+    <div className={metricCardVariants({ variant, className })} {...props}>
       {children}
     </div>
   );
@@ -39,24 +58,9 @@ export function MetricCardValue({
   ...props
 }: React.ComponentProps<"p">) {
   return (
-    <p className={cn("text-foreground font-medium", className)} {...props}>
+    <p className={cn("text-foreground font-semibold", className)} {...props}>
       {children}
     </p>
-  );
-}
-
-export function MetricCardFooter({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      className={cn("text-muted-foreground/70 text-xs", className)}
-      {...props}
-    >
-      {children}
-    </div>
   );
 }
 
@@ -68,7 +72,7 @@ export function MetricCardGroup({
   return (
     <div
       className={cn(
-        "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4",
+        "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6",
         className
       )}
       {...props}
