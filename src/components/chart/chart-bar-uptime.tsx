@@ -23,7 +23,7 @@ const chartData = Array.from({ length: 28 }, (_, i) => ({
   ok: i === 3 || i === 16 ? 172 : 186,
   error: i === 3 ? 14 : 0,
   degraded: i === 16 ? 14 : 0,
-}));
+})).reverse();
 
 const chartConfig = {
   ok: {
