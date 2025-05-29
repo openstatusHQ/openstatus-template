@@ -35,6 +35,8 @@ export function MonitorDataTableToolbar({
             title="Status"
             options={[
               { label: "Normal", value: "Normal" },
+              { label: "Degraded", value: "Degraded" },
+              { label: "Failing", value: "Failing" },
               { label: "Inactive", value: "Inactive" },
             ]}
           />

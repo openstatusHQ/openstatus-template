@@ -2,6 +2,7 @@ import {
   MetricCard,
   MetricCardBadge,
   MetricCardGroup,
+  MetricCardHeader,
   MetricCardTitle,
   MetricCardValue,
 } from "./metric-card";
@@ -71,7 +72,11 @@ export function MetricExample() {
           return <div key={metric} className="hidden lg:block" />;
         return (
           <MetricCard key={metric.label} variant={metric.variant}>
-            <MetricCardTitle>{metric.label}</MetricCardTitle>
+            <MetricCardHeader>
+              <MetricCardTitle className="truncate">
+                {metric.label}
+              </MetricCardTitle>
+            </MetricCardHeader>
             <div className="flex flex-row flex-wrap items-center gap-1.5">
               <MetricCardValue>{metric.value}</MetricCardValue>
               {metric.trend ? <MetricCardBadge value={metric.trend} /> : null}

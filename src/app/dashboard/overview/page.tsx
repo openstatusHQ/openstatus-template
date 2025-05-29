@@ -10,6 +10,7 @@ import { Section } from "@/components/content/section";
 import {
   MetricCard,
   MetricCardGroup,
+  MetricCardHeader,
   MetricCardTitle,
   MetricCardValue,
 } from "@/components/metric/metric-card";
@@ -18,12 +19,53 @@ import {
   EmptyStateTitle,
 } from "@/components/content/empty-state";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { List, Plus, Search } from "lucide-react";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { incidents } from "@/data/incidents";
 import { columns } from "@/components/data-table/incidents/columns";
 import { FormSheetStatusReport } from "@/components/forms/status-report/sheet";
 import { FormSheetMaintenance } from "@/components/forms/maintenance/sheet";
+import { monitors } from "@/data/monitors";
+import { statusPages } from "@/data/status-pages";
+import Link from "next/link";
+
+const metrics = [
+  {
+    title: "Total Monitors",
+    value: monitors.length,
+    href: "/dashboard/monitors",
+    variant: "default" as const,
+    icon: List,
+  },
+  {
+    title: "Total Status Pages",
+    value: statusPages.length,
+    href: "/dashboard/status-pages",
+    variant: "default" as const,
+    icon: List,
+  },
+  {
+    title: "Last Incident",
+    value: "1 day ago",
+    href: "/dashboard/monitors/incidents",
+    variant: "default" as const,
+    icon: Search,
+  },
+  {
+    title: "Last Report",
+    value: "35 days ago",
+    href: "/dashboard/status-pages/status-reports",
+    variant: "default" as const,
+    icon: Search,
+  },
+  {
+    title: "Last Maintenance",
+    value: "None",
+    href: "/dashboard/status-pages/maintenances",
+    variant: "default" as const,
+    icon: Search,
+  },
+];
 
 export default function Page() {
   return (
@@ -36,38 +78,19 @@ export default function Page() {
           </SectionDescription>
         </SectionHeader>
         <MetricCardGroup>
-          <MetricCard>
-            <MetricCardTitle>Total Monitors</MetricCardTitle>
-            <MetricCardValue>10</MetricCardValue>
-          </MetricCard>
-          <MetricCard>
-            <MetricCardTitle>Total Status Pages</MetricCardTitle>
-            <MetricCardValue>0</MetricCardValue>
-          </MetricCard>
-          <MetricCard>
-            <MetricCardTitle>Total Incidents</MetricCardTitle>
-            <MetricCardValue>0</MetricCardValue>
-          </MetricCard>
-          <MetricCard>
-            <MetricCardTitle>Total Uptime</MetricCardTitle>
-            <MetricCardValue>100%</MetricCardValue>
-          </MetricCard>
-          <MetricCard>
-            <MetricCardTitle>Total Downtime</MetricCardTitle>
-            <MetricCardValue>0s</MetricCardValue>
-          </MetricCard>
-          <MetricCard>
-            <MetricCardTitle>Slowest Endpoint</MetricCardTitle>
-            <MetricCardValue>1,567ms</MetricCardValue>
-          </MetricCard>
-          <MetricCard>
-            <MetricCardTitle>Last Report</MetricCardTitle>
-            <MetricCardValue>35 days ago</MetricCardValue>
-          </MetricCard>
-          <MetricCard>
-            <MetricCardTitle>Last Maintenance</MetricCardTitle>
-            <MetricCardValue>None</MetricCardValue>
-          </MetricCard>
+          {metrics.map((metric) => (
+            <Link href={metric.href} key={metric.title}>
+              <MetricCard variant={metric.variant}>
+                <MetricCardHeader className="flex justify-between items-center gap-2">
+                  <MetricCardTitle className="truncate">
+                    {metric.title}
+                  </MetricCardTitle>
+                  <metric.icon className="size-4" />
+                </MetricCardHeader>
+                <MetricCardValue>{metric.value}</MetricCardValue>
+              </MetricCard>
+            </Link>
+          ))}
         </MetricCardGroup>
       </Section>
       <Section>

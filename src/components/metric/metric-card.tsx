@@ -31,7 +31,11 @@ export function MetricCard({
   ...props
 }: React.ComponentProps<"div"> & VariantProps<typeof metricCardVariants>) {
   return (
-    <div className={metricCardVariants({ variant, className })} {...props}>
+    <div
+      data-variant={variant}
+      className={cn(metricCardVariants({ variant, className }), "group")}
+      {...props}
+    >
       {children}
     </div>
   );
@@ -43,12 +47,30 @@ export function MetricCardTitle({
   ...props
 }: React.ComponentProps<"p">) {
   return (
-    <p
-      className={cn("text-sm text-muted-foreground font-medium", className)}
+    <p className={cn("text-sm font-medium", className)} {...props}>
+      {children}
+    </p>
+  );
+}
+
+export function MetricCardHeader({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      className={cn(
+        "text-muted-foreground",
+        "group-data-[variant=destructive]:text-destructive",
+        "group-data-[variant=success]:text-success",
+        "group-data-[variant=warning]:text-warning",
+        className
+      )}
       {...props}
     >
       {children}
-    </p>
+    </div>
   );
 }
 

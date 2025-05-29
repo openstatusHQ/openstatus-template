@@ -53,10 +53,16 @@ export const columns: ColumnDef<Monitor>[] = [
     header: "Status",
     cell: ({ row }) => {
       const value = String(row.getValue("status"));
-      if (value === "Normal") {
-        return <div className="font-mono text-success">{value}</div>;
+      switch (value) {
+        case "Normal":
+          return <div className="font-mono text-success">{value}</div>;
+        case "Degraded":
+          return <div className="font-mono text-warning">{value}</div>;
+        case "Failing":
+          return <div className="font-mono text-destructive">{value}</div>;
+        default:
+          return <div className="font-mono text-muted-foreground">{value}</div>;
       }
-      return <div className="font-mono text-muted-foreground">{value}</div>;
     },
     enableSorting: false,
     enableHiding: false,
