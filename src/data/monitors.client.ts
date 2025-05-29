@@ -1,4 +1,4 @@
-import { Pencil, Copy, CopyPlus, Trash2 } from "lucide-react";
+import { Pencil, Copy, CopyPlus, Trash2, Code } from "lucide-react";
 
 export const actions = [
   {
@@ -17,6 +17,12 @@ export const actions = [
     id: "clone",
     label: "Clone",
     icon: CopyPlus,
+    variant: "default" as const,
+  },
+  {
+    id: "export",
+    label: "Export Code",
+    icon: Code,
     variant: "default" as const,
   },
   {

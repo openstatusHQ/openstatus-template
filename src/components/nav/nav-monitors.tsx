@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import {
   MoreHorizontal,
@@ -50,7 +50,7 @@ import { QuickActions } from "@/components/dropdowns/quick-actions";
 import { getActions } from "@/data/monitors.client";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
-
+import { ExportCodeDialog } from "@/components/dialogs/export-code";
 interface Filter {
   keywords: string | undefined;
   tags: string[] | undefined;
@@ -68,6 +68,7 @@ export function NavMonitors({
     url: string;
   }[];
 }) {
+  const [openDialog, setOpenDialog] = useState(false);
   const { isMobile, setOpenMobile } = useSidebar();
   const [filter, setFilter] = React.useState<Filter>({
     keywords: undefined,
@@ -84,6 +85,7 @@ export function NavMonitors({
       navigator.clipboard.writeText("ID");
       toast.success("Monitor ID copied to clipboard");
     },
+    export: () => setOpenDialog(true),
   });
 
   function handleFilterChange<T extends keyof Filter>(
@@ -409,6 +411,7 @@ export function NavMonitors({
           );
         })}
       </SidebarMenu>
+      <ExportCodeDialog open={openDialog} onOpenChange={setOpenDialog} />
     </SidebarGroup>
   );
 }

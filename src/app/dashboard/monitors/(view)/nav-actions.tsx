@@ -12,15 +12,20 @@ import { QuickActions } from "@/components/dropdowns/quick-actions";
 import { useRouter } from "next/navigation";
 import { getActions } from "@/data/monitors.client";
 import { toast } from "sonner";
+import { useState } from "react";
+import { ExportCodeDialog } from "@/components/dialogs/export-code";
 
 export function NavActions() {
+  const [openDialog, setOpenDialog] = useState(false);
   const router = useRouter();
+
   const actions = getActions({
     edit: () => router.push(`/dashboard/monitors/edit`),
     "copy-id": () => {
       navigator.clipboard.writeText("ID");
       toast.success("Monitor ID copied to clipboard");
     },
+    export: () => setOpenDialog(true),
   });
 
   async function testAction() {
@@ -64,6 +69,7 @@ export function NavActions() {
           confirmationValue: "delete monitor",
         }}
       />
+      <ExportCodeDialog open={openDialog} onOpenChange={setOpenDialog} />
     </div>
   );
 }
