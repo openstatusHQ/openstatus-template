@@ -152,6 +152,20 @@ export default function Page() {
               </FormSheet>
             );
           })}
+          <ActionCard className="border-dashed">
+            <ActionCardHeader>
+              <div className="flex items-center gap-2">
+                <div className="size-6 rounded-md bg-muted border border-border flex items-center justify-center" />
+                <ActionCardTitle className="text-muted-foreground">
+                  Your Notifier
+                </ActionCardTitle>
+              </div>
+              <ActionCardDescription>
+                Missing a channel?{" "}
+                <Link href="mailto:ping@openstatus.dev">Contact us</Link>
+              </ActionCardDescription>
+            </ActionCardHeader>
+          </ActionCard>
         </ActionCardGroup>
       </Section>
     </SectionGroup>

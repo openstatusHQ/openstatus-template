@@ -44,14 +44,18 @@ export function ActionCardGroup({
   );
 }
 
-export function ActionCardTitle({ children }: React.ComponentProps<"div">) {
-  return <CardTitle>{children}</CardTitle>;
+export function ActionCardTitle({
+  children,
+  ...props
+}: React.ComponentProps<"div">) {
+  return <CardTitle {...props}>{children}</CardTitle>;
 }
 
 export function ActionCardDescription({
   children,
+  ...props
 }: React.ComponentProps<"div">) {
-  return <CardDescription>{children}</CardDescription>;
+  return <CardDescription {...props}>{children}</CardDescription>;
 }
 
 export function ActionCardContent({
