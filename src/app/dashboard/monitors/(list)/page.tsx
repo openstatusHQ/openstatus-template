@@ -2,7 +2,9 @@
 
 import {
   Section,
+  SectionDescription,
   SectionGroup,
+  SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
 import {
@@ -58,7 +60,12 @@ export default function Page() {
   return (
     <SectionGroup>
       <Section>
-        <SectionTitle>Monitors</SectionTitle>
+        <SectionHeader>
+          <SectionTitle>Monitors</SectionTitle>
+          <SectionDescription>
+            Create and manage your monitors.
+          </SectionDescription>
+        </SectionHeader>
         <MetricCardGroup>
           {metrics.map((metric) => (
             <Link key={metric.title} href={metric.href}>
