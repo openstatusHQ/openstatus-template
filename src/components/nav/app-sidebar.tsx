@@ -117,7 +117,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
+      <SidebarHeader className="border-b py-1 h-14 flex justify-center">
         <OrganizationSwitcher orgs={data.orgs} />
       </SidebarHeader>
       <SidebarContent>
@@ -128,7 +128,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <NavChecklist />
         </div>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="border-t">
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />
