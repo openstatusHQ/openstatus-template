@@ -23,15 +23,15 @@ const chartData = Array.from({ length: 30 }, (_, i) => ({
 const chartConfig = {
   ok: {
     label: "ok",
-    color: "var(--chart-2)",
+    color: "var(--color-success)",
   },
   degraded: {
     label: "degraded",
-    color: "var(--chart-4)",
+    color: "var(--color-warning)",
   },
   error: {
     label: "error",
-    color: "var(--chart-1)",
+    color: "var(--color-destructive)",
   },
 } satisfies ChartConfig;
 

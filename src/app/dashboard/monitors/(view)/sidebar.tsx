@@ -23,7 +23,7 @@ export function Sidebar() {
           items: [
             {
               label: "Status",
-              value: <span className="text-green-500">Normal</span>,
+              value: <span className="text-success">Normal</span>,
             },
             { label: "Next run", value: "5m" },
             { label: "Type", value: "HTTP" },
@@ -79,7 +79,7 @@ export function Sidebar() {
                 ][index % 5],
                 value: (
                   <div className="flex justify-between items-center gap-2">
-                    <CircleCheck className="w-4 h-4 text-green-500" />
+                    <CircleCheck className="w-4 h-4 text-success" />
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>

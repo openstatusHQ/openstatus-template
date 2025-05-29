@@ -1,8 +1,8 @@
 export const statusCodes = [
   {
     code: 200 as const,
-    bg: "bg-green-500",
-    text: "text-green-500",
+    bg: "bg-success",
+    text: "text-success",
     name: "OK",
   },
   {

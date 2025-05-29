@@ -52,7 +52,7 @@ export const columns: ColumnDef<StatusReport>[] = [
     cell: ({ row }) => {
       const value = String(row.getValue("status"));
       if (value === "operational") {
-        return <div className="font-mono text-green-500">{value}</div>;
+        return <div className="font-mono text-success">{value}</div>;
       }
       return <div className="font-mono text-muted-foreground">{value}</div>;
     },

@@ -39,7 +39,7 @@ export function NavChecklist() {
           >
             {item.checked ? (
               <>
-                <CircleCheck className="text-green-500" size={12} />
+                <CircleCheck className="text-success" size={12} />
                 <span>{item.title}</span>
               </>
             ) : (

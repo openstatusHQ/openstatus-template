@@ -92,6 +92,16 @@ const data = {
       icon: LayoutGrid,
     },
     {
+      name: "Monitors",
+      url: "/dashboard/monitors",
+      icon: Activity,
+    },
+    {
+      name: "Status Pages",
+      url: "/dashboard/status-pages",
+      icon: PanelTop,
+    },
+    {
       name: "Notifiers",
       url: "/dashboard/notifiers",
       icon: Bell,
@@ -100,16 +110,6 @@ const data = {
       name: "Settings",
       url: "/dashboard/settings/general",
       icon: Cog,
-    },
-    {
-      name: "Status Pages",
-      url: "/dashboard/status-pages",
-      icon: PanelTop,
-    },
-    {
-      name: "Monitors",
-      url: "/dashboard/monitors",
-      icon: Activity,
     },
   ],
 };

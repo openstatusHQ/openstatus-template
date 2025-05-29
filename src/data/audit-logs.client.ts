@@ -9,32 +9,32 @@ import {
 export const config = {
   "incident.created": {
     icon: Siren,
-    color: "text-red-500",
+    color: "text-destructive",
     title: "Incident Created",
   },
   "incident.resolved": {
     icon: CircleCheck,
-    color: "text-green-500",
+    color: "text-success",
     title: "Incident Resolved",
   },
   "monitor.failed": {
     icon: CircleMinus,
-    color: "text-red-500",
+    color: "text-destructive",
     title: "Monitor Failed",
   },
   "notification.sent": {
     icon: Send,
-    color: "text-blue-500",
+    color: "text-info",
     title: "Notification Sent",
   },
   "monitor.recovered": {
     icon: CircleCheck,
-    color: "text-green-500",
+    color: "text-success",
     title: "Monitor Recovered",
   },
   "monitor.degraded": {
     icon: CircleAlert,
-    color: "text-yellow-500",
+    color: "text-warning",
     title: "Monitor Degraded",
   },
 } as const;

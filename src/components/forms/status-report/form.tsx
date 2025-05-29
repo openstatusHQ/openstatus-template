@@ -45,8 +45,8 @@ import { format } from "date-fns";
 import { CalendarIcon, ClockIcon } from "lucide-react";
 
 const colors = {
-  operational: "text-green-500/80",
-  investigating: "text-red-500/80",
+  operational: "text-success/80",
+  investigating: "text-destructive/80",
 };
 
 const schema = z.object({

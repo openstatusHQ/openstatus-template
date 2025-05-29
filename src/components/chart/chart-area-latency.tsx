@@ -99,11 +99,11 @@ export function ChartAreaLatency() {
           stroke="var(--color-download)"
           stackId="a"
         />
-        <ReferenceLine y={10_000} stroke="var(--chart-5)" strokeDasharray="3 3">
+        <ReferenceLine y={10_000} stroke="var(--warning)" strokeDasharray="3 3">
           <Label
             value="Degraded"
             position="insideBottomRight"
-            fill="var(--chart-5)"
+            fill="var(--warning)"
           />
         </ReferenceLine>
         <YAxis

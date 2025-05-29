@@ -72,7 +72,7 @@ export function MetricExample() {
         return (
           <MetricCard key={metric.label} variant={metric.variant}>
             <MetricCardTitle>{metric.label}</MetricCardTitle>
-            <div className="flex flex-row items-center gap-2">
+            <div className="flex flex-row flex-wrap items-center gap-1.5">
               <MetricCardValue>{metric.value}</MetricCardValue>
               {metric.trend ? <MetricCardBadge value={metric.trend} /> : null}
             </div>

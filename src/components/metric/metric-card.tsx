@@ -13,9 +13,9 @@ const metricCardVariants = cva(
       variant: {
         default: "border-input bg-card",
         ghost: "border-transparent",
-        destructive: "border-destructive/50 bg-destructive/5",
-        success: "border-green-500/50 bg-green-500/10",
-        warning: "border-yellow-500/50 bg-yellow-500/10",
+        destructive: "border-destructive/80 bg-destructive/10",
+        success: "border-success/80 bg-success/10",
+        warning: "border-warning/80 bg-warning/10",
       },
     },
     defaultVariants: {
@@ -72,7 +72,7 @@ export function MetricCardGroup({
   return (
     <div
       className={cn(
-        "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6",
+        "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4",
         className
       )}
       {...props}
@@ -82,14 +82,14 @@ export function MetricCardGroup({
   );
 }
 
-const badgeVariants = cva("px-1 font-mono", {
+const badgeVariants = cva("px-1.5 font-mono text-[10px]", {
   variants: {
     variant: {
       default: "border-border",
       increase:
-        "border-red-500/20 bg-red-500/10 hover:bg-red-500/10 text-red-500",
+        "border-destructive/20 bg-destructive/10 hover:bg-destructive/10 text-destructive",
       decrease:
-        "border-green-500/20 bg-green-500/10 hover:bg-green-500/10 text-green-500",
+        "border-success/20 bg-success/10 hover:bg-success/10 text-success",
     },
   },
   defaultVariants: {
@@ -118,10 +118,12 @@ export function MetricCardBadge({
       className={badgeVariants({ variant, className })}
       {...props}
     >
-      <span>
-        {percentage > 0 ? <ChevronUp className="mr-px h-3 w-3" /> : null}
-        {percentage < 0 ? <ChevronDown className="mr-px h-3 w-3" /> : null}
-      </span>
+      {percentage !== 0 ? (
+        <span>
+          {percentage > 0 ? <ChevronUp className="mr-px size-2.5" /> : null}
+          {percentage < 0 ? <ChevronDown className="mr-px size-2.5" /> : null}
+        </span>
+      ) : null}
       {Math.abs(percentage)}%
     </Badge>
   );

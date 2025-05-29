@@ -17,8 +17,8 @@ import { Plus } from "lucide-react";
 import { FormSheetStatusReportUpdate } from "@/components/forms/status-report-update/sheet";
 
 const colors = {
-  operational: "text-green-500/80",
-  investigating: "text-red-500/80",
+  operational: "text-success/80",
+  investigating: "text-destructive/80",
 };
 
 export function DataTable() {

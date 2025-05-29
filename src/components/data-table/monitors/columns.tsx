@@ -54,7 +54,7 @@ export const columns: ColumnDef<Monitor>[] = [
     cell: ({ row }) => {
       const value = String(row.getValue("status"));
       if (value === "Normal") {
-        return <div className="font-mono text-green-500">{value}</div>;
+        return <div className="font-mono text-success">{value}</div>;
       }
       return <div className="font-mono text-muted-foreground">{value}</div>;
     },
