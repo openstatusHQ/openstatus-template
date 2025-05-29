@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import {
   ChartConfig,
@@ -11,13 +11,18 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-const chartData = Array.from({ length: 30 }, (_, i) => ({
-  month: new Date(new Date().setDate(new Date().getDate() - i)).toLocaleString(
-    "default"
-  ),
-  ok: i === 0 ? 172 : 186,
-  error: i === 0 ? 14 : 0,
-  degraded: 0,
+const chartData = Array.from({ length: 28 }, (_, i) => ({
+  timestamp: new Date(
+    new Date().setHours(new Date().getHours() - i * 6)
+  ).toLocaleString("default", {
+    day: "numeric",
+    month: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  }),
+  ok: i === 3 || i === 16 ? 172 : 186,
+  error: i === 3 ? 14 : 0,
+  degraded: i === 16 ? 14 : 0,
 }));
 
 const chartConfig = {
@@ -37,7 +42,7 @@ const chartConfig = {
 
 export function ChartBarUptime() {
   return (
-    <ChartContainer config={chartConfig} className="h-[100px] w-full">
+    <ChartContainer config={chartConfig} className="h-[130px] w-full">
       <BarChart accessibilityLayer data={chartData} barCategoryGap={2}>
         <CartesianGrid vertical={false} />
         <ChartTooltip
@@ -53,6 +58,13 @@ export function ChartBarUptime() {
           axisLine={false}
           tickMargin={8}
           orientation="right"
+        />
+        <XAxis
+          dataKey="timestamp"
+          tickLine={false}
+          tickMargin={8}
+          minTickGap={10}
+          axisLine={false}
         />
         <ChartLegend content={<ChartLegendContent />} />
       </BarChart>
