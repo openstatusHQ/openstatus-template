@@ -33,6 +33,49 @@ import {
   FormSheetTrigger,
 } from "@/components/forms/form-sheet";
 import { FormSheet } from "@/components/forms/form-sheet";
+import { SlackIcon } from "@/components/icons/slack";
+import { DiscordIcon } from "@/components/icons/discord";
+import { PagerDutyIcon } from "@/components/icons/pagerduty";
+import { OpsGenieIcon } from "@/components/icons/opsgenie";
+import { Mail, Webhook, MessageCircle } from "lucide-react";
+
+const config = {
+  slack: {
+    icon: SlackIcon,
+    label: "Slack",
+    form: FormSlack,
+  },
+  discord: {
+    icon: DiscordIcon,
+    label: "Discord",
+    form: FormDiscord,
+  },
+  email: {
+    icon: Mail,
+    label: "Email",
+    form: FormEmail,
+  },
+  sms: {
+    icon: MessageCircle,
+    label: "SMS",
+    form: FormSms,
+  },
+  webhook: {
+    icon: Webhook,
+    label: "Webhook",
+    form: FormWebhook,
+  },
+  opsgenie: {
+    icon: OpsGenieIcon,
+    label: "OpsGenie",
+    form: undefined,
+  },
+  pagerduty: {
+    icon: PagerDutyIcon,
+    label: "PagerDuty",
+    form: undefined,
+  },
+};
 
 export default function Page() {
   return (
@@ -54,59 +97,61 @@ export default function Page() {
           </SectionDescription>
         </SectionHeader>
         <ActionCardGroup className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {[
-            "Slack",
-            "Email",
-            "SMS",
-            "Discord",
-            // "Telegram",
-            "Webhook",
-            "OpsGenie",
-            "PagerDuty",
-          ].map((notifier) => (
-            <FormSheet key={notifier}>
-              <FormSheetTrigger asChild>
-                <ActionCard>
-                  <ActionCardHeader>
-                    <div className="flex items-center gap-2">
-                      <div className="size-6 rounded-md bg-muted border border-border" />
-                      <ActionCardTitle>{notifier}</ActionCardTitle>
-                    </div>
-                    <ActionCardDescription>
-                      Send notifications to {notifier}
-                    </ActionCardDescription>
-                  </ActionCardHeader>
-                </ActionCard>
-              </FormSheetTrigger>
-              <FormSheetContent>
-                <FormSheetHeader>
-                  <FormSheetTitle>Notifier</FormSheetTitle>
-                  <FormSheetDescription>
-                    Make changes to your profile here. Click save when
-                    you&apos;re done.
-                  </FormSheetDescription>
-                </FormSheetHeader>
-                <FormCard className="border-none overflow-auto">
-                  <FormCardContent className="my-4">
-                    {notifier === "Slack" && <FormSlack id="notifier-form" />}
-                    {notifier === "Discord" && (
-                      <FormDiscord id="notifier-form" />
-                    )}
-                    {notifier === "Email" && <FormEmail id="notifier-form" />}
-                    {notifier === "SMS" && <FormSms id="notifier-form" />}
-                    {notifier === "Webhook" && (
-                      <FormWebhook id="notifier-form" />
-                    )}
-                  </FormCardContent>
-                </FormCard>
-                <FormSheetFooter>
-                  <Button type="submit" form="notifier-form">
-                    Save changes
-                  </Button>
-                </FormSheetFooter>
-              </FormSheetContent>
-            </FormSheet>
-          ))}
+          {(
+            [
+              "slack",
+              "email",
+              "sms",
+              "discord",
+              // "Telegram",
+              "webhook",
+              "opsgenie",
+              "pagerduty",
+            ] as const
+          ).map((notifier) => {
+            const Icon = config[notifier].icon;
+            const Form = config[notifier].form;
+            return (
+              <FormSheet key={notifier}>
+                <FormSheetTrigger asChild>
+                  <ActionCard>
+                    <ActionCardHeader>
+                      <div className="flex items-center gap-2">
+                        <div className="size-6 rounded-md bg-muted border border-border flex items-center justify-center">
+                          <Icon className="size-3" />
+                        </div>
+                        <ActionCardTitle>
+                          {config[notifier].label}
+                        </ActionCardTitle>
+                      </div>
+                      <ActionCardDescription>
+                        Send notifications to {config[notifier].label}
+                      </ActionCardDescription>
+                    </ActionCardHeader>
+                  </ActionCard>
+                </FormSheetTrigger>
+                <FormSheetContent>
+                  <FormSheetHeader>
+                    <FormSheetTitle>Notifier</FormSheetTitle>
+                    <FormSheetDescription>
+                      Make changes to your profile here. Click save when
+                      you&apos;re done.
+                    </FormSheetDescription>
+                  </FormSheetHeader>
+                  <FormCard className="border-none overflow-auto">
+                    <FormCardContent className="my-4">
+                      {Form ? <Form id="notifier-form" /> : null}
+                    </FormCardContent>
+                  </FormCard>
+                  <FormSheetFooter>
+                    <Button type="submit" form="notifier-form">
+                      Save changes
+                    </Button>
+                  </FormSheetFooter>
+                </FormSheetContent>
+              </FormSheet>
+            );
+          })}
         </ActionCardGroup>
       </Section>
     </SectionGroup>
