@@ -23,7 +23,7 @@ export const monitors = [
     lastIncident: undefined,
     p50: 34,
     p90: 201,
-    p99: 501,
+    p99: 530,
   },
   {
     id: 3,
