@@ -4,6 +4,7 @@ import { Link } from "@/components/common/link";
 import type { StatusPage } from "@/data/status-pages";
 import { ColumnDef } from "@tanstack/react-table";
 import { TableCellLink } from "@/components/data-table/table-cell-link";
+import { DataTableRowActions } from "./data-table-row-actions";
 
 export const columns: ColumnDef<StatusPage>[] = [
   {
@@ -61,5 +62,9 @@ export const columns: ColumnDef<StatusPage>[] = [
     },
     enableSorting: false,
     enableHiding: false,
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];

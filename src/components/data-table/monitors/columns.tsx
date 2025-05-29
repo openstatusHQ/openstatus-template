@@ -7,6 +7,7 @@ import type { Monitor } from "@/data/monitors";
 import { ColumnDef } from "@tanstack/react-table";
 import { TableCellLink } from "@/components/data-table/table-cell-link";
 import { TableCellNumber } from "@/components/data-table/table-cell-number";
+import { DataTableRowActions } from "./data-table-row-actions";
 
 export const columns: ColumnDef<Monitor>[] = [
   {
@@ -126,5 +127,9 @@ export const columns: ColumnDef<Monitor>[] = [
       <TableCellNumber value={row.getValue("p99")} unit="ms" />
     ),
     enableHiding: false,
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];
