@@ -144,10 +144,18 @@ function SidebarMetadataTableCell({
       <TooltipProvider>
         {isTruncated || isCopied ? (
           <Tooltip open={open} onOpenChange={setOpen}>
-            <TooltipTrigger asChild>
+            <TooltipTrigger
+              // NOTE: all the prevent default events avoid the tooltip to hide and show again
+              onClick={(event) => event.preventDefault()}
+              onPointerDown={(event) => event.preventDefault()}
+              asChild
+            >
               <span className="block truncate">{props.children}</span>
             </TooltipTrigger>
-            <TooltipContent side="left">
+            <TooltipContent
+              onPointerDownOutside={(event) => event.preventDefault()}
+              side="left"
+            >
               {isCopied ? "Copied" : props.children}
             </TooltipContent>
           </Tooltip>
