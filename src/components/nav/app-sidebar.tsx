@@ -25,6 +25,7 @@ import {
   TooltipProvider,
 } from "@/components/ui/tooltip";
 import { Kbd } from "@/components/common/kbd";
+import { NavHelp } from "./nav-help";
 
 const SIDEBAR_KEYBOARD_SHORTCUT = "[";
 
@@ -124,9 +125,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavOverview items={data.overview} />
         <NavStatusPages statusPages={data.statusPages} />
         <NavMonitors monitors={data.monitors} />
-        <div className="mt-auto p-2">
+        <div className="mt-auto px-2">
           <NavChecklist />
         </div>
+        <NavHelp />
       </SidebarContent>
       <SidebarFooter className="border-t">
         <NavUser user={data.user} />

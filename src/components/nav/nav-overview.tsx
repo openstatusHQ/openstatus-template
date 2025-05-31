@@ -20,34 +20,28 @@ export function NavOverview({
     name: string;
     url: string;
     icon: LucideIcon;
-    hideOnExpanded?: boolean;
   }[];
 }) {
   const pathname = usePathname();
-  const { state, setOpenMobile } = useSidebar();
+  const { setOpenMobile } = useSidebar();
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Workspace</SidebarGroupLabel>
       <SidebarMenu>
-        {items
-          .filter((item) => {
-            if (!item.hideOnExpanded) return true;
-            return state === "collapsed";
-          })
-          .map((item) => (
-            <SidebarMenuItem key={item.name}>
-              <SidebarMenuButton
-                isActive={pathname.includes(item.url)}
-                asChild
-                tooltip={item.name}
-              >
-                <Link href={item.url} onClick={() => setOpenMobile(false)}>
-                  <item.icon />
-                  <span>{item.name}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+        {items.map((item) => (
+          <SidebarMenuItem key={item.name}>
+            <SidebarMenuButton
+              isActive={pathname.includes(item.url)}
+              asChild
+              tooltip={item.name}
+            >
+              <Link href={item.url} onClick={() => setOpenMobile(false)}>
+                <item.icon />
+                <span>{item.name}</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        ))}
       </SidebarMenu>
     </SidebarGroup>
   );
