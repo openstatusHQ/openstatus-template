@@ -151,6 +151,11 @@ export function MetricCardBadge({
   );
 }
 
+const metricCardButtonVariants = cva(
+  "group w-full text-left transition-all rounded-md outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 cursor-pointer"
+  // TODO: discuss if we want rings
+);
+
 export function MetricCardButton({
   children,
   className,
@@ -163,8 +168,7 @@ export function MetricCardButton({
       data-variant={variant}
       className={cn(
         metricCardVariants({ variant, className }),
-        "w-full text-left transition-all rounded-md outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 cursor-pointer",
-        "group"
+        metricCardButtonVariants()
       )}
       {...props}
     >
