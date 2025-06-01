@@ -42,6 +42,10 @@ export interface DataTableProps<TData, TValue> {
   defaultSorting?: SortingState;
   defaultColumnVisibility?: VisibilityState;
   defaultColumnFilters?: ColumnFiltersState;
+
+  /** access the state from the parent component */
+  columnFilters?: ColumnFiltersState;
+  setColumnFilters?: React.Dispatch<React.SetStateAction<ColumnFiltersState>>;
 }
 
 export function DataTable<TData, TValue>({
@@ -55,13 +59,19 @@ export function DataTable<TData, TValue>({
   defaultSorting = [],
   defaultColumnVisibility = {},
   defaultColumnFilters = [],
+  columnFilters,
+  setColumnFilters,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>(defaultColumnVisibility);
-  const [columnFilters, setColumnFilters] =
+  const [internalColumnFilters, setInternalColumnFilters] =
     React.useState<ColumnFiltersState>(defaultColumnFilters);
   const [sorting, setSorting] = React.useState<SortingState>(defaultSorting);
+
+  // Use controlled or uncontrolled column filters
+  const columnFiltersState = columnFilters ?? internalColumnFilters;
+  const setColumnFiltersState = setColumnFilters ?? setInternalColumnFilters;
 
   const table = useReactTable({
     data,
@@ -70,12 +80,12 @@ export function DataTable<TData, TValue>({
       sorting,
       columnVisibility,
       rowSelection,
-      columnFilters,
+      columnFilters: columnFiltersState,
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    onColumnFiltersChange: setColumnFiltersState,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),

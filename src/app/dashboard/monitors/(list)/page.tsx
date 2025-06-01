@@ -19,8 +19,10 @@ import { monitors } from "@/data/monitors";
 import { columns } from "@/components/data-table/monitors/columns";
 import { MonitorDataTableActionBar } from "@/components/data-table/monitors/data-table-action-bar";
 import { MonitorDataTableToolbar } from "@/components/data-table/monitors/data-table-toolbar";
+import { CheckCircle, ListFilter } from "lucide-react";
 import Link from "next/link";
-import { ListFilter } from "lucide-react";
+import type { ColumnFiltersState } from "@tanstack/react-table";
+import { useState } from "react";
 
 // NOTE: connect with table filter and sorting
 const metrics = [
@@ -57,6 +59,8 @@ const metrics = [
 ];
 
 export default function Page() {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
   return (
     <SectionGroup>
       <Section>
@@ -67,19 +71,38 @@ export default function Page() {
           </SectionDescription>
         </SectionHeader>
         <MetricCardGroup>
-          {metrics.map((metric) => (
-            <Link key={metric.title} href={metric.href}>
-              <MetricCard variant={metric.variant}>
-                <MetricCardHeader className="flex justify-between items-center gap-2">
-                  <MetricCardTitle className="truncate">
-                    {metric.title}
-                  </MetricCardTitle>
-                  <ListFilter className="size-4" />
-                </MetricCardHeader>
-                <MetricCardValue>{metric.value}</MetricCardValue>
-              </MetricCard>
-            </Link>
-          ))}
+          {metrics.map((metric) => {
+            const isActive =
+              columnFilters.find((filter) => filter.id === "status")?.value ===
+              metric.title;
+            return (
+              <Link
+                key={metric.title}
+                href={`?status=${metric.title}`}
+                onClick={() => {
+                  if (columnFilters.length === 0 || !isActive) {
+                    setColumnFilters([{ id: "status", value: metric.title }]);
+                  } else {
+                    setColumnFilters([]);
+                  }
+                }}
+              >
+                <MetricCard variant={metric.variant}>
+                  <MetricCardHeader className="flex justify-between items-center gap-2">
+                    <MetricCardTitle className="truncate">
+                      {metric.title}
+                    </MetricCardTitle>
+                    {isActive ? (
+                      <CheckCircle className="size-4" />
+                    ) : (
+                      <ListFilter className="size-4" />
+                    )}
+                  </MetricCardHeader>
+                  <MetricCardValue>{metric.value}</MetricCardValue>
+                </MetricCard>
+              </Link>
+            );
+          })}
         </MetricCardGroup>
       </Section>
       <Section>
@@ -88,6 +111,8 @@ export default function Page() {
           data={monitors}
           actionBar={MonitorDataTableActionBar}
           toolbarComponent={MonitorDataTableToolbar}
+          columnFilters={columnFilters}
+          setColumnFilters={setColumnFilters}
         />
       </Section>
     </SectionGroup>
