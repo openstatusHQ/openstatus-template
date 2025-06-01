@@ -26,6 +26,7 @@ import {
 import { useSidebar } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { DiscordIcon } from "@/components/icons/discord";
+import { FormDialogSupportContact } from "@/components/forms/support-contact/dialog";
 
 export function NavHelp() {
   const { isMobile } = useSidebar();
@@ -50,6 +51,12 @@ export function NavHelp() {
                 <DropdownMenuLabel className="text-muted-foreground text-xs">
                   Get Help
                 </DropdownMenuLabel>
+                <FormDialogSupportContact>
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <LifeBuoy />
+                    Support
+                  </DropdownMenuItem>
+                </FormDialogSupportContact>
                 <DropdownMenuItem asChild>
                   <Link href="#">
                     <Book /> Docs
@@ -69,12 +76,6 @@ export function NavHelp() {
                   <Link href="#">
                     <DiscordIcon />
                     Community
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="#">
-                    <LifeBuoy />
-                    Support
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
