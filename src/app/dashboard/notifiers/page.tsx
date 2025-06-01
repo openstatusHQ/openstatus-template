@@ -17,65 +17,13 @@ import {
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
-import { FormCard, FormCardContent } from "@/components/forms/form-card";
-import { FormSlack } from "@/components/forms/notifier/form-slack";
-import { FormDiscord } from "@/components/forms/notifier/form-discord";
-import { Button } from "@/components/ui/button";
-import { FormSms } from "@/components/forms/notifier/form-sms";
-import { FormEmail } from "@/components/forms/notifier/form-email";
-import { FormWebhook } from "@/components/forms/notifier/form-webhook";
-import {
-  FormSheetContent,
-  FormSheetDescription,
-  FormSheetFooter,
-  FormSheetHeader,
-  FormSheetTitle,
-  FormSheetTrigger,
-} from "@/components/forms/form-sheet";
-import { FormSheet } from "@/components/forms/form-sheet";
-import { SlackIcon } from "@/components/icons/slack";
-import { DiscordIcon } from "@/components/icons/discord";
-import { PagerDutyIcon } from "@/components/icons/pagerduty";
-import { OpsGenieIcon } from "@/components/icons/opsgenie";
-import { Mail, Webhook, MessageCircle } from "lucide-react";
+import { DataTable } from "@/components/ui/data-table/data-table";
+import { notifiers } from "@/data/notifiers";
+import { columns } from "@/components/data-table/notifiers/columns";
+import { config } from "@/data/notifiers.client";
+import { FormSheetNotifier } from "@/components/forms/notifier/sheet";
 
-const config = {
-  slack: {
-    icon: SlackIcon,
-    label: "Slack",
-    form: FormSlack,
-  },
-  discord: {
-    icon: DiscordIcon,
-    label: "Discord",
-    form: FormDiscord,
-  },
-  email: {
-    icon: Mail,
-    label: "Email",
-    form: FormEmail,
-  },
-  sms: {
-    icon: MessageCircle,
-    label: "SMS",
-    form: FormSms,
-  },
-  webhook: {
-    icon: Webhook,
-    label: "Webhook",
-    form: FormWebhook,
-  },
-  opsgenie: {
-    icon: OpsGenieIcon,
-    label: "OpsGenie",
-    form: undefined,
-  },
-  pagerduty: {
-    icon: PagerDutyIcon,
-    label: "PagerDuty",
-    form: undefined,
-  },
-};
+const EMPTY = true;
 
 export default function Page() {
   return (
@@ -84,9 +32,13 @@ export default function Page() {
         <SectionTitle>Notifiers</SectionTitle>
       </SectionHeader>
       <Section>
-        <EmptyStateContainer>
-          <EmptyStateTitle>No notifier found</EmptyStateTitle>
-        </EmptyStateContainer>
+        {EMPTY ? (
+          <EmptyStateContainer>
+            <EmptyStateTitle>No notifier found</EmptyStateTitle>
+          </EmptyStateContainer>
+        ) : (
+          <DataTable columns={columns} data={notifiers} />
+        )}
       </Section>
       <Section>
         <SectionHeader>
@@ -97,59 +49,25 @@ export default function Page() {
           </SectionDescription>
         </SectionHeader>
         <ActionCardGroup className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {(
-            [
-              "slack",
-              "email",
-              "sms",
-              "discord",
-              // "Telegram",
-              "webhook",
-              "opsgenie",
-              "pagerduty",
-            ] as const
-          ).map((notifier) => {
-            const Icon = config[notifier].icon;
-            const Form = config[notifier].form;
+          {Object.keys(config).map((notifier) => {
+            const key = notifier as keyof typeof config;
+            const Icon = config[key].icon;
             return (
-              <FormSheet key={notifier}>
-                <FormSheetTrigger asChild>
-                  <ActionCard className="cursor-pointer h-full w-full">
-                    <ActionCardHeader>
-                      <div className="flex items-center gap-2">
-                        <div className="size-6 rounded-md bg-muted border border-border flex items-center justify-center">
-                          <Icon className="size-3" />
-                        </div>
-                        <ActionCardTitle>
-                          {config[notifier].label}
-                        </ActionCardTitle>
+              <FormSheetNotifier key={notifier} id={key}>
+                <ActionCard className="cursor-pointer h-full w-full">
+                  <ActionCardHeader>
+                    <div className="flex items-center gap-2">
+                      <div className="size-6 rounded-md bg-muted border border-border flex items-center justify-center">
+                        <Icon className="size-3" />
                       </div>
-                      <ActionCardDescription>
-                        Send notifications to {config[notifier].label}
-                      </ActionCardDescription>
-                    </ActionCardHeader>
-                  </ActionCard>
-                </FormSheetTrigger>
-                <FormSheetContent>
-                  <FormSheetHeader>
-                    <FormSheetTitle>Notifier</FormSheetTitle>
-                    <FormSheetDescription>
-                      Make changes to your profile here. Click save when
-                      you&apos;re done.
-                    </FormSheetDescription>
-                  </FormSheetHeader>
-                  <FormCard className="border-none overflow-auto">
-                    <FormCardContent className="my-4">
-                      {Form ? <Form id="notifier-form" /> : null}
-                    </FormCardContent>
-                  </FormCard>
-                  <FormSheetFooter>
-                    <Button type="submit" form="notifier-form">
-                      Save changes
-                    </Button>
-                  </FormSheetFooter>
-                </FormSheetContent>
-              </FormSheet>
+                      <ActionCardTitle>{config[key].label}</ActionCardTitle>
+                    </div>
+                    <ActionCardDescription>
+                      Send notifications to {config[key].label}
+                    </ActionCardDescription>
+                  </ActionCardHeader>
+                </ActionCard>
+              </FormSheetNotifier>
             );
           })}
           <ActionCard className="border-dashed">

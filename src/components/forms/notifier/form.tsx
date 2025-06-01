@@ -19,6 +19,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
 import { monitors } from "@/data/monitors";
+import { cn } from "@/lib/utils";
 
 const schema = z.object({
   name: z.string(),
@@ -26,12 +27,16 @@ const schema = z.object({
   monitors: z.array(z.number()),
 });
 
-type FormValues = z.infer<typeof schema>;
+export type FormValues = z.infer<typeof schema>;
 
 export function NotifierForm({
   defaultValues,
-}: {
+  className,
+  onSubmit,
+  ...props
+}: Omit<React.ComponentProps<"form">, "onSubmit"> & {
   defaultValues?: FormValues;
+  onSubmit?: (values: FormValues) => Promise<void> | void;
 }) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -55,6 +60,7 @@ export function NotifierForm({
           error: "Failed to save",
         });
         await promise;
+        onSubmit?.(values);
       } catch (error) {
         console.error(error);
       }
@@ -65,8 +71,9 @@ export function NotifierForm({
     <Form {...form}>
       <form
         id="notifier-form"
-        className="grid gap-4"
+        className={cn("grid gap-4", className)}
         onSubmit={form.handleSubmit(submitAction)}
+        {...props}
       >
         <FormField
           control={form.control}
