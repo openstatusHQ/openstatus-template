@@ -19,8 +19,8 @@ import { monitors } from "@/data/monitors";
 import { columns } from "@/components/data-table/monitors/columns";
 import { MonitorDataTableActionBar } from "@/components/data-table/monitors/data-table-action-bar";
 import { MonitorDataTableToolbar } from "@/components/data-table/monitors/data-table-toolbar";
-import { CheckCircle, ListFilter } from "lucide-react";
-import type { ColumnFiltersState } from "@tanstack/react-table";
+import { ArrowDown, CheckCircle, ListFilter } from "lucide-react";
+import type { ColumnFiltersState, SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { DataTablePaginationSimple } from "@/components/ui/data-table/data-table-pagination";
 import { useRouter } from "next/navigation";
@@ -31,37 +31,49 @@ const metrics = [
     title: "Normal",
     value: monitors.filter((monitor) => monitor.status === "Normal").length,
     variant: "success" as const,
-    href: "#",
+    type: "filter" as const,
   },
   {
     title: "Degraded",
     value: monitors.filter((monitor) => monitor.status === "Degraded").length,
     variant: "warning" as const,
-    href: "#",
+    type: "filter" as const,
   },
   {
     title: "Failing",
     value: monitors.filter((monitor) => monitor.status === "Failing").length,
     variant: "destructive" as const,
-    href: "#",
+    type: "filter" as const,
   },
   {
     title: "Inactive",
     value: monitors.filter((monitor) => monitor.status === "Inactive").length,
     variant: "default" as const,
-    href: "#",
+    type: "filter" as const,
   },
   {
     title: "Slowest Endpoint",
     value: "530ms",
     variant: "ghost" as const,
-    href: "#",
+    type: "sorting" as const,
   },
 ];
+
+const icons = {
+  filter: {
+    active: CheckCircle,
+    inactive: ListFilter,
+  },
+  sorting: {
+    active: ArrowDown,
+    inactive: ListFilter,
+  },
+};
 
 export default function Page() {
   const router = useRouter();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   return (
     <SectionGroup>
@@ -77,21 +89,40 @@ export default function Page() {
             const array = columnFilters.find(
               (filter) => filter.id === "status"
             )?.value;
-            const isActive =
+            const isFilterActive =
               Array.isArray(array) && array?.includes(metric.title);
+            const isSortingActive = sorting.find(
+              (sort) => sort.id === "p99"
+            )?.desc;
+
+            const isActive =
+              metric.type === "filter" ? isFilterActive : isSortingActive;
+
+            const Icon = icons[metric.type][isActive ? "active" : "inactive"];
 
             return (
               <MetricCardButton
                 key={metric.title}
                 variant={metric.variant}
                 onClick={() => {
-                  if (columnFilters.length === 0 || !isActive) {
-                    router.push(`?status=${metric.title}`);
-                    setColumnFilters([{ id: "status", value: [metric.title] }]);
-                  } else {
-                    setColumnFilters([]);
-                    // reset URL params
-                    router.push("/dashboard/monitors");
+                  // NOTE: can be refactored into the array object
+                  if (metric.type === "filter") {
+                    if (columnFilters.length === 0 || !isFilterActive) {
+                      router.push(`?status=${metric.title}`);
+                      setColumnFilters([
+                        { id: "status", value: [metric.title] },
+                      ]);
+                    } else {
+                      setColumnFilters([]);
+                      // reset URL params
+                      router.push("/dashboard/monitors");
+                    }
+                  } else if (metric.type === "sorting") {
+                    if (sorting.length === 0 || !isActive) {
+                      setSorting([{ id: "p99", desc: true }]);
+                    } else {
+                      setSorting([]);
+                    }
                   }
                 }}
               >
@@ -99,11 +130,7 @@ export default function Page() {
                   <MetricCardTitle className="truncate">
                     {metric.title}
                   </MetricCardTitle>
-                  {isActive ? (
-                    <CheckCircle className="size-4" />
-                  ) : (
-                    <ListFilter className="size-4" />
-                  )}
+                  <Icon className="size-4" />
                 </MetricCardHeader>
                 <MetricCardValue>{metric.value}</MetricCardValue>
               </MetricCardButton>
@@ -120,6 +147,8 @@ export default function Page() {
           paginationComponent={DataTablePaginationSimple}
           columnFilters={columnFilters}
           setColumnFilters={setColumnFilters}
+          sorting={sorting}
+          setSorting={setSorting}
         />
       </Section>
     </SectionGroup>
