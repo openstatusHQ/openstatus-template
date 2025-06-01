@@ -39,6 +39,9 @@ export interface DataTableProps<TData, TValue> {
   actionBar?: React.ComponentType<DataTableActionBarProps<TData>>;
   paginationComponent?: React.ComponentType<DataTablePaginationProps<TData>>;
   onRowClick?: (row: Row<TData>) => void;
+  defaultSorting?: SortingState;
+  defaultColumnVisibility?: VisibilityState;
+  defaultColumnFilters?: ColumnFiltersState;
 }
 
 export function DataTable<TData, TValue>({
@@ -49,14 +52,16 @@ export function DataTable<TData, TValue>({
   actionBar,
   paginationComponent,
   onRowClick,
+  defaultSorting = [],
+  defaultColumnVisibility = {},
+  defaultColumnFilters = [],
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+    React.useState<VisibilityState>(defaultColumnVisibility);
+  const [columnFilters, setColumnFilters] =
+    React.useState<ColumnFiltersState>(defaultColumnFilters);
+  const [sorting, setSorting] = React.useState<SortingState>(defaultSorting);
 
   const table = useReactTable({
     data,
