@@ -8,17 +8,13 @@ export function useCopyToClipboard() {
     async (
       text: string,
       {
-        timeout,
-        withToast,
-        successMessage,
+        timeout = 3000,
+        withToast = true,
+        successMessage = "Copied to clipboard",
       }: {
         timeout?: number;
         withToast?: boolean;
         successMessage?: string;
-      } = {
-        timeout: 3000,
-        withToast: true,
-        successMessage: "Copied to clipboard",
       }
     ) => {
       if (!navigator?.clipboard) {
