@@ -4,6 +4,7 @@ import {
   CartesianGrid,
   Line,
   LineChart,
+  XAxis,
   // XAxis,
   YAxis,
 } from "recharts";
@@ -15,6 +16,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
+import { ChartTooltipNumber } from "./chart-tooltip-number";
 
 const chartConfig = {
   latency: {
@@ -47,16 +49,21 @@ export function ChartLineRegion({ className }: { className?: string }) {
         }}
       >
         <CartesianGrid vertical={false} />
-        {/* <XAxis
-          dataKey="timestamp"
-          tickLine={false}
-          axisLine={false}
-          tickMargin={8}
-          //   tickFormatter={(value) => value.slice(0, 3)}
-        /> */}
+        <XAxis dataKey="timestamp" hide />
         <ChartTooltip
           cursor={false}
-          content={<ChartTooltipContent hideLabel />}
+          content={
+            <ChartTooltipContent
+              className="w-[180px]"
+              formatter={(value, name) => (
+                <ChartTooltipNumber
+                  chartConfig={chartConfig}
+                  value={value}
+                  name={name}
+                />
+              )}
+            />
+          }
         />
         <Line
           dataKey="latency"

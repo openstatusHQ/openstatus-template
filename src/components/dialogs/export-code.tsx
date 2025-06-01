@@ -67,8 +67,12 @@ export function ExportCodeDialog(props: DialogProps) {
             <pre className="relative border rounded p-2 bg-muted text-xs">
               TODO:
             </pre>
+            {/* TODO: only showcase if there are any assertions */}
+            <p className="text-xs text-destructive">
+              The Terraform provider does not support assertions yet.
+            </p>
             <p className="text-xs text-muted-foreground">
-              Use a terraform provider to manage your monitors.{" "}
+              Use a Terraform provider to manage your monitors.{" "}
               <Link href="#">Read more.</Link>
             </p>
           </TabsContent>

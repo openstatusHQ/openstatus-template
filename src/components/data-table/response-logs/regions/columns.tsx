@@ -7,6 +7,7 @@ import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-col
 import { ChartLineRegion } from "@/components/chart/chart-line-region";
 import { getActions } from "@/data/region-metrics.client";
 import { QuickActions } from "@/components/dropdowns/quick-actions";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<RegionMetric>[] = [
   {
@@ -72,7 +73,16 @@ export const columns: ColumnDef<RegionMetric>[] = [
     id: "actions",
     cell: ({ row }) => {
       const actions = getActions({
-        trigger: () => console.log(row.original.region),
+        trigger: async () => {
+          console.log(row.original);
+          const promise = new Promise((resolve) => setTimeout(resolve, 1000));
+          toast.promise(promise, {
+            loading: "Checking...",
+            success: "Success",
+            error: "Failed",
+          });
+          await promise;
+        },
       });
       return <QuickActions actions={actions} />;
     },

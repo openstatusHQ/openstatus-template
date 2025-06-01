@@ -18,6 +18,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { ChartTooltipNumber } from "./chart-tooltip-number";
 
 const chartData = Array.from({ length: 30 }, (_, i) => ({
   timestamp: new Date(
@@ -65,7 +66,18 @@ export function ChartAreaLatency() {
         />
         <ChartTooltip
           cursor={false}
-          content={<ChartTooltipContent indicator="dot" />}
+          content={
+            <ChartTooltipContent
+              indicator="dot"
+              formatter={(value, name) => (
+                <ChartTooltipNumber
+                  chartConfig={chartConfig}
+                  value={value}
+                  name={name}
+                />
+              )}
+            />
+          }
         />
         <Area
           dataKey="dns"
