@@ -80,7 +80,10 @@ export function MetricCardValue({
   ...props
 }: React.ComponentProps<"p">) {
   return (
-    <p className={cn("text-foreground font-semibold", className)} {...props}>
+    <p
+      className={cn("text-foreground font-mono font-semibold", className)}
+      {...props}
+    >
       {children}
     </p>
   );
