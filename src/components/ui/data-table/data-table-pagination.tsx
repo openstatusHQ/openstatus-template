@@ -102,7 +102,8 @@ export function DataTablePaginationSimple<TData>({
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredRowModel().rows.length} row(s)
+        {table.getFilteredRowModel().rows.length} of{" "}
+        {table.getPreFilteredRowModel().rows.length} row(s) filtered.
       </div>
       <div className="flex items-center space-x-2">
         <Button
