@@ -44,7 +44,7 @@ export default function Page() {
         <ActionCardGroup>
           {settings.map((setting) => (
             <Link href={setting.href} key={setting.href}>
-              <ActionCard>
+              <ActionCard className="h-full w-full">
                 <ActionCardHeader>
                   <ActionCardTitle>{setting.title}</ActionCardTitle>
                   <ActionCardDescription>

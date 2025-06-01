@@ -114,7 +114,7 @@ export default function Page() {
             return (
               <FormSheet key={notifier}>
                 <FormSheetTrigger asChild>
-                  <ActionCard>
+                  <ActionCard className="cursor-pointer h-full w-full">
                     <ActionCardHeader>
                       <div className="flex items-center gap-2">
                         <div className="size-6 rounded-md bg-muted border border-border flex items-center justify-center">
