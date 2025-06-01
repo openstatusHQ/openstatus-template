@@ -37,7 +37,7 @@ export function NavHelp() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
+                <SidebarMenuButton tooltip="Get Help">
                   <HelpCircle />
                   <span>Get Help</span>
                 </SidebarMenuButton>
