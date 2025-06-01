@@ -19,7 +19,7 @@ export const statusReports = [
         id: 1,
         status: "investigating" as const,
         message:
-          "Our hosting provider Vercel is having an increase of 400 errors. We are aware of the dependency and will be working on a solution to reduce the risk. Follow more on vercel-status.",
+          "Our hosting provider is having an increase of 400 errors. We are aware of the dependency and will be working on a solution to reduce the risk.",
         date: new Date("2025-01-01 12:00:00"),
         updatedAt: new Date("2025-01-01 12:00:00"),
         monitors: [1],
@@ -47,7 +47,7 @@ export const statusReports = [
         id: 1,
         status: "investigating" as const,
         message:
-          "Our hosting provider Vercel is having an increase of 400 errors. We are aware of the dependency and will be working on a solution to reduce the risk. Follow more on vercel-status.",
+          "Our hosting provider is having an increase of 400 errors. We are working on a solution to reduce the risk.",
         date: new Date("2025-01-04 12:00:00"),
         updatedAt: new Date("2025-01-04 12:00:00"),
         monitors: [1],

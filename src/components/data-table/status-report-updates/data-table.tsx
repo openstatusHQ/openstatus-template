@@ -21,6 +21,8 @@ const colors = {
   investigating: "text-destructive/80",
 };
 
+// TODO: move to columns.tsx and use tanstack table
+
 export function DataTable() {
   return (
     <Table className="w-full">

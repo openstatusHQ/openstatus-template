@@ -1,7 +1,7 @@
 "use client";
 
 import { Row } from "@tanstack/react-table";
-import { getActions } from "@/data/status-reports.client";
+import { getActions } from "@/data/status-report-updates.client";
 import { QuickActions } from "@/components/dropdowns/quick-actions";
 import { FormSheetStatusReportUpdate } from "@/components/forms/status-report-update/sheet";
 import { useRef } from "react";
