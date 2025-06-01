@@ -8,11 +8,11 @@ import {
   SectionTitle,
 } from "@/components/content/section";
 import {
-  MetricCard,
   MetricCardGroup,
   MetricCardHeader,
   MetricCardTitle,
   MetricCardValue,
+  MetricCardButton,
 } from "@/components/metric/metric-card";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { monitors } from "@/data/monitors";
@@ -20,10 +20,10 @@ import { columns } from "@/components/data-table/monitors/columns";
 import { MonitorDataTableActionBar } from "@/components/data-table/monitors/data-table-action-bar";
 import { MonitorDataTableToolbar } from "@/components/data-table/monitors/data-table-toolbar";
 import { CheckCircle, ListFilter } from "lucide-react";
-import Link from "next/link";
 import type { ColumnFiltersState } from "@tanstack/react-table";
 import { useState } from "react";
 import { DataTablePaginationSimple } from "@/components/ui/data-table/data-table-pagination";
+import { useRouter } from "next/navigation";
 
 // NOTE: connect with table filter and sorting
 const metrics = [
@@ -60,6 +60,7 @@ const metrics = [
 ];
 
 export default function Page() {
+  const router = useRouter();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   return (
@@ -80,31 +81,32 @@ export default function Page() {
               Array.isArray(array) && array?.includes(metric.title);
 
             return (
-              <Link
+              <MetricCardButton
                 key={metric.title}
-                href={`?status=${metric.title}`}
+                variant={metric.variant}
                 onClick={() => {
                   if (columnFilters.length === 0 || !isActive) {
+                    router.push(`?status=${metric.title}`);
                     setColumnFilters([{ id: "status", value: [metric.title] }]);
                   } else {
                     setColumnFilters([]);
+                    // reset URL params
+                    router.push("/dashboard/monitors");
                   }
                 }}
               >
-                <MetricCard variant={metric.variant}>
-                  <MetricCardHeader className="flex justify-between items-center gap-2">
-                    <MetricCardTitle className="truncate">
-                      {metric.title}
-                    </MetricCardTitle>
-                    {isActive ? (
-                      <CheckCircle className="size-4" />
-                    ) : (
-                      <ListFilter className="size-4" />
-                    )}
-                  </MetricCardHeader>
-                  <MetricCardValue>{metric.value}</MetricCardValue>
-                </MetricCard>
-              </Link>
+                <MetricCardHeader className="flex justify-between items-center gap-2 w-full">
+                  <MetricCardTitle className="truncate">
+                    {metric.title}
+                  </MetricCardTitle>
+                  {isActive ? (
+                    <CheckCircle className="size-4" />
+                  ) : (
+                    <ListFilter className="size-4" />
+                  )}
+                </MetricCardHeader>
+                <MetricCardValue>{metric.value}</MetricCardValue>
+              </MetricCardButton>
             );
           })}
         </MetricCardGroup>
