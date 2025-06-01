@@ -70,69 +70,10 @@ export default function Page() {
               </Button>
             </PopoverTrigger>
             <PopoverContent align="start" className="w-[200px] p-0">
-              <Command>
-                <CommandInput placeholder="Search region..." />
-                <CommandList>
-                  <CommandEmpty>No region found.</CommandEmpty>
-                  <CommandGroup>
-                    <CommandItem
-                      onSelect={() => {
-                        setSelectedRegions(
-                          selectedRegions.length === regions.length
-                            ? []
-                            : regions.map((r) => r.code)
-                        );
-                      }}
-                    >
-                      {selectedRegions.length === regions.length
-                        ? "Unselect All"
-                        : "Select All"}
-                    </CommandItem>
-                  </CommandGroup>
-                  <CommandSeparator />
-                  {Object.entries(groupedRegions).map(
-                    ([continent, regionCodes]) => (
-                      <CommandGroup key={continent} heading={continent}>
-                        {regions
-                          .filter((region) => regionCodes.includes(region.code))
-                          .map((region) => (
-                            <CommandItem
-                              key={region.code}
-                              value={region.code}
-                              keywords={[
-                                region.code,
-                                region.location,
-                                region.continent,
-                                region.flag,
-                              ]}
-                              onSelect={() => {
-                                setSelectedRegions((prev) =>
-                                  prev.includes(region.code)
-                                    ? prev.filter((r) => r !== region.code)
-                                    : [...prev, region.code]
-                                );
-                              }}
-                            >
-                              <span className="mr-1">{region.flag}</span>
-                              {region.code}
-                              <span className="ml-1 text-muted-foreground text-xs truncate">
-                                {region.location}
-                              </span>
-                              <Check
-                                className={cn(
-                                  "ml-auto",
-                                  selectedRegions.includes(region.code)
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                      </CommandGroup>
-                    )
-                  )}
-                </CommandList>
-              </Command>
+              <CommandRegion
+                selectedRegions={selectedRegions}
+                setSelectedRegions={setSelectedRegions}
+              />
             </PopoverContent>
           </Popover>
           <Button variant="ghost" size="sm">
@@ -185,5 +126,88 @@ export default function Page() {
         <DataTable data={regionMetrics} columns={regionColumns} />
       </Section>
     </SectionGroup>
+  );
+}
+
+function CommandRegion({
+  selectedRegions,
+  setSelectedRegions,
+}: {
+  selectedRegions: Region[];
+  setSelectedRegions: React.Dispatch<React.SetStateAction<Region[]>>;
+}) {
+  return (
+    <Command>
+      <CommandInput placeholder="Search region..." />
+      <CommandList>
+        <CommandGroup forceMount>
+          <CommandItem
+            onSelect={() => {
+              const items = document.querySelectorAll(
+                '[data-slot="command-item"][data-disabled="false"]'
+              );
+              const codes: Region[] = [];
+
+              items.forEach((item) => {
+                const code = item.getAttribute("data-value");
+                if (code && code !== "select-all") {
+                  codes.push(code as Region);
+                }
+              });
+
+              if (codes.length === selectedRegions.length) {
+                setSelectedRegions([]);
+              } else {
+                setSelectedRegions(codes);
+              }
+            }}
+            value="select-all"
+          >
+            Toggle selection
+          </CommandItem>
+        </CommandGroup>
+        <CommandSeparator alwaysRender />
+        {Object.entries(groupedRegions).map(([continent, regionCodes]) => (
+          <CommandGroup key={continent} heading={continent}>
+            {regions
+              .filter((region) => regionCodes.includes(region.code))
+              .map((region) => (
+                <CommandItem
+                  key={region.code}
+                  value={region.code}
+                  keywords={[
+                    region.code,
+                    region.location,
+                    region.continent,
+                    region.flag,
+                  ]}
+                  onSelect={() => {
+                    setSelectedRegions((prev) =>
+                      prev.includes(region.code)
+                        ? prev.filter((r) => r !== region.code)
+                        : [...prev, region.code]
+                    );
+                  }}
+                >
+                  <span className="mr-1">{region.flag}</span>
+                  {region.code}
+                  <span className="ml-1 text-muted-foreground text-xs truncate">
+                    {region.location}
+                  </span>
+                  <Check
+                    className={cn(
+                      "ml-auto",
+                      selectedRegions.includes(region.code)
+                        ? "opacity-100"
+                        : "opacity-0"
+                    )}
+                  />
+                </CommandItem>
+              ))}
+          </CommandGroup>
+        ))}
+        <CommandEmpty>No region found.</CommandEmpty>
+      </CommandList>
+    </Command>
   );
 }
