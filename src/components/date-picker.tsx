@@ -1,19 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import {
-  endOfMonth,
-  endOfYear,
-  startOfMonth,
-  startOfYear,
-  subDays,
-  subMonths,
-  subYears,
-} from "date-fns";
+import { subDays, subHours } from "date-fns";
 import { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+
+const LOCKED = true;
+
+// TODO: add variant="outline" on active button
 
 export default function DatePicker() {
   const today = new Date();
@@ -21,30 +17,27 @@ export default function DatePicker() {
     from: subDays(today, 1),
     to: subDays(today, 1),
   };
+  const lastHour = {
+    from: subHours(today, 1),
+    to: today,
+  };
+  const last6Hours = {
+    from: subHours(today, 5),
+    to: today,
+  };
   const last7Days = {
     from: subDays(today, 6),
+    to: today,
+  };
+  const last14Days = {
+    from: subDays(today, 13),
     to: today,
   };
   const last30Days = {
     from: subDays(today, 29),
     to: today,
   };
-  const monthToDate = {
-    from: startOfMonth(today),
-    to: today,
-  };
-  const lastMonth = {
-    from: startOfMonth(subMonths(today, 1)),
-    to: endOfMonth(subMonths(today, 1)),
-  };
-  const yearToDate = {
-    from: startOfYear(today),
-    to: today,
-  };
-  const lastYear = {
-    from: startOfYear(subYears(today, 1)),
-    to: endOfYear(subYears(today, 1)),
-  };
+
   const [month, setMonth] = useState(today);
   const [date, setDate] = useState<DateRange | undefined>(last7Days);
 
@@ -83,6 +76,28 @@ export default function DatePicker() {
               size="sm"
               className="w-full justify-start"
               onClick={() => {
+                setDate(lastHour);
+                setMonth(lastHour.to);
+              }}
+            >
+              Last hour
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full justify-start"
+              onClick={() => {
+                setDate(last6Hours);
+                setMonth(last6Hours.to);
+              }}
+            >
+              Last 6 hours
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full justify-start"
+              onClick={() => {
                 setDate(last7Days);
                 setMonth(last7Days.to);
               }}
@@ -94,55 +109,24 @@ export default function DatePicker() {
               size="sm"
               className="w-full justify-start"
               onClick={() => {
+                setDate(last14Days);
+                setMonth(last14Days.to);
+              }}
+            >
+              Last 14 days
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full justify-start"
+              onClick={() => {
                 setDate(last30Days);
                 setMonth(last30Days.to);
               }}
+              disabled={LOCKED}
             >
-              Last 30 days
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-full justify-start"
-              onClick={() => {
-                setDate(monthToDate);
-                setMonth(monthToDate.to);
-              }}
-            >
-              Month to date
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-full justify-start"
-              onClick={() => {
-                setDate(lastMonth);
-                setMonth(lastMonth.to);
-              }}
-            >
-              Last month
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-full justify-start"
-              onClick={() => {
-                setDate(yearToDate);
-                setMonth(yearToDate.to);
-              }}
-            >
-              Year to date
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-full justify-start"
-              onClick={() => {
-                setDate(lastYear);
-                setMonth(lastYear.to);
-              }}
-            >
-              Last year
+              Last 30 days{" "}
+              {LOCKED ? <span className="truncate">Upgrade</span> : null}
             </Button>
           </div>
         </div>
@@ -160,6 +144,7 @@ export default function DatePicker() {
         className="p-2"
         disabled={[
           { after: today }, // Dates before today
+          LOCKED ? { before: last14Days.from } : { before: last30Days.from }, // Dates before last 14/30 days
         ]}
       />
     </div>
