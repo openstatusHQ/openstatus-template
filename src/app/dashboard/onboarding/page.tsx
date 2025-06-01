@@ -43,10 +43,10 @@ export default function Page() {
             </FormCardDescription>
           </FormCardHeader>
           <FormCardContent>
-            <CreateMonitorForm />
+            <CreateMonitorForm id="create-monitor-form" />
           </FormCardContent>
           <FormCardFooter>
-            <Button>Submit</Button>
+            <Button form="create-monitor-form">Submit</Button>
           </FormCardFooter>
         </FormCard>
       </Section>
@@ -65,10 +65,10 @@ export default function Page() {
             </FormCardDescription>
           </FormCardHeader>
           <FormCardContent>
-            <CreatePageForm />
+            <CreatePageForm id="create-page-form" />
           </FormCardContent>
           <FormCardFooter>
-            <Button>Submit</Button>
+            <Button form="create-page-form">Submit</Button>
           </FormCardFooter>
         </FormCard>
       </Section>

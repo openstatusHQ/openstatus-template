@@ -126,7 +126,9 @@ export default function DatePicker() {
               disabled={LOCKED}
             >
               Last 30 days{" "}
-              {LOCKED ? <span className="truncate">Upgrade</span> : null}
+              {LOCKED ? (
+                <span className="truncate text-xs">(Upgrade)</span>
+              ) : null}
             </Button>
           </div>
         </div>
