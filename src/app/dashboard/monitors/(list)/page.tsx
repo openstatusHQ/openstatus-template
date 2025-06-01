@@ -23,6 +23,7 @@ import { CheckCircle, ListFilter } from "lucide-react";
 import Link from "next/link";
 import type { ColumnFiltersState } from "@tanstack/react-table";
 import { useState } from "react";
+import { DataTablePaginationSimple } from "@/components/ui/data-table/data-table-pagination";
 
 // NOTE: connect with table filter and sorting
 const metrics = [
@@ -72,16 +73,19 @@ export default function Page() {
         </SectionHeader>
         <MetricCardGroup>
           {metrics.map((metric) => {
+            const array = columnFilters.find(
+              (filter) => filter.id === "status"
+            )?.value;
             const isActive =
-              columnFilters.find((filter) => filter.id === "status")?.value ===
-              metric.title;
+              Array.isArray(array) && array?.includes(metric.title);
+
             return (
               <Link
                 key={metric.title}
                 href={`?status=${metric.title}`}
                 onClick={() => {
                   if (columnFilters.length === 0 || !isActive) {
-                    setColumnFilters([{ id: "status", value: metric.title }]);
+                    setColumnFilters([{ id: "status", value: [metric.title] }]);
                   } else {
                     setColumnFilters([]);
                   }
@@ -111,6 +115,7 @@ export default function Page() {
           data={monitors}
           actionBar={MonitorDataTableActionBar}
           toolbarComponent={MonitorDataTableToolbar}
+          paginationComponent={DataTablePaginationSimple}
           columnFilters={columnFilters}
           setColumnFilters={setColumnFilters}
         />
