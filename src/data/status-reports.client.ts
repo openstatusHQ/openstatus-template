@@ -1,10 +1,16 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 
 export const actions = [
   {
     id: "edit",
     label: "Edit",
     icon: Pencil,
+    variant: "default" as const,
+  },
+  {
+    id: "create-update",
+    label: "Create Update",
+    icon: Plus,
     variant: "default" as const,
   },
   {
