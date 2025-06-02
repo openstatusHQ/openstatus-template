@@ -8,6 +8,8 @@ export const statusPages = [
     domain: "status.openstatus.dev",
     protected: true,
     showValues: false,
+    // NOTE: the worst status of a report
+    status: "degraded" as const,
     monitors: [],
   },
 ];

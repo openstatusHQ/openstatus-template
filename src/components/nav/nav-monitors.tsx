@@ -398,10 +398,7 @@ export function NavMonitors({ monitors }: { monitors: Monitor[] }) {
                   href="/dashboard/monitors/overview"
                   onClick={() => setOpenMobile(false)}
                 >
-                  <span className="truncate">
-                    {/* {item.name} */}
-                    {item.name}
-                  </span>
+                  <span>{item.name}</span>
                 </Link>
               </SidebarMenuButton>
               <div

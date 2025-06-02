@@ -18,22 +18,23 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { getActions } from "@/data/status-pages.client";
 import { QuickActions } from "@/components/dropdowns/quick-actions";
 import { toast } from "sonner";
 
-export function NavStatusPages({
-  statusPages,
-}: {
-  statusPages: {
-    name: string;
-    url: string;
-  }[];
-}) {
+import { cn } from "@/lib/utils";
+import type { StatusPage } from "@/data/status-pages";
+
+const STATUS = {
+  operational: "bg-success",
+  degraded: "bg-warning",
+  outage: "bg-degraded",
+};
+
+export function NavStatusPages({ statusPages }: { statusPages: StatusPage[] }) {
   const { isMobile, setOpenMobile } = useSidebar();
   const router = useRouter();
-  const pathname = usePathname();
   const actions = getActions({
     edit: () => router.push(`/dashboard/status-pages/edit`),
     "copy-id": () => {
@@ -71,15 +72,35 @@ export function NavStatusPages({
       <SidebarMenu>
         {statusPages.map((item) => {
           // NOTE: once you have a router, you can use it to check if the item is active
-          const isActive = item.url.startsWith(pathname);
-          console.log({ isActive });
           return (
             <SidebarMenuItem key={item.name}>
-              <SidebarMenuButton asChild>
-                <Link href={item.url} onClick={() => setOpenMobile(false)}>
+              <SidebarMenuButton
+                className="group-has-data-[sidebar=menu-dot]/menu-item:pr-11"
+                asChild
+              >
+                <Link
+                  href={`/status-pages/status-reports`}
+                  onClick={() => setOpenMobile(false)}
+                >
                   <span>{item.name}</span>
                 </Link>
               </SidebarMenuButton>
+              <div
+                data-sidebar="menu-dot"
+                className={cn(
+                  "absolute flex items-center justify-center top-1.5 right-1 h-2.5 p-2.5 transition-all duration-200 group-hover/menu-item:right-6 group-focus-within/menu-item:right-6 group-data-[state=open]/menu-action:right-6 group-hover/menu-action:right-6 [&:has(+[data-sidebar=menu-action][data-state=open])]:right-6",
+                  isMobile && "right-6"
+                )}
+              >
+                <div className="relative flex items-center justify-center">
+                  <div
+                    className={cn(
+                      "absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 h-2 w-2 rounded-full",
+                      STATUS[item.status]
+                    )}
+                  />
+                </div>
+              </div>
               <QuickActions
                 actions={actions}
                 deleteAction={{
