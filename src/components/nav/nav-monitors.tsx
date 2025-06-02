@@ -51,6 +51,16 @@ import { getActions } from "@/data/monitors.client";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ExportCodeDialog } from "@/components/dialogs/export-code";
+import { Monitor } from "@/data/monitors";
+import { cn } from "@/lib/utils";
+
+const STATUS: Record<Monitor["status"], string> = {
+  Degraded: "bg-warning border border-warning",
+  Failing: "bg-destructive border border-destructive",
+  Inactive: "bg-muted-foreground border border-muted-foreground",
+  Normal: "bg-success border border-success",
+};
+
 interface Filter {
   keywords: string | undefined;
   tags: string[] | undefined;
@@ -59,15 +69,7 @@ interface Filter {
   visibility: boolean[] | undefined;
 }
 
-export function NavMonitors({
-  monitors,
-}: {
-  monitors: {
-    tags: string[];
-    name: string;
-    url: string;
-  }[];
-}) {
+export function NavMonitors({ monitors }: { monitors: Monitor[] }) {
   const [openDialog, setOpenDialog] = useState(false);
   const { isMobile, setOpenMobile } = useSidebar();
   const [filter, setFilter] = React.useState<Filter>({
@@ -388,11 +390,33 @@ export function NavMonitors({
           console.log({ isActive });
           return (
             <SidebarMenuItem key={item.name}>
-              <SidebarMenuButton asChild>
-                <Link href={item.url} onClick={() => setOpenMobile(false)}>
-                  <span>{item.name}</span>
+              <SidebarMenuButton
+                className="group-has-data-[sidebar=menu-dot]/menu-item:pr-11"
+                asChild
+              >
+                <Link
+                  href="/dashboard/monitors/overview"
+                  onClick={() => setOpenMobile(false)}
+                >
+                  <span className="truncate">
+                    {/* {item.name} */}
+                    {item.name}
+                  </span>
                 </Link>
               </SidebarMenuButton>
+              <div
+                data-sidebar="menu-dot"
+                className="absolute flex items-center justify-center top-1.5 right-1 h-2.5 p-2.5 transition-all duration-200 group-hover/menu-item:right-6 group-focus-within/menu-item:right-6 group-data-[state=open]/menu-action:right-6 group-hover/menu-action:right-6"
+              >
+                <div className="relative flex items-center justify-center">
+                  <div
+                    className={cn(
+                      "absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 h-2 w-2 rounded-full",
+                      STATUS[item.status]
+                    )}
+                  />
+                </div>
+              </div>
               <QuickActions
                 actions={actions}
                 deleteAction={{

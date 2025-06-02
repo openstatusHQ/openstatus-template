@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Kbd } from "@/components/common/kbd";
 import { NavHelp } from "./nav-help";
+import { monitors } from "@/data/monitors";
 
 const SIDEBAR_KEYBOARD_SHORTCUT = "[";
 
@@ -124,7 +125,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavOverview items={data.overview} />
         <NavStatusPages statusPages={data.statusPages} />
-        <NavMonitors monitors={data.monitors} />
+        {/* NOTE: replacing data.monitors */}
+        <NavMonitors monitors={monitors} />
         <div className="mt-auto px-2">
           <NavChecklist />
         </div>
