@@ -406,7 +406,7 @@ export function NavMonitors({ monitors }: { monitors: Monitor[] }) {
               </SidebarMenuButton>
               <div
                 data-sidebar="menu-dot"
-                className="absolute flex items-center justify-center top-1.5 right-1 h-2.5 p-2.5 transition-all duration-200 group-hover/menu-item:right-6 group-focus-within/menu-item:right-6 group-data-[state=open]/menu-action:right-6 group-hover/menu-action:right-6"
+                className="absolute flex items-center justify-center top-1.5 right-1 h-2.5 p-2.5 transition-all duration-200 group-hover/menu-item:right-6 group-focus-within/menu-item:right-6 group-data-[state=open]/menu-action:right-6 group-hover/menu-action:right-6 [&:has(+[data-sidebar=menu-action][data-state=open])]:right-6"
               >
                 <div className="relative flex items-center justify-center">
                   <div
