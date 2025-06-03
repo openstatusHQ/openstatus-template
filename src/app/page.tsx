@@ -8,12 +8,12 @@ export default function Home() {
   return (
     <div className="font-[family-name:var(--font-geist-sans)] min-h-screen flex flex-col">
       <main className="flex-1 flex flex-col gap-16 justify-center items-center">
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-2 p-4">
           <Badge variant="secondary">Coming to OpenStatus</Badge>
-          <h1 className="text-center text-3xl font-bold">
+          <h1 className="text-center text-2xl sm:text-3xl font-bold max-w-xl">
             Welcome to the OpenStatus-Template
           </h1>
-          <p className="text-foreground/70 text-center">
+          <p className="text-foreground/70 text-sm sm:text-base text-center max-w-[38rem]">
             We&apos;ve created this template to help you get started with your{" "}
             <Link
               href="https://ui.shadcn.com"
@@ -22,10 +22,7 @@ export default function Home() {
             >
               @shadcn/ui
             </Link>{" "}
-            project.
-          </p>
-          <p className="text-foreground/70 text-center">
-            It uses{" "}
+            project. It uses{" "}
             <Link
               href="https://nextjs.com"
               target="_blank"
