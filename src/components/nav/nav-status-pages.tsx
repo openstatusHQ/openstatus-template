@@ -56,7 +56,10 @@ export function NavStatusPages({ statusPages }: { statusPages: StatusPage[] }) {
               <TooltipTrigger asChild>
                 <SidebarMenuAction
                   className="relative top-0 right-0 border"
-                  onClick={() => router.push("/dashboard/status-pages/create")}
+                  onClick={() => {
+                    router.push("/dashboard/status-pages/create");
+                    setOpenMobile(false);
+                  }}
                 >
                   <Plus className="text-muted-foreground" />
                   <span className="sr-only">Create Status Page</span>
@@ -79,7 +82,7 @@ export function NavStatusPages({ statusPages }: { statusPages: StatusPage[] }) {
                 asChild
               >
                 <Link
-                  href={`/status-pages/status-reports`}
+                  href={`/dashboard/status-pages/status-reports`}
                   onClick={() => setOpenMobile(false)}
                 >
                   <span>{item.name}</span>

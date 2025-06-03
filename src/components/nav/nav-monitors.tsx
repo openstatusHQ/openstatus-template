@@ -321,7 +321,10 @@ export function NavMonitors({ monitors }: { monitors: Monitor[] }) {
               <TooltipTrigger asChild>
                 <SidebarMenuAction
                   className="relative top-0 right-0 border"
-                  onClick={() => router.push("/dashboard/monitors/create")}
+                  onClick={() => {
+                    router.push("/dashboard/monitors/create");
+                    setOpenMobile(false);
+                  }}
                 >
                   <Plus className="text-muted-foreground" />
                   <span className="sr-only">Create Monitor</span>

@@ -21,7 +21,7 @@ export function ResponseLogsDataTableToolbar({
 
   return (
     <div className="flex items-center justify-between">
-      <div className="flex flex-1 flex-wrap items-center gap-2">
+      <div className="flex flex-1 flex-wrap items-center gap-2 flex-warp">
         {table.getColumn("status") && (
           <DataTableFacetedFilter
             column={table.getColumn("status")}

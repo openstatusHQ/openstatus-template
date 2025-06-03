@@ -28,7 +28,7 @@ export function OrganizationSwitcher({
     plan: string;
   }[];
 }) {
-  const { isMobile } = useSidebar();
+  const { isMobile, setOpenMobile } = useSidebar();
   const [activeTeam, setActiveTeam] = React.useState(orgs[0]);
 
   if (!activeTeam) {
@@ -66,7 +66,10 @@ export function OrganizationSwitcher({
             {orgs.map((org) => (
               <DropdownMenuItem
                 key={org.name}
-                onClick={() => setActiveTeam(org)}
+                onClick={() => {
+                  setActiveTeam(org);
+                  setOpenMobile(false);
+                }}
                 className="gap-2 p-2"
               >
                 <span>{org.name}</span>
