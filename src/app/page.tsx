@@ -10,7 +10,7 @@ export default function Home() {
     <div className="font-[family-name:var(--font-geist-sans)] min-h-screen flex flex-col">
       <main className="flex-1 flex flex-col gap-16 justify-center items-center">
         <div className="flex flex-col items-center gap-2 p-4">
-          <Badge variant="secondary">Coming to OpenStatus</Badge>
+          <Badge variant="secondary">Coming to OpenStatus soon</Badge>
           <h1 className="text-center text-2xl sm:text-3xl font-bold max-w-xl">
             Welcome to the OpenStatus-Template
           </h1>
