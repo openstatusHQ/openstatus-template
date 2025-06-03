@@ -22,7 +22,7 @@ export default function Home() {
             >
               @shadcn/ui
             </Link>{" "}
-            dashboard project.
+            project.
           </p>
           <p className="text-foreground/70 text-center">
             It uses{" "}
