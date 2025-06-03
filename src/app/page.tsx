@@ -1,5 +1,6 @@
 import { Link } from "@/components/common/link";
 import { GitHubIcon } from "@/components/icons/github";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import NextLink from "next/link";
@@ -50,8 +51,8 @@ export default function Home() {
           </Button>
         </div>
       </main>
-      <footer>
-        <p className="text-foreground/70 text-center p-4 border-t border-border">
+      <footer className="flex items-center justify-center gap-4 border-t border-border p-4">
+        <p className="text-foreground/70 text-center">
           Powered by{" "}
           <Link
             href="https://openstatus.dev"
@@ -61,6 +62,7 @@ export default function Home() {
             OpenStatus
           </Link>
         </p>
+        <ThemeToggle />
       </footer>
     </div>
   );
