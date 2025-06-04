@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "OpenStatus Dashboard",
+  "homepage": " template.openstatus.dev ",
+  "items": [
+    {
+      "name": "empty-state",
+      "type": "registry:component",
+      "title": "Empty state",
+      "description": "A empty state component.",
+      "files": [
+        {
+          "path": "src/components/content/empty-state.tsx",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
+}
