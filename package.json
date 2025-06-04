@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build && shadcn build -o 'out/r'",
     "start": "next start",
     "lint": "next lint",
     "tsc": "tsc --noEmit",
-    "registry:build": "shadcn build"
+    "registry:build": "shadcn build -o out/r"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
