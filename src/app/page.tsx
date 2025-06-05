@@ -17,16 +17,14 @@ const BASE_URL =
     : "https://template.openstatus.dev";
 
 const REGISTRY_ITEMS = [
-  "", // empty state
   "metric-card.json",
-  "section.json",
   "action-card.json",
   "form-card.json",
+  "section.json",
   "empty-state.json",
-  "", // empty state
 ];
 
-const DEFAULT_INDEX = 3;
+const DEFAULT_INDEX = 2;
 
 export default function Home() {
   const { copy, isCopied } = useCopyToClipboard();
@@ -77,11 +75,11 @@ export default function Home() {
           </div>
           <div className="hidden sm:flex items-center">
             pnpm dlx shadcn@latest add {BASE_URL}/r/
-            <ScrollWheel
+            <SelectWheel
               items={REGISTRY_ITEMS}
               value={selected}
               onChange={setSelected}
-              className="w-[120px]"
+              className="w-[120px] h-6"
             />
           </div>
           {isCopied ? (
@@ -125,32 +123,90 @@ export default function Home() {
 
 // NOTE: a bit hacky and not a11y compliant, but it works for now
 
-interface ScrollWheelProps {
+interface SelectWheelProps {
   items: string[];
   value?: string;
   onChange?: (value: string) => void;
   className?: string;
 }
 
-function ScrollWheel({ items, value, onChange, className }: ScrollWheelProps) {
-  const [selectedIndex, setSelectedIndex] = useState(DEFAULT_INDEX);
+function SelectWheel({ items, value, onChange, className }: SelectWheelProps) {
+  // internal render count includes two placeholders
+  const count = items.length + 2;
 
-  // Calculate the angle for each cell
-  const theta = (2 * Math.PI) / items.length;
-  const radius = 28; // Adjust this value to change the wheel size
+  const initialRenderIdx = value ? items.indexOf(value) + 1 : DEFAULT_INDEX + 1;
+  const [selectedIndex, setSelectedIndex] = useState(initialRenderIdx);
+
+  const theta = (2 * Math.PI) / count;
+  const radius = 28;
+
+  const firstReal = 1;
+  const lastReal = items.length; // render index of last real item
 
   useEffect(() => {
     if (value) {
-      const index = items.indexOf(value);
-      if (index !== -1) {
-        setSelectedIndex(index);
-      }
+      const idx = items.indexOf(value);
+      if (idx !== -1) setSelectedIndex(idx + 1);
     }
   }, [value, items]);
 
+  const getItem = (renderIdx: number) => {
+    if (renderIdx === 0 || renderIdx === count - 1) return null;
+    return items[renderIdx - 1];
+  };
+
+  const moveTo = (idx: number) => {
+    if (idx < firstReal || idx > lastReal) return;
+    setSelectedIndex(idx);
+    const item = getItem(idx);
+    if (item) onChange?.(item);
+  };
+
+  const moveBy = (delta: number) => {
+    let idx = selectedIndex + delta;
+    // skip empty placeholders
+    while (!getItem(idx) && idx >= firstReal && idx <= lastReal) {
+      idx += delta > 0 ? 1 : -1;
+    }
+    moveTo(idx);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    switch (e.key) {
+      case "ArrowUp":
+      case "ArrowLeft":
+        e.preventDefault();
+        moveBy(1);
+        break;
+      case "ArrowDown":
+      case "ArrowRight":
+        e.preventDefault();
+        moveBy(-1);
+        break;
+      case "Home":
+        e.preventDefault();
+        moveTo(firstReal);
+        break;
+      case "End":
+        e.preventDefault();
+        moveTo(lastReal);
+        break;
+    }
+  };
+
   return (
-    <div className={cn("relative w-full", className)}>
-      <div className="h-full w-full [perspective:1000px] [transform-style:preserve-3d]">
+    <div
+      className={cn(
+        "relative w-full focus:outline-none border border-transparent focus:border-ring focus:ring-ring/50 focus:ring-2 rounded-md",
+        className
+      )}
+      role="listbox"
+      aria-label="Select component"
+      aria-activedescendant={`wheel-option-${selectedIndex}`}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+    >
+      <div className="rounded-md h-full w-full [perspective:1000px] [transform-style:preserve-3d]">
         <div
           className="relative h-full w-full [transform-style:preserve-3d] transition-transform duration-500 ease-out"
           style={{
@@ -159,34 +215,58 @@ function ScrollWheel({ items, value, onChange, className }: ScrollWheelProps) {
             }rad)`,
           }}
         >
-          {items.map((item, i) => {
-            const angle = theta * i;
+          {/* placeholder at start */}
+          {(() => {
+            const angle = 0;
             return (
               <div
-                key={i}
+                key="placeholder-start"
+                id="wheel-option-0"
+                role="option"
+                aria-selected={selectedIndex === 0}
+                aria-disabled
+                className="absolute left-1/2 top-1/2 h-6 w-full -translate-x-1/2 -translate-y-1/2 select-none [backface-visibility:hidden]"
+                style={{
+                  transform: `rotateX(${angle}rad) translateZ(${radius}px)`,
+                  transformStyle: "preserve-3d",
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              />
+            );
+          })()}
+
+          {items.map((item, idx) => {
+            const renderIdx = idx + 1; // account for first placeholder
+            const angle = theta * renderIdx;
+            return (
+              <div
+                key={item}
                 className={cn(
-                  "absolute left-1/2 top-1/2 h-6 w-full -translate-x-1/2 -translate-y-1/2 select-none [backface-visibility:hidden] transition-transform duration-500 ease-out flex items-center justify-start",
-                  item !== "" && "cursor-pointer"
+                  "absolute left-1/2 top-1/2 h-6 w-full -translate-x-1/2 -translate-y-1/2 select-none [backface-visibility:hidden] transition-transform duration-500 ease-out flex items-center justify-start cursor-pointer"
                 )}
                 style={{
                   transform: `rotateX(${angle}rad) translateZ(${radius}px)`,
                   transformStyle: "preserve-3d",
                 }}
                 onClick={(e) => {
-                  if (selectedIndex !== i) {
+                  if (selectedIndex !== renderIdx) {
                     e.preventDefault();
                     e.stopPropagation();
-                    if (item !== "") {
-                      setSelectedIndex(i);
-                      onChange?.(item);
-                    }
+                    setSelectedIndex(renderIdx);
+                    onChange?.(item);
                   }
                 }}
+                role="option"
+                id={`wheel-option-${renderIdx}`}
+                aria-selected={renderIdx === selectedIndex}
               >
                 <span
                   className={cn(
                     "text-xs transition-colors",
-                    i === selectedIndex
+                    renderIdx === selectedIndex
                       ? "text-foreground"
                       : "text-muted-foreground/70"
                   )}
@@ -196,6 +276,29 @@ function ScrollWheel({ items, value, onChange, className }: ScrollWheelProps) {
               </div>
             );
           })}
+
+          {/* placeholder at end */}
+          {(() => {
+            const angle = theta * (count - 1);
+            return (
+              <div
+                key="placeholder-end"
+                id={`wheel-option-${count - 1}`}
+                role="option"
+                aria-selected={selectedIndex === count - 1}
+                aria-disabled
+                className="absolute left-1/2 top-1/2 h-6 w-full -translate-x-1/2 -translate-y-1/2 select-none [backface-visibility:hidden]"
+                style={{
+                  transform: `rotateX(${angle}rad) translateZ(${radius}px)`,
+                  transformStyle: "preserve-3d",
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              />
+            );
+          })()}
         </div>
       </div>
     </div>
