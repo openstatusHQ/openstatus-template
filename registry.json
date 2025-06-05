@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "OpenStatus Dashboard",
-  "homepage": " template.openstatus.dev ",
+  "homepage": "https://template.openstatus.dev",
   "items": [
     {
       "name": "empty-state",
@@ -32,9 +32,7 @@
       "type": "registry:component",
       "title": "Action Card",
       "description": "An action card component.",
-      "registryDependencies": [
-        "card"
-      ],
+      "registryDependencies": ["card"],
       "files": [
         {
           "path": "src/components/content/action-card.tsx",
@@ -47,32 +45,34 @@
       "type": "registry:component",
       "title": "Metric Card",
       "description": "A metric card component.",
-      "registryDependencies": [
-        "badge"
-      ],
-      "dependencies": [
-        "lucide-react",
-        "class-variance-authority"
-      ],
+      "registryDependencies": ["badge"],
+      "dependencies": ["lucide-react", "class-variance-authority"],
       "files": [
         {
           "path": "src/components/metric/metric-card.tsx",
           "type": "registry:component"
         }
-      ]
+      ],
+      "cssVars": {
+        "light": {
+          "success": "oklch(0.72 0.19 150)",
+          "warning": "oklch(0.77 0.16 70)",
+          "info": "oklch(0.62 0.19 260)"
+        },
+        "dark": {
+          "success": "oklch(0.72 0.19 150)",
+          "warning": "oklch(0.77 0.16 70)",
+          "info": "oklch(0.62 0.19 260)"
+        }
+      }
     },
     {
       "name": "form-card",
       "type": "registry:component",
       "title": "Form Card",
       "description": "A form card component.",
-      "registryDependencies": [
-        "card",
-        "separator"
-      ],
-      "dependencies": [
-        "class-variance-authority"
-      ],
+      "registryDependencies": ["card", "separator"],
+      "dependencies": ["class-variance-authority"],
       "files": [
         {
           "path": "src/components/forms/form-card.tsx",

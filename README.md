@@ -75,6 +75,10 @@ We will not provide a example on each Component. Instead, we'll quickly break do
 
 **FormCard** from [/dashboard/monitors/edit](https://template.openstatus.dev/dashboard/monitors/edit)
 
+```
+pnpm dlx shadcn@latest add https://template.openstatus.dev/r/form-card.json
+```
+
 | Component Name      | HTML-tag | Description                                                          |
 | ------------------- | -------- | -------------------------------------------------------------------- |
 | FormCard            | div      | Main card container with variants for default and destructive styles |
@@ -91,6 +95,10 @@ We will not provide a example on each Component. Instead, we'll quickly break do
 
 **MetricCard** from [/dashboard/monitors](https://template.openstatus.dev/dashboard/monitors)
 
+```
+pnpm dlx shadcn@latest add https://template.openstatus.dev/r/metric-card.json
+```
+
 | Component Name   | HTML-tag     | Description                                                                                           |
 | ---------------- | ------------ | ----------------------------------------------------------------------------------------------------- |
 | MetricCard       | div          | Main metric container with variants for status styles (default, ghost, destructive, success, warning) |
@@ -102,6 +110,10 @@ We will not provide a example on each Component. Instead, we'll quickly break do
 | MetricCardButton | button       | Interactive metric card that can be clicked                                                           |
 
 **ActionCard** from [/dashboard/notifiers](https://template.openstatus.dev/dashboard/notifiers)
+
+```
+pnpm dlx shadcn@latest add https://template.openstatus.dev/r/action-card.json
+```
 
 | Component Name        | HTML-tag | Description                                                |
 | --------------------- | -------- | ---------------------------------------------------------- |
@@ -115,6 +127,10 @@ We will not provide a example on each Component. Instead, we'll quickly break do
 
 **Section** from [/dashboard/settings/account](https://template.openstatus.dev/dashboard/settings/account)
 
+```
+pnpm dlx shadcn@latest add https://template.openstatus.dev/r/section.json
+```
+
 | Component Name     | HTML-tag | Description                                               |
 | ------------------ | -------- | --------------------------------------------------------- |
 | Section            | section  | Container with vertical spacing between child elements    |
@@ -127,6 +143,10 @@ We will not provide a example on each Component. Instead, we'll quickly break do
 | SectionGroupTitle  | p        | Large bold title text                                     |
 
 **EmptyState** from [/dashboard/monitors/create](https://template.openstatus.dev/dashboard/monitors/create)
+
+```
+pnpm dlx shadcn@latest add https://template.openstatus.dev/r/empty-state.json
+```
 
 | Component Name        | HTML-tag | Description                              |
 | --------------------- | -------- | ---------------------------------------- |
