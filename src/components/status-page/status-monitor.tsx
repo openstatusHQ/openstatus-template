@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CardType, VariantType } from "./floating-button";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useState } from "react";
 
 export function StatusMonitor({
   className,
@@ -51,12 +53,22 @@ export function StatusMonitorTitle({ ...props }: React.ComponentProps<"div">) {
 }
 
 export function StatusMonitorDescription({
+  onClick,
   ...props
 }: React.ComponentProps<typeof TooltipTrigger>) {
+  const isTouch = useMediaQuery("(hover: none)");
+  const [open, setOpen] = useState(false);
+
   return (
     <TooltipProvider delayDuration={0}>
-      <Tooltip>
-        <TooltipTrigger {...props}>
+      <Tooltip open={open} onOpenChange={setOpen}>
+        <TooltipTrigger
+          onClick={(e) => {
+            if (isTouch) setOpen((prev) => !prev);
+            onClick?.(e);
+          }}
+          {...props}
+        >
           <InfoIcon className="size-4 text-muted-foreground" />
         </TooltipTrigger>
         <TooltipContent>
@@ -73,7 +85,7 @@ export function StatusMonitorIcon({
   return (
     <div
       className={cn(
-        "size-4 text-background rounded-full bg-muted flex items-center justify-center [&>svg]:size-3",
+        "size-4 text-background rounded-full bg-muted flex items-center justify-center [&>svg]:size-2.5",
         "group-data-[variant=success]/monitor:bg-success",
         "group-data-[variant=degraded]/monitor:bg-warning",
         "group-data-[variant=error]/monitor:bg-destructive",

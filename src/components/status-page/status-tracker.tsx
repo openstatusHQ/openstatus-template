@@ -15,12 +15,14 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Kbd } from "@/components/common/kbd";
 import { CardType, VARIANT } from "./floating-button";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const STATUS = VARIANT;
 
 export function StatusTracker({ type = "detailed" }: { type?: CardType }) {
   const [pinnedIndex, setPinnedIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isTouch = useMediaQuery("(hover: none)");
 
   // Window-level Escape key listener
   useEffect(() => {
@@ -146,13 +148,10 @@ export function StatusTracker({ type = "detailed" }: { type?: CardType }) {
                     </div>
                   </>
                 ) : null}
-                {isPinned && (
+                {isPinned && !isTouch && (
                   <>
                     <Separator />
-                    <div
-                      onClick={() => setPinnedIndex(null)}
-                      className="p-2 cursor-pointer flex items-center text-xs text-muted-foreground"
-                    >
+                    <div className="p-2 cursor-pointer flex items-center text-xs text-muted-foreground">
                       <span>Click again to unpin</span>
                       <Kbd>Esc</Kbd>
                     </div>

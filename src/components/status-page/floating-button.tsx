@@ -15,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 
@@ -64,7 +65,7 @@ export function FloatingButton({ className }: { className?: string }) {
   const { variant, setVariant, cardType, setCardType } = useStatusPage();
 
   return (
-    <div className={cn("fixed bottom-4 right-4 z-50", className)}>
+    <div className={cn("fixed bottom-4 right-4 z-50 bg-background", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -86,12 +87,15 @@ export function FloatingButton({ className }: { className?: string }) {
             </div>
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Status Variant</label>
+                <Label htmlFor="status-variant">Status Variant</Label>
                 <Select
                   value={variant}
                   onValueChange={(v) => setVariant(v as VariantType)}
                 >
-                  <SelectTrigger className="capitalize">
+                  <SelectTrigger
+                    id="status-variant"
+                    className="capitalize w-full"
+                  >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -104,12 +108,12 @@ export function FloatingButton({ className }: { className?: string }) {
                 </Select>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Card Type</label>
+                <Label htmlFor="card-type">Card Type</Label>
                 <Select
                   value={cardType}
                   onValueChange={(v) => setCardType(v as CardType)}
                 >
-                  <SelectTrigger className="capitalize">
+                  <SelectTrigger id="card-type" className="capitalize w-full">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -122,10 +126,8 @@ export function FloatingButton({ className }: { className?: string }) {
                 </Select>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Theme</label>
-                <div className="flex justify-start">
-                  <ThemeToggle />
-                </div>
+                <Label htmlFor="theme">Theme</Label>
+                <ThemeToggle id="theme" className="w-full" />
               </div>
             </div>
           </div>

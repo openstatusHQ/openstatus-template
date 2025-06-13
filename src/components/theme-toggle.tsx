@@ -13,8 +13,12 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { useEffect } from "react";
+import { cn } from "@/lib/utils";
 
-export function ThemeToggle() {
+export function ThemeToggle({
+  className,
+  ...props
+}: React.ComponentProps<typeof SelectTrigger>) {
   const { setTheme, theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -26,7 +30,7 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <Select>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className={cn("w-[180px]", className)} {...props}>
           <SelectValue placeholder="Select theme" />
         </SelectTrigger>
       </Select>
@@ -35,7 +39,7 @@ export function ThemeToggle() {
 
   return (
     <Select value={theme} onValueChange={setTheme}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className={cn("w-[180px]", className)} {...props}>
         <SelectValue defaultValue={theme} placeholder="Select theme" />
       </SelectTrigger>
       <SelectContent>
