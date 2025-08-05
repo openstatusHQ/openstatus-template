@@ -38,7 +38,13 @@ export default function Home() {
     <div className="font-[family-name:var(--font-geist-sans)] min-h-screen flex flex-col">
       <main className="flex-1 flex flex-col gap-12 justify-center items-center">
         <div className="flex flex-col items-center gap-2 p-4">
-          <Badge variant="secondary">Coming soon</Badge>
+          <a
+            href="https://github.com/openstatusHQ/openstatus-template"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Badge variant="secondary">Open Source</Badge>
+          </a>
           <h1 className="text-center text-2xl sm:text-3xl font-bold max-w-xl">
             Welcome to the OpenStatus-Template
           </h1>
