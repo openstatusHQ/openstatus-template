@@ -1,11 +1,11 @@
 "use client";
 
-import { NavFeedback } from "@/components/nav/nav-feedback";
+import { Feedback } from "@/components/feedback";
 
 export function NavActions() {
   return (
     <div className="flex items-center gap-2 text-sm">
-      <NavFeedback />
+      <Feedback />
     </div>
   );
 }

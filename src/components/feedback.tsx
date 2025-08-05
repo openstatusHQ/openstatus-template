@@ -26,7 +26,7 @@ const schema = z.object({
   message: z.string().min(1),
 });
 
-export function NavFeedback() {
+export function Feedback() {
   const [open, setOpen] = useState(false);
   const isMobile = useIsMobile();
   const form = useForm<z.infer<typeof schema>>({

@@ -14,7 +14,7 @@ import { getActions } from "@/data/monitors.client";
 import { toast } from "sonner";
 import { useState } from "react";
 import { ExportCodeDialog } from "@/components/dialogs/export-code";
-import { NavFeedback } from "@/components/nav/nav-feedback";
+import { Feedback } from "@/components/feedback";
 
 export function NavActions() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -41,7 +41,7 @@ export function NavActions() {
 
   return (
     <div className="flex items-center gap-2 text-sm">
-      <NavFeedback />
+      <Feedback />
       <div className="hidden font-medium text-muted-foreground lg:inline-block">
         5m ago
         <span className="relative inline-flex ml-1.5">
