@@ -1,6 +1,11 @@
-import { AppHeader, AppHeaderContent } from "@/components/nav/app-header";
+import {
+  AppHeader,
+  AppHeaderActions,
+  AppHeaderContent,
+} from "@/components/nav/app-header";
 import { NavBreadcrumb } from "@/components/nav/nav-breadcrumb";
 import { AppSidebarTrigger } from "@/components/nav/app-sidebar";
+import { NavActions } from "./nav-actions";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,6 +15,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <AppSidebarTrigger />
           <NavBreadcrumb items={[{ type: "page", label: "Notifiers" }]} />
         </AppHeaderContent>
+        <AppHeaderActions>
+          <NavActions />
+        </AppHeaderActions>
       </AppHeader>
       <main className="flex-1 w-full">{children}</main>
     </div>
