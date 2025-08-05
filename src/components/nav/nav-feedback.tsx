@@ -1,6 +1,5 @@
 "use client";
 
-import { Kbd } from "@/components/common/kbd";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -155,12 +154,12 @@ export function NavFeedback() {
                 ) : (
                   <>
                     Send
-                    <Kbd className="font-mono group-hover:text-foreground">
+                    <kbd className="bg-background text-muted-foreground/70 ms-2 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 text-[0.625rem] font-medium font-mono group-hover:text-foreground">
                       ⌘
-                    </Kbd>
-                    <Kbd className="font-mono group-hover:text-foreground">
+                    </kbd>
+                    <kbd className="bg-background text-muted-foreground/70 ms-2 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 text-[0.625rem] font-medium font-mono group-hover:text-foreground">
                       ↵
-                    </Kbd>
+                    </kbd>
                   </>
                 )}
               </Button>
