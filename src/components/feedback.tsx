@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Inbox, LoaderCircle } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
@@ -26,7 +27,10 @@ const schema = z.object({
   message: z.string().min(1),
 });
 
-export function Feedback() {
+export function Feedback({
+  className,
+  ...props
+}: React.ComponentProps<typeof Button>) {
   const [open, setOpen] = useState(false);
   const isMobile = useIsMobile();
   const form = useForm<z.infer<typeof schema>>({
@@ -105,7 +109,11 @@ export function Feedback() {
         <Button
           variant="ghost"
           size="sm"
-          className="group gap-0 px-2 text-muted-foreground text-sm hover:bg-transparent hover:text-foreground data-[state=open]:text-foreground"
+          className={cn(
+            "group gap-0 px-2 text-muted-foreground text-sm hover:bg-transparent hover:text-foreground data-[state=open]:text-foreground",
+            className
+          )}
+          {...props}
         >
           Feedback{" "}
           <kbd className="bg-background text-muted-foreground/70 ms-2 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 text-[0.625rem] font-medium font-mono group-hover:text-foreground group-data-[state=open]:text-foreground">

@@ -26,6 +26,7 @@ const REGISTRY_ITEMS = [
   "form-card.json",
   "section.json",
   "empty-state.json",
+  "feedback.json",
 ];
 
 const DEFAULT_INDEX = 2;

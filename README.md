@@ -153,3 +153,13 @@ pnpm dlx shadcn@latest add https://template.openstatus.dev/r/empty-state.json
 | EmptyStateContainer   | div      | Main container with centered flex layout |
 | EmptyStateTitle       | h3       | Title text with large font size          |
 | EmptyStateDescription | p        | Description text with muted color        |
+
+**Feedback** Button from [/dashboard/overview](https://template.openstatus.dev/dashboard/overview)
+
+```
+pnpm dlx shadcn@latest add https://template.openstatus.dev/r/feedback.json
+```
+
+| Component Name | HTML-tag | Description                                                              |
+| -------------- | -------- | ------------------------------------------------------------------------ |
+| Feedback       | div      | Popover-based feedback form with keyboard shortcuts and mobile detection |

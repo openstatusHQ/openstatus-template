@@ -79,6 +79,27 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "feedback",
+      "type": "registry:component",
+      "title": "Feedback",
+      "description": "A feedback component with popover form.",
+      "registryDependencies": ["button", "form", "popover", "textarea"],
+      "dependencies": [
+        "@hookform/resolvers",
+        "react-hook-form",
+        "sonner",
+        "zod",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "src/components/feedback.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
