@@ -16,16 +16,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 function FloatingButton() {
   return (
-    <div className="fixed bottom-4 right-4 z-50">
-      <Button asChild className="group" size="sm">
+    <div className="fixed bottom-2 right-2 z-50">
+      <Button size="sm" asChild>
         <a
-          href="https://github.com/openstatusHQ/data-table-filters"
+          href="https://github.com/openstatusHQ/openstatus-template"
           target="_blank"
           rel="noreferrer"
         >
-          <span className="mr-1">GitHub</span>
-          <ArrowRight className="relative mb-[1px] inline h-4 w-0 transition-all group-hover:w-4" />
-          <ChevronRight className="relative mb-[1px] inline h-4 w-4 transition-all group-hover:w-0" />
+          GitHub Repo
         </a>
       </Button>
     </div>
