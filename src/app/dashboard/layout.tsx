@@ -1,7 +1,5 @@
 import { AppSidebar } from "@/components/nav/app-sidebar";
 import { Button } from "@/components/ui/button";
-import { ChevronRight } from "lucide-react";
-import { ArrowRight } from "lucide-react";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
