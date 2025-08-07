@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ogMetadata, twitterMetadata } from "./metadata";
 import { defaultMetadata } from "./metadata";
-
+import PlausibleProvider from "next-plausible";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -39,16 +39,18 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <TailwindIndicator />
-          <Toaster />
-        </ThemeProvider>
+        <PlausibleProvider domain="template.openstatus.dev">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <TailwindIndicator />
+            <Toaster />
+          </ThemeProvider>
+        </PlausibleProvider>
       </body>
     </html>
   );
