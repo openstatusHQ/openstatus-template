@@ -1,9 +1,12 @@
+const today = new Date();
+const yesterday = new Date(today.setDate(today.getDate() - 1));
+
 export const statusReports = [
   {
     id: 1,
     name: "Downtime API",
-    startedAt: new Date("2025-06-07 12:00:00"),
-    updatedAt: new Date("2025-06-07 12:30:00"),
+    startedAt: yesterday,
+    updatedAt: today,
     status: "operational",
     updates: [
       {
@@ -11,8 +14,8 @@ export const statusReports = [
         status: "operational" as const,
         message:
           "Everything is under control, we continue to monitor the situation.",
-        date: new Date("2025-06-07 12:30:00"),
-        updatedAt: new Date("2025-06-07 12:30:00"),
+        date: yesterday,
+        updatedAt: today,
         monitors: [1],
       },
       {
@@ -20,8 +23,8 @@ export const statusReports = [
         status: "investigating" as const,
         message:
           "Our hosting provider is having an increase of 400 errors. We are aware of the dependency and will be working on a solution to reduce the risk.",
-        date: new Date("2025-06-07 12:00:00"),
-        updatedAt: new Date("2025-06-07 12:00:00"),
+        date: yesterday,
+        updatedAt: yesterday,
         monitors: [1],
       },
     ],

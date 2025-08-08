@@ -14,9 +14,11 @@ import {
   FloatingButton,
   useStatusPage,
 } from "@/components/status-page/floating-button";
+import { chartData } from "@/components/status-page/utils";
+import { monitors } from "@/data/monitors";
 
 function StatusPageContent() {
-  const { variant, cardType } = useStatusPage();
+  const { variant, cardType, barType, showUptime } = useStatusPage();
 
   return (
     <div className="grid gap-6">
@@ -29,7 +31,22 @@ function StatusPageContent() {
         </StatusHeader>
         <StatusBanner />
         <StatusContent>
-          <StatusMonitor variant={variant} type={cardType} />
+          <StatusMonitor
+            variant={variant}
+            cardType={cardType}
+            barType={barType}
+            data={chartData}
+            monitor={monitors[0]}
+            showUptime={showUptime}
+          />
+          <StatusMonitor
+            variant={variant}
+            cardType={cardType}
+            barType={barType}
+            data={chartData}
+            monitor={monitors[1]}
+            showUptime={showUptime}
+          />
         </StatusContent>
       </Status>
       <FloatingButton />
@@ -39,7 +56,7 @@ function StatusPageContent() {
 
 export default function Page() {
   return (
-    <StatusPageProvider defaultVariant="success">
+    <StatusPageProvider>
       <StatusPageContent />
     </StatusPageProvider>
   );

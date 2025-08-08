@@ -1,25 +1,38 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { chartConfig, chartData } from "./utils";
+import { chartConfig, getHighestPriorityStatus, type ChartData } from "./utils";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { formatDistanceStrict, isSameDay } from "date-fns";
-import { messages } from "./messages";
+import { messages, requests } from "./messages";
 import { Separator } from "@/components/ui/separator";
+// TODO: make it a property of the component
 import { statusReports } from "@/data/status-reports";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Kbd } from "@/components/common/kbd";
-import { CardType, VARIANT } from "./floating-button";
+import { CardType, BarType, VARIANT } from "./floating-button";
 import { useMediaQuery } from "@/hooks/use-media-query";
+
+// TODO: keyboard arrow navigation
+// FIXME: on small screens, avoid pinned state
+// TODO: only on real mobile devices, use click events
 
 const STATUS = VARIANT;
 
-export function StatusTracker({ type = "detailed" }: { type?: CardType }) {
+export function StatusTracker({
+  cardType = "duration",
+  barType = "absolute",
+  data,
+}: {
+  cardType?: CardType;
+  barType?: BarType;
+  data: ChartData[];
+}) {
   const [pinnedIndex, setPinnedIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isTouch = useMediaQuery("(hover: none)");
@@ -74,12 +87,11 @@ export function StatusTracker({ type = "detailed" }: { type?: CardType }) {
   return (
     <div
       ref={containerRef}
-      className="flex h-[50px] w-full items-end gap-px xs:gap-0.5 sm:gap-1"
+      className="flex h-[50px] w-full items-end"
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >
-      {chartData.map((item, index) => {
-        const total = item.success + item.degraded + item.info + item.error;
+      {data.map((item, index) => {
         const isPinned = pinnedIndex === index;
 
         const reports = statusReports.filter((report) => {
@@ -97,24 +109,19 @@ export function StatusTracker({ type = "detailed" }: { type?: CardType }) {
           >
             <HoverCardTrigger asChild>
               <div
-                className="group relative flex h-full w-full cursor-pointer flex-col transition-opacity hover:opacity-80"
+                className="group relative flex h-full w-full cursor-pointer flex-col transition-opacity hover:opacity-80 px-px sm:px-0.5"
                 onClick={() => handleBarClick(index)}
               >
-                {STATUS.map((status) => {
-                  const value = item[status as keyof typeof item] as number;
-                  if (value === 0) return null;
-                  const heightPercentage = (value / total) * 100;
-                  return (
-                    <div
-                      key={`${item.timestamp}-${status}`}
-                      className="w-full transition-all"
-                      style={{
-                        height: `${heightPercentage}%`,
-                        backgroundColor: chartConfig[status].color,
-                      }}
-                    />
-                  );
-                })}
+                {(() => {
+                  switch (barType) {
+                    case "absolute":
+                      return <StatusTrackerTriggerAbsolute item={item} />;
+                    case "dominant":
+                      return <StatusTrackerTriggerDominant item={item} />;
+                    default:
+                      return null;
+                  }
+                })()}
               </div>
             </HoverCardTrigger>
             <HoverCardContent side="top" align="center" className="w-auto p-0">
@@ -127,11 +134,18 @@ export function StatusTracker({ type = "detailed" }: { type?: CardType }) {
                 </div>
                 <Separator />
                 <div className="p-2 space-y-1 text-sm">
-                  {type === "detailed" ? (
-                    <StatusTrackerContentDetailed item={item} />
-                  ) : (
-                    <StatusTrackerContentCompact item={item} />
-                  )}
+                  {(() => {
+                    switch (cardType) {
+                      case "duration":
+                        return <StatusTrackerContentDuration item={item} />;
+                      case "dominant":
+                        return <StatusTrackerContentDominant item={item} />;
+                      case "requests":
+                        return <StatusTrackerContentRequests item={item} />;
+                      default:
+                        return null;
+                    }
+                  })()}
                 </div>
                 {reports.length > 0 ? (
                   <>
@@ -166,11 +180,42 @@ export function StatusTracker({ type = "detailed" }: { type?: CardType }) {
   );
 }
 
-function StatusTrackerContentDetailed({
-  item,
-}: {
-  item: (typeof chartData)[number];
-}) {
+function StatusTrackerTriggerAbsolute({ item }: { item: ChartData }) {
+  const total = item.success + item.degraded + item.info + item.error;
+
+  return STATUS.map((status) => {
+    const value = item[status as keyof typeof item] as number;
+    if (value === 0) return null;
+    const heightPercentage = (value / total) * 100;
+    return (
+      <div
+        key={`${item.timestamp}-${status}`}
+        className="w-full transition-all"
+        style={{
+          height: `${heightPercentage}%`,
+          backgroundColor: chartConfig[status].color,
+        }}
+      />
+    );
+  });
+}
+
+function StatusTrackerTriggerDominant({ item }: { item: ChartData }) {
+  const highestPriorityStatus = getHighestPriorityStatus(item);
+
+  return (
+    <div
+      key={`${item.timestamp}-${highestPriorityStatus}`}
+      className="w-full transition-all"
+      style={{
+        height: "100%",
+        backgroundColor: chartConfig[highestPriorityStatus].color,
+      }}
+    />
+  );
+}
+
+function StatusTrackerContentDuration({ item }: { item: ChartData }) {
   return STATUS.map((status) => {
     const value = item[status];
     if (value === 0) return null;
@@ -202,23 +247,8 @@ function StatusTrackerContentDetailed({
   });
 }
 
-const priority = {
-  error: 3,
-  degraded: 2,
-  info: 1,
-  success: 0,
-} as const;
-
-function StatusTrackerContentCompact({
-  item,
-}: {
-  item: (typeof chartData)[number];
-}) {
-  const highestPriorityStatus =
-    STATUS.filter((status) => item[status] > 0).sort(
-      (a, b) => priority[b] - priority[a]
-    )[0] || "success";
-
+function StatusTrackerContentDominant({ item }: { item: ChartData }) {
+  const highestPriorityStatus = getHighestPriorityStatus(item);
   return (
     <div className="flex items-baseline gap-4 min-w-32">
       <div className="flex items-center gap-2">
@@ -232,4 +262,28 @@ function StatusTrackerContentCompact({
       </div>
     </div>
   );
+}
+
+function StatusTrackerContentRequests({ item }: { item: ChartData }) {
+  return STATUS.map((status) => {
+    const value = item[status];
+    if (value === 0) return null;
+
+    return (
+      <div key={status} className="flex items-baseline gap-4">
+        <div className="flex items-center gap-2">
+          <div
+            className="h-2.5 w-2.5 rounded-sm"
+            style={{
+              backgroundColor: chartConfig[status].color,
+            }}
+          />
+          <div className="text-sm">{requests[status]}</div>
+        </div>
+        <div className="ml-auto font-mono text-muted-foreground text-xs tracking-tight">
+          {value}
+        </div>
+      </div>
+    );
+  });
 }

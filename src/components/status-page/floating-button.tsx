@@ -22,14 +22,21 @@ import { cn } from "@/lib/utils";
 export const VARIANT = ["success", "degraded", "error", "info"] as const;
 export type VariantType = (typeof VARIANT)[number];
 
-export const CARD_TYPE = ["detailed", "compact"] as const;
+export const CARD_TYPE = ["duration", "requests", "dominant"] as const;
 export type CardType = (typeof CARD_TYPE)[number];
+
+export const BAR_TYPE = ["absolute", "dominant"] as const;
+export type BarType = (typeof BAR_TYPE)[number];
 
 interface StatusPageContextType {
   variant: VariantType;
   setVariant: (variant: VariantType) => void;
   cardType: CardType;
   setCardType: (cardType: CardType) => void;
+  barType: BarType;
+  setBarType: (barType: BarType) => void;
+  showUptime: boolean;
+  setShowUptime: (showUptime: boolean) => void;
 }
 
 const StatusPageContext = createContext<StatusPageContextType | null>(null);
@@ -45,16 +52,32 @@ export function useStatusPage() {
 export function StatusPageProvider({
   children,
   defaultVariant = "success",
+  defaultCardType = "duration",
+  defaultBarType = "absolute",
+  defaultShowUptime = true,
 }: {
   children: React.ReactNode;
   defaultVariant?: VariantType;
+  defaultCardType?: CardType;
+  defaultBarType?: BarType;
+  defaultShowUptime?: boolean;
 }) {
   const [variant, setVariant] = useState<VariantType>(defaultVariant);
-  const [cardType, setCardType] = useState<CardType>("detailed");
-
+  const [cardType, setCardType] = useState<CardType>(defaultCardType);
+  const [barType, setBarType] = useState<BarType>(defaultBarType);
+  const [showUptime, setShowUptime] = useState<boolean>(defaultShowUptime);
   return (
     <StatusPageContext.Provider
-      value={{ variant, setVariant, cardType, setCardType }}
+      value={{
+        variant,
+        setVariant,
+        cardType,
+        setCardType,
+        barType,
+        setBarType,
+        showUptime,
+        setShowUptime,
+      }}
     >
       {children}
     </StatusPageContext.Provider>
@@ -62,7 +85,16 @@ export function StatusPageProvider({
 }
 
 export function FloatingButton({ className }: { className?: string }) {
-  const { variant, setVariant, cardType, setCardType } = useStatusPage();
+  const {
+    variant,
+    setVariant,
+    cardType,
+    setCardType,
+    barType,
+    setBarType,
+    showUptime,
+    setShowUptime,
+  } = useStatusPage();
 
   return (
     <div className={cn("fixed bottom-4 right-4 z-50 bg-background", className)}>
@@ -85,7 +117,7 @@ export function FloatingButton({ className }: { className?: string }) {
                 Configure the status page appearance
               </p>
             </div>
-            <div className="space-y-4">
+            <div className="grid gap-4 grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="status-variant">Status Variant</Label>
                 <Select
@@ -126,8 +158,49 @@ export function FloatingButton({ className }: { className?: string }) {
                 </Select>
               </div>
               <div className="space-y-2">
+                <Label htmlFor="bar-type">Bar Type</Label>
+                <Select
+                  value={barType}
+                  onValueChange={(v) => setBarType(v as BarType)}
+                >
+                  <SelectTrigger id="bar-type" className="capitalize w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {BAR_TYPE.map((v) => (
+                      <SelectItem key={v} value={v} className="capitalize">
+                        {v}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor="theme">Theme</Label>
                 <ThemeToggle id="theme" className="w-full" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="show-uptime">Show Uptime</Label>
+                <Select
+                  value={showUptime ? "true" : "false"}
+                  onValueChange={(v) => setShowUptime(v === "true")}
+                >
+                  <SelectTrigger id="show-uptime" className="capitalize w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {["true", "false"].map((v) => (
+                      <SelectItem key={v} value={v} className="capitalize">
+                        {v}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2 flex items-center">
+                <p className="text-sm text-muted-foreground">
+                  Choose your status page configuration.
+                </p>
               </div>
             </div>
           </div>
