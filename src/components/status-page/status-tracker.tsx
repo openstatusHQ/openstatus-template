@@ -221,6 +221,7 @@ function StatusTrackerTriggerAbsolute({ item }: { item: ChartData }) {
         style={{
           height: `${heightPercentage}%`,
           backgroundColor: chartConfig[status].color,
+          // IDEA: only for status === "success", make the color less pop to emphasize the other statuses
         }}
       />
     );

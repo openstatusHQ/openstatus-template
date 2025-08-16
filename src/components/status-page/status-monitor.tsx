@@ -41,7 +41,7 @@ export function StatusMonitor({
     <div
       data-slot="status-monitor"
       data-variant={variant}
-      className={cn("group/monitor flex flex-col gap-0.5", className)}
+      className={cn("group/monitor flex flex-col gap-1", className)}
       {...props}
     >
       <div className="flex flex-row items-center justify-between gap-4">
