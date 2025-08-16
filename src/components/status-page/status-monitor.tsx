@@ -18,6 +18,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useState } from "react";
 import { type ChartData } from "./utils";
 import { Monitor } from "@/data/monitors";
+import { formatDistanceToNowStrict } from "date-fns";
 
 export function StatusMonitor({
   className,
@@ -40,7 +41,7 @@ export function StatusMonitor({
     <div
       data-slot="status-monitor"
       data-variant={variant}
-      className={cn("group/monitor flex flex-col gap-1", className)}
+      className={cn("group/monitor flex flex-col gap-0.5", className)}
       {...props}
     >
       <div className="flex flex-row items-center justify-between gap-4">
@@ -56,15 +57,34 @@ export function StatusMonitor({
         </div>
       </div>
       <StatusTracker cardType={cardType} barType={barType} data={data} />
+      <div
+        className={cn(
+          "flex flex-row items-center justify-between text-xs text-muted-foreground",
+          className
+        )}
+        {...props}
+      >
+        <div>
+          {formatDistanceToNowStrict(new Date(data[0].timestamp), {
+            unit: "day",
+          })}
+        </div>
+        <div>today</div>
+      </div>
     </div>
   );
 }
 
 export function StatusMonitorTitle({
   children,
+  className,
   ...props
 }: React.ComponentProps<"div">) {
-  return <div {...props}>{children}</div>;
+  return (
+    <div className={cn("font-medium", className)} {...props}>
+      {children}
+    </div>
+  );
 }
 
 export function StatusMonitorDescription({
@@ -126,7 +146,29 @@ export function StatusMonitorUptime({
       {...props}
       className={cn("text-sm text-muted-foreground font-mono", className)}
     >
-      99.89%
+      99.90%
+    </div>
+  );
+}
+
+export function StatusMonitorStatus({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div className={cn(className)} {...props}>
+      <span className="group-data-[variant=success]/monitor:block hidden">
+        Operational
+      </span>
+      <span className="group-data-[variant=degraded]/monitor:block hidden">
+        Degraded
+      </span>
+      <span className="group-data-[variant=error]/monitor:block hidden">
+        Downtime
+      </span>
+      <span className="group-data-[variant=info]/monitor:block hidden">
+        Maintenance
+      </span>
     </div>
   );
 }

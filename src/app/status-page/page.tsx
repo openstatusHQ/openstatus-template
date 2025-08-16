@@ -5,6 +5,9 @@ import {
   StatusBanner,
   StatusContent,
   StatusDescription,
+  StatusEmptyState,
+  StatusEmptyStateDescription,
+  StatusEmptyStateTitle,
   StatusHeader,
   StatusTitle,
 } from "@/components/status-page/status";
@@ -16,6 +19,8 @@ import {
 } from "@/components/status-page/floating-button";
 import { chartData } from "@/components/status-page/utils";
 import { monitors } from "@/data/monitors";
+import { StatusTrackerGroup } from "@/components/status-page/status-tracker-group";
+import { Newspaper } from "lucide-react";
 
 function StatusPageContent() {
   const { variant, cardType, barType, showUptime } = useStatusPage();
@@ -36,17 +41,54 @@ function StatusPageContent() {
             cardType={cardType}
             barType={barType}
             data={chartData}
-            monitor={monitors[0]}
-            showUptime={showUptime}
-          />
-          <StatusMonitor
-            variant={variant}
-            cardType={cardType}
-            barType={barType}
-            data={chartData}
             monitor={monitors[1]}
             showUptime={showUptime}
           />
+          <StatusTrackerGroup title="US Endpoints" variant={variant}>
+            <StatusMonitor
+              variant={variant}
+              cardType={cardType}
+              barType={barType}
+              data={chartData}
+              monitor={monitors[0]}
+              showUptime={showUptime}
+            />
+            <StatusMonitor
+              variant={variant}
+              cardType={cardType}
+              barType={barType}
+              data={chartData}
+              monitor={monitors[1]}
+              showUptime={showUptime}
+            />
+          </StatusTrackerGroup>
+          <StatusTrackerGroup title="EU Endpoints" variant={variant}>
+            <StatusMonitor
+              variant={variant}
+              cardType={cardType}
+              barType={barType}
+              data={chartData}
+              monitor={monitors[0]}
+              showUptime={showUptime}
+            />
+            <StatusMonitor
+              variant={variant}
+              cardType={cardType}
+              barType={barType}
+              data={chartData}
+              monitor={monitors[1]}
+              showUptime={showUptime}
+            />
+          </StatusTrackerGroup>
+        </StatusContent>
+        <StatusContent>
+          <StatusEmptyState>
+            <Newspaper className="size-4 text-muted-foreground" />
+            <StatusEmptyStateTitle>No recent reports</StatusEmptyStateTitle>
+            <StatusEmptyStateDescription>
+              There have been no reports within the last 7 days.
+            </StatusEmptyStateDescription>
+          </StatusEmptyState>
         </StatusContent>
       </Status>
       <FloatingButton />

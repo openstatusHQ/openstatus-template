@@ -24,6 +24,7 @@ import { formatDateRange } from "@/lib/formatter";
 // TODO: improve status reports -> add duration and time
 // TODO: support headless mode -> both card and bar type share only maintenance or degraded mode
 // TODO: support status page logo + onClick to homepage
+// TODO: widget type -> current status only | with status history
 
 const STATUS = VARIANT;
 
@@ -112,7 +113,7 @@ export function StatusTracker({
           >
             <HoverCardTrigger asChild>
               <div
-                className="group relative flex h-full w-full cursor-pointer flex-col transition-opacity hover:opacity-80 px-px sm:px-0.5"
+                className="group relative flex h-full w-full cursor-pointer flex-col transition-opacity hover:opacity-80 px-px" // sm:px-0.5
                 onClick={() => handleBarClick(index)}
               >
                 {(() => {
