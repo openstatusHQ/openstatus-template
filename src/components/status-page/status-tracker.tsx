@@ -12,15 +12,18 @@ import { messages, requests } from "./messages";
 import { Separator } from "@/components/ui/separator";
 // TODO: make it a property of the component
 import { statusReports } from "@/data/status-reports";
-import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Kbd } from "@/components/common/kbd";
 import { CardType, BarType, VARIANT } from "./floating-button";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { formatDateRange } from "@/lib/formatter";
 
 // TODO: keyboard arrow navigation
 // FIXME: on small screens, avoid pinned state
 // TODO: only on real mobile devices, use click events
+// TODO: improve status reports -> add duration and time
+// TODO: support headless mode -> both card and bar type share only maintenance or degraded mode
+// TODO: support status page logo + onClick to homepage
 
 const STATUS = VARIANT;
 
@@ -151,14 +154,37 @@ export function StatusTracker({
                   <>
                     <Separator />
                     <div className="p-2">
-                      {reports.map((report) => (
-                        <Link key={report.id} href={`#`}>
-                          <div className="group text-sm flex items-center justify-between text-muted-foreground hover:text-foreground">
-                            <div>{report.name}</div>
-                            <ChevronRight className="size-3 group-hover:translate-x-0.5 transition-transform" />
-                          </div>
-                        </Link>
-                      ))}
+                      {reports.map((report) => {
+                        const updates = report.updates.sort(
+                          (a, b) => a.date.getTime() - b.date.getTime()
+                        );
+                        const startedAt = new Date(updates[0].date);
+                        const endedAt = new Date(
+                          updates[updates.length - 1].date
+                        );
+                        const duration = formatDistanceStrict(
+                          startedAt,
+                          endedAt
+                        );
+                        return (
+                          <Link key={report.id} href={`#`}>
+                            <div className="group text-sm relative">
+                              {/* NOTE: this is to make the text truncate based on the with of the sibling element */}
+                              {/* REMINDER: height needs to be equal the text height */}
+                              <div className="w-full h-4" />
+                              <div className="absolute inset-0 text-muted-foreground hover:text-foreground">
+                                <div className="truncate">{report.name}</div>
+                              </div>
+                              <div className="text-xs text-muted-foreground mt-1">
+                                {formatDateRange(startedAt, endedAt)}{" "}
+                                <span className="ml-1.5 font-mono text-muted-foreground/70">
+                                  {duration}
+                                </span>
+                              </div>
+                            </div>
+                          </Link>
+                        );
+                      })}
                     </div>
                   </>
                 ) : null}
@@ -281,7 +307,7 @@ function StatusTrackerContentRequests({ item }: { item: ChartData }) {
           <div className="text-sm">{requests[status]}</div>
         </div>
         <div className="ml-auto font-mono text-muted-foreground text-xs tracking-tight">
-          {value}
+          {value} req
         </div>
       </div>
     );

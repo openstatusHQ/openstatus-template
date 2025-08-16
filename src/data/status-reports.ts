@@ -1,10 +1,13 @@
 const today = new Date();
-const yesterday = new Date(today.setDate(today.getDate() - 1));
+const lastHour = new Date(new Date().setHours(new Date().getHours() - 1));
+const yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
+
+console.log({ today, lastHour, yesterday });
 
 export const statusReports = [
   {
     id: 1,
-    name: "Downtime API",
+    name: "Downtime API due to hosting provider with 400 errors",
     startedAt: yesterday,
     updatedAt: today,
     status: "operational",
@@ -14,7 +17,7 @@ export const statusReports = [
         status: "operational" as const,
         message:
           "Everything is under control, we continue to monitor the situation.",
-        date: yesterday,
+        date: today,
         updatedAt: today,
         monitors: [1],
       },
@@ -23,8 +26,8 @@ export const statusReports = [
         status: "investigating" as const,
         message:
           "Our hosting provider is having an increase of 400 errors. We are aware of the dependency and will be working on a solution to reduce the risk.",
-        date: yesterday,
-        updatedAt: yesterday,
+        date: lastHour,
+        updatedAt: lastHour,
         monitors: [1],
       },
     ],
@@ -32,9 +35,9 @@ export const statusReports = [
   },
   {
     id: 2,
-    name: "Downtime API",
-    startedAt: new Date("2025-06-04 12:10:00"),
-    updatedAt: new Date("2025-06-04 12:30:00"),
+    name: "Unexpected API Performance Degradation: Investigating Network Latency Spikes Across Multiple Regions",
+    startedAt: new Date("2025-08-04 12:10:00"),
+    updatedAt: new Date("2025-08-04 12:30:00"),
     status: "operational",
     updates: [
       {
@@ -42,8 +45,8 @@ export const statusReports = [
         status: "operational" as const,
         message:
           "Everything is under control, we continue to monitor the situation.",
-        date: new Date("2025-06-04 12:30:00"),
-        updatedAt: new Date("2025-06-04 12:30:00"),
+        date: new Date("2025-08-04 12:30:00"),
+        updatedAt: new Date("2025-08-04 12:30:00"),
         monitors: [1],
       },
       {
@@ -51,8 +54,36 @@ export const statusReports = [
         status: "investigating" as const,
         message:
           "Our hosting provider is having an increase of 400 errors. We are working on a solution to reduce the risk.",
-        date: new Date("2025-06-04 12:00:00"),
-        updatedAt: new Date("2025-06-04 12:00:00"),
+        date: new Date("2025-08-04 12:00:00"),
+        updatedAt: new Date("2025-08-04 12:00:00"),
+        monitors: [1],
+      },
+    ],
+    affected: ["OpenStatus API"],
+  },
+  {
+    id: 3,
+    name: "Downtime API due to hosting provider with 400 errors",
+    startedAt: new Date("2025-08-05 12:10:00"),
+    updatedAt: new Date("2025-08-05 12:30:00"),
+    status: "operational",
+    updates: [
+      {
+        id: 2,
+        status: "operational" as const,
+        message:
+          "Everything is under control, we continue to monitor the situation.",
+        date: new Date("2025-08-06 03:30:00"),
+        updatedAt: new Date("2025-08-06 03:30:00"),
+        monitors: [1],
+      },
+      {
+        id: 1,
+        status: "investigating" as const,
+        message:
+          "Our hosting provider is having an increase of 400 errors. We are working on a solution to reduce the risk.",
+        date: new Date("2025-08-05 12:00:00"),
+        updatedAt: new Date("2025-08-05 12:00:00"),
         monitors: [1],
       },
     ],
