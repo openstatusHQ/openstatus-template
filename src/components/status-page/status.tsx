@@ -35,6 +35,17 @@ export function Status({
   );
 }
 
+export function StatusBrand({
+  src,
+  alt,
+  className,
+  ...props
+}: React.ComponentProps<"img">) {
+  return (
+    <img src={src} alt={alt} className={cn("size-8", className)} {...props} />
+  );
+}
+
 export function StatusHeader({
   children,
   className,
@@ -82,14 +93,14 @@ export function StatusContent({
   children,
   className,
 }: React.ComponentProps<"div">) {
-  return <div className={cn("flex flex-col gap-6", className)}>{children}</div>;
+  return <div className={cn("flex flex-col gap-3", className)}>{children}</div>;
 }
 
 export function StatusBanner({ className }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "flex items-center gap-3 border rounded-lg p-3",
+        "flex items-center gap-3 border rounded-lg px-3 py-2",
         "group-data-[variant=success]:bg-success/10 group-data-[variant=success]:border-success/20",
         "group-data-[variant=degraded]:bg-warning/10 group-data-[variant=degraded]:border-warning/20",
         "group-data-[variant=error]:bg-destructive/10 group-data-[variant=error]:border-destructive/20",
@@ -135,7 +146,7 @@ export function StatusIcon({
   return (
     <div
       className={cn(
-        "size-8 text-background rounded-full bg-muted flex items-center justify-center [&>svg]:size-4",
+        "size-7 text-background rounded-full bg-muted flex items-center justify-center [&>svg]:size-4",
         "group-data-[variant=success]:bg-success",
         "group-data-[variant=degraded]:bg-warning",
         "group-data-[variant=error]:bg-destructive",
@@ -175,5 +186,47 @@ export function StatusTimestamp({
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
+  );
+}
+
+export function StatusEmptyState({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      className={cn(
+        "flex flex-col gap-0.5 items-center justify-center px-3 py-2 border rounded-lg border-dashed text-center",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+export function StatusEmptyStateTitle({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div className={cn("font-medium", className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+export function StatusEmptyStateDescription({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div className={cn("text-muted-foreground text-sm", className)} {...props}>
+      {children}
+    </div>
   );
 }

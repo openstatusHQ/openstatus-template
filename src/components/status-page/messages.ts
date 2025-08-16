@@ -12,3 +12,10 @@ export const messages = {
     info: "Maintenance",
   },
 };
+
+export const requests = {
+  success: "Normal",
+  degraded: "Degraded",
+  error: "Error",
+  info: "Maintenance",
+};
