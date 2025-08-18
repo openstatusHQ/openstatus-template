@@ -12,7 +12,7 @@ import {
   StatusTitle,
 } from "@/components/status-page/status";
 import { useStatusPage } from "@/components/status-page/floating-button";
-import { StatusEvents } from "@/components/status-page/status-events";
+import { StatusEventsTabs } from "@/components/status-page/status-events";
 
 function StatusEventContent() {
   const { variant } = useStatusPage();
@@ -26,7 +26,7 @@ function StatusEventContent() {
           </StatusDescription>
         </StatusHeader>
         <StatusContent>
-          <StatusEvents />
+          <StatusEventsTabs />
         </StatusContent>
       </Status>
       <FloatingButton />
