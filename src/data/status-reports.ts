@@ -59,7 +59,7 @@ export const statusReports = [
         monitors: [1],
       },
     ],
-    affected: ["OpenStatus API"],
+    affected: ["OpenStatus API", "OpenStatus Web", "OpenStatus Docs"],
   },
   {
     id: 3,
@@ -69,12 +69,30 @@ export const statusReports = [
     status: "operational",
     updates: [
       {
-        id: 2,
+        id: 4,
         status: "operational" as const,
         message:
           "Everything is under control, we continue to monitor the situation.",
         date: new Date("2025-08-06 03:30:00"),
         updatedAt: new Date("2025-08-06 03:30:00"),
+        monitors: [1],
+      },
+      {
+        id: 3,
+        status: "monitoring" as const,
+        message:
+          "We are continuing to monitor the situation to ensure that the issue is resolved.",
+        date: new Date("2025-08-05 16:00:00"),
+        updatedAt: new Date("2025-08-05 16:00:00"),
+        monitors: [1],
+      },
+      {
+        id: 2,
+        status: "identified" as const,
+        message:
+          "We have identified the root cause of the issue. It is due to a configuration error on our part.",
+        date: new Date("2025-08-05 14:00:00"),
+        updatedAt: new Date("2025-08-05 14:00:00"),
         monitors: [1],
       },
       {

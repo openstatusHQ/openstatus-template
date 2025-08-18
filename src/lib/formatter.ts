@@ -30,11 +30,12 @@ export function formatNumber(value: number) {
 
 // TODO: think of supporting custom formats
 
-export function formatDate(date: Date) {
+export function formatDate(date: Date, options?: Intl.DateTimeFormatOptions) {
   return date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
+    ...options,
   });
 }
 

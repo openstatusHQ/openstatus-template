@@ -19,6 +19,8 @@ import { FormSheetStatusReportUpdate } from "@/components/forms/status-report-up
 const colors = {
   operational: "text-success/80",
   investigating: "text-destructive/80",
+  identified: "text-warning/80",
+  monitoring: "text-info/80",
 };
 
 // TODO: move to columns.tsx and use tanstack table
