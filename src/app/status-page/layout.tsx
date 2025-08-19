@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * TODO:
  * - add different header
@@ -10,7 +12,7 @@ import { Link } from "@/components/common/link";
 import { StatusUpdates } from "@/components/status-page/status-updates";
 import { Button } from "@/components/ui/button";
 import NextLink from "next/link";
-
+import { usePathname } from "next/navigation";
 const nav = [
   { label: "Status", href: "/status-page" },
   { label: "Events", href: "/status-page/events" },
@@ -18,6 +20,7 @@ const nav = [
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   return (
     <div className="min-h-screen flex flex-col gap-4">
       <header className="w-full border-b border">
@@ -33,13 +36,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </a>
           </div>
           <ul className="flex flex-row gap-2">
-            {nav.map((item) => (
-              <li key={item.label}>
-                <Button variant="ghost" size="sm" asChild>
-                  <NextLink href={item.href}>{item.label}</NextLink>
-                </Button>
-              </li>
-            ))}
+            {nav.map((item) => {
+              const isActive =
+                item.href === "/status-page"
+                  ? pathname === item.href
+                  : pathname.startsWith(item.href);
+              return (
+                <li key={item.label}>
+                  <Button
+                    variant={isActive ? "secondary" : "ghost"}
+                    size="sm"
+                    asChild
+                  >
+                    <NextLink href={item.href}>{item.label}</NextLink>
+                  </Button>
+                </li>
+              );
+            })}
           </ul>
           <StatusUpdates />
         </nav>

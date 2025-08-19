@@ -35,7 +35,7 @@ function StatusMonitorContent() {
             .map((monitor) => (
               <div
                 key={monitor.id}
-                className="group flex flex-col gap-2 hover:bg-muted/50 border border-transparent hover:border-border/50 rounded-lg px-3 -mx-3 py-2 -my-2"
+                className="group flex flex-col gap-1 hover:bg-muted/50 border border-transparent hover:border-border/50 rounded-lg px-3 -mx-3 py-2 -my-2"
               >
                 <div className="">
                   <div className="flex flex-row items-center gap-2">

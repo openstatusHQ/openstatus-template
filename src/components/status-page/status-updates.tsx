@@ -10,7 +10,7 @@ export function StatusUpdates() {
     <div>
       <Popover>
         <PopoverTrigger asChild>
-          <Button size="sm" variant="secondary">
+          <Button size="sm" variant="outline">
             Get updates
           </Button>
         </PopoverTrigger>
