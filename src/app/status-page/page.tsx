@@ -26,7 +26,7 @@ function StatusPageContent() {
   const { variant, cardType, barType, showUptime } = useStatusPage();
 
   return (
-    <div className="grid gap-6">
+    <div className="flex flex-col gap-6">
       <Status variant={variant}>
         <StatusHeader>
           <StatusTitle>Craft</StatusTitle>
