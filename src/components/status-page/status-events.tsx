@@ -68,7 +68,7 @@ export function StatusEventsTabs() {
             <StatusEventDate>
               {formatDate(maintenance.startDate, { month: "short" })}
             </StatusEventDate>
-            <Link href="/status-page/events/maintenance">
+            <Link href="/status-page/events/maintenance" className="rounded-lg">
               <StatusEventContent>
                 <StatusEventTitle>{maintenance.title}</StatusEventTitle>
                 <StatusEventAffected className="flex flex-wrap gap-1">
