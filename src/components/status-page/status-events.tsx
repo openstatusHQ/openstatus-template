@@ -4,9 +4,22 @@ import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { formatDate, formatTime } from "@/lib/formatter";
-import { formatDistanceStrict } from "date-fns";
+import {
+  format,
+  formatDistanceStrict,
+  formatDistanceToNowStrict,
+} from "date-fns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../ui/hover-card";
+import { HoverCardPortal } from "@radix-ui/react-hover-card";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { Check, Copy } from "lucide-react";
+import { UTCDate } from "@date-fns/utc";
 
 const STATUS_LABELS = {
   operational: "Resolved",
@@ -29,7 +42,7 @@ export function StatusEventsTabs() {
             <StatusEventDate>
               {formatDate(report.startedAt, { month: "short" })}
             </StatusEventDate>
-            <Link href="/status-page/events/report">
+            <Link href="/status-page/events/report" className="rounded-lg">
               <StatusEventContent>
                 <StatusEventTitle>{report.name}</StatusEventTitle>
                 <StatusEventAffected className="flex flex-wrap gap-1">
@@ -213,8 +226,10 @@ function StatusEventTimelineReportUpdate({
           <div className="mb-2">
             <StatusEventTimelineTitle>
               <span>{STATUS_LABELS[report.status]}</span>{" "}
-              <span className="text-xs text-muted-foreground/70 font-mono">
-                {formatTime(report.date)}
+              <span className="text-xs text-muted-foreground/70 font-mono underline underline-offset-2 decoration-dashed">
+                <StatusEventDateHoverCard date={new Date(report.date)}>
+                  {formatTime(report.date)}
+                </StatusEventDateHoverCard>
               </span>{" "}
               {duration ? (
                 <span className="text-xs text-muted-foreground/70 font-mono">
@@ -253,7 +268,17 @@ export function StatusEventTimelineMaintenance({
             <StatusEventTimelineTitle>
               <span>Maintenance</span>{" "}
               <span className="text-xs text-muted-foreground/70 font-mono">
-                {formatTime(start)} - {formatTime(end)}
+                <span className="underline underline-offset-2 decoration-dashed">
+                  <StatusEventDateHoverCard date={new Date(start)}>
+                    {formatTime(start)}
+                  </StatusEventDateHoverCard>
+                </span>
+                {" - "}
+                <span className="underline underline-offset-2 decoration-dashed">
+                  <StatusEventDateHoverCard date={new Date(end)}>
+                    {formatTime(end)}
+                  </StatusEventDateHoverCard>
+                </span>
               </span>{" "}
               {duration ? (
                 <span className="text-xs text-muted-foreground/70 font-mono">
@@ -337,5 +362,67 @@ export function StatusEventTimelineSeparator({
       )}
       {...props}
     />
+  );
+}
+
+export function StatusEventDateHoverCard({
+  date,
+  side = "right",
+  align = "start",
+  alignOffset = -4,
+  sideOffset,
+  children,
+}: React.ComponentProps<typeof HoverCardContent> & { date: Date }) {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  return (
+    <HoverCard openDelay={0} closeDelay={0}>
+      <HoverCardTrigger>{children}</HoverCardTrigger>
+      <HoverCardPortal>
+        <HoverCardContent
+          className="p-2 w-auto z-10"
+          {...{ side, align, alignOffset, sideOffset }}
+        >
+          <dl className="flex flex-col gap-1">
+            <Row value={format(date, "LLL dd, y HH:mm:ss")} label={timezone} />
+            <Row
+              value={format(new UTCDate(date), "LLL dd, y HH:mm:ss")}
+              label="UTC"
+            />
+            {/* <Row value={date.toISOString()} label="ISO" /> */}
+            {/* <Row value={String(date.getTime())} label="Timestamp" /> */}
+            <Row
+              value={formatDistanceToNowStrict(date, { addSuffix: true })}
+              label="Relative"
+            />
+          </dl>
+        </HoverCardContent>
+      </HoverCardPortal>
+    </HoverCard>
+  );
+}
+
+function Row({ value, label }: { value: string; label: string }) {
+  const { copy, isCopied } = useCopyToClipboard();
+
+  return (
+    <div
+      className="group flex gap-4 text-sm justify-between items-center"
+      onClick={(e) => {
+        e.stopPropagation();
+        copy(value, {});
+      }}
+    >
+      <dt className="text-muted-foreground">{label}</dt>
+      <dd className="font-mono truncate flex items-center gap-1">
+        <span className="invisible group-hover:visible">
+          {!isCopied ? (
+            <Copy className="h-3 w-3" />
+          ) : (
+            <Check className="h-3 w-3" />
+          )}
+        </span>
+        {value}
+      </dd>
+    </div>
   );
 }
