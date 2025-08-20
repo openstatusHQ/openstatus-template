@@ -28,7 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <StatusPageProvider>
       <div className="min-h-screen flex flex-col gap-4">
-        <header className="w-full border-b border">
+        <header className="w-full border-b">
           <nav className="max-w-xl mx-auto px-3 py-2 flex items-center justify-between">
             {/* NOTE: same width as the `StatusUpdates` button */}
             <div className="w-[105px] shrink-0">
@@ -65,7 +65,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <main className="max-w-xl w-full mx-auto flex-1 px-3 py-2">
           {children}
         </main>
-        <footer className="w-full border-t border">
+        <footer className="w-full border-t">
           <div className="max-w-xl mx-auto px-3 py-2">
             <p className="text-center text-muted-foreground">
               Powered by <Link href="#">OpenStatus</Link>

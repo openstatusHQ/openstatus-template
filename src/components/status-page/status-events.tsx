@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatDate, formatTime } from "@/lib/formatter";
 import { formatDistanceStrict } from "date-fns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
 
 const STATUS_LABELS = {
   operational: "Resolved",
@@ -28,21 +29,23 @@ export function StatusEventsTabs() {
             <StatusEventDate>
               {formatDate(report.startedAt, { month: "short" })}
             </StatusEventDate>
-            <StatusEventContent>
-              <StatusEventTitle>{report.name}</StatusEventTitle>
-              <StatusEventAffected className="flex flex-wrap gap-1">
-                {report.affected.map((affected) => (
-                  <Badge
-                    key={affected}
-                    variant="outline"
-                    className="text-[10px]"
-                  >
-                    {affected}
-                  </Badge>
-                ))}
-              </StatusEventAffected>
-              <StatusEventTimelineReport updates={report.updates} />
-            </StatusEventContent>
+            <Link href="/status-page/events/report">
+              <StatusEventContent>
+                <StatusEventTitle>{report.name}</StatusEventTitle>
+                <StatusEventAffected className="flex flex-wrap gap-1">
+                  {report.affected.map((affected) => (
+                    <Badge
+                      key={affected}
+                      variant="outline"
+                      className="text-[10px]"
+                    >
+                      {affected}
+                    </Badge>
+                  ))}
+                </StatusEventAffected>
+                <StatusEventTimelineReport updates={report.updates} />
+              </StatusEventContent>
+            </Link>
           </StatusEvent>
         ))}
       </TabsContent>
@@ -52,21 +55,23 @@ export function StatusEventsTabs() {
             <StatusEventDate>
               {formatDate(maintenance.startDate, { month: "short" })}
             </StatusEventDate>
-            <StatusEventContent>
-              <StatusEventTitle>{maintenance.title}</StatusEventTitle>
-              <StatusEventAffected className="flex flex-wrap gap-1">
-                {maintenance.affected.map((affected) => (
-                  <Badge
-                    key={affected}
-                    variant="outline"
-                    className="text-[10px]"
-                  >
-                    {affected}
-                  </Badge>
-                ))}
-              </StatusEventAffected>
-              <StatusEventTimelineMaintenance maintenance={maintenance} />
-            </StatusEventContent>
+            <Link href="/status-page/events/maintenance">
+              <StatusEventContent>
+                <StatusEventTitle>{maintenance.title}</StatusEventTitle>
+                <StatusEventAffected className="flex flex-wrap gap-1">
+                  {maintenance.affected.map((affected) => (
+                    <Badge
+                      key={affected}
+                      variant="outline"
+                      className="text-[10px]"
+                    >
+                      {affected}
+                    </Badge>
+                  ))}
+                </StatusEventAffected>
+                <StatusEventTimelineMaintenance maintenance={maintenance} />
+              </StatusEventContent>
+            </Link>
           </StatusEvent>
         ))}
       </TabsContent>
@@ -227,7 +232,7 @@ function StatusEventTimelineReportUpdate({
   );
 }
 
-function StatusEventTimelineMaintenance({
+export function StatusEventTimelineMaintenance({
   maintenance,
 }: {
   maintenance: Maintenance;

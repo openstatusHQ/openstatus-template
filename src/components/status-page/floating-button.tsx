@@ -28,6 +28,9 @@ export type CardType = (typeof CARD_TYPE)[number];
 export const BAR_TYPE = ["absolute", "dominant"] as const;
 export type BarType = (typeof BAR_TYPE)[number];
 
+export const COMMUNITY_THEME = ["supabase", "github"] as const;
+export type CommunityTheme = (typeof COMMUNITY_THEME)[number];
+
 interface StatusPageContextType {
   variant: VariantType;
   setVariant: (variant: VariantType) => void;
@@ -37,6 +40,8 @@ interface StatusPageContextType {
   setBarType: (barType: BarType) => void;
   showUptime: boolean;
   setShowUptime: (showUptime: boolean) => void;
+  communityTheme: CommunityTheme | undefined;
+  setCommunityTheme: (communityTheme: CommunityTheme | undefined) => void;
 }
 
 const StatusPageContext = createContext<StatusPageContextType | null>(null);
@@ -55,17 +60,22 @@ export function StatusPageProvider({
   defaultCardType = "duration",
   defaultBarType = "absolute",
   defaultShowUptime = true,
+  defaultCommunityTheme = undefined,
 }: {
   children: React.ReactNode;
   defaultVariant?: VariantType;
   defaultCardType?: CardType;
   defaultBarType?: BarType;
   defaultShowUptime?: boolean;
+  defaultCommunityTheme?: CommunityTheme;
 }) {
   const [variant, setVariant] = useState<VariantType>(defaultVariant);
   const [cardType, setCardType] = useState<CardType>(defaultCardType);
   const [barType, setBarType] = useState<BarType>(defaultBarType);
   const [showUptime, setShowUptime] = useState<boolean>(defaultShowUptime);
+  const [communityTheme, setCommunityTheme] = useState<
+    CommunityTheme | undefined
+  >(defaultCommunityTheme);
   return (
     <StatusPageContext.Provider
       value={{
@@ -77,9 +87,12 @@ export function StatusPageProvider({
         setBarType,
         showUptime,
         setShowUptime,
+        communityTheme,
+        setCommunityTheme,
       }}
     >
-      {children}
+      {/* TODO: add theme styles here */}
+      <div style={{}}>{children}</div>
     </StatusPageContext.Provider>
   );
 }
