@@ -14,6 +14,7 @@ const STATUS_LABELS = {
   investigating: "Investigating",
 };
 
+// TODO: move to page level
 export function StatusEventsTabs() {
   return (
     <Tabs defaultValue="reports" className="gap-4">
@@ -89,14 +90,19 @@ export function StatusEvent({
 
 export function StatusEventContent({
   className,
+  hoverable = true,
   children,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & {
+  hoverable?: boolean;
+}) {
   // TODO: add Link
   return (
     <div
+      data-hoverable={hoverable}
       className={cn(
-        "group flex flex-col gap-2 hover:bg-muted/50 border border-transparent hover:border-border/50 rounded-lg px-3 -mx-3 py-2 -my-2",
+        "group flex flex-col gap-2 border border-transparent rounded-lg px-3 -mx-3 py-2 -my-2",
+        "data-[hoverable=true]:hover:cursor-pointer data-[hoverable=true]:hover:bg-muted/50 data-[hoverable=true]:hover:border-border/50",
         className
       )}
       {...props}
