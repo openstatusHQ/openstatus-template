@@ -8,10 +8,10 @@ import {
   StatusTitle,
 } from "@/components/status-page/status";
 import { useStatusPage } from "@/components/status-page/floating-button";
-import { ChartLineRegion } from "@/components/chart/chart-line-region";
 import { StatusMonitorTitle } from "@/components/status-page/status-monitor";
 import { StatusMonitorDescription } from "@/components/status-page/status-monitor";
 import { monitors } from "@/data/monitors";
+import { ChartLinePercentiles } from "@/components/chart/chart-line-percentiles";
 
 export default function Page() {
   const { variant } = useStatusPage();
@@ -28,9 +28,9 @@ export default function Page() {
           .map((monitor) => (
             <div
               key={monitor.id}
-              className="group flex flex-col gap-1 hover:bg-muted/50 border border-transparent hover:border-border/50 rounded-lg px-3 -mx-3 py-2 -my-2"
+              className="group flex flex-col gap-2 hover:bg-muted/50 border border-transparent hover:border-border/50 rounded-lg px-3 -mx-3 py-2 -my-2"
             >
-              <div className="">
+              <div>
                 <div className="flex flex-row items-center gap-2">
                   <StatusMonitorTitle>{monitor.name}</StatusMonitorTitle>
                   <StatusMonitorDescription>
@@ -41,7 +41,7 @@ export default function Page() {
                   {monitor.url}
                 </div>
               </div>
-              <ChartLineRegion className="h-[50px]" />
+              <ChartLinePercentiles className="h-[50px]" />
             </div>
           ))}
       </StatusContent>

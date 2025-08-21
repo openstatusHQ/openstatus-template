@@ -31,7 +31,7 @@ export const monitors = [
     id: 3,
     name: "OpenStatus App",
     description: "Dashboard for OpenStatus",
-    public: false,
+    public: true,
     active: true,
     status: "Failing" as const,
     url: "https://openstatus.dev/app",
