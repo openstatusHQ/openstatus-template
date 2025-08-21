@@ -41,13 +41,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <nav className="max-w-xl mx-auto px-3 py-2 flex items-center justify-between gap-3">
             {/* NOTE: same width as the `StatusUpdates` button */}
             <div className="w-[105px] shrink-0">
-              <a href="#">
+              <Link href="/">
                 <img
                   src="https://www.openstatus.dev/icon.png"
                   alt="Craft"
                   className="size-8 rounded-full border"
                 />
-              </a>
+              </Link>
             </div>
             <NavDesktop className="hidden md:flex" />
             <StatusUpdates className="hidden md:block" />
