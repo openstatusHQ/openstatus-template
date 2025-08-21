@@ -19,7 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
-// import { githubTheme } from "./community-themes";
+import { THEMES } from "./community-themes";
 import { useTheme } from "next-themes";
 
 export const VARIANT = ["success", "degraded", "error", "info"] as const;
@@ -31,7 +31,7 @@ export type CardType = (typeof CARD_TYPE)[number];
 export const BAR_TYPE = ["absolute", "dominant"] as const;
 export type BarType = (typeof BAR_TYPE)[number];
 
-export const COMMUNITY_THEME = ["supabase", "github"] as const;
+export const COMMUNITY_THEME = ["default", "github"] as const;
 export type CommunityTheme = (typeof COMMUNITY_THEME)[number];
 
 interface StatusPageContextType {
@@ -43,8 +43,8 @@ interface StatusPageContextType {
   setBarType: (barType: BarType) => void;
   showUptime: boolean;
   setShowUptime: (showUptime: boolean) => void;
-  communityTheme: CommunityTheme | undefined;
-  setCommunityTheme: (communityTheme: CommunityTheme | undefined) => void;
+  communityTheme: CommunityTheme;
+  setCommunityTheme: (communityTheme: CommunityTheme) => void;
 }
 
 const StatusPageContext = createContext<StatusPageContextType | null>(null);
@@ -63,7 +63,7 @@ export function StatusPageProvider({
   defaultCardType = "duration",
   defaultBarType = "absolute",
   defaultShowUptime = true,
-  defaultCommunityTheme = undefined,
+  defaultCommunityTheme = "default",
 }: {
   children: React.ReactNode;
   defaultVariant?: VariantType;
@@ -77,25 +77,28 @@ export function StatusPageProvider({
   const [barType, setBarType] = useState<BarType>(defaultBarType);
   const [showUptime, setShowUptime] = useState<boolean>(defaultShowUptime);
   const { resolvedTheme } = useTheme();
-  const [communityTheme, setCommunityTheme] = useState<
-    CommunityTheme | undefined
-  >(defaultCommunityTheme);
+  const [communityTheme, setCommunityTheme] = useState<CommunityTheme>(
+    defaultCommunityTheme
+  );
 
   useEffect(() => {
-    // const theme = resolvedTheme as "dark" | "light";
-    // if (["dark", "light"].includes(theme)) {
-    //   Object.keys(githubTheme[theme]).forEach((key) => {
-    //     const element = document.documentElement;
-    //     const value =
-    //       githubTheme[theme][key as keyof (typeof githubTheme)[typeof theme]];
-    //     if (value) {
-    //       element.style.setProperty(key, value as string);
-    //     }
-    //   });
-    // }
-  }, [resolvedTheme]);
-
-  // const style = githubTheme[resolvedTheme as "dark" | "light"];
+    const theme = resolvedTheme as "dark" | "light";
+    if (["dark", "light"].includes(theme)) {
+      Object.keys(THEMES[communityTheme][theme]).forEach((key) => {
+        const element = document.documentElement;
+        const value =
+          THEMES[communityTheme][theme][
+            key as keyof (typeof THEMES)[typeof communityTheme][typeof theme]
+          ];
+        if (value) {
+          element.style.setProperty(key, value as string);
+        }
+      });
+    }
+    if (communityTheme === "default") {
+      document.documentElement.removeAttribute("style");
+    }
+  }, [resolvedTheme, communityTheme]);
 
   return (
     <StatusPageContext.Provider
@@ -112,8 +115,15 @@ export function StatusPageProvider({
         setCommunityTheme,
       }}
     >
-      {/* style={style} */}
-      <div>{children}</div>
+      <div
+        style={
+          communityTheme
+            ? THEMES[communityTheme][resolvedTheme as "dark" | "light"]
+            : undefined
+        }
+      >
+        {children}
+      </div>
     </StatusPageContext.Provider>
   );
 }
@@ -128,6 +138,8 @@ export function FloatingButton({ className }: { className?: string }) {
     setBarType,
     showUptime,
     setShowUptime,
+    communityTheme,
+    setCommunityTheme,
   } = useStatusPage();
 
   return (
@@ -166,6 +178,24 @@ export function FloatingButton({ className }: { className?: string }) {
                   </SelectTrigger>
                   <SelectContent>
                     {VARIANT.map((v) => (
+                      <SelectItem key={v} value={v} className="capitalize">
+                        {v}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="show-uptime">Show Uptime</Label>
+                <Select
+                  value={showUptime ? "true" : "false"}
+                  onValueChange={(v) => setShowUptime(v === "true")}
+                >
+                  <SelectTrigger id="show-uptime" className="capitalize w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {["true", "false"].map((v) => (
                       <SelectItem key={v} value={v} className="capitalize">
                         {v}
                       </SelectItem>
@@ -214,16 +244,19 @@ export function FloatingButton({ className }: { className?: string }) {
                 <ThemeToggle id="theme" className="w-full" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="show-uptime">Show Uptime</Label>
+                <Label htmlFor="community-theme">Community Theme</Label>
                 <Select
-                  value={showUptime ? "true" : "false"}
-                  onValueChange={(v) => setShowUptime(v === "true")}
+                  value={communityTheme}
+                  onValueChange={(v) => setCommunityTheme(v as CommunityTheme)}
                 >
-                  <SelectTrigger id="show-uptime" className="capitalize w-full">
+                  <SelectTrigger
+                    id="community-theme"
+                    className="capitalize w-full"
+                  >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {["true", "false"].map((v) => (
+                    {COMMUNITY_THEME.map((v) => (
                       <SelectItem key={v} value={v} className="capitalize">
                         {v}
                       </SelectItem>

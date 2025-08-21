@@ -1,9 +1,7 @@
-// type CommunityTheme = {
-//   light: Record<string, string>;
-//   dark: Record<string, string>;
-// };
-
-export const supabaseTheme = {};
+export const defaultTheme = {
+  light: {} as React.CSSProperties,
+  dark: {} as React.CSSProperties,
+} as const;
 
 export const githubTheme = {
   light: {
@@ -43,3 +41,9 @@ export const githubTheme = {
     "--info": "oklch(46.96% 0.2957 264.51)",
   } as React.CSSProperties,
 };
+
+export const THEMES = {
+  // supabase: supabaseTheme,
+  default: defaultTheme,
+  github: githubTheme,
+} as const;
