@@ -4,20 +4,24 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-export function StatusUpdates() {
+import { cn } from "@/lib/utils";
+export function StatusUpdates({
+  className,
+  ...props
+}: React.ComponentProps<typeof Button>) {
   return (
-    <div>
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button size="sm" variant="outline">
-            Get updates
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent align="end">
-          Subscribe to status updates.
-        </PopoverContent>
-      </Popover>
-    </div>
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          size="sm"
+          variant="outline"
+          className={cn(className)}
+          {...props}
+        >
+          Get updates
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align="end">Subscribe to status updates.</PopoverContent>
+    </Popover>
   );
 }

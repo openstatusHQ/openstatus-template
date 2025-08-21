@@ -376,7 +376,10 @@ export function StatusEventDateHoverCard({
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   return (
     <HoverCard openDelay={0} closeDelay={0}>
-      <HoverCardTrigger>{children}</HoverCardTrigger>
+      {/* NOTE: the trigger is an `a` tag per default */}
+      <HoverCardTrigger asChild>
+        <span>{children}</span>
+      </HoverCardTrigger>
       <HoverCardPortal>
         <HoverCardContent
           className="p-2 w-auto z-10"
