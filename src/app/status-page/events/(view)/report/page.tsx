@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-const report = statusReports[2];
+const report = statusReports[1];
 
 export default function EventPage() {
   return (
