@@ -3,12 +3,12 @@
 import { formatDate } from "@/lib/formatter";
 
 import {
-  StatusEventDate,
   StatusEventTitle,
   StatusEventAffected,
   StatusEventContent,
   StatusEvent,
   StatusEventTimelineReport,
+  StatusEventAside,
 } from "@/components/status-page/status-events";
 import { statusReports } from "@/data/status-reports";
 import { Badge } from "@/components/ui/badge";
@@ -28,9 +28,11 @@ export default function EventPage() {
         <CopyButton />
       </div>
       <StatusEvent>
-        <StatusEventDate>
-          {formatDate(report.startedAt, { month: "short" })}
-        </StatusEventDate>
+        <StatusEventAside>
+          <span className="font-medium text-foreground/80">
+            {formatDate(report.startedAt, { month: "short" })}
+          </span>
+        </StatusEventAside>
         <StatusEventContent hoverable={false}>
           <StatusEventTitle>{report.name}</StatusEventTitle>
           <StatusEventAffected className="flex flex-wrap gap-1">

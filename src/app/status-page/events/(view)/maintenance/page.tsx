@@ -3,12 +3,12 @@
 import { formatDate } from "@/lib/formatter";
 
 import {
-  StatusEventDate,
   StatusEventTitle,
   StatusEventAffected,
   StatusEventContent,
   StatusEvent,
   StatusEventTimelineMaintenance,
+  StatusEventAside,
 } from "@/components/status-page/status-events";
 import { Badge } from "@/components/ui/badge";
 import { maintenances } from "@/data/maintenances";
@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 const maintenance = maintenances[0];
 
 export default function EventPage() {
+  const isFuture = maintenance.startDate > new Date();
   return (
     <div className="flex flex-col gap-4">
       <div className="w-full flex flex-row justify-between items-center gap-2 py-0.5">
@@ -27,9 +28,14 @@ export default function EventPage() {
         <CopyButton />
       </div>
       <StatusEvent>
-        <StatusEventDate>
-          {formatDate(maintenance.startDate, { month: "short" })}
-        </StatusEventDate>
+        <StatusEventAside>
+          <span className="font-medium text-foreground/80">
+            {formatDate(maintenance.startDate, { month: "short" })}
+          </span>
+          {isFuture ? (
+            <span className="text-info text-sm">Upcoming</span>
+          ) : null}
+        </StatusEventAside>
         <StatusEventContent hoverable={false}>
           <StatusEventTitle>{maintenance.title}</StatusEventTitle>
           <StatusEventAffected className="flex flex-wrap gap-1">

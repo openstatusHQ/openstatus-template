@@ -34,34 +34,6 @@ export const statusReports = [
     affected: ["OpenStatus API"],
   },
   {
-    id: 2,
-    name: "Unexpected API Performance Degradation: Investigating Network Latency Spikes Across Multiple Regions",
-    startedAt: new Date("2025-08-04 12:10:00"),
-    updatedAt: new Date("2025-08-04 12:30:00"),
-    status: "operational",
-    updates: [
-      {
-        id: 2,
-        status: "operational" as const,
-        message:
-          "Everything is under control, we continue to monitor the situation.",
-        date: new Date("2025-08-04 12:30:00"),
-        updatedAt: new Date("2025-08-04 12:30:00"),
-        monitors: [1],
-      },
-      {
-        id: 1,
-        status: "investigating" as const,
-        message:
-          "Our hosting provider is having an increase of 400 errors. We are working on a solution to reduce the risk.",
-        date: new Date("2025-08-04 12:00:00"),
-        updatedAt: new Date("2025-08-04 12:00:00"),
-        monitors: [1],
-      },
-    ],
-    affected: ["OpenStatus API", "OpenStatus Web", "OpenStatus Docs"],
-  },
-  {
     id: 3,
     name: "Downtime API due to hosting provider with 400 errors",
     startedAt: new Date("2025-08-05 12:10:00"),

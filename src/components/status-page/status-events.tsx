@@ -39,9 +39,11 @@ export function StatusEventsTabs() {
       <TabsContent value="reports" className="flex flex-col gap-4">
         {statusReports.map((report) => (
           <StatusEvent key={report.id}>
-            <StatusEventDate>
-              {formatDate(report.startedAt, { month: "short" })}
-            </StatusEventDate>
+            <StatusEventAside>
+              <span className="font-medium text-foreground/80">
+                {formatDate(report.startedAt, { month: "short" })}
+              </span>
+            </StatusEventAside>
             <Link href="/status-page/events/report" className="rounded-lg">
               <StatusEventContent>
                 <StatusEventTitle>{report.name}</StatusEventTitle>
@@ -63,30 +65,41 @@ export function StatusEventsTabs() {
         ))}
       </TabsContent>
       <TabsContent value="maintenances" className="flex flex-col gap-4">
-        {maintenances.map((maintenance) => (
-          <StatusEvent key={maintenance.id}>
-            <StatusEventDate>
-              {formatDate(maintenance.startDate, { month: "short" })}
-            </StatusEventDate>
-            <Link href="/status-page/events/maintenance" className="rounded-lg">
-              <StatusEventContent>
-                <StatusEventTitle>{maintenance.title}</StatusEventTitle>
-                <StatusEventAffected className="flex flex-wrap gap-1">
-                  {maintenance.affected.map((affected) => (
-                    <Badge
-                      key={affected}
-                      variant="outline"
-                      className="text-[10px]"
-                    >
-                      {affected}
-                    </Badge>
-                  ))}
-                </StatusEventAffected>
-                <StatusEventTimelineMaintenance maintenance={maintenance} />
-              </StatusEventContent>
-            </Link>
-          </StatusEvent>
-        ))}
+        {maintenances.map((maintenance) => {
+          const isFuture = maintenance.startDate > new Date();
+          return (
+            <StatusEvent key={maintenance.id}>
+              <StatusEventAside>
+                <span className="font-medium text-foreground/80">
+                  {formatDate(maintenance.startDate, { month: "short" })}
+                </span>
+                {isFuture ? (
+                  <span className="text-info text-sm">Upcoming</span>
+                ) : null}
+              </StatusEventAside>
+              <Link
+                href="/status-page/events/maintenance"
+                className="rounded-lg"
+              >
+                <StatusEventContent>
+                  <StatusEventTitle>{maintenance.title}</StatusEventTitle>
+                  <StatusEventAffected className="flex flex-wrap gap-1">
+                    {maintenance.affected.map((affected) => (
+                      <Badge
+                        key={affected}
+                        variant="outline"
+                        className="text-[10px]"
+                      >
+                        {affected}
+                      </Badge>
+                    ))}
+                  </StatusEventAffected>
+                  <StatusEventTimelineMaintenance maintenance={maintenance} />
+                </StatusEventContent>
+              </Link>
+            </StatusEvent>
+          );
+        })}
       </TabsContent>
     </Tabs>
   );
@@ -155,7 +168,7 @@ export function StatusEventAffected({
   );
 }
 
-export function StatusEventDate({
+export function StatusEventAside({
   className,
   children,
   ...props
@@ -164,7 +177,7 @@ export function StatusEventDate({
     <div className="lg:absolute lg:-left-32 lg:top-0 lg:h-full">
       <div
         className={cn(
-          "font-medium text-foreground/80 lg:sticky lg:top-0 lg:left-0",
+          "flex flex-col gap-1 lg:sticky lg:top-0 lg:left-0",
           className
         )}
         {...props}

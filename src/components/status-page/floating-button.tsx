@@ -18,7 +18,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
-import { githubTheme } from "./community-themes";
+// import { githubTheme } from "./community-themes";
 import { useTheme } from "next-themes";
 
 export const VARIANT = ["success", "degraded", "error", "info"] as const;
