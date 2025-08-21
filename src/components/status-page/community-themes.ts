@@ -6,6 +6,24 @@
 export const supabaseTheme = {};
 
 export const githubTheme = {
+  light: {
+    "--background": "oklch(100% 0 0)",
+    "--foreground": "oklch(24.29% 0.0045 247.86)",
+    "--border": "oklch(85.86% 0.0054 251.18)",
+    "--input": "oklch(85.86% 0.0054 251.18)",
+
+    "--muted": "oklch(97.86% 0.0019 247.86)",
+    "--muted-foreground": "oklch(40.78% 0.0056 247.86)",
+    "--secondary": "oklch(97.86% 0.0019 247.86)",
+    "--secondary-foreground": "oklch(24.29% 0.0045 247.86)",
+    "--accent": "oklch(97.86% 0.0019 247.86)",
+    "--accent-foreground": "klch(24.29% 0.0045 247.86)",
+
+    "--success": "oklch(60.81% 0.1567 142.5)",
+    "--destructive": "oklch(58.79% 0.1577 22.18)",
+    "--warning": "oklch(81.84% 0.1328 85.87)",
+    "--info": "oklch(45.2% 0.1445 252.03)",
+  } as React.CSSProperties,
   dark: {
     "--background": "oklch(10.39% 0.0194 248.34)",
     "--foreground": "oklch(100% 0 0)",

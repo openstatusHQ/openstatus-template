@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +18,8 @@ import {
 import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
+import { githubTheme } from "./community-themes";
+import { useTheme } from "next-themes";
 
 export const VARIANT = ["success", "degraded", "error", "info"] as const;
 export type VariantType = (typeof VARIANT)[number];
@@ -73,9 +75,27 @@ export function StatusPageProvider({
   const [cardType, setCardType] = useState<CardType>(defaultCardType);
   const [barType, setBarType] = useState<BarType>(defaultBarType);
   const [showUptime, setShowUptime] = useState<boolean>(defaultShowUptime);
+  const { resolvedTheme } = useTheme();
   const [communityTheme, setCommunityTheme] = useState<
     CommunityTheme | undefined
   >(defaultCommunityTheme);
+
+  useEffect(() => {
+    // const theme = resolvedTheme as "dark" | "light";
+    // if (["dark", "light"].includes(theme)) {
+    //   Object.keys(githubTheme[theme]).forEach((key) => {
+    //     const element = document.documentElement;
+    //     const value =
+    //       githubTheme[theme][key as keyof (typeof githubTheme)[typeof theme]];
+    //     if (value) {
+    //       element.style.setProperty(key, value as string);
+    //     }
+    //   });
+    // }
+  }, [resolvedTheme]);
+
+  // const style = githubTheme[resolvedTheme as "dark" | "light"];
+
   return (
     <StatusPageContext.Provider
       value={{
@@ -91,8 +111,8 @@ export function StatusPageProvider({
         setCommunityTheme,
       }}
     >
-      {/* TODO: add theme styles here */}
-      <div style={{}}>{children}</div>
+      {/* style={style} */}
+      <div>{children}</div>
     </StatusPageContext.Provider>
   );
 }
