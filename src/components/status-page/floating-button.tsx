@@ -16,6 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 // import { githubTheme } from "./community-themes";
@@ -142,8 +143,8 @@ export function FloatingButton({ className }: { className?: string }) {
             <span className="sr-only">Open status page settings</span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-80" align="end">
-          <div className="space-y-4">
+        <PopoverContent className="w-80 p-0" align="end">
+          <div className="space-y-4 p-4">
             <div className="space-y-2">
               <h4 className="font-medium leading-none">Status Page Settings</h4>
               <p className="text-sm text-muted-foreground">
@@ -230,12 +231,19 @@ export function FloatingButton({ className }: { className?: string }) {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2 flex items-center">
-                <p className="text-sm text-muted-foreground">
-                  Choose your status page configuration.
-                </p>
-              </div>
             </div>
+          </div>
+          <Separator />
+          <div className="p-4">
+            <Button className="w-full" size="sm" asChild>
+              <a
+                href="https://github.com/openstatusHQ/openstatus-template"
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub Repo
+              </a>
+            </Button>
           </div>
         </PopoverContent>
       </Popover>
