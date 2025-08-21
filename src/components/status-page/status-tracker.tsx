@@ -168,7 +168,10 @@ export function StatusTracker({
                           endedAt
                         );
                         return (
-                          <Link key={report.id} href={`#`}>
+                          <Link
+                            key={report.id}
+                            href="/status-page/events/report"
+                          >
                             <div className="group text-sm relative">
                               {/* NOTE: this is to make the text truncate based on the with of the sibling element */}
                               {/* REMINDER: height needs to be equal the text height */}

@@ -12,17 +12,13 @@ import {
   StatusTitle,
 } from "@/components/status-page/status";
 import { StatusMonitor } from "@/components/status-page/status-monitor";
-import {
-  StatusPageProvider,
-  FloatingButton,
-  useStatusPage,
-} from "@/components/status-page/floating-button";
+import { useStatusPage } from "@/components/status-page/floating-button";
 import { chartData } from "@/components/status-page/utils";
 import { monitors } from "@/data/monitors";
 import { StatusTrackerGroup } from "@/components/status-page/status-tracker-group";
 import { Newspaper } from "lucide-react";
 
-function StatusPageContent() {
+export default function Page() {
   const { variant, cardType, barType, showUptime } = useStatusPage();
 
   return (
@@ -91,15 +87,6 @@ function StatusPageContent() {
           </StatusEmptyState>
         </StatusContent>
       </Status>
-      <FloatingButton />
     </div>
-  );
-}
-
-export default function Page() {
-  return (
-    <StatusPageProvider>
-      <StatusPageContent />
-    </StatusPageProvider>
   );
 }
