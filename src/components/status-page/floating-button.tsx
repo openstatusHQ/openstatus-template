@@ -31,7 +31,7 @@ export type CardType = (typeof CARD_TYPE)[number];
 export const BAR_TYPE = ["absolute", "dominant"] as const;
 export type BarType = (typeof BAR_TYPE)[number];
 
-export const COMMUNITY_THEME = ["default", "github"] as const;
+export const COMMUNITY_THEME = ["default", "github", "supabase"] as const;
 export type CommunityTheme = (typeof COMMUNITY_THEME)[number];
 
 interface StatusPageContextType {
