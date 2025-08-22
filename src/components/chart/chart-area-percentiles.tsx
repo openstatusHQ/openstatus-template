@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  XAxis,
-  // XAxis,
-  YAxis,
-} from "recharts";
-
+import { CartesianGrid, Area, AreaChart, XAxis, YAxis } from "recharts";
 import {
   ChartConfig,
   ChartContainer,
@@ -20,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { ChartTooltipNumber } from "./chart-tooltip-number";
 import { useMemo, useState } from "react";
 import { ChartLegendBadge } from "./chart-legend-badge";
+import { formatMilliseconds } from "@/lib/formatter";
 
 const chartConfig = {
   p50: {
@@ -45,8 +38,8 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 function avg(values: number[]) {
-  return (values.reduce((acc, curr) => acc + curr, 0) / values.length).toFixed(
-    0
+  return Math.round(
+    values.reduce((acc, curr) => acc + curr, 0) / values.length
   );
 }
 
@@ -71,7 +64,13 @@ function randomChartData() {
   }));
 }
 
-export function ChartLinePercentiles({ className }: { className?: string }) {
+export function ChartAreaPercentiles({
+  className,
+  singleSeries,
+}: {
+  className?: string;
+  singleSeries?: boolean;
+}) {
   const [activeSeries, setActiveSeries] = useState<
     Array<keyof typeof chartConfig>
   >(["p75"]);
@@ -83,12 +82,14 @@ export function ChartLinePercentiles({ className }: { className?: string }) {
       config={chartConfig}
       className={cn("h-[100px] w-full", className)}
     >
-      <LineChart
+      <AreaChart
         accessibilityLayer
         data={chartData}
         margin={{
           left: 12,
           right: 12,
+          // NOTE: otherwise the line is cut off
+          top: 2,
         }}
       >
         <ChartLegend
@@ -98,22 +99,26 @@ export function ChartLinePercentiles({ className }: { className?: string }) {
                 setActiveSeries((prev) => {
                   if (item.dataKey) {
                     const key = item.dataKey as keyof typeof chartConfig;
-                    if (prev.includes(key)) {
-                      return prev;
+                    if (singleSeries) {
+                      return [key];
                     }
-                    return [key];
+                    if (prev.includes(key)) {
+                      return prev.filter((item) => item !== key);
+                    }
+                    return [...prev, key];
                   }
                   return prev;
                 });
               }}
               active={activeSeries}
               annotation={{
-                p50: `${avg(chartData.map((item) => item.p50))}ms`,
-                p75: `${avg(chartData.map((item) => item.p75))}ms`,
-                p90: `${avg(chartData.map((item) => item.p90))}ms`,
-                p95: `${avg(chartData.map((item) => item.p95))}ms`,
-                p99: `${avg(chartData.map((item) => item.p99))}ms`,
+                p50: formatMilliseconds(avg(chartData.map((item) => item.p50))),
+                p75: formatMilliseconds(avg(chartData.map((item) => item.p75))),
+                p90: formatMilliseconds(avg(chartData.map((item) => item.p90))),
+                p95: formatMilliseconds(avg(chartData.map((item) => item.p95))),
+                p99: formatMilliseconds(avg(chartData.map((item) => item.p99))),
               }}
+              className="overflow-x-scroll"
             />
           }
         />
@@ -134,44 +139,71 @@ export function ChartLinePercentiles({ className }: { className?: string }) {
             />
           }
         />
-        <Line
+        <defs>
+          <linearGradient id="fillP50" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--color-p50)" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="var(--color-p50)" stopOpacity={0.1} />
+          </linearGradient>
+          <linearGradient id="fillP75" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--color-p75)" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="var(--color-p75)" stopOpacity={0.1} />
+          </linearGradient>
+          <linearGradient id="fillP90" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--color-p90)" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="var(--color-p90)" stopOpacity={0.1} />
+          </linearGradient>
+          <linearGradient id="fillP95" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--color-p95)" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="var(--color-p95)" stopOpacity={0.1} />
+          </linearGradient>
+          <linearGradient id="fillP99" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--color-p99)" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="var(--color-p99)" stopOpacity={0.1} />
+          </linearGradient>
+        </defs>
+        <Area
           hide={!activeSeries.includes("p50")}
           dataKey="p50"
           type="monotone"
           stroke="var(--color-p50)"
-          strokeWidth={2}
+          fill="url(#fillP50)"
+          fillOpacity={0.4}
           dot={false}
         />
-        <Line
+        <Area
           hide={!activeSeries.includes("p75")}
           dataKey="p75"
           type="monotone"
           stroke="var(--color-p75)"
-          strokeWidth={2}
+          fill="url(#fillP75)"
+          fillOpacity={0.4}
           dot={false}
         />
-        {/* <Line
+        {/* <Area
           hide={!activeSeries.includes("p90")}
           dataKey="p90"
           type="monotone"
           stroke="var(--color-p90)"
-          strokeWidth={2}
+          fill="url(#fillP90)"
+          fillOpacity={0.4}
           dot={false}
         /> */}
-        <Line
+        <Area
           hide={!activeSeries.includes("p95")}
           dataKey="p95"
           type="monotone"
           stroke="var(--color-p95)"
-          strokeWidth={2}
+          fill="url(#fillP95)"
+          fillOpacity={0.4}
           dot={false}
         />
-        <Line
+        <Area
           hide={!activeSeries.includes("p99")}
           dataKey="p99"
           type="monotone"
           stroke="var(--color-p99)"
-          strokeWidth={2}
+          fill="url(#fillP99)"
+          fillOpacity={0.4}
           dot={false}
         />
         <YAxis
@@ -182,7 +214,7 @@ export function ChartLinePercentiles({ className }: { className?: string }) {
           orientation="right"
           tickFormatter={(value) => `${value}ms`}
         />
-      </LineChart>
+      </AreaChart>
     </ChartContainer>
   );
 }

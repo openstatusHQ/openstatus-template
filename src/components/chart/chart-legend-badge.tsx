@@ -49,6 +49,7 @@ export function ChartLegendBadge({
               )}
               onClick={(e) => {
                 e.stopPropagation();
+                e.preventDefault();
                 handleActive?.(item);
               }}
             >
