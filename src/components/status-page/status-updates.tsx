@@ -7,6 +7,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "../ui/input";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 
 export function StatusUpdates({
   className,
@@ -43,20 +44,53 @@ export function StatusUpdates({
               <Button className="w-full">Subscribe</Button>
             </div>
           </TabsContent>
-          <TabsContent value="rss" className="px-2 pb-2">
-            <Input
-              placeholder="https://status.openstatus.dev/feed/rss"
-              disabled
-            />
+          <TabsContent value="rss" className="flex flex-col gap-2">
+            <div className="px-2 pb-2 border-b">
+              <Input
+                placeholder="https://status.openstatus.dev/feed/rss"
+                className="disabled:opacity-90"
+                disabled
+              />
+            </div>
+            <div className="px-2 pb-2">
+              <CopyButton
+                className="w-full"
+                value="https://status.openstatus.dev/feed/rss"
+              />
+            </div>
           </TabsContent>
-          <TabsContent value="atom" className="px-2 pb-2">
-            <Input
-              placeholder="https://status.openstatus.dev/feed/atom"
-              disabled
-            />
+          <TabsContent value="atom" className="flex flex-col gap-2">
+            <div className="px-2 pb-2 border-b">
+              <Input
+                placeholder="https://status.openstatus.dev/feed/atom"
+                className="disabled:opacity-90"
+                disabled
+              />
+            </div>
+            <div className="px-2 pb-2">
+              <CopyButton
+                className="w-full"
+                value="https://status.openstatus.dev/feed/atom"
+              />
+            </div>
           </TabsContent>
         </Tabs>
       </PopoverContent>
     </Popover>
+  );
+}
+
+function CopyButton({
+  value,
+  className,
+}: {
+  value: string;
+  className?: string;
+}) {
+  const { copy, isCopied } = useCopyToClipboard();
+  return (
+    <Button size="sm" className={className} onClick={() => copy(value, {})}>
+      {isCopied ? "Copied" : "Copy link"}
+    </Button>
   );
 }
