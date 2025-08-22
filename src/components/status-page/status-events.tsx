@@ -201,18 +201,20 @@ export function StatusEventTimelineReport({
   return (
     <div className={cn("text-sm text-muted-foreground", className)} {...props}>
       {/* TODO: make sure they are sorted by date */}
-      {updates.map((update, index) => (
-        <StatusEventTimelineReportUpdate
-          key={update.id}
-          report={update}
-          duration={
-            index === 0 && update.status === "operational"
-              ? duration
-              : undefined
-          }
-          withSeparator={index !== updates.length - 1}
-        />
-      ))}
+      {updates
+        .sort((a, b) => b.date.getTime() - a.date.getTime())
+        .map((update, index) => (
+          <StatusEventTimelineReportUpdate
+            key={update.id}
+            report={update}
+            duration={
+              index === 0 && update.status === "operational"
+                ? duration
+                : undefined
+            }
+            withSeparator={index !== updates.length - 1}
+          />
+        ))}
     </div>
   );
 }
