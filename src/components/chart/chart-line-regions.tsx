@@ -48,8 +48,6 @@ const chartData = Array.from({ length: 30 }, (_, i) => ({
   atl: Math.floor(Math.random() * 100) * 100,
 }));
 
-console.log(chartData, chartConfig);
-
 const annotation = {
   ams: regions.find((r) => r.code === "ams")?.flag,
   bog: regions.find((r) => r.code === "bog")?.flag,
@@ -84,6 +82,7 @@ export function ChartLineRegions({ className }: { className?: string }) {
               className="w-[180px]"
               formatter={(value, name) => (
                 <ChartTooltipNumber
+                  // TODO: override label: regions.find()?.location
                   chartConfig={chartConfig}
                   value={value}
                   name={name}

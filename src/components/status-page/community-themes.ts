@@ -91,10 +91,27 @@ export const githubTheme = {
 
 export const THEMES = {
   // supabase: supabaseTheme,
-  default: defaultTheme,
-  github: githubTheme,
-  supabase: supabaseTheme,
+  default: {
+    name: "Default",
+    author: { name: "@openstatus", url: "https://openstatus.dev" },
+    ...defaultTheme,
+  },
+  github: {
+    name: "Github",
+    author: { name: "@openstatus", url: "https://openstatus.dev" },
+    ...githubTheme,
+  },
+  supabase: {
+    name: "Supabase",
+    author: { name: "@supabase", url: "https://supabase.com" },
+    ...supabaseTheme,
+  },
 } as const satisfies Record<
   string,
-  { light: React.CSSProperties; dark: React.CSSProperties }
+  {
+    name: string;
+    author: { name: string; url: string };
+    light: React.CSSProperties;
+    dark: React.CSSProperties;
+  }
 >;
