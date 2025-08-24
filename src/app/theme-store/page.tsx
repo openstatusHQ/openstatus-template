@@ -21,7 +21,7 @@ import { chartData } from "@/components/status-page/utils";
 import { monitors } from "@/data/monitors";
 import { THEMES } from "@/components/status-page/community-themes";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+
 export default function Page() {
   return (
     <SectionGroup>
@@ -41,7 +41,14 @@ export default function Page() {
                   <ThemeHeader>
                     <ThemeTitle>{t.name}</ThemeTitle>
                     <ThemeAuthor>
-                      <Link href={t.author.url}>{t.author.name}</Link>
+                      by{" "}
+                      <a
+                        href={t.author.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {t.author.name}
+                      </a>
                     </ThemeAuthor>
                   </ThemeHeader>
                   <ThemeGroup>
