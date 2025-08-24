@@ -1,0 +1,227 @@
+"use client";
+
+import { CartesianGrid, Area, AreaChart, XAxis, YAxis } from "recharts";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { cn } from "@/lib/utils";
+import { ChartTooltipNumber } from "./chart-tooltip-number";
+import { useMemo, useState } from "react";
+import { ChartLegendBadge } from "./chart-legend-badge";
+import { formatMilliseconds } from "@/lib/formatter";
+
+const chartConfig = {
+  p50: {
+    label: "p50",
+    color: "var(--chart-1)",
+  },
+  p75: {
+    label: "p75",
+    color: "var(--chart-2)",
+  },
+  p90: {
+    label: "p90",
+    color: "var(--chart-3)",
+  },
+  p95: {
+    label: "p95",
+    color: "var(--chart-4)",
+  },
+  p99: {
+    label: "p99",
+    color: "var(--chart-5)",
+  },
+} satisfies ChartConfig;
+
+function avg(values: number[]) {
+  return Math.round(
+    values.reduce((acc, curr) => acc + curr, 0) / values.length
+  );
+}
+
+function randomChartData() {
+  const randomizer = Math.random() * 50;
+  return Array.from({ length: 30 }, (_, i) => ({
+    timestamp: new Date(
+      new Date().setMinutes(new Date().getMinutes() - i)
+    ).toLocaleString("default", {
+      hour: "numeric",
+      minute: "numeric",
+    }),
+    latency: Math.floor(Math.random() * randomizer) * 100,
+  })).map((item) => ({
+    ...item,
+    // TODO: improve this
+    p50: item.latency * 0.5,
+    p75: item.latency * 0.75,
+    p90: item.latency * 0.9,
+    p95: item.latency * 0.95,
+    p99: item.latency * 0.99,
+  }));
+}
+
+export function ChartAreaPercentiles({
+  className,
+  singleSeries,
+  xAxisHide = true,
+  legendVerticalAlign = "bottom",
+  legendClassName,
+}: {
+  className?: string;
+  singleSeries?: boolean;
+  xAxisHide?: boolean;
+  legendVerticalAlign?: "top" | "bottom";
+  legendClassName?: string;
+}) {
+  const [activeSeries, setActiveSeries] = useState<
+    Array<keyof typeof chartConfig>
+  >(["p75"]);
+
+  const chartData = useMemo(() => randomChartData(), []);
+
+  return (
+    <ChartContainer
+      config={chartConfig}
+      className={cn("h-[100px] w-full", className)}
+    >
+      <AreaChart
+        accessibilityLayer
+        data={chartData}
+        margin={{
+          left: 0,
+          right: 0,
+          // NOTE: otherwise the line is cut off
+          top: 2,
+        }}
+      >
+        <ChartLegend
+          verticalAlign={legendVerticalAlign}
+          content={
+            <ChartLegendBadge
+              handleActive={(item) => {
+                setActiveSeries((prev) => {
+                  if (item.dataKey) {
+                    const key = item.dataKey as keyof typeof chartConfig;
+                    if (singleSeries) {
+                      return [key];
+                    }
+                    if (prev.includes(key)) {
+                      return prev.filter((item) => item !== key);
+                    }
+                    return [...prev, key];
+                  }
+                  return prev;
+                });
+              }}
+              active={activeSeries}
+              annotation={{
+                p50: formatMilliseconds(avg(chartData.map((item) => item.p50))),
+                p75: formatMilliseconds(avg(chartData.map((item) => item.p75))),
+                p90: formatMilliseconds(avg(chartData.map((item) => item.p90))),
+                p95: formatMilliseconds(avg(chartData.map((item) => item.p95))),
+                p99: formatMilliseconds(avg(chartData.map((item) => item.p99))),
+              }}
+              className={cn("overflow-x-scroll", legendClassName)}
+            />
+          }
+        />
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="timestamp" hide={xAxisHide} />
+        <ChartTooltip
+          cursor={false}
+          content={
+            <ChartTooltipContent
+              className="w-[180px]"
+              formatter={(value, name) => (
+                <ChartTooltipNumber
+                  chartConfig={chartConfig}
+                  value={value}
+                  name={name}
+                />
+              )}
+            />
+          }
+        />
+        <defs>
+          <linearGradient id="fillP50" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--color-p50)" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="var(--color-p50)" stopOpacity={0.1} />
+          </linearGradient>
+          <linearGradient id="fillP75" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--color-p75)" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="var(--color-p75)" stopOpacity={0.1} />
+          </linearGradient>
+          <linearGradient id="fillP90" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--color-p90)" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="var(--color-p90)" stopOpacity={0.1} />
+          </linearGradient>
+          <linearGradient id="fillP95" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--color-p95)" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="var(--color-p95)" stopOpacity={0.1} />
+          </linearGradient>
+          <linearGradient id="fillP99" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--color-p99)" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="var(--color-p99)" stopOpacity={0.1} />
+          </linearGradient>
+        </defs>
+        <Area
+          hide={!activeSeries.includes("p50")}
+          dataKey="p50"
+          type="monotone"
+          stroke="var(--color-p50)"
+          fill="url(#fillP50)"
+          fillOpacity={0.4}
+          dot={false}
+        />
+        <Area
+          hide={!activeSeries.includes("p75")}
+          dataKey="p75"
+          type="monotone"
+          stroke="var(--color-p75)"
+          fill="url(#fillP75)"
+          fillOpacity={0.4}
+          dot={false}
+        />
+        {/* <Area
+          hide={!activeSeries.includes("p90")}
+          dataKey="p90"
+          type="monotone"
+          stroke="var(--color-p90)"
+          fill="url(#fillP90)"
+          fillOpacity={0.4}
+          dot={false}
+        /> */}
+        <Area
+          hide={!activeSeries.includes("p95")}
+          dataKey="p95"
+          type="monotone"
+          stroke="var(--color-p95)"
+          fill="url(#fillP95)"
+          fillOpacity={0.4}
+          dot={false}
+        />
+        <Area
+          hide={!activeSeries.includes("p99")}
+          dataKey="p99"
+          type="monotone"
+          stroke="var(--color-p99)"
+          fill="url(#fillP99)"
+          fillOpacity={0.4}
+          dot={false}
+        />
+        <YAxis
+          domain={["dataMin", "dataMax"]}
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+          orientation="right"
+          tickFormatter={(value) => `${value}ms`}
+        />
+      </AreaChart>
+    </ChartContainer>
+  );
+}

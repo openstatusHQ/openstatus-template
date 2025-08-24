@@ -1,4 +1,5 @@
 import type { ChartConfig } from "@/components/ui/chart";
+import { VARIANT } from "./floating-button";
 
 export const chartData = Array.from({ length: 45 }, (_, i) => {
   const date = new Date();
@@ -46,6 +47,8 @@ export const chartData = Array.from({ length: 45 }, (_, i) => {
   };
 }).reverse();
 
+export type ChartData = (typeof chartData)[number];
+
 export const chartConfig = {
   success: {
     label: "success",
@@ -64,3 +67,18 @@ export const chartConfig = {
     color: "var(--info)",
   },
 } satisfies ChartConfig;
+
+export const PRIORITY = {
+  error: 3,
+  degraded: 2,
+  info: 1,
+  success: 0,
+} as const; // satisfies Record<XXX, number>;
+
+export function getHighestPriorityStatus(item: ChartData) {
+  return (
+    VARIANT.filter((status) => item[status] > 0).sort(
+      (a, b) => PRIORITY[b] - PRIORITY[a]
+    )[0] || "success"
+  );
+}

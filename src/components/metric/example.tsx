@@ -26,12 +26,17 @@ const metrics = [
     variant: "warning" as const,
   },
   {
-    label: "TOTAL PINGS",
+    label: "REQUESTS",
     value: "8,639",
+    trend: null,
+    variant: "default" as const,
+  },
+  {
+    label: "LAST CHECKED",
+    value: "10m ago",
     trend: null,
     variant: "ghost" as const,
   },
-  null,
   {
     label: "P50",
     value: "150ms",
@@ -64,9 +69,9 @@ const metrics = [
   },
 ];
 
-export function MetricExample() {
+export function MetricExample({ className }: { className?: string }) {
   return (
-    <MetricCardGroup>
+    <MetricCardGroup className={className}>
       {metrics.map((metric) => {
         if (metric === null)
           return <div key={metric} className="hidden lg:block" />;
