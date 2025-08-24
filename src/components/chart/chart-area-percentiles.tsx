@@ -67,9 +67,15 @@ function randomChartData() {
 export function ChartAreaPercentiles({
   className,
   singleSeries,
+  xAxisHide = true,
+  legendVerticalAlign = "bottom",
+  legendClassName,
 }: {
   className?: string;
   singleSeries?: boolean;
+  xAxisHide?: boolean;
+  legendVerticalAlign?: "top" | "bottom";
+  legendClassName?: string;
 }) {
   const [activeSeries, setActiveSeries] = useState<
     Array<keyof typeof chartConfig>
@@ -86,13 +92,14 @@ export function ChartAreaPercentiles({
         accessibilityLayer
         data={chartData}
         margin={{
-          left: 12,
-          right: 12,
+          left: 0,
+          right: 0,
           // NOTE: otherwise the line is cut off
           top: 2,
         }}
       >
         <ChartLegend
+          verticalAlign={legendVerticalAlign}
           content={
             <ChartLegendBadge
               handleActive={(item) => {
@@ -118,12 +125,12 @@ export function ChartAreaPercentiles({
                 p95: formatMilliseconds(avg(chartData.map((item) => item.p95))),
                 p99: formatMilliseconds(avg(chartData.map((item) => item.p99))),
               }}
-              className="overflow-x-scroll"
+              className={cn("overflow-x-scroll", legendClassName)}
             />
           }
         />
         <CartesianGrid vertical={false} />
-        <XAxis dataKey="timestamp" hide />
+        <XAxis dataKey="timestamp" hide={xAxisHide} />
         <ChartTooltip
           cursor={false}
           content={

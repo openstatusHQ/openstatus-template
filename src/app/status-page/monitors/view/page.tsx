@@ -9,9 +9,7 @@ import {
 } from "@/components/status-page/status";
 import { ChartAreaPercentiles } from "@/components/chart/chart-area-percentiles";
 import { cn } from "@/lib/utils";
-import { DataTable } from "@/components/ui/data-table/data-table";
-import { regionMetrics } from "@/data/region-metrics";
-import { columns } from "@/components/data-table/response-logs/regions/columns";
+import { ChartLineRegions } from "@/components/chart/chart-line-regions";
 
 export default function Page() {
   return (
@@ -23,21 +21,26 @@ export default function Page() {
       <StatusContent className="flex flex-col gap-6">
         <StatusChartContent>
           <StatusChartHeader>
-            <StatusChartTitle>Latency</StatusChartTitle>
+            <StatusChartTitle>Global Latency</StatusChartTitle>
             <StatusChartDescription>
               The latency based on the different percentiles.
             </StatusChartDescription>
           </StatusChartHeader>
-          <ChartAreaPercentiles className="h-[130px]" />
+          <ChartAreaPercentiles
+            className="h-[200px]"
+            legendClassName="justify-start"
+            legendVerticalAlign="top"
+            xAxisHide={false}
+          />
         </StatusChartContent>
         <StatusChartContent>
           <StatusChartHeader>
-            <StatusChartTitle>Regions</StatusChartTitle>
+            <StatusChartTitle>Latency by Region</StatusChartTitle>
             <StatusChartDescription>
               The latency based on the different percentiles.
             </StatusChartDescription>
           </StatusChartHeader>
-          <DataTable data={regionMetrics} columns={columns} />
+          <ChartLineRegions className="h-[200px]" />
         </StatusChartContent>
       </StatusContent>
     </Status>

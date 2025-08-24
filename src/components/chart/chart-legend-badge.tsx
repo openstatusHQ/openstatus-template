@@ -20,7 +20,7 @@ export function ChartLegendBadge({
     // NOTE: additional props compared to default shadcn/ui Legend component
     handleActive?: (item: Payload) => void;
     active?: Payload["dataKey"][];
-    annotation?: Record<string, string | number>;
+    annotation?: Record<string, string | number | undefined>;
   }) {
   const { config } = useChart();
 
@@ -39,6 +39,7 @@ export function ChartLegendBadge({
       {payload.map((item) => {
         const key = `${nameKey || item.dataKey || "value"}`;
         const itemConfig = getPayloadConfigFromPayload(config, item, key);
+        const suffix = annotation?.[item.dataKey as string];
 
         return (
           <Badge key={item.value} variant="outline" asChild>
@@ -64,9 +65,11 @@ export function ChartLegendBadge({
                 />
               )}
               {itemConfig?.label}
-              <span className="text-[10px] text-muted-foreground font-mono">
-                {annotation?.[item.dataKey as string]}
-              </span>
+              {suffix ? (
+                <span className="text-[10px] text-muted-foreground font-mono">
+                  {suffix}
+                </span>
+              ) : null}
             </div>
           </Badge>
         );
