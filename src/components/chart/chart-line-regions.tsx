@@ -22,7 +22,7 @@ import { ChartLegendBadge } from "./chart-legend-badge";
 import { useState } from "react";
 import { regions } from "@/data/regions";
 
-const r = regions.slice(0, 4);
+const r = regions.slice(0, 5);
 
 const chartConfig = r
   .map((item, index) => ({
@@ -46,6 +46,7 @@ const chartData = Array.from({ length: 30 }, (_, i) => ({
   bog: Math.floor(Math.random() * 100) * 100,
   arn: Math.floor(Math.random() * 100) * 100,
   atl: Math.floor(Math.random() * 100) * 100,
+  bom: Math.floor(Math.random() * 100) * 100,
 }));
 
 const annotation = {
@@ -53,6 +54,7 @@ const annotation = {
   bog: regions.find((r) => r.code === "bog")?.flag,
   arn: regions.find((r) => r.code === "arn")?.flag,
   atl: regions.find((r) => r.code === "atl")?.flag,
+  bom: regions.find((r) => r.code === "bom")?.flag,
 };
 
 export function ChartLineRegions({ className }: { className?: string }) {
@@ -79,13 +81,22 @@ export function ChartLineRegions({ className }: { className?: string }) {
           cursor={false}
           content={
             <ChartTooltipContent
-              className="w-[180px]"
               formatter={(value, name) => (
                 <ChartTooltipNumber
-                  // TODO: override label: regions.find()?.location
                   chartConfig={chartConfig}
                   value={value}
                   name={name}
+                  labelFormatter={(_, name) => {
+                    const region = regions.find((r) => r.code === name);
+                    return (
+                      <>
+                        <span className="font-mono">{name}</span>{" "}
+                        <span className="text-xs text-muted-foreground">
+                          {region?.location}
+                        </span>
+                      </>
+                    );
+                  }}
                 />
               )}
             />
@@ -128,7 +139,7 @@ export function ChartLineRegions({ className }: { className?: string }) {
               }}
               active={activeSeries}
               annotation={annotation}
-              className="overflow-x-scroll justify-start"
+              className="overflow-x-scroll justify-start font-mono"
             />
           }
         />
