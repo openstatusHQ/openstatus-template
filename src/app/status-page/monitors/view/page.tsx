@@ -41,7 +41,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { Kbd } from "@/components/common/kbd";
 
 // TODO: add error range on ChartAreaLatency
 // TODO: add timerange (1d, 7d, 14d) or leave as is and have 7d default?
@@ -55,7 +54,7 @@ const metrics = [
   },
   {
     label: "FAILS",
-    value: "0",
+    value: "4",
     variant: "destructive" as const,
   },
   {
@@ -79,7 +78,12 @@ export default function Page() {
       </StatusHeader>
       <StatusContent className="flex flex-col gap-6">
         <div className="w-full flex flex-row justify-between items-center gap-2 py-0.5">
-          <DropdownPeriod />
+          <div>
+            <DropdownPeriod /> including{" "}
+            <Button variant="outline" size="sm">
+              All Regions
+            </Button>
+          </div>
           <CopyButton />
         </div>
         <MetricCardGroup className="sm:grid-cols-4 lg:grid-cols-4">
@@ -109,9 +113,10 @@ export default function Page() {
           </StatusChartHeader>
           <ChartAreaPercentiles
             className="h-[200px]"
-            legendClassName="justify-start"
+            legendClassName="justify-start pt-1 ps-1"
             legendVerticalAlign="top"
             xAxisHide={false}
+            withError
           />
         </StatusChartContent>
         <StatusChartContent>
@@ -122,7 +127,8 @@ export default function Page() {
               Region latency per{" "}
               <code className="text-foreground font-medium">p75</code>{" "}
               <PopoverQuantile>quantile</PopoverQuantile>, sorted by slowest
-              region.
+              region. Compare up to{" "}
+              <code className="text-foreground font-medium">3</code> regions.
             </StatusChartDescription>
           </StatusChartHeader>
           <ChartLineRegions className="h-[200px]" />
@@ -132,6 +138,7 @@ export default function Page() {
   );
 }
 
+// Use Link instead of copy (same for reports and maintenance)
 function CopyButton({
   className,
   ...props
