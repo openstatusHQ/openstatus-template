@@ -57,6 +57,14 @@ const annotation = {
   bom: regions.find((r) => r.code === "bom")?.flag,
 };
 
+const tooltip = {
+  ams: regions.find((r) => r.code === "ams")?.location,
+  bog: regions.find((r) => r.code === "bog")?.location,
+  arn: regions.find((r) => r.code === "arn")?.location,
+  atl: regions.find((r) => r.code === "atl")?.location,
+  bom: regions.find((r) => r.code === "bom")?.location,
+};
+
 export function ChartLineRegions({ className }: { className?: string }) {
   const [activeSeries, setActiveSeries] = useState<
     Array<keyof typeof chartConfig>
@@ -139,6 +147,7 @@ export function ChartLineRegions({ className }: { className?: string }) {
               }}
               active={activeSeries}
               annotation={annotation}
+              tooltip={tooltip}
               className="overflow-x-scroll justify-start font-mono"
             />
           }

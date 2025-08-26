@@ -2,7 +2,13 @@ import * as RechartsPrimitive from "recharts";
 import { getPayloadConfigFromPayload, useChart } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
 import { Payload } from "recharts/types/component/DefaultLegendContent";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function ChartLegendBadge({
   className,
@@ -13,6 +19,7 @@ export function ChartLegendBadge({
   handleActive,
   active,
   annotation,
+  tooltip,
 }: React.ComponentProps<"div"> &
   Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
     hideIcon?: boolean;
@@ -21,7 +28,7 @@ export function ChartLegendBadge({
     handleActive?: (item: Payload) => void;
     active?: Payload["dataKey"][];
     annotation?: Record<string, string | number | undefined>;
-    // TODO: tooltip e.g. for the regions - might be React.ReactNode;
+    tooltip?: Record<string, string | undefined>;
   }) {
   const { config } = useChart();
 
@@ -41,8 +48,9 @@ export function ChartLegendBadge({
         const key = `${nameKey || item.dataKey || "value"}`;
         const itemConfig = getPayloadConfigFromPayload(config, item, key);
         const suffix = annotation?.[item.dataKey as string];
+        const tooltipLabel = tooltip?.[item.dataKey as string];
 
-        return (
+        const badge = (
           <Badge key={item.value} variant="outline" asChild>
             <div
               className={cn(
@@ -74,7 +82,32 @@ export function ChartLegendBadge({
             </div>
           </Badge>
         );
+
+        if (tooltipLabel) {
+          return (
+            <ChartLegendTooltip key={item.value} tooltip={tooltipLabel}>
+              {badge}
+            </ChartLegendTooltip>
+          );
+        }
+
+        return badge;
       })}
     </div>
+  );
+}
+
+function ChartLegendTooltip({
+  children,
+  tooltip,
+  ...props
+}: React.ComponentProps<typeof TooltipTrigger> & { tooltip: string }) {
+  return (
+    <TooltipProvider>
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger {...props}>{children}</TooltipTrigger>
+        <TooltipContent>{tooltip}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
