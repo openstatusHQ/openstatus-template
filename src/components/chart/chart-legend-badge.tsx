@@ -21,6 +21,7 @@ export function ChartLegendBadge({
     handleActive?: (item: Payload) => void;
     active?: Payload["dataKey"][];
     annotation?: Record<string, string | number | undefined>;
+    // TODO: tooltip e.g. for the regions - might be React.ReactNode;
   }) {
   const { config } = useChart();
 
