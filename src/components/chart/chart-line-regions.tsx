@@ -21,10 +21,49 @@ import { ChartTooltipNumber } from "./chart-tooltip-number";
 import { ChartLegendBadge } from "./chart-legend-badge";
 import { useState } from "react";
 import { regions } from "@/data/regions";
+import { formatMilliseconds } from "@/lib/formatter";
 
 const r = regions.slice(0, 5);
 
-const chartConfig = r
+const randomizer = Math.random() * 50;
+
+const chartData = Array.from({ length: 30 }, (_, i) => ({
+  timestamp: new Date(
+    new Date().setMinutes(new Date().getMinutes() - i)
+  ).toLocaleString("default", {
+    hour: "numeric",
+    minute: "numeric",
+  }),
+  ams: Math.floor(Math.random() * randomizer) * 100 * 0.75,
+  bog: Math.floor(Math.random() * randomizer) * 100 * 0.75,
+  arn: Math.floor(Math.random() * randomizer) * 100 * 0.75,
+  atl: Math.floor(Math.random() * randomizer) * 100 * 0.75,
+  bom: Math.floor(Math.random() * randomizer) * 100 * 0.75,
+}));
+
+const s = r.sort((a, b) => {
+  const aAvg = avg(
+    chartData.map((d) => {
+      const value = d[a.code as keyof typeof d];
+      if (typeof value === "number") {
+        return value;
+      }
+      return 0;
+    })
+  );
+  const bAvg = avg(
+    chartData.map((d) => {
+      const value = d[b.code as keyof typeof d];
+      if (typeof value === "number") {
+        return value;
+      }
+      return 0;
+    })
+  );
+  return bAvg - aAvg;
+});
+
+const chartConfig = s
   .map((item, index) => ({
     code: item.code,
     label: item.code, // item.location,
@@ -35,40 +74,36 @@ const chartConfig = r
     return acc;
   }, {} as Record<string, { label: string; color: string }>) satisfies ChartConfig;
 
-const chartData = Array.from({ length: 30 }, (_, i) => ({
-  timestamp: new Date(
-    new Date().setMinutes(new Date().getMinutes() - i)
-  ).toLocaleString("default", {
-    hour: "numeric",
-    minute: "numeric",
-  }),
-  ams: Math.floor(Math.random() * 100) * 100,
-  bog: Math.floor(Math.random() * 100) * 100,
-  arn: Math.floor(Math.random() * 100) * 100,
-  atl: Math.floor(Math.random() * 100) * 100,
-  bom: Math.floor(Math.random() * 100) * 100,
-}));
+function avg(values: number[]) {
+  return Math.round(
+    values.reduce((acc, curr) => acc + curr, 0) / values.length
+  );
+}
 
-const annotation = {
-  ams: regions.find((r) => r.code === "ams")?.flag,
-  bog: regions.find((r) => r.code === "bog")?.flag,
-  arn: regions.find((r) => r.code === "arn")?.flag,
-  atl: regions.find((r) => r.code === "atl")?.flag,
-  bom: regions.find((r) => r.code === "bom")?.flag,
-};
+const annotation = r.reduce((acc, item) => {
+  acc[item.code] = formatMilliseconds(
+    avg(
+      chartData.map((d) => {
+        const value = d[item.code as keyof typeof d];
+        if (typeof value === "number") {
+          return value;
+        }
+        return 0;
+      })
+    )
+  );
+  return acc;
+}, {} as Record<string, string>);
 
-const tooltip = {
-  ams: regions.find((r) => r.code === "ams")?.location,
-  bog: regions.find((r) => r.code === "bog")?.location,
-  arn: regions.find((r) => r.code === "arn")?.location,
-  atl: regions.find((r) => r.code === "atl")?.location,
-  bom: regions.find((r) => r.code === "bom")?.location,
-};
+const tooltip = r.reduce((acc, item) => {
+  acc[item.code] = item.location;
+  return acc;
+}, {} as Record<string, string>);
 
 export function ChartLineRegions({ className }: { className?: string }) {
   const [activeSeries, setActiveSeries] = useState<
     Array<keyof typeof chartConfig>
-  >(["ams", "arn"]);
+  >([s[0].code, s[1].code]);
   return (
     <ChartContainer
       config={chartConfig}
@@ -146,9 +181,10 @@ export function ChartLineRegions({ className }: { className?: string }) {
                 });
               }}
               active={activeSeries}
+              maxActive={3}
               annotation={annotation}
               tooltip={tooltip}
-              className="overflow-x-scroll justify-start font-mono"
+              className="overflow-x-scroll pt-1 ps-1 justify-start font-mono"
             />
           }
         />

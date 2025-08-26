@@ -2,7 +2,7 @@ import * as RechartsPrimitive from "recharts";
 import { getPayloadConfigFromPayload, useChart } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
 import { Payload } from "recharts/types/component/DefaultLegendContent";
-import { Badge } from "@/components/ui/badge";
+import { badgeVariants } from "@/components/ui/badge";
 import {
   Tooltip,
   TooltipContent,
@@ -18,6 +18,7 @@ export function ChartLegendBadge({
   nameKey,
   handleActive,
   active,
+  maxActive,
   annotation,
   tooltip,
 }: React.ComponentProps<"div"> &
@@ -27,6 +28,7 @@ export function ChartLegendBadge({
     // NOTE: additional props compared to default shadcn/ui Legend component
     handleActive?: (item: Payload) => void;
     active?: Payload["dataKey"][];
+    maxActive?: number;
     annotation?: Record<string, string | number | undefined>;
     tooltip?: Record<string, string | undefined>;
   }) {
@@ -36,6 +38,8 @@ export function ChartLegendBadge({
     return null;
   }
 
+  const hasMaxActive = active && maxActive ? active.length >= maxActive : false;
+
   return (
     <div
       className={cn(
@@ -44,24 +48,32 @@ export function ChartLegendBadge({
         className
       )}
     >
-      {payload.map((item) => {
-        const key = `${nameKey || item.dataKey || "value"}`;
-        const itemConfig = getPayloadConfigFromPayload(config, item, key);
-        const suffix = annotation?.[item.dataKey as string];
-        const tooltipLabel = tooltip?.[item.dataKey as string];
+      {payload
+        // NOTE: recharts supports "none" type for legend items
+        .filter((item) => item.type !== "none")
+        .map((item) => {
+          const key = `${nameKey || item.dataKey || "value"}`;
+          const itemConfig = getPayloadConfigFromPayload(config, item, key);
+          const suffix = annotation?.[item.dataKey as string];
+          const tooltipLabel = tooltip?.[item.dataKey as string];
+          const isActive = active?.includes(item.dataKey);
 
-        const badge = (
-          <Badge key={item.value} variant="outline" asChild>
-            <div
+          const badge = (
+            <button
+              key={item.value}
               className={cn(
+                badgeVariants({ variant: "outline" }),
+                "outline-none",
                 "[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3",
-                !active?.includes(item.dataKey) && "opacity-50"
+                !isActive && "opacity-60",
+                !isActive && hasMaxActive && "opacity-40 cursor-not-allowed"
               )}
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
                 handleActive?.(item);
               }}
+              disabled={!isActive && hasMaxActive}
             >
               {itemConfig?.icon && !hideIcon ? (
                 <itemConfig.icon />
@@ -79,20 +91,19 @@ export function ChartLegendBadge({
                   {suffix}
                 </span>
               ) : null}
-            </div>
-          </Badge>
-        );
-
-        if (tooltipLabel) {
-          return (
-            <ChartLegendTooltip key={item.value} tooltip={tooltipLabel}>
-              {badge}
-            </ChartLegendTooltip>
+            </button>
           );
-        }
 
-        return badge;
-      })}
+          if (tooltipLabel) {
+            return (
+              <ChartLegendTooltip key={item.value} tooltip={tooltipLabel}>
+                {badge}
+              </ChartLegendTooltip>
+            );
+          }
+
+          return badge;
+        })}
     </div>
   );
 }
@@ -105,7 +116,9 @@ function ChartLegendTooltip({
   return (
     <TooltipProvider>
       <Tooltip delayDuration={0}>
-        <TooltipTrigger {...props}>{children}</TooltipTrigger>
+        <TooltipTrigger className="rounded-md" asChild {...props}>
+          {children}
+        </TooltipTrigger>
         <TooltipContent>{tooltip}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
