@@ -204,7 +204,7 @@ function DropdownPeriod() {
   );
 }
 
-export function PopoverQuantile({
+function PopoverQuantile({
   children,
   className,
   ...props
