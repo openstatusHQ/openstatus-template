@@ -163,7 +163,7 @@ function CopyButton({
   );
 }
 
-export const PERIOD_VALUES = [
+const PERIOD_VALUES = [
   {
     value: "1d",
     label: "Last day",
