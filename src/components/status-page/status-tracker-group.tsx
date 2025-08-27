@@ -27,7 +27,7 @@ export function StatusTrackerGroup({
     >
       <CollapsibleTrigger
         className={cn(
-          "group/monitor w-full px-3 py-2 flex items-center justify-between gap-2 font-medium",
+          "group/monitor w-full px-3 py-2 flex items-center justify-between gap-2 font-medium rounded-lg",
           "cursor-pointer",
           className
         )}

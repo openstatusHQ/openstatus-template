@@ -27,7 +27,11 @@ export default function Page() {
         {monitors
           .filter((monitor) => monitor.public)
           .map((monitor) => (
-            <Link key={monitor.id} href="/status-page/monitors/view">
+            <Link
+              key={monitor.id}
+              href="/status-page/monitors/view"
+              className="rounded-lg"
+            >
               <div className="group flex flex-col gap-2 hover:bg-muted/50 border border-transparent hover:border-border/50 rounded-lg px-3 -mx-3 py-2 -my-2">
                 <div className="flex flex-row items-center gap-2">
                   <StatusMonitorTitle>{monitor.name}</StatusMonitorTitle>
@@ -35,7 +39,11 @@ export default function Page() {
                     {monitor.description}
                   </StatusMonitorDescription>
                 </div>
-                <ChartAreaPercentiles className="h-[80px]" singleSeries />
+                <ChartAreaPercentiles
+                  className="h-[80px]"
+                  legendClassName="pb-1"
+                  singleSeries
+                />
               </div>
             </Link>
           ))}
