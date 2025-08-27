@@ -19,7 +19,7 @@ import {
 } from "@/components/metric/metric-card";
 import { Button } from "@/components/ui/button";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, TrendingUp } from "lucide-react";
 import {
   StatusChartContent,
   StatusChartDescription,
@@ -41,6 +41,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { StatusMonitor } from "@/components/status-page/status-monitor";
+import { monitors } from "@/data/monitors";
+import { chartData } from "@/components/status-page/utils";
+import { formatNumber } from "@/lib/formatter";
 
 // TODO: add error range on ChartAreaLatency
 // TODO: add timerange (1d, 7d, 14d) or leave as is and have 7d default?
@@ -49,12 +55,12 @@ import { Separator } from "@/components/ui/separator";
 const metrics = [
   {
     label: "UPTIME",
-    value: "100.00%",
+    value: "99.99%",
     variant: "success" as const,
   },
   {
     label: "FAILS",
-    value: "4",
+    value: "3",
     variant: "destructive" as const,
   },
   {
@@ -63,8 +69,8 @@ const metrics = [
     variant: "warning" as const,
   },
   {
-    label: "REQUESTS",
-    value: "320.102",
+    label: "CHECKS",
+    value: "5.102",
     variant: "ghost" as const,
   },
 ];
@@ -73,66 +79,118 @@ export default function Page() {
   return (
     <Status>
       <StatusHeader>
-        <StatusTitle>OpenStatus API</StatusTitle>
-        <StatusDescription>API for OpenStatus</StatusDescription>
+        <StatusTitle>OpenStatus 418</StatusTitle>
+        <StatusDescription>I&apos;m a teapot - Random API</StatusDescription>
       </StatusHeader>
       <StatusContent className="flex flex-col gap-6">
         <div className="w-full flex flex-row justify-between items-center gap-2 py-0.5">
-          <div>
-            <DropdownPeriod /> including{" "}
-            <Button variant="outline" size="sm">
-              All Regions
-            </Button>
-          </div>
+          <DropdownPeriod />
           <CopyButton />
         </div>
-        <MetricCardGroup className="sm:grid-cols-4 lg:grid-cols-4">
-          {metrics.map((metric) => {
-            if (metric === null)
-              return <div key={metric} className="hidden lg:block" />;
-            return (
-              <MetricCard key={metric.label} variant={metric.variant}>
-                <MetricCardHeader>
-                  <MetricCardTitle className="truncate">
-                    {metric.label}
-                  </MetricCardTitle>
-                </MetricCardHeader>
-                <MetricCardValue>{metric.value}</MetricCardValue>
-              </MetricCard>
-            );
-          })}
-        </MetricCardGroup>
-        <StatusChartContent>
-          <StatusChartHeader>
-            <StatusChartTitle>Global Latency</StatusChartTitle>
-            <StatusChartDescription>
-              {/* FIXME: COPY: All regions aggregated latency */}
-              The latency based on the different{" "}
-              <PopoverQuantile>quantiles</PopoverQuantile>.
-            </StatusChartDescription>
-          </StatusChartHeader>
-          <ChartAreaPercentiles
-            className="h-[200px]"
-            legendClassName="justify-start pt-1 ps-1"
-            legendVerticalAlign="top"
-            xAxisHide={false}
-            withError
-          />
-        </StatusChartContent>
-        <StatusChartContent>
-          <StatusChartHeader>
-            <StatusChartTitle>Latency by Region</StatusChartTitle>
-            <StatusChartDescription>
-              {/* TODO: we could add an information to p95 that it takes the highest selected global latency percentile */}
-              Region latency per{" "}
-              <code className="text-foreground font-medium">p75</code>{" "}
-              <PopoverQuantile>quantile</PopoverQuantile>, sorted by slowest
-              region. Compare up to{" "}
-              <code className="text-foreground font-medium">3</code> regions.
-            </StatusChartDescription>
-          </StatusChartHeader>
-          <ChartLineRegions className="h-[200px]" />
-        </StatusChartContent>
+        <StatusMonitorTabs defaultValue="global">
+          <StatusMonitorTabsList>
+            <StatusMonitorTabsTrigger value="global">
+              Global Latency
+              <StatusMonitorTabsTriggerValue>
+                287 - 568ms{" "}
+                <Badge variant="outline" className="text-[10px] py-px">
+                  p75
+                </Badge>
+              </StatusMonitorTabsTriggerValue>
+            </StatusMonitorTabsTrigger>
+            <StatusMonitorTabsTrigger value="region">
+              Region Latency
+              <StatusMonitorTabsTriggerValue>
+                5 regions{" "}
+                <Badge
+                  variant="outline"
+                  className="text-[10px] py-px font-mono"
+                >
+                  arn <TrendingUp className="size-3" />
+                </Badge>
+              </StatusMonitorTabsTriggerValue>
+            </StatusMonitorTabsTrigger>
+            <StatusMonitorTabsTrigger value="uptime">
+              Uptime
+              <StatusMonitorTabsTriggerValue>
+                99.99%{" "}
+                <Badge variant="outline" className="text-[10px] py-px">
+                  {formatNumber(5102, {
+                    notation: "compact",
+                    compactDisplay: "short",
+                  }).replace("K", "k")}{" "}
+                  checks
+                </Badge>
+              </StatusMonitorTabsTriggerValue>
+            </StatusMonitorTabsTrigger>
+          </StatusMonitorTabsList>
+          <StatusMonitorTabsContent value="global">
+            <StatusChartContent>
+              <StatusChartHeader>
+                <StatusChartTitle>Global Latency</StatusChartTitle>
+                <StatusChartDescription>
+                  The aggregated latency from all active regions based on
+                  different <PopoverQuantile>quantiles</PopoverQuantile>.
+                </StatusChartDescription>
+              </StatusChartHeader>
+              <ChartAreaPercentiles
+                className="h-[250px]"
+                legendClassName="justify-start pt-1 ps-1"
+                legendVerticalAlign="top"
+                xAxisHide={false}
+              />
+            </StatusChartContent>
+          </StatusMonitorTabsContent>
+          <StatusMonitorTabsContent value="region">
+            <StatusChartContent>
+              <StatusChartHeader>
+                <StatusChartTitle>Latency by Region</StatusChartTitle>
+                <StatusChartDescription>
+                  {/* TODO: we could add an information to p95 that it takes the highest selected global latency percentile */}
+                  Region latency per{" "}
+                  <code className="text-foreground font-medium">p75</code>{" "}
+                  <PopoverQuantile>quantile</PopoverQuantile>, sorted by slowest
+                  region. Compare up to{" "}
+                  <code className="text-foreground font-medium">3</code>{" "}
+                  regions.
+                </StatusChartDescription>
+              </StatusChartHeader>
+              <ChartLineRegions className="h-[250px]" />
+            </StatusChartContent>
+          </StatusMonitorTabsContent>
+          <StatusMonitorTabsContent value="uptime">
+            <StatusChartContent>
+              <StatusChartHeader>
+                <StatusChartTitle>Total Uptime</StatusChartTitle>
+                <StatusChartDescription>
+                  Main values of uptime and availability, transparent.
+                </StatusChartDescription>
+              </StatusChartHeader>
+              <MetricCardGroup className="sm:grid-cols-4 lg:grid-cols-4">
+                {metrics.map((metric) => {
+                  if (metric === null)
+                    return <div key={metric} className="hidden lg:block" />;
+                  return (
+                    <MetricCard key={metric.label} variant={metric.variant}>
+                      <MetricCardHeader>
+                        <MetricCardTitle className="truncate">
+                          {metric.label}
+                        </MetricCardTitle>
+                      </MetricCardHeader>
+                      <MetricCardValue>{metric.value}</MetricCardValue>
+                    </MetricCard>
+                  );
+                })}
+              </MetricCardGroup>
+              <StatusMonitor
+                barType="absolute"
+                cardType="requests"
+                data={chartData}
+                monitor={monitors[1]}
+              />
+            </StatusChartContent>
+          </StatusMonitorTabsContent>
+        </StatusMonitorTabs>
       </StatusContent>
     </Status>
   );
@@ -232,5 +290,58 @@ function PopoverQuantile({
         </p>
       </PopoverContent>
     </Popover>
+  );
+}
+
+function StatusMonitorTabs({
+  className,
+  ...props
+}: React.ComponentProps<typeof Tabs>) {
+  return <Tabs className={cn("gap-6", className)} {...props} />;
+}
+
+function StatusMonitorTabsList({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsList>) {
+  return <TabsList className={cn("w-full min-h-fit", className)} {...props} />;
+}
+
+function StatusMonitorTabsTrigger({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsTrigger>) {
+  return (
+    <TabsTrigger
+      className={cn(
+        "flex-1 gap-0.5 flex-col items-start text-foreground dark:text-foreground",
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+function StatusMonitorTabsTriggerValue({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      className={cn(
+        "text-muted-foreground text-xs text-left text-wrap",
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+function StatusMonitorTabsContent({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsContent>) {
+  return (
+    <TabsContent className={cn("flex flex-col gap-2", className)} {...props} />
   );
 }

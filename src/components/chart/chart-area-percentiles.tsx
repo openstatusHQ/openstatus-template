@@ -82,6 +82,7 @@ export function ChartAreaPercentiles({
           right: 0,
           // NOTE: otherwise the line is cut off
           top: 2,
+          bottom: 2,
         }}
       >
         <ChartLegend

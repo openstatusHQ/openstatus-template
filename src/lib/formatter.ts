@@ -24,8 +24,11 @@ export function formatPercentage(value: number) {
   }).format(value)}`;
 }
 
-export function formatNumber(value: number) {
-  return `${Intl.NumberFormat("en-US").format(value)}`;
+export function formatNumber(
+  value: number,
+  options?: Intl.NumberFormatOptions
+) {
+  return `${Intl.NumberFormat("en-US", options).format(value)}`;
 }
 
 // TODO: think of supporting custom formats
