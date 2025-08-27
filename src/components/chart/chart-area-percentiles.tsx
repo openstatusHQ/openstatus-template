@@ -14,6 +14,7 @@ import { useState } from "react";
 import { ChartLegendBadge } from "./chart-legend-badge";
 import { formatMilliseconds } from "@/lib/formatter";
 import { regionPercentile } from "@/data/region-percentile";
+import { AxisDomain } from "recharts/types/util/types";
 
 const chartConfig = {
   p50: {
@@ -57,6 +58,7 @@ export function ChartAreaPercentiles({
   legendVerticalAlign = "bottom",
   legendClassName,
   withError = false,
+  yAxisDomain = ["dataMin", "dataMax"],
 }: {
   className?: string;
   singleSeries?: boolean;
@@ -64,6 +66,7 @@ export function ChartAreaPercentiles({
   legendVerticalAlign?: "top" | "bottom";
   legendClassName?: string;
   withError?: boolean;
+  yAxisDomain?: AxisDomain;
 }) {
   const [activeSeries, setActiveSeries] = useState<
     Array<keyof typeof chartConfig>
@@ -221,7 +224,7 @@ export function ChartAreaPercentiles({
           yAxisId="percentile"
         />
         <YAxis
-          domain={["dataMin", "dataMax"]}
+          domain={yAxisDomain}
           tickLine={false}
           axisLine={false}
           tickMargin={8}

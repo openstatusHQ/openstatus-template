@@ -144,6 +144,7 @@ export default function Page() {
                 legendClassName="justify-start pt-1 ps-1"
                 legendVerticalAlign="top"
                 xAxisHide={false}
+                yAxisDomain={[0, "dataMax"]}
               />
             </StatusChartContent>
           </StatusMonitorTabsContent>

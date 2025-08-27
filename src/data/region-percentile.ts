@@ -1,4 +1,4 @@
-const randomizer = Math.random() * 50;
+const randomizer = Math.random() * 10;
 
 export const regionPercentile = Array.from({ length: 30 }, (_, i) => ({
   timestamp: new Date(
@@ -7,7 +7,7 @@ export const regionPercentile = Array.from({ length: 30 }, (_, i) => ({
     hour: "numeric",
     minute: "numeric",
   }),
-  latency: Math.floor(Math.random() * randomizer) * 100,
+  latency: Math.floor(Math.random() * randomizer + 1) * 100,
 })).map((item, i) => ({
   ...item,
   // TODO: improve this
