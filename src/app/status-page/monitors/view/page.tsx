@@ -88,9 +88,11 @@ export default function Page() {
           <CopyButton />
         </div>
         <StatusMonitorTabs defaultValue="global">
-          <StatusMonitorTabsList>
+          <StatusMonitorTabsList className="grid grid-cols-3">
             <StatusMonitorTabsTrigger value="global">
-              Global Latency
+              <StatusMonitorTabsTriggerLabel>
+                Global Latency
+              </StatusMonitorTabsTriggerLabel>
               <StatusMonitorTabsTriggerValue>
                 287 - 568ms{" "}
                 <Badge variant="outline" className="text-[10px] py-px">
@@ -99,7 +101,9 @@ export default function Page() {
               </StatusMonitorTabsTriggerValue>
             </StatusMonitorTabsTrigger>
             <StatusMonitorTabsTrigger value="region">
-              Region Latency
+              <StatusMonitorTabsTriggerLabel>
+                Region Latency
+              </StatusMonitorTabsTriggerLabel>
               <StatusMonitorTabsTriggerValue>
                 5 regions{" "}
                 <Badge
@@ -111,7 +115,9 @@ export default function Page() {
               </StatusMonitorTabsTriggerValue>
             </StatusMonitorTabsTrigger>
             <StatusMonitorTabsTrigger value="uptime">
-              Uptime
+              <StatusMonitorTabsTriggerLabel>
+                Uptime
+              </StatusMonitorTabsTriggerLabel>
               <StatusMonitorTabsTriggerValue>
                 99.99%{" "}
                 <Badge variant="outline" className="text-[10px] py-px">
@@ -304,7 +310,12 @@ function StatusMonitorTabsList({
   className,
   ...props
 }: React.ComponentProps<typeof TabsList>) {
-  return <TabsList className={cn("w-full min-h-fit", className)} {...props} />;
+  return (
+    <TabsList
+      className={cn("flex w-full h-auto min-h-fit", className)}
+      {...props}
+    />
+  );
 }
 
 function StatusMonitorTabsTrigger({
@@ -314,11 +325,20 @@ function StatusMonitorTabsTrigger({
   return (
     <TabsTrigger
       className={cn(
-        "flex-1 gap-0.5 flex-col items-start text-foreground dark:text-foreground",
+        "flex-1 gap-0.5 flex-col items-start min-w-0 text-foreground dark:text-foreground",
         className
       )}
       {...props}
     />
+  );
+}
+
+function StatusMonitorTabsTriggerLabel({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div className={cn("truncate w-full text-left", className)} {...props} />
   );
 }
 
