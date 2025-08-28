@@ -27,11 +27,11 @@ const chartConfig = {
   },
   p90: {
     label: "p90",
-    color: "var(--chart-3)",
+    color: "var(--chart-4)",
   },
   p95: {
     label: "p95",
-    color: "var(--chart-4)",
+    color: "var(--chart-3)",
   },
   p99: {
     label: "p99",
@@ -70,7 +70,7 @@ export function ChartAreaPercentiles({
 }) {
   const [activeSeries, setActiveSeries] = useState<
     Array<keyof typeof chartConfig>
-  >(["p75"]);
+  >(["p75", "p95"]);
 
   return (
     <ChartContainer

@@ -23,7 +23,9 @@ import { useState } from "react";
 import { regions } from "@/data/regions";
 import { formatMilliseconds } from "@/lib/formatter";
 
-const r = regions.slice(0, 5);
+const r = regions.filter((r) =>
+  ["ams", "bog", "arn", "atl", "bom", "syd", "fra"].includes(r.code)
+);
 
 const randomizer = Math.random() * 50;
 
@@ -39,6 +41,8 @@ const chartData = Array.from({ length: 30 }, (_, i) => ({
   arn: Math.floor(Math.random() * randomizer) * 100 * 0.75,
   atl: Math.floor(Math.random() * randomizer) * 100 * 0.75,
   bom: Math.floor(Math.random() * randomizer) * 100 * 0.75,
+  syd: Math.floor(Math.random() * randomizer) * 100 * 0.75,
+  fra: Math.floor(Math.random() * randomizer) * 100 * 0.75,
 }));
 
 const s = r.sort((a, b) => {
@@ -66,8 +70,8 @@ const s = r.sort((a, b) => {
 const chartConfig = s
   .map((item, index) => ({
     code: item.code,
-    label: item.code, // item.location,
-    color: `var(--chart-${index + 1})`,
+    label: item.code,
+    color: `var(--rainbow-${index + 1})`,
   }))
   .reduce((acc, item) => {
     acc[item.code] = item;

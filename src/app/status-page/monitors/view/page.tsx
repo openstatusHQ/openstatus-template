@@ -80,7 +80,9 @@ export default function Page() {
     <Status>
       <StatusHeader>
         <StatusTitle>OpenStatus 418</StatusTitle>
-        <StatusDescription>I&apos;m a teapot - Random API</StatusDescription>
+        <StatusDescription>
+          I&apos;m a teapot - Just random values
+        </StatusDescription>
       </StatusHeader>
       <StatusContent className="flex flex-col gap-6">
         <div className="w-full flex flex-row justify-between items-center gap-2 py-0.5">
@@ -105,7 +107,7 @@ export default function Page() {
                 Region Latency
               </StatusMonitorTabsTriggerLabel>
               <StatusMonitorTabsTriggerValue>
-                5 regions{" "}
+                7 regions{" "}
                 <Badge
                   variant="outline"
                   className="text-[10px] py-px font-mono"
