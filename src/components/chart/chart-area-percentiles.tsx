@@ -70,7 +70,7 @@ export function ChartAreaPercentiles({
 }) {
   const [activeSeries, setActiveSeries] = useState<
     Array<keyof typeof chartConfig>
-  >(["p75", "p95"]);
+  >(["p75"]);
 
   return (
     <ChartContainer
