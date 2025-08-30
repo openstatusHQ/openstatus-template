@@ -10,13 +10,6 @@ import {
 import { ChartAreaPercentiles } from "@/components/chart/chart-area-percentiles";
 import { cn } from "@/lib/utils";
 import { ChartLineRegions } from "@/components/chart/chart-line-regions";
-import {
-  MetricCard,
-  MetricCardGroup,
-  MetricCardHeader,
-  MetricCardTitle,
-  MetricCardValue,
-} from "@/components/metric/metric-card";
 import { Button } from "@/components/ui/button";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { Check, Copy, TrendingUp } from "lucide-react";
@@ -43,37 +36,12 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { StatusMonitor } from "@/components/status-page/status-monitor";
-import { monitors } from "@/data/monitors";
-import { chartData } from "@/components/status-page/utils";
 import { formatNumber } from "@/lib/formatter";
+import { ChartBarUptime } from "@/components/chart/chart-bar-uptime-2";
 
 // TODO: add error range on ChartAreaLatency
 // TODO: add timerange (1d, 7d, 14d) or leave as is and have 7d default?
 // TODO: how to deal with the latency by region percentiles + interval/resolution
-
-const metrics = [
-  {
-    label: "UPTIME",
-    value: "99.99%",
-    variant: "success" as const,
-  },
-  {
-    label: "FAILS",
-    value: "3",
-    variant: "destructive" as const,
-  },
-  {
-    label: "DEGRADED",
-    value: "0",
-    variant: "warning" as const,
-  },
-  {
-    label: "CHECKS",
-    value: "5.102",
-    variant: "ghost" as const,
-  },
-];
 
 export default function Page() {
   return (
@@ -104,7 +72,7 @@ export default function Page() {
             </StatusMonitorTabsTrigger>
             <StatusMonitorTabsTrigger value="region">
               <StatusMonitorTabsTriggerLabel>
-                Region Latency
+                Latency by Region
               </StatusMonitorTabsTriggerLabel>
               <StatusMonitorTabsTriggerValue>
                 7 regions{" "}
@@ -170,33 +138,12 @@ export default function Page() {
           <StatusMonitorTabsContent value="uptime">
             <StatusChartContent>
               <StatusChartHeader>
-                <StatusChartTitle>Total Uptime</StatusChartTitle>
+                <StatusChartTitle>Uptime</StatusChartTitle>
                 <StatusChartDescription>
-                  Main values of uptime and availability, transparent.
+                  Uptime accross all regions, grouped by status.
                 </StatusChartDescription>
               </StatusChartHeader>
-              <MetricCardGroup className="sm:grid-cols-4 lg:grid-cols-4">
-                {metrics.map((metric) => {
-                  if (metric === null)
-                    return <div key={metric} className="hidden lg:block" />;
-                  return (
-                    <MetricCard key={metric.label} variant={metric.variant}>
-                      <MetricCardHeader>
-                        <MetricCardTitle className="truncate">
-                          {metric.label}
-                        </MetricCardTitle>
-                      </MetricCardHeader>
-                      <MetricCardValue>{metric.value}</MetricCardValue>
-                    </MetricCard>
-                  );
-                })}
-              </MetricCardGroup>
-              <StatusMonitor
-                barType="absolute"
-                cardType="requests"
-                data={chartData}
-                monitor={monitors[1]}
-              />
+              <ChartBarUptime className="h-[250px]" />
             </StatusChartContent>
           </StatusMonitorTabsContent>
         </StatusMonitorTabs>

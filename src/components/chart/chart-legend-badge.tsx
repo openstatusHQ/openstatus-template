@@ -56,7 +56,7 @@ export function ChartLegendBadge({
           const itemConfig = getPayloadConfigFromPayload(config, item, key);
           const suffix = annotation?.[item.dataKey as string];
           const tooltipLabel = tooltip?.[item.dataKey as string];
-          const isActive = active?.includes(item.dataKey);
+          const isActive = active ? active?.includes(item.dataKey) : true;
 
           const badge = (
             <button
