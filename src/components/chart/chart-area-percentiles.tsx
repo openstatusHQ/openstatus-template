@@ -72,22 +72,20 @@ export function ChartAreaPercentiles({
     Array<keyof typeof chartConfig>
   >(["p75"]);
 
+  const margin = {
+    left: 0,
+    right: 0,
+    // NOTE: otherwise the line is cut off
+    top: 2,
+    bottom: 2,
+  };
+
   return (
     <ChartContainer
       config={chartConfig}
       className={cn("h-[100px] w-full", className)}
     >
-      <AreaChart
-        accessibilityLayer
-        data={chartData}
-        margin={{
-          left: 0,
-          right: 0,
-          // NOTE: otherwise the line is cut off
-          top: 2,
-          bottom: 2,
-        }}
-      >
+      <AreaChart accessibilityLayer data={chartData} margin={margin}>
         <ChartLegend
           verticalAlign={legendVerticalAlign}
           content={
