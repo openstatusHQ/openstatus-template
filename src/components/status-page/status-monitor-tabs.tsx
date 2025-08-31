@@ -66,7 +66,7 @@ export function StatusMonitorTabsContent({
   return (
     <TabsContent
       className={cn(
-        "flex flex-col gap-2 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-lg",
+        "flex flex-col gap-2 px-3 -mx-3 py-2 -my-2 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-lg",
         className
       )}
       {...props}

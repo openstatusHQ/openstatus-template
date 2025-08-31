@@ -36,7 +36,10 @@ export function StatusEventsTabs() {
         <TabsTrigger value="reports">Reports</TabsTrigger>
         <TabsTrigger value="maintenances">Maintenances</TabsTrigger>
       </TabsList>
-      <TabsContent value="reports" className="flex flex-col gap-4">
+      <TabsContent
+        value="reports"
+        className="flex flex-col gap-4 px-3 -mx-3 py-2 -my-2 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-lg"
+      >
         {statusReports.map((report) => (
           <StatusEvent key={report.id}>
             <StatusEventAside>
@@ -64,7 +67,10 @@ export function StatusEventsTabs() {
           </StatusEvent>
         ))}
       </TabsContent>
-      <TabsContent value="maintenances" className="flex flex-col gap-4">
+      <TabsContent
+        value="maintenances"
+        className="flex flex-col gap-4px-3 -mx-3 py-2 -my-2 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-lg"
+      >
         {maintenances.map((maintenance) => {
           const isFuture = maintenance.startDate > new Date();
           return (
