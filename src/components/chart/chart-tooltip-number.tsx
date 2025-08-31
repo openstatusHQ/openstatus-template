@@ -8,12 +8,14 @@ interface ChartTooltipNumberProps {
   chartConfig: ChartConfig;
   value: ValueType;
   name: NameType;
+  labelFormatter?: (value: ValueType, name: NameType) => React.ReactNode;
 }
 
 export function ChartTooltipNumber({
   value,
   name,
   chartConfig,
+  labelFormatter,
 }: ChartTooltipNumberProps) {
   return (
     <>
@@ -26,7 +28,9 @@ export function ChartTooltipNumber({
         }
       />
       <span>
-        {chartConfig[name as keyof typeof chartConfig]?.label || name}
+        {labelFormatter
+          ? labelFormatter(value, name)
+          : chartConfig[name as keyof typeof chartConfig]?.label || name}
       </span>
       <div className="text-foreground ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums">
         {value}

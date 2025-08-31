@@ -33,7 +33,7 @@ export function MetricCard({
   return (
     <div
       data-variant={variant}
-      className={cn(metricCardVariants({ variant, className }), "group")}
+      className={cn(metricCardVariants({ variant, className }), "group/metric")}
       {...props}
     >
       {children}
@@ -62,9 +62,9 @@ export function MetricCardHeader({
     <div
       className={cn(
         "text-muted-foreground",
-        "group-data-[variant=destructive]:text-destructive",
-        "group-data-[variant=success]:text-success",
-        "group-data-[variant=warning]:text-warning",
+        "group-data-[variant=destructive]/metric:text-destructive",
+        "group-data-[variant=success]/metric:text-success",
+        "group-data-[variant=warning]/metric:text-warning",
         className
       )}
       {...props}

@@ -117,6 +117,9 @@ export default function Home() {
           <Button size="sm" asChild>
             <NextLink href="/dashboard/onboarding">Dashboard</NextLink>
           </Button>
+          <Button size="sm" variant="ghost" asChild>
+            <NextLink href="/status-page">Status Page</NextLink>
+          </Button>
         </div>
       </main>
       <footer className="flex items-center justify-center gap-4 border-t border-border p-4">

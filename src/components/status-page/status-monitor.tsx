@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Tooltip,
   TooltipContent,
@@ -13,18 +15,29 @@ import {
   WrenchIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CardType, VariantType } from "./floating-button";
+import { BarType, CardType, VariantType } from "./floating-button";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useState } from "react";
+import { type ChartData } from "./utils";
+import { Monitor } from "@/data/monitors";
+import { formatDistanceToNowStrict } from "date-fns";
 
 export function StatusMonitor({
   className,
   variant = "success",
-  type = "detailed",
+  cardType = "duration",
+  barType = "absolute",
+  showUptime = true,
+  data,
+  monitor,
   ...props
 }: React.ComponentProps<"div"> & {
   variant?: VariantType;
-  type?: CardType;
+  cardType?: CardType;
+  barType?: BarType;
+  showUptime?: boolean;
+  monitor: Monitor;
+  data: ChartData[];
 }) {
   return (
     <div
@@ -35,25 +48,50 @@ export function StatusMonitor({
     >
       <div className="flex flex-row items-center justify-between gap-4">
         <div className="flex flex-row items-center gap-2">
-          <StatusMonitorTitle />
-          <StatusMonitorDescription />
+          <StatusMonitorTitle>{monitor.name}</StatusMonitorTitle>
+          <StatusMonitorDescription>
+            {monitor.description}
+          </StatusMonitorDescription>
         </div>
         <div className="flex flex-row items-center gap-2">
-          {type === "detailed" ? <StatusMonitorUptime /> : null}
+          {showUptime ? <StatusMonitorUptime /> : null}
           <StatusMonitorIcon />
         </div>
       </div>
-      <StatusTracker type={type} />
+      <StatusTracker cardType={cardType} barType={barType} data={data} />
+      <div
+        className={cn(
+          "flex flex-row items-center justify-between text-xs text-muted-foreground",
+          className
+        )}
+        {...props}
+      >
+        <div>
+          {formatDistanceToNowStrict(new Date(data[0].timestamp), {
+            unit: "day",
+          })}
+        </div>
+        <div>today</div>
+      </div>
     </div>
   );
 }
 
-export function StatusMonitorTitle({ ...props }: React.ComponentProps<"div">) {
-  return <div {...props}>StatusMonitorTitle</div>;
+export function StatusMonitorTitle({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div className={cn("font-medium", className)} {...props}>
+      {children}
+    </div>
+  );
 }
 
 export function StatusMonitorDescription({
   onClick,
+  children,
   ...props
 }: React.ComponentProps<typeof TooltipTrigger>) {
   const isTouch = useMediaQuery("(hover: none)");
@@ -72,7 +110,7 @@ export function StatusMonitorDescription({
           <InfoIcon className="size-4 text-muted-foreground" />
         </TooltipTrigger>
         <TooltipContent>
-          <p>API used to ...</p>
+          <p>{children}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
@@ -110,7 +148,29 @@ export function StatusMonitorUptime({
       {...props}
       className={cn("text-sm text-muted-foreground font-mono", className)}
     >
-      99.89%
+      99.90%
+    </div>
+  );
+}
+
+export function StatusMonitorStatus({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div className={cn(className)} {...props}>
+      <span className="group-data-[variant=success]/monitor:block hidden">
+        Operational
+      </span>
+      <span className="group-data-[variant=degraded]/monitor:block hidden">
+        Degraded
+      </span>
+      <span className="group-data-[variant=error]/monitor:block hidden">
+        Downtime
+      </span>
+      <span className="group-data-[variant=info]/monitor:block hidden">
+        Maintenance
+      </span>
     </div>
   );
 }
