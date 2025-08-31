@@ -34,10 +34,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { formatNumber } from "@/lib/formatter";
 import { ChartBarUptime } from "@/components/chart/chart-bar-uptime-2";
+import {
+  StatusMonitorTabs,
+  StatusMonitorTabsList,
+  StatusMonitorTabsTrigger,
+  StatusMonitorTabsTriggerLabel,
+  StatusMonitorTabsTriggerValue,
+  StatusMonitorTabsContent,
+} from "@/components/status-page/status-monitor-tabs";
 
 // TODO: add error range on ChartAreaLatency
 // TODO: add timerange (1d, 7d, 14d) or leave as is and have 7d default?
@@ -128,7 +135,7 @@ export default function Page() {
                   <code className="text-foreground font-medium">p75</code>{" "}
                   <PopoverQuantile>quantile</PopoverQuantile>, sorted by slowest
                   region. Compare up to{" "}
-                  <code className="text-foreground font-medium">3</code>{" "}
+                  <code className="text-foreground font-medium">4</code>{" "}
                   regions.
                 </StatusChartDescription>
               </StatusChartHeader>
@@ -246,72 +253,5 @@ function PopoverQuantile({
         </p>
       </PopoverContent>
     </Popover>
-  );
-}
-
-function StatusMonitorTabs({
-  className,
-  ...props
-}: React.ComponentProps<typeof Tabs>) {
-  return <Tabs className={cn("gap-6", className)} {...props} />;
-}
-
-function StatusMonitorTabsList({
-  className,
-  ...props
-}: React.ComponentProps<typeof TabsList>) {
-  return (
-    <TabsList
-      className={cn("flex w-full h-auto min-h-fit", className)}
-      {...props}
-    />
-  );
-}
-
-function StatusMonitorTabsTrigger({
-  className,
-  ...props
-}: React.ComponentProps<typeof TabsTrigger>) {
-  return (
-    <TabsTrigger
-      className={cn(
-        "flex-1 gap-0.5 flex-col items-start min-w-0 text-foreground dark:text-foreground",
-        className
-      )}
-      {...props}
-    />
-  );
-}
-
-function StatusMonitorTabsTriggerLabel({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div className={cn("truncate w-full text-left", className)} {...props} />
-  );
-}
-
-function StatusMonitorTabsTriggerValue({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      className={cn(
-        "text-muted-foreground text-xs text-left text-wrap",
-        className
-      )}
-      {...props}
-    />
-  );
-}
-
-function StatusMonitorTabsContent({
-  className,
-  ...props
-}: React.ComponentProps<typeof TabsContent>) {
-  return (
-    <TabsContent className={cn("flex flex-col gap-2", className)} {...props} />
   );
 }

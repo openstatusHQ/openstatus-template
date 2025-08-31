@@ -186,7 +186,7 @@ export function ChartLineRegions({ className }: { className?: string }) {
                 });
               }}
               active={activeSeries}
-              maxActive={3}
+              maxActive={4}
               annotation={annotation}
               tooltip={tooltip}
               className="overflow-x-scroll pt-1 ps-1 justify-start font-mono"
