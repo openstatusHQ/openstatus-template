@@ -69,7 +69,7 @@ export function StatusEventsTabs() {
       </TabsContent>
       <TabsContent
         value="maintenances"
-        className="flex flex-col gap-4px-3 -mx-3 py-2 -my-2 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-lg"
+        className="flex flex-col gap-4 px-3 -mx-3 py-2 -my-2 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-lg"
       >
         {maintenances.map((maintenance) => {
           const isFuture = maintenance.startDate > new Date();

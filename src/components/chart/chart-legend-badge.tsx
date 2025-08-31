@@ -48,10 +48,16 @@ export function ChartLegendBadge({
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
       event.preventDefault();
       const direction = event.key === "ArrowLeft" ? -1 : 1;
-      const nextIndex =
+      let nextIndex = 0;
+      nextIndex =
         (focusedIndex + direction + filteredPayload.length) %
         filteredPayload.length;
       setFocusedIndex(nextIndex);
+      while (buttonRefs.current[nextIndex]?.disabled === true) {
+        nextIndex =
+          (nextIndex + direction + filteredPayload.length) %
+          filteredPayload.length;
+      }
       buttonRefs.current[nextIndex]?.focus();
     }
   };
