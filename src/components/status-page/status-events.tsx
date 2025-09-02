@@ -1,16 +1,13 @@
-import { type StatusReport, statusReports } from "@/data/status-reports";
-import { type Maintenance, maintenances } from "@/data/maintenances";
+import { type StatusReport } from "@/data/status-reports";
+import { type Maintenance } from "@/data/maintenances";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { formatDate, formatTime } from "@/lib/formatter";
+import { formatTime } from "@/lib/formatter";
 import {
   format,
   formatDistanceStrict,
   formatDistanceToNowStrict,
 } from "date-fns";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Link from "next/link";
 import {
   HoverCard,
   HoverCardContent,
@@ -27,91 +24,6 @@ const STATUS_LABELS = {
   identified: "Identified",
   investigating: "Investigating",
 };
-
-// TODO: move to page level
-export function StatusEventsTabs() {
-  return (
-    <Tabs defaultValue="reports" className="gap-4">
-      <TabsList>
-        <TabsTrigger value="reports">Reports</TabsTrigger>
-        <TabsTrigger value="maintenances">Maintenances</TabsTrigger>
-      </TabsList>
-      <TabsContent
-        value="reports"
-        className="flex flex-col gap-4 px-3 -mx-3 py-2 -my-2 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-lg"
-      >
-        {statusReports.map((report) => (
-          <StatusEvent key={report.id}>
-            <StatusEventAside>
-              <span className="font-medium text-foreground/80">
-                {formatDate(report.startedAt, { month: "short" })}
-              </span>
-            </StatusEventAside>
-            <Link href="/status-page/events/report" className="rounded-lg">
-              <StatusEventContent>
-                <StatusEventTitle>{report.name}</StatusEventTitle>
-                <StatusEventAffected className="flex flex-wrap gap-1">
-                  {report.affected.map((affected) => (
-                    <Badge
-                      key={affected}
-                      variant="outline"
-                      className="text-[10px]"
-                    >
-                      {affected}
-                    </Badge>
-                  ))}
-                </StatusEventAffected>
-                <StatusEventTimelineReport updates={report.updates} />
-              </StatusEventContent>
-            </Link>
-          </StatusEvent>
-        ))}
-      </TabsContent>
-      <TabsContent
-        value="maintenances"
-        className="flex flex-col gap-4 px-3 -mx-3 py-2 -my-2 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-lg"
-      >
-        {maintenances.map((maintenance) => {
-          const isFuture = maintenance.startDate > new Date();
-          return (
-            <StatusEvent key={maintenance.id}>
-              <StatusEventAside>
-                <span className="font-medium text-foreground/80">
-                  {formatDate(maintenance.startDate, { month: "short" })}
-                </span>
-                {isFuture ? (
-                  <span className="text-info text-sm">Upcoming</span>
-                ) : null}
-              </StatusEventAside>
-              <Link
-                href="/status-page/events/maintenance"
-                className="rounded-lg"
-              >
-                <StatusEventContent>
-                  <StatusEventTitle>{maintenance.title}</StatusEventTitle>
-                  <StatusEventAffected className="flex flex-wrap gap-1">
-                    {maintenance.affected.map((affected) => (
-                      <Badge
-                        key={affected}
-                        variant="outline"
-                        className="text-[10px]"
-                      >
-                        {affected}
-                      </Badge>
-                    ))}
-                  </StatusEventAffected>
-                  <StatusEventTimelineMaintenance maintenance={maintenance} />
-                </StatusEventContent>
-              </Link>
-            </StatusEvent>
-          );
-        })}
-      </TabsContent>
-    </Tabs>
-  );
-}
-
-// TODO: rename file to status-event and move the `StatusEvents` component to the page level.
 
 export function StatusEvent({
   className,

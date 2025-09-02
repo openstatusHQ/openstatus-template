@@ -34,6 +34,9 @@ export type BarType = (typeof BAR_TYPE)[number];
 export const COMMUNITY_THEME = ["default", "github", "supabase"] as const;
 export type CommunityTheme = (typeof COMMUNITY_THEME)[number];
 
+export const EMPTY_STATE = [true, false] as const;
+export type EmptyState = (typeof EMPTY_STATE)[number];
+
 interface StatusPageContextType {
   variant: VariantType;
   setVariant: (variant: VariantType) => void;
@@ -45,6 +48,8 @@ interface StatusPageContextType {
   setShowUptime: (showUptime: boolean) => void;
   communityTheme: CommunityTheme;
   setCommunityTheme: (communityTheme: CommunityTheme) => void;
+  emptyState: EmptyState;
+  setEmptyState: (emptyState: EmptyState) => void;
 }
 
 const StatusPageContext = createContext<StatusPageContextType | null>(null);
@@ -64,6 +69,7 @@ export function StatusPageProvider({
   defaultBarType = "absolute",
   defaultShowUptime = true,
   defaultCommunityTheme = "default",
+  defaultEmptyState = false,
 }: {
   children: React.ReactNode;
   defaultVariant?: VariantType;
@@ -71,6 +77,7 @@ export function StatusPageProvider({
   defaultBarType?: BarType;
   defaultShowUptime?: boolean;
   defaultCommunityTheme?: CommunityTheme;
+  defaultEmptyState?: EmptyState;
 }) {
   const [variant, setVariant] = useState<VariantType>(defaultVariant);
   const [cardType, setCardType] = useState<CardType>(defaultCardType);
@@ -80,6 +87,7 @@ export function StatusPageProvider({
   const [communityTheme, setCommunityTheme] = useState<CommunityTheme>(
     defaultCommunityTheme
   );
+  const [emptyState, setEmptyState] = useState<EmptyState>(defaultEmptyState);
 
   useEffect(() => {
     const theme = resolvedTheme as "dark" | "light";
@@ -113,6 +121,8 @@ export function StatusPageProvider({
         setShowUptime,
         communityTheme,
         setCommunityTheme,
+        emptyState,
+        setEmptyState,
       }}
     >
       <div
@@ -140,6 +150,8 @@ export function FloatingButton({ className }: { className?: string }) {
     setShowUptime,
     communityTheme,
     setCommunityTheme,
+    emptyState,
+    setEmptyState,
   } = useStatusPage();
 
   return (
@@ -259,6 +271,28 @@ export function FloatingButton({ className }: { className?: string }) {
                     {COMMUNITY_THEME.map((v) => (
                       <SelectItem key={v} value={v} className="capitalize">
                         {v}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="empty-state">Empty State</Label>
+                <Select
+                  value={emptyState ? "true" : "false"}
+                  onValueChange={(v) => setEmptyState(v === "true")}
+                >
+                  <SelectTrigger id="empty-state" className="capitalize w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {EMPTY_STATE.map((v) => (
+                      <SelectItem
+                        key={v ? "true" : "false"}
+                        value={v ? "true" : "false"}
+                        className="capitalize"
+                      >
+                        {v ? "True" : "False"}
                       </SelectItem>
                     ))}
                   </SelectContent>
