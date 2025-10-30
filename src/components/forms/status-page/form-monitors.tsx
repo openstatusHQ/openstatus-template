@@ -41,7 +41,13 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Check, ChevronsUpDown, GripVertical } from "lucide-react";
+import {
+  Check,
+  ChevronsUpDown,
+  GripVertical,
+  PlusIcon,
+  Trash2,
+} from "lucide-react";
 import { UniqueIdentifier } from "@dnd-kit/core";
 import {
   Sortable,
@@ -59,20 +65,33 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Link } from "@/components/common/link";
+import { Input } from "@/components/ui/input";
 
 // TODO: add type selection + reordering
 
 const IDS = monitors
   .slice(0, 3)
   .map((monitor) => ({ id: monitor.id, type: "monitor" }));
+
+const GROUP_IDS = monitors
+  .slice(4, 6)
+  .map((monitor) => ({ id: monitor.id, type: "group" }));
+
 const DISABLED_TYPES = ["none"];
 
+const monitorSchema = z.object({
+  id: z.number(),
+  order: z.number(),
+  type: z.enum(["all", "hide", "none"]),
+});
+
 const schema = z.object({
-  monitors: z.array(
+  monitors: z.array(monitorSchema),
+  groups: z.array(
     z.object({
-      id: z.number(),
-      order: z.number(),
-      type: z.enum(["all", "hide", "none"]),
+      id: z.string(),
+      name: z.string().min(1, "Group name is required"),
+      monitors: z.array(monitorSchema),
     })
   ),
 });
@@ -101,6 +120,17 @@ export function FormMonitors({
         order: index,
         type: "all",
       })),
+      groups: [
+        {
+          id: "7",
+          name: "Group 1",
+          monitors: GROUP_IDS.map((id, index) => ({
+            id: id.id,
+            order: index,
+            type: "all",
+          })),
+        },
+      ],
     },
   });
   const watchMonitors = form.watch("monitors");
@@ -131,6 +161,29 @@ export function FormMonitors({
     []
   );
 
+  const handleAddGroup = useCallback(() => {
+    const newGroupId = String(Date.now());
+    const existingGroups = form.getValues("groups") ?? [];
+    const newGroups = [
+      ...existingGroups,
+      { id: newGroupId, name: "", monitors: [] },
+    ];
+    form.setValue("groups", newGroups);
+    setData((prev) => [...prev, { id: newGroupId, name: "", monitors: [] }]);
+  }, [form, setData]);
+
+  const handleDeleteGroup = useCallback(
+    (groupId: string) => {
+      const existingGroups = form.getValues("groups") ?? [];
+      form.setValue(
+        "groups",
+        existingGroups.filter((g) => g.id !== groupId)
+      );
+      setData((prev) => prev.filter((item) => item.id !== groupId));
+    },
+    [form]
+  );
+
   const getItemValue = useCallback(
     (item: Monitor | MonitorGroup) => item.id,
     []
@@ -152,9 +205,18 @@ export function FormMonitors({
         );
       }
 
-      return <MonitorGroup group={monitor} form={form} />;
+      const groups = form.getValues("groups") ?? [];
+      const groupIndex = groups.findIndex((g) => g.id === monitor.id);
+      return (
+        <MonitorGroup
+          group={monitor}
+          groupIndex={groupIndex}
+          onDeleteGroup={handleDeleteGroup}
+          form={form}
+        />
+      );
     },
-    [data]
+    [data, handleDeleteGroup]
   );
 
   function submitAction(values: FormValues) {
@@ -186,7 +248,7 @@ export function FormMonitors({
               Connect your monitors to your status page.
             </FormCardDescription>
           </FormCardHeader>
-          <FormCardContent>
+          <FormCardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             <FormField
               control={form.control}
               name="monitors"
@@ -200,10 +262,9 @@ export function FormMonitors({
                           variant="outline"
                           role="combobox"
                           className={cn(
-                            "w-[200px] justify-between",
+                            "w-full justify-between",
                             !field.value && "text-muted-foreground"
                           )}
-                          size="sm"
                         >
                           {field.value.length > 0
                             ? `${field.value.length} monitors selected`
@@ -212,7 +273,7 @@ export function FormMonitors({
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0">
+                    <PopoverContent className="p-0">
                       <Command>
                         <CommandInput
                           placeholder="Search monitors..."
@@ -259,10 +320,27 @@ export function FormMonitors({
                       </Command>
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>
-                    Select the monitors you want to display on your status page.
-                  </FormDescription>
+                  <FormDescription>Choose monitors to display.</FormDescription>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="groups"
+              render={() => (
+                <FormItem>
+                  <FormLabel className="sr-only">Add Group</FormLabel>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      type="button"
+                      onClick={handleAddGroup}
+                    >
+                      <PlusIcon />
+                      Add Group
+                    </Button>
+                  </FormControl>
                 </FormItem>
               )}
             />
@@ -290,10 +368,16 @@ export function FormMonitors({
                       );
                     }
                     console.log(item);
+                    const groups = form.getValues("groups") ?? [];
+                    const groupIndex = groups.findIndex(
+                      (g) => g.id === item.id
+                    );
                     return (
                       <MonitorGroup
                         key={`${item.id}-group`}
                         group={item}
+                        groupIndex={groupIndex}
+                        onDeleteGroup={handleDeleteGroup}
                         form={form}
                       />
                     );
@@ -385,10 +469,17 @@ function MonitorRow({ monitor, ...props }: MonitorRowProps) {
 interface MonitorGroupProps
   extends Omit<React.ComponentPropsWithoutRef<typeof SortableItem>, "value"> {
   group: MonitorGroup;
+  groupIndex: number;
+  onDeleteGroup: (groupId: string) => void;
   form: UseFormReturn<FormValues>;
 }
 
-function MonitorGroup({ group, form }: MonitorGroupProps) {
+function MonitorGroup({
+  group,
+  groupIndex,
+  onDeleteGroup,
+  form,
+}: MonitorGroupProps) {
   const [data, setData] = useState<Monitor[]>(group.monitors);
 
   const onValueChange = useCallback((newMonitors: Monitor[]) => {
@@ -410,7 +501,7 @@ function MonitorGroup({ group, form }: MonitorGroupProps) {
   return (
     <SortableItem value={group.id} className="rounded-md border bg-muted">
       <div className="grid grid-cols-3 gap-2 px-2 pt-2">
-        <div className="flex flex-row items-center gap-4 self-center">
+        <div className="flex flex-row items-center gap-1 self-center">
           <SortableItemHandle>
             <GripVertical
               size={16}
@@ -418,13 +509,35 @@ function MonitorGroup({ group, form }: MonitorGroupProps) {
               className="text-muted-foreground"
             />
           </SortableItemHandle>
-          <span className="truncate text-sm">Group Name</span>
+          <FormField
+            control={form.control}
+            name={`groups.${groupIndex}.name` as const}
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="sr-only">Group name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Group name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-        <div />
+        <div>
+          <Button
+            type="button"
+            variant="ghost"
+            className="w-full text-destructive hover:bg-destructive/10 hover:text-destructive dark:hover:bg-destructive/20 [&_svg]:size-4 [&_svg]:text-destructive"
+            onClick={() => onDeleteGroup(group.id)}
+          >
+            <Trash2 />
+            Delete Group
+          </Button>
+        </div>
         <div>
           <FormField
             control={form.control}
-            name="monitors"
+            name={`groups.${groupIndex}.monitors` as const}
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel className="sr-only">Monitors</FormLabel>
@@ -439,10 +552,9 @@ function MonitorGroup({ group, form }: MonitorGroupProps) {
                           !field.value && "text-muted-foreground"
                         )}
                       >
-                        2 monitors selected
-                        {/* {field.value.length > 0
+                        {Array.isArray(field.value) && field.value.length > 0
                           ? `${field.value.length} monitors selected`
-                          : "Select monitors"} */}
+                          : "Select monitors"}
                         <ChevronsUpDown className="opacity-50" />
                       </Button>
                     </FormControl>
@@ -461,20 +573,26 @@ function MonitorGroup({ group, form }: MonitorGroupProps) {
                               value={monitor.name}
                               key={monitor.id}
                               onSelect={() => {
-                                if (
-                                  field.value.some((m) => m.id === monitor.id)
-                                ) {
+                                const current = (field.value ?? []) as Array<{
+                                  id: number;
+                                  order: number;
+                                  type: "all" | "hide" | "none";
+                                }>;
+                                if (current.some((m) => m.id === monitor.id)) {
                                   form.setValue(
-                                    "monitors",
-                                    field.value.filter(
-                                      (m) => m.id !== monitor.id
-                                    )
+                                    `groups.${groupIndex}.monitors`,
+                                    current.filter((m) => m.id !== monitor.id),
+                                    { shouldValidate: true }
                                   );
                                 } else {
-                                  form.setValue("monitors", [
-                                    ...field.value,
-                                    { id: monitor.id, order: 0, type: "all" },
-                                  ]);
+                                  form.setValue(
+                                    `groups.${groupIndex}.monitors`,
+                                    [
+                                      ...current,
+                                      { id: monitor.id, order: 0, type: "all" },
+                                    ],
+                                    { shouldValidate: true }
+                                  );
                                 }
                               }}
                             >
@@ -482,7 +600,9 @@ function MonitorGroup({ group, form }: MonitorGroupProps) {
                               <Check
                                 className={cn(
                                   "ml-auto",
-                                  field.value.some((m) => m.id === monitor.id)
+                                  (field.value ?? []).some(
+                                    (m) => m.id === monitor.id
+                                  )
                                     ? "opacity-100"
                                     : "opacity-0"
                                 )}
