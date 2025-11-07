@@ -530,7 +530,12 @@ interface SortableOverlayProps
 }
 
 function SortableOverlay(props: SortableOverlayProps) {
-  const { container: containerProp, children, ...overlayProps } = props;
+  const {
+    container: containerProp,
+    children,
+    className,
+    ...overlayProps
+  } = props;
   const context = useSortableContext(OVERLAY_NAME);
 
   const [mounted, setMounted] = React.useState(false);
@@ -545,7 +550,7 @@ function SortableOverlay(props: SortableOverlayProps) {
     <DragOverlay
       dropAnimation={dropAnimation}
       modifiers={context.modifiers}
-      className={cn(!context.flatCursor && "cursor-grabbing")}
+      className={cn(!context.flatCursor && "cursor-grabbing", className)}
       {...overlayProps}
     >
       <SortableOverlayContext.Provider value={true}>

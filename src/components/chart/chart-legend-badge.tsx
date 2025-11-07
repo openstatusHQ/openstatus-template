@@ -84,6 +84,7 @@ export function ChartLegendBadge({
         const badge = (
           <button
             key={item.value}
+            type="button"
             ref={(el) => {
               buttonRefs.current[index] = el;
             }}
