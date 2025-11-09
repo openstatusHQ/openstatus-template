@@ -284,12 +284,7 @@
 }
 
 .prose hr {
-  @apply my-4 border-0 h-auto;
-}
-
-.prose hr::before {
-  content: "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
-  @apply block text-muted-foreground;
+  @apply my-4 border-border;
 }
 
 .prose strong {

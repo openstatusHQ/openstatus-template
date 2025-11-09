@@ -2,8 +2,6 @@ import { getBlogPosts } from "@/content/utils";
 import { ContentList } from "@/app/landing/content-list";
 import { BlogCategory } from "@/app/landing/blog/category";
 
-const baseUrl = "http://localhost:3000";
-
 export async function generateStaticParams() {
   const posts = getBlogPosts();
   const categories = [...new Set(posts.map((post) => post.metadata.category))];
