@@ -1,4 +1,5 @@
 import { Link } from "@/components/common/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { links } from "@/data/content";
 
 export function Footer() {
@@ -16,10 +17,11 @@ export function Footer() {
           </ul>
         </div>
       ))}
-      <div>
+      <div className="space-y-1">
         <p className="text-muted-foreground">
           Powered by <Link href="https://openstatus.dev">openstatus</Link>.
         </p>
+        <ThemeToggle className="rounded-none" />
       </div>
     </footer>
   );

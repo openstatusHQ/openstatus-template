@@ -99,10 +99,6 @@ function CustomLink(props: React.ComponentProps<"a">) {
   return <a target="_blank" rel="noopener noreferrer" {...props} />;
 }
 
-function RoundedImage(props: React.ComponentProps<typeof Image>) {
-  return <Image className="rounded-lg" {...props} />;
-}
-
 function Code({ children, ...props }: { children: React.ReactNode }) {
   const codeHTML = highlight(children?.toString() ?? "");
   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
@@ -148,7 +144,7 @@ const components = {
   h4: createHeading(4),
   h5: createHeading(5),
   h6: createHeading(6),
-  Image: RoundedImage,
+  Image: Image,
   a: CustomLink,
   code: Code,
   Table,
