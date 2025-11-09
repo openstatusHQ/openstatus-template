@@ -1,12 +1,16 @@
 import fs from "fs";
 import path from "path";
+import { z } from "zod";
 
-type Metadata = {
-  title: string;
-  publishedAt: string;
-  summary: string;
-  image?: string;
-};
+const metadataSchema = z.object({
+  title: z.string(),
+  publishedAt: z.coerce.date(),
+  summary: z.string(),
+  category: z.string(),
+  image: z.string().optional(),
+});
+
+export type Metadata = z.infer<typeof metadataSchema>;
 
 function parseFrontmatter(fileContent: string) {
   const frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
@@ -14,16 +18,22 @@ function parseFrontmatter(fileContent: string) {
   const frontMatterBlock = match![1];
   const content = fileContent.replace(frontmatterRegex, "").trim();
   const frontMatterLines = frontMatterBlock.trim().split("\n");
-  const metadata: Partial<Metadata> = {};
+  const metadata: Record<string, string> = {};
 
   frontMatterLines.forEach((line) => {
     const [key, ...valueArr] = line.split(": ");
     let value = valueArr.join(": ").trim();
     value = value.replace(/^['"](.*)['"]$/, "$1"); // Remove quotes
-    metadata[key.trim() as keyof Metadata] = value;
+    metadata[key.trim()] = value;
   });
 
-  return { metadata: metadata as Metadata, content };
+  const validatedMetadata = metadataSchema.safeParse(metadata);
+
+  if (!validatedMetadata.success) {
+    throw new Error(`Invalid metadata in ${fileContent}`);
+  }
+
+  return { metadata: validatedMetadata.data, content };
 }
 
 function getMDXFiles(dir: string) {
@@ -35,30 +45,45 @@ function readMDXFile(filePath: string) {
   return parseFrontmatter(rawContent);
 }
 
-function getMDXData(dir: string) {
+function getMDXDataFromDir(dir: string) {
   const mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
-    const { metadata, content } = readMDXFile(path.join(dir, file));
-    const slug = path.basename(file, path.extname(file));
-
-    return {
-      metadata,
-      slug,
-      content,
-    };
+    return getMDXDataFromFile(path.join(dir, file));
   });
 }
 
-export function getBlogPosts() {
-  return getMDXData(path.join(process.cwd(), "src", "content", "posts"));
+function getMDXDataFromFile(filePath: string) {
+  const { metadata, content } = readMDXFile(filePath);
+  const slug = path.basename(filePath, path.extname(filePath));
+  return {
+    metadata,
+    slug,
+    content,
+  };
 }
 
-export function formatDate(date: string, includeRelative = false) {
+export type MDXData = ReturnType<typeof getMDXDataFromFile>;
+
+export function getBlogPosts(): MDXData[] {
+  return getMDXDataFromDir(
+    path.join(process.cwd(), "src", "content", "pages", "blog")
+  );
+}
+
+export function getProducts(): MDXData[] {
+  return getMDXDataFromDir(
+    path.join(process.cwd(), "src", "content", "pages", "product")
+  );
+}
+
+export function getHomePage(): MDXData {
+  return getMDXDataFromFile(
+    path.join(process.cwd(), "src", "content", "pages", "home.mdx")
+  );
+}
+
+export function formatDate(targetDate: Date, includeRelative = false) {
   const currentDate = new Date();
-  if (!date.includes("T")) {
-    date = `${date}T00:00:00`;
-  }
-  const targetDate = new Date(date);
 
   const yearsAgo = currentDate.getFullYear() - targetDate.getFullYear();
   const monthsAgo = currentDate.getMonth() - targetDate.getMonth();

@@ -341,12 +341,6 @@
   @apply list-inside list-decimal marker:text-muted-foreground;
 }
 
-.prose > :first-child {
-  /* Override removing top margin, causing layout shift */
-  margin-top: 1.25em !important;
-  margin-bottom: 1.25em !important;
-}
-
 .prose table {
   @apply w-full border-collapse border border-border;
 }

@@ -11,7 +11,7 @@ import { ChevronDown } from "lucide-react";
 export function Header() {
   return (
     <header className="flex border border-border divide-x divide-border [&>*]:px-4 [&>*]:py-4 [&>*]:hover:bg-muted">
-      <Link href="https://openstatus.dev">openstatus</Link>
+      <Link href="/landing">openstatus</Link>
       {links.map((section, index) => (
         <DropdownMenu key={index}>
           <DropdownMenuTrigger className="data-[state=open]:bg-muted group flex items-center gap-1">

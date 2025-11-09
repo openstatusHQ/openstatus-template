@@ -94,8 +94,9 @@ export default async function Blog({
         }}
       />
       <h1>{post.metadata.title}</h1>
-      <p className="text-muted-foreground">
-        {formatDate(post.metadata.publishedAt)}
+      <p className="text-muted-foreground flex items-center gap-2.5 divide-x divide-border">
+        <span className="pr-2.5">{formatDate(post.metadata.publishedAt)}</span>
+        <span className="pr-2.5">{post.metadata.category}</span>
       </p>
       <CustomMDX source={post.content} />
     </section>

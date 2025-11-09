@@ -4,7 +4,7 @@ import { links } from "@/data/content";
 
 export function Footer() {
   return (
-    <footer className="grid grid-cols-1 md:grid-cols-3 border border-border divide-y md:divide-y-0 md:divide-x divide-border [&>div]:p-4">
+    <footer className="grid grid-cols-1 md:grid-cols-4 border border-border divide-y md:divide-y-0 md:divide-x divide-border [&>div]:p-4">
       {links.map((section) => (
         <div key={section.label}>
           <p className="text-muted-foreground">{section.label}</p>

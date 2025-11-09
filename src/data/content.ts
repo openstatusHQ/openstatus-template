@@ -1,3 +1,7 @@
+import { getProducts } from "@/content/utils";
+
+const products = getProducts();
+
 export const links = [
   {
     label: "Resources",
@@ -18,7 +22,18 @@ export const links = [
         label: "Developer",
         href: "/landing",
       },
+      {
+        label: "Blog",
+        href: "/landing/blog",
+      },
     ],
+  },
+  {
+    label: "Products",
+    items: products.map((product) => ({
+      label: product.metadata.title,
+      href: `/landing/${product.slug}`,
+    })),
   },
   {
     label: "Tools",
