@@ -137,10 +137,33 @@ function createHeading(level: number) {
 }
 
 function CustomImage(props: React.ComponentProps<"img">) {
+  const { src, alt, ...rest } = props;
+
+  if (!src || typeof src !== "string") {
+    return (
+      <figure>
+        <img {...props} />
+        <figcaption>{alt}</figcaption>
+      </figure>
+    );
+  }
+
+  // Generate dark mode image path by adding .dark before extension
+  const getDarkImagePath = (path: string) => {
+    const match = path.match(/^(.+)(\.[^.]+)$/);
+    if (match) {
+      return `${match[1]}.dark${match[2]}`;
+    }
+    return path;
+  };
+
+  const darkSrc = getDarkImagePath(src);
+
   return (
     <figure>
-      <img {...props} />
-      <figcaption>{props.alt}</figcaption>
+      <img {...rest} src={src} alt={alt} className="block dark:hidden" />
+      <img {...rest} src={darkSrc} alt={alt} className="hidden dark:block" />
+      {alt && <figcaption>{alt}</figcaption>}
     </figure>
   );
 }

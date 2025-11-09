@@ -34,7 +34,8 @@ export function Header() {
           </DropdownMenuContent>
         </DropdownMenu>
       ))}
-      <Link href="https://docs.openstatus.dev">Documentation</Link>
+      <Link href="/dashboard">Pricing</Link>
+      <Link href="https://docs.openstatus.dev">Docs</Link>
       <Link
         href="https://app.openstatus.dev/login"
         className="ml-auto font-semibold"

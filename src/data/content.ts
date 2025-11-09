@@ -52,4 +52,33 @@ export const links = [
       },
     ],
   },
+  {
+    label: "Community",
+    items: [
+      {
+        label: "Discord",
+        href: "https://openstatus.dev/discord",
+      },
+      {
+        label: "GitHub",
+        href: "https://openstatus.dev/github",
+      },
+      {
+        label: "X",
+        href: "https://openstatus.dev/x",
+      },
+      {
+        label: "BlueSky",
+        href: "https://openstatus.dev/bluesky",
+      },
+      {
+        label: "YouTube",
+        href: "https://openstatus.dev/youtube",
+      },
+      {
+        label: "LinkedIn",
+        href: "https://openstatus.dev/linkedin",
+      },
+    ],
+  },
 ];

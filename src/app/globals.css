@@ -213,10 +213,13 @@
 }
 
 .prose .anchor {
-  @apply absolute visible no-underline;
+  @apply absolute invisible no-underline;
 
-  width: 100%;
-  height: 100%;
+  margin-left: -1em;
+  padding-right: 0.5em;
+  width: 80%;
+  max-width: 700px;
+  cursor: pointer;
 }
 
 .anchor:hover {
@@ -225,6 +228,15 @@
 
 .prose a {
   @apply text-foreground underline transition-all decoration-muted-foreground/50 underline-offset-2 decoration-2 hover:decoration-muted-foreground;
+}
+
+.prose .anchor:after {
+  @apply text-muted-foreground;
+  content: '#';
+}
+
+.prose *:hover > .anchor {
+  @apply visible;
 }
 
 .prose pre {
@@ -258,35 +270,17 @@
   @apply text-3xl text-foreground font-medium tracking-tight my-4 relative;
 }
 
-.prose h1:before {
-  content: "# ";
-  @apply text-muted-foreground;
-}
 
 .prose h2 {
   @apply text-2xl text-foreground font-medium tracking-tight my-4 relative;
 }
 
-.prose h2:before {
-  content: "## ";
-  @apply text-muted-foreground;
-}
 .prose h3 {
   @apply text-xl text-foreground font-medium tracking-tight my-4 relative;
 }
 
-.prose h3:before {
-  content: "### ";
-  @apply text-muted-foreground;
-}
-
 .prose h4 {
   @apply text-lg text-foreground font-medium tracking-tight my-4 relative;
-}
-
-.prose h4:before {
-  content: "#### ";
-  @apply text-muted-foreground;
 }
 
 .prose hr {
