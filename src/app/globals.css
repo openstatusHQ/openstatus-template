@@ -209,17 +209,14 @@
 }
 
 .prose {
-  @apply text-foreground/90;
+  @apply text-foreground/80;
 }
 
 .prose .anchor {
-  @apply absolute invisible no-underline;
+  @apply absolute visible no-underline;
 
-  margin-left: -1em;
-  padding-right: 0.5em;
-  width: 80%;
-  max-width: 700px;
-  cursor: pointer;
+  width: 100%;
+  height: 100%;
 }
 
 .anchor:hover {
@@ -227,16 +224,7 @@
 }
 
 .prose a {
-  @apply text-foreground underline transition-all decoration-muted-foreground underline-offset-2 decoration-[0.1em];
-}
-
-.prose .anchor:after {
-  @apply text-muted-foreground;
-  content: '#';
-}
-
-.prose *:hover > .anchor {
-  @apply visible;
+  @apply text-foreground underline transition-all decoration-muted-foreground/50 underline-offset-2 decoration-2 hover:decoration-muted-foreground;
 }
 
 .prose pre {
@@ -267,23 +255,47 @@
 }
 
 .prose h1 {
-  @apply text-4xl text-foreground font-medium tracking-tight mt-6 mb-2;
+  @apply text-3xl text-foreground font-medium tracking-tight my-4 relative;
+}
+
+.prose h1:before {
+  content: "# ";
+  @apply text-muted-foreground;
 }
 
 .prose h2 {
-  @apply text-xl text-foreground font-medium tracking-tight mt-6 mb-2;
+  @apply text-2xl text-foreground font-medium tracking-tight my-4 relative;
 }
 
+.prose h2:before {
+  content: "## ";
+  @apply text-muted-foreground;
+}
 .prose h3 {
-  @apply text-xl text-foreground font-medium tracking-tight mt-6 mb-2;
+  @apply text-xl text-foreground font-medium tracking-tight my-4 relative;
+}
+
+.prose h3:before {
+  content: "### ";
+  @apply text-muted-foreground;
 }
 
 .prose h4 {
-  @apply text-lg text-foreground font-medium tracking-tight mt-6 mb-2;
+  @apply text-lg text-foreground font-medium tracking-tight my-4 relative;
+}
+
+.prose h4:before {
+  content: "#### ";
+  @apply text-muted-foreground;
 }
 
 .prose hr {
-  @apply my-4 border-border;
+  @apply my-4 border-0 h-auto;
+}
+
+.prose hr::before {
+  content: "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+  @apply block text-muted-foreground;
 }
 
 .prose strong {
@@ -291,7 +303,7 @@
 }
 
 .prose blockquote {
-  @apply border-l-2 border-border pl-4;
+  @apply border-l-1 border-border pl-4;
 }
 
 .prose blockquote p::before {
@@ -304,17 +316,29 @@
   @apply text-muted-foreground;
 }
 
+.prose figure {
+  @apply my-4;
+}
+
+.prose figure img {
+  @apply aspect-video object-cover border border-border;
+}
+
+.prose figure figcaption {
+  @apply text-sm text-muted-foreground not-empty:mt-1;
+}
+
 .prose em {
   @apply text-foreground italic;
 }
 
 .prose ul {
   list-style-type: "- ";
-  @apply list-inside pl-6 marker:text-muted-foreground;
+  @apply list-inside marker:text-muted-foreground;
 }
 
 .prose ol {
-  @apply list-inside list-decimal pl-6 marker:text-muted-foreground;
+  @apply list-inside list-decimal marker:text-muted-foreground;
 }
 
 .prose > :first-child {

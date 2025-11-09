@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Page() {
   const allBlogs = getBlogPosts();
   return (
-    <section>
+    <section className="prose">
       <div className="space-y-4">
         {allBlogs
           .sort((a, b) => {
@@ -19,16 +19,16 @@ export default function Page() {
           .map((post) => (
             <Link
               key={post.slug}
-              className="flex flex-col space-y-1 mb-4"
+              className="flex flex-col no-underline!"
               href={`/landing/${post.slug}`}
             >
               <div className="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
-                <p className="text-muted-foreground tabular-nums">
+                <span className="text-muted-foreground tabular-nums">
                   {formatDate(post.metadata.publishedAt, false)}
-                </p>
-                <p className="text-foreground tracking-tight">
+                </span>
+                <span className="text-foreground tracking-tight">
                   {post.metadata.title}
-                </p>
+                </span>
               </div>
             </Link>
           ))}
