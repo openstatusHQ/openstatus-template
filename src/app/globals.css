@@ -352,7 +352,7 @@
 
 
 .prose table {
-  @apply w-full border-collapse border border-border;
+  @apply w-full border-collapse border border-border text-foreground;
 }
 
 .prose table th {

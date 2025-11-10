@@ -70,9 +70,25 @@ export function getBlogPosts(): MDXData[] {
   );
 }
 
-export function getProducts(): MDXData[] {
+export function getProductPages(): MDXData[] {
   return getMDXDataFromDir(
     path.join(process.cwd(), "src", "content", "pages", "product")
+  );
+}
+
+export function getUnrelatedPages(): MDXData[] {
+  return getMDXDataFromDir(
+    path.join(process.cwd(), "src", "content", "pages", "unrelated")
+  );
+}
+
+export function getMainPages(): MDXData[] {
+  return [...getUnrelatedPages(), ...getProductPages()];
+}
+
+export function getComparePages(): MDXData[] {
+  return getMDXDataFromDir(
+    path.join(process.cwd(), "src", "content", "pages", "compare")
   );
 }
 

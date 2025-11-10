@@ -1,6 +1,6 @@
-import { getProducts } from "@/content/utils";
+import { getProductPages } from "@/content/utils";
 
-const products = getProducts();
+const products = getProductPages();
 
 export const links = [
   {
