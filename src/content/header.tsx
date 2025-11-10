@@ -10,8 +10,17 @@ import { ChevronDown } from "lucide-react";
 
 export function Header() {
   return (
-    <header className="flex border border-border divide-x divide-border [&>*]:px-4 [&>*]:py-4 [&>*]:hover:bg-muted">
-      <Link href="/landing">openstatus</Link>
+    <header className="grid border border-border grid-cols-3 lg:grid-cols-6 gap-px bg-border [&>*]:bg-background [&>*]:px-4 [&>*]:py-4 [&>*]:hover:bg-muted">
+      <Link href="/landing" className="flex items-center gap-1">
+        <img
+          src="/assets/openstatus-logo.svg"
+          alt="openstatus"
+          width={20}
+          height={20}
+          className="border border-border dark:border-foreground rounded-full"
+        />
+        openstatus
+      </Link>
       {headerLinks.map((section, index) => (
         <DropdownMenu key={index}>
           <DropdownMenuTrigger className="data-[state=open]:bg-muted group flex items-center gap-1">
@@ -36,11 +45,8 @@ export function Header() {
       ))}
       <Link href="/landing/pricing">Pricing</Link>
       <Link href="https://docs.openstatus.dev">Docs</Link>
-      <Link
-        href="https://app.openstatus.dev/login"
-        className="ml-auto font-semibold"
-      >
-        Login
+      <Link href="https://app.openstatus.dev/login" className="text-info">
+        Dashboard
       </Link>
     </header>
   );
