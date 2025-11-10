@@ -1,5 +1,5 @@
 import { Link } from "@/components/common/link";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeToggle } from "@/content/theme-toggle";
 import { footerLinks } from "@/data/content";
 
 export function Footer() {
@@ -19,13 +19,11 @@ export function Footer() {
           </div>
         ))}
       </div>
-      <div className="border border-border border-t-0 [&>div]:p-4">
-        <div className="space-y-1.5">
-          <p className="text-muted-foreground">
-            Powered by <Link href="https://openstatus.dev">openstatus</Link>.
-          </p>
-          <ThemeToggle className="rounded-none" />
-        </div>
+      <div className="flex items-center justify-between border border-border border-t-0">
+        <p className="text-muted-foreground p-4">
+          Powered by <Link href="https://openstatus.dev">openstatus</Link>.
+        </p>
+        <ThemeToggle className="rounded-none" />
       </div>
     </footer>
   );
