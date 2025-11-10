@@ -2,39 +2,33 @@ import { getProductPages } from "@/content/utils";
 
 const products = getProductPages();
 
-export const links = [
-  {
-    label: "Resources",
-    items: [
-      {
-        label: "Monitoring",
-        href: "/",
-      },
-      {
-        label: "Status Page",
-        href: "/status-page",
-      },
-      {
-        label: "Dashboard",
-        href: "/dashboard",
-      },
-      {
-        label: "Developer",
-        href: "/landing",
-      },
-      {
-        label: "Blog",
-        href: "/landing/blog",
-      },
-    ],
-  },
-  {
-    label: "Products",
-    items: products.map((product) => ({
-      label: product.metadata.title,
-      href: `/landing/${product.slug}`,
-    })),
-  },
+const productsSection = {
+  label: "Products",
+  items: products.map((product) => ({
+    label: product.metadata.title,
+    href: `/landing/${product.slug}`,
+  })),
+};
+
+const resourcesSection = {
+  label: "Resources",
+  items: [
+    {
+      label: "Changelog",
+      href: "/landing/changelog",
+    },
+    {
+      label: "Blog",
+      href: "/landing/blog",
+    },
+  ],
+};
+
+export const headerLinks = [productsSection, resourcesSection];
+
+export const footerLinks = [
+  productsSection,
+  resourcesSection,
   {
     label: "Tools",
     items: [

@@ -5,14 +5,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { links } from "@/data/content";
+import { headerLinks } from "@/data/content";
 import { ChevronDown } from "lucide-react";
 
 export function Header() {
   return (
     <header className="flex border border-border divide-x divide-border [&>*]:px-4 [&>*]:py-4 [&>*]:hover:bg-muted">
       <Link href="/landing">openstatus</Link>
-      {links.map((section, index) => (
+      {headerLinks.map((section, index) => (
         <DropdownMenu key={index}>
           <DropdownMenuTrigger className="data-[state=open]:bg-muted group flex items-center gap-1">
             {section.label}
@@ -34,7 +34,7 @@ export function Header() {
           </DropdownMenuContent>
         </DropdownMenu>
       ))}
-      <Link href="/dashboard">Pricing</Link>
+      <Link href="/landing/pricing">Pricing</Link>
       <Link href="https://docs.openstatus.dev">Docs</Link>
       <Link
         href="https://app.openstatus.dev/login"

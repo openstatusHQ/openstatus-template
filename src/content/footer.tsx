@@ -1,12 +1,12 @@
 import { Link } from "@/components/common/link";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { links } from "@/data/content";
+import { footerLinks } from "@/data/content";
 
 export function Footer() {
   return (
     <footer>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 border border-border divide-y md:divide-y-0 md:divide-x divide-border [&>div]:p-4">
-        {links.map((section) => (
+        {footerLinks.map((section) => (
           <div key={section.label}>
             <p className="text-muted-foreground">{section.label}</p>
             <ul>

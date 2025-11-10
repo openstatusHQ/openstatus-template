@@ -70,6 +70,12 @@ export function getBlogPosts(): MDXData[] {
   );
 }
 
+export function getChangelogPosts(): MDXData[] {
+  return getMDXDataFromDir(
+    path.join(process.cwd(), "src", "content", "pages", "changelog")
+  );
+}
+
 export function getProductPages(): MDXData[] {
   return getMDXDataFromDir(
     path.join(process.cwd(), "src", "content", "pages", "product")
