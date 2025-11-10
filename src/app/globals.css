@@ -330,6 +330,27 @@
   @apply list-inside list-decimal marker:text-muted-foreground;
 }
 
+.prose details {
+  @apply border border-border p-4 my-4;
+}
+
+.prose details p:last-child {
+  @apply mb-0;
+}
+
+.prose details summary {
+  @apply cursor-pointer font-medium text-foreground select-none;
+}
+
+.prose details summary::marker {
+  @apply mr-1;
+}
+
+.prose details[open] summary {
+  @apply mb-2;
+}
+
+
 .prose table {
   @apply w-full border-collapse border border-border;
 }

@@ -136,6 +136,23 @@ function createHeading(level: number) {
   return Heading;
 }
 
+function Details({
+  children,
+  summary,
+  open = false,
+}: {
+  children: React.ReactNode;
+  summary: string;
+  open?: boolean;
+}) {
+  return (
+    <details open={open}>
+      <summary>{summary}</summary>
+      {children}
+    </details>
+  );
+}
+
 function CustomImage(props: React.ComponentProps<"img">) {
   const { src, alt, ...rest } = props;
 
@@ -180,6 +197,8 @@ export const components = {
   code: Code,
   Table,
   Grid,
+  Details, // Capital D for JSX usage with props
+  details: Details, // lowercase for HTML tag replacement
 };
 
 export function CustomMDX(props: MDXRemoteProps) {
