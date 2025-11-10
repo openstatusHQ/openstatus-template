@@ -4,13 +4,6 @@ import { useTheme } from "next-themes";
 import * as React from "react";
 
 import { Laptop, Moon, Sun } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useState } from "react";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -18,7 +11,7 @@ import { cn } from "@/lib/utils";
 export function ThemeToggle({
   className,
   ...props
-}: React.ComponentProps<typeof SelectTrigger>) {
+}: React.ComponentProps<"div">) {
   const { setTheme, theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -28,7 +21,13 @@ export function ThemeToggle({
 
   if (!mounted) {
     return (
-      <div className="flex items-center [&>*]:border-l [&>*]:border-border [&>*]:p-4">
+      <div
+        className={cn(
+          "flex items-center [&>*]:border-l [&>*]:border-border [&>*]:p-4",
+          className
+        )}
+        {...props}
+      >
         <div>
           <Sun className="h-6 w-6" />
         </div>
@@ -43,7 +42,13 @@ export function ThemeToggle({
   }
 
   return (
-    <div className="flex items-center [&>*]:border-l [&>*]:border-border [&>*]:p-4">
+    <div
+      className={cn(
+        "flex items-center [&>*]:border-l [&>*]:border-border [&>*]:p-4",
+        className
+      )}
+      {...props}
+    >
       <button
         data-active={theme === "light"}
         className="hover:bg-muted data-[active=true]:bg-muted"
