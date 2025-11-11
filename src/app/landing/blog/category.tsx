@@ -6,14 +6,14 @@ const categories = [...new Set(allBlogs.map((blog) => blog.metadata.category))];
 
 export function BlogCategory() {
   return (
-    <p className="flex divide-x divide-border gap-2.5">
+    <p className="flex flex-wrap">
       <Link className="pr-2.5" href="/landing/blog">
         All
       </Link>
       {categories.map((category) => (
         <Link
           key={category}
-          className="pr-2"
+          className="border-l border-border px-2.5"
           href={`/landing/blog/category/${category.toLowerCase()}`}
         >
           {category}

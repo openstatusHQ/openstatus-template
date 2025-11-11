@@ -17,7 +17,7 @@ export function Header() {
           alt="openstatus"
           width={20}
           height={20}
-          className="border border-border dark:border-foreground rounded-full"
+          className="border border-border dark:border-foreground rounded-full sm:block hidden"
         />
         openstatus
       </Link>
