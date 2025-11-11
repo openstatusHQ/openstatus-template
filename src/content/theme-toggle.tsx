@@ -23,7 +23,7 @@ export function ThemeToggle({
     return (
       <div
         className={cn(
-          "flex items-center [&>*]:border-l [&>*]:border-border [&>*]:p-4",
+          "flex items-center gap-px bg-border [&>*]:bg-background [&>*]:p-4 [&>*]:flex-1 [&>*]:flex [&>*]:items-center [&>*]:justify-center",
           className
         )}
         {...props}
@@ -44,28 +44,19 @@ export function ThemeToggle({
   return (
     <div
       className={cn(
-        "flex items-center [&>*]:border-l [&>*]:border-border [&>*]:p-4",
+        "flex items-center gap-px bg-border [&>*]:bg-background [&>*]:p-4 [&>*]:flex-1 [&>*]:flex [&>*]:items-center [&>*]:justify-center [&>*]:hover:bg-muted [&>*]:data-[active=true]:bg-muted",
         className
       )}
       {...props}
     >
-      <button
-        data-active={theme === "light"}
-        className="hover:bg-muted data-[active=true]:bg-muted"
-        onClick={() => setTheme("light")}
-      >
+      <button data-active={theme === "light"} onClick={() => setTheme("light")}>
         <Sun className="h-6 w-6" />
       </button>
-      <button
-        data-active={theme === "dark"}
-        className="hover:bg-muted data-[active=true]:bg-muted"
-        onClick={() => setTheme("dark")}
-      >
+      <button data-active={theme === "dark"} onClick={() => setTheme("dark")}>
         <Moon className="h-6 w-6" />
       </button>
       <button
         data-active={theme === "system"}
-        className="hover:bg-muted data-[active=true]:bg-muted"
         onClick={() => setTheme("system")}
       >
         <Laptop className="h-6 w-6" />

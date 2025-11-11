@@ -5,7 +5,7 @@ import { footerLinks } from "@/data/content";
 export function Footer() {
   return (
     <footer>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 border border-border divide-y md:divide-y-0 md:divide-x divide-border [&>div]:p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 border border-border gap-px bg-border [&>div]:bg-background [&>div]:p-4">
         {footerLinks.map((section) => (
           <div key={section.label}>
             <p className="text-muted-foreground">{section.label}</p>
@@ -19,11 +19,13 @@ export function Footer() {
           </div>
         ))}
       </div>
-      <div className="flex items-center justify-between border border-border border-t-0">
+      <div className="grid sm:grid-cols-2 border border-border border-t-0 gap-px bg-border [&>*]:bg-background">
         <p className="text-muted-foreground p-4">
           Powered by <Link href="https://openstatus.dev">openstatus</Link>.
         </p>
-        <ThemeToggle className="rounded-none" />
+        <div>
+          <ThemeToggle className="rounded-none" />
+        </div>
       </div>
     </footer>
   );
