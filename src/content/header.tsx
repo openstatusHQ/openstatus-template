@@ -17,9 +17,9 @@ export function Header() {
           alt="openstatus"
           width={20}
           height={20}
-          className="border border-border dark:border-foreground rounded-full sm:block hidden"
+          className="border border-border dark:border-foreground rounded-full"
         />
-        openstatus
+        <span className="hidden sm:block">openstatus</span>
       </Link>
       {headerLinks.map((section, index) => (
         <DropdownMenu key={index}>
