@@ -342,6 +342,10 @@
   @apply cursor-pointer font-medium text-foreground select-none;
 }
 
+.prose details summary:hover {
+  @apply bg-muted;
+}
+
 .prose details summary::marker {
   @apply mr-1;
 }

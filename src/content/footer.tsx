@@ -12,7 +12,10 @@ export function Footer() {
             <ul>
               {section.items.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="block w-full">
+                  <Link
+                    href={item.href}
+                    className="block w-full hover:bg-muted"
+                  >
                     {item.label}
                   </Link>
                 </li>
@@ -28,7 +31,7 @@ export function Footer() {
         <div>
           <Link
             href="https://status.openstatus.dev"
-            className="flex items-center gap-2 w-full p-4"
+            className="flex items-center gap-2 w-full p-4 hover:bg-muted"
           >
             Operational
             <div className="size-2.5 rounded-full bg-success" />

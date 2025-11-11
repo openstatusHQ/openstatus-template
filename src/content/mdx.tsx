@@ -3,6 +3,7 @@ import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";
 import { highlight } from "sugar-high";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 function Table({
   data,
@@ -96,6 +97,22 @@ function CustomLink(props: React.ComponentProps<"a">) {
   }
 
   return <a target="_blank" rel="noopener noreferrer" {...props} />;
+}
+
+function ButtonLink(
+  props: React.ComponentProps<typeof Button> & { href: string }
+) {
+  return (
+    <Button
+      variant="outline"
+      size="lg"
+      className="py-4 px-4 no-underline! rounded-none h-auto text-base"
+      asChild
+      {...props}
+    >
+      <CustomLink href={props.href}>{props.children}</CustomLink>
+    </Button>
+  );
 }
 
 function Code({ children, ...props }: { children: React.ReactNode }) {
@@ -194,6 +211,7 @@ export const components = {
   h6: createHeading(6),
   Image: CustomImage,
   a: CustomLink,
+  ButtonLink: ButtonLink,
   code: Code,
   Table,
   Grid,

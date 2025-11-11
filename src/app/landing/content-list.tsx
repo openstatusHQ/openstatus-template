@@ -10,7 +10,7 @@ export function ContentList({
 }) {
   return (
     <section className="prose">
-      <div className="space-y-4">
+      <div>
         {data
           .sort((a, b) => {
             if (
@@ -24,7 +24,7 @@ export function ContentList({
           .map((post) => (
             <Link
               key={post.slug}
-              className="flex flex-col no-underline!"
+              className="flex flex-col no-underline! hover:bg-muted"
               href={`${prefix}/${post.slug}`}
             >
               <div className="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
