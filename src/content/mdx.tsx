@@ -54,12 +54,12 @@ function Grid({
     4: "[&>*]:border-t-0 [&>*:first-child]:border-t md:[&>*:nth-child(-n+4)]:border-t",
   };
 
-  // Remove left border from all except first column
+  // Remove left border from all except first column (only on md+ screens)
   const leftBorderClass = {
-    1: "[&>*]:border-l-0 [&>*:first-child]:border-l",
-    2: "[&>*]:border-l-0 [&>*:first-child]:border-l md:[&>*:nth-child(2n+1)]:border-l",
-    3: "[&>*]:border-l-0 [&>*:first-child]:border-l md:[&>*:nth-child(3n+1)]:border-l",
-    4: "[&>*]:border-l-0 [&>*:first-child]:border-l md:[&>*:nth-child(4n+1)]:border-l",
+    1: "",
+    2: "md:[&>*]:border-l-0 md:[&>*:nth-child(2n+1)]:border-l",
+    3: "md:[&>*]:border-l-0 md:[&>*:nth-child(3n+1)]:border-l",
+    4: "md:[&>*]:border-l-0 md:[&>*:nth-child(4n+1)]:border-l",
   };
 
   return (
