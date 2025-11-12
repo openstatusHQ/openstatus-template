@@ -11,7 +11,7 @@ import { ChevronDown } from "lucide-react";
 export function Header() {
   return (
     <header className="grid border border-border grid-cols-3 lg:grid-cols-6 gap-px bg-border [&>*]:bg-background [&>*]:px-4 [&>*]:py-4 [&>*]:hover:bg-muted">
-      <Link href="/landing" className="flex items-center gap-1">
+      <Link href="/landing" className="flex items-center gap-2">
         <img
           src="/assets/openstatus-logo.svg"
           alt="openstatus"

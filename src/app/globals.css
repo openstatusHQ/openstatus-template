@@ -354,9 +354,13 @@
   @apply mb-2;
 }
 
+.prose form {
+  @apply my-4;
+}
+
 
 .prose table {
-  @apply w-full border-collapse border border-border text-foreground;
+  @apply w-full border-collapse border border-border text-foreground my-4;
 }
 
 .prose table th {
@@ -365,6 +369,10 @@
 
 .prose table td {
   @apply font-normal p-4 border border-border;
+}
+
+.prose table caption {
+  @apply text-muted-foreground text-sm caption-bottom mt-4;
 }
 
 pre::-webkit-scrollbar {

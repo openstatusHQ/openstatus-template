@@ -1,4 +1,8 @@
-import { getComparePages, getProductPages } from "@/content/utils";
+import {
+  getComparePages,
+  getProductPages,
+  getToolsPages,
+} from "@/content/utils";
 
 const products = getProductPages();
 
@@ -73,18 +77,10 @@ const compareSection = {
 const toolsSection = {
   label: "Tools",
   items: [
-    {
-      label: "Global Speed Checker",
-      href: "https://openstatus.dev/play/checker",
-    },
-    {
-      label: "Uptime SLA Calculator",
-      href: "https://openstatus.dev/play/uptime-sla",
-    },
-    {
-      label: "cURL Builder",
-      href: "https://openstatus.dev/play/curl",
-    },
+    ...getToolsPages().map((page) => ({
+      label: page.metadata.title,
+      href: `/landing/play/${page.slug}`,
+    })),
     {
       label: "Theme Explorer",
       href: "https://themes.openstatus.dev",

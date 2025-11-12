@@ -104,6 +104,18 @@ export function getHomePage(): MDXData {
   );
 }
 
+export function getToolsPages(): MDXData[] {
+  return getMDXDataFromDir(
+    path.join(process.cwd(), "src", "content", "pages", "tools")
+  );
+}
+
+export function getToolsPage(slug: string): MDXData {
+  return getMDXDataFromFile(
+    path.join(process.cwd(), "src", "content", "pages", "tools", `${slug}.mdx`)
+  );
+}
+
 export function formatDate(targetDate: Date, includeRelative = false) {
   const currentDate = new Date();
 
