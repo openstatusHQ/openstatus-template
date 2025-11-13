@@ -24,9 +24,9 @@ export function Header() {
       {headerLinks.map((section, index) => (
         <DropdownMenu key={index}>
           <DropdownMenuTrigger className="data-[state=open]:bg-muted group flex items-center gap-1">
-            {section.label}
+            <span className="w-full text-left">{section.label}</span>
             <ChevronDown
-              className="relative top-[1px] ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180"
+              className="relative top-[1px] ml-1 size-4 shrink-0 transition duration-300 group-data-[state=open]:rotate-180"
               aria-hidden="true"
             />
           </DropdownMenuTrigger>

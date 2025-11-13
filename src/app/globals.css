@@ -358,6 +358,9 @@
   @apply my-4;
 }
 
+.prose form label {
+  @apply text-foreground font-medium;
+}
 
 .prose table {
   @apply w-full border-collapse border border-border text-foreground my-4;

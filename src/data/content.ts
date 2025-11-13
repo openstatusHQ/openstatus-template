@@ -14,7 +14,7 @@ const productsSection = {
   })),
 };
 
-const resourcesSection = {
+const resourcesFooterSection = {
   label: "Resources",
   items: [
     {
@@ -36,6 +36,28 @@ const resourcesSection = {
     {
       label: "OSS Friends",
       href: "/landing/oss-friends",
+    },
+  ],
+};
+
+const resourcesHeaderSection = {
+  label: "Resources",
+  items: [
+    {
+      label: "Blog",
+      href: "/landing/blog",
+    },
+    {
+      label: "Changelog",
+      href: "/landing/changelog",
+    },
+    {
+      label: "Global Speed Checker",
+      href: "/landing/play/checker",
+    },
+    {
+      label: "Compare",
+      href: "/landing/compare",
     },
   ],
 };
@@ -126,11 +148,11 @@ const communitySection = {
   ],
 };
 
-export const headerLinks = [productsSection, resourcesSection];
+export const headerLinks = [productsSection, resourcesHeaderSection];
 
 export const footerLinks = [
   productsSection,
-  resourcesSection,
+  resourcesFooterSection,
   companySection,
   compareSection,
   toolsSection,

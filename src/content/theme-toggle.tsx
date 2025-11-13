@@ -50,16 +50,16 @@ export function ThemeToggle({
       {...props}
     >
       <button data-active={theme === "light"} onClick={() => setTheme("light")}>
-        <Sun className="h-6 w-6" />
+        [light]
       </button>
       <button data-active={theme === "dark"} onClick={() => setTheme("dark")}>
-        <Moon className="h-6 w-6" />
+        [dark]
       </button>
       <button
         data-active={theme === "system"}
         onClick={() => setTheme("system")}
       >
-        <Laptop className="h-6 w-6" />
+        [system]
       </button>
     </div>
   );
