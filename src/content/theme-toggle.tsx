@@ -12,7 +12,7 @@ export function ThemeToggle({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const { setTheme, theme } = useTheme();
+  const { setTheme, theme } = useTheme(); 
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

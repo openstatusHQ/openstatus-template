@@ -1,7 +1,7 @@
 ---
-title: "Showcase your uptime with a status page"
+title: "The open-source status page with uptime monitoring"
 publishedAt: "2025-11-10"
-summary: "Proactively monitor your API and website worldwide to detect and resolve performance issues and downtime, ensuring your users are never impacted."
+summary: "Openstatus helps you communicate openly during incidents. Share what’s happening, keep users updated, and let your status page automatically populate real-time data from our uptime monitoring solution."
 category: "Product"
 ---
 
@@ -35,112 +35,40 @@ category: "Product"
   ))}
 </Grid>
 
-## Monitoring
-
-<Grid cols={3}>
-  <div>
-  
-**Latency Monitoring**
-
-Monitor the latency of your endpoints from all over the world. We support all the continents.
-
-[Read more](/)
-
-  </div>
-  <div>
-
-**Monitor Anything**
-
-API, DNS, domain, SSL, SMTP, ping, webpage... We can monitor it all.
-
-[Read more](/)
-
-  </div>
-    <div>
-
-**Monitor Anywhere**
-
-With our **Private Locations** deploy our probes on your personal cloud.
-
-[Read more](/)
-
-  </div>
-    <div>
-
-**Notifications**
-
-Choose from different providers and get notified whenever a monitor is degraded/down/recovered.
-
-[Read more](/)
-
-  </div>
-  <div>
-
-**OpenTelemetry**
-
-Export your synthetic monitoring metrics to your observability stack.
-
-[Read more](/)
-
-  </div>
-</Grid>
-
 ## Status Pages
 
-<Grid cols={3}>
-  <div>
-  
-**Themes**
+A status page helps youcommunicate incidents more effectively. It adds **transparency**, so users aren’t left guessing. It enables **proactive communication**, giving updates without users needing to ask. And it shows **reliability**, not just in uptime but in how you handle downtime and keep people informed.
+OpenStatus supports this by providing:
 
-Make it match your brand by contributing your own theme to the community.
+With openstatus you can:
+
+**Theme store**: Choose from dedicated themes or contribute your own.
+
+**Defined values**: Define which values you'd like to share: duration time, total requests or manually updates.
+
+**Grouped monitors**: Organise related checks (e.g., by region or service) to give users a clearer picture of what’s affected.
+
+**Private status pages**: Share report information internally without exposing it publicly, useful for operations and on-call teams.
+
+**Communication**: Use status reports or maintenances to keep your users up to date of whats going on.
+
+[Read more](/landing/status-page)
+
+## Monitoring
+
+Uptime monitoring helps you detect when your website or service goes down. Instead of learning about issues from users, you get **notified immediately** and can respond faster. You can also **monitor your APIs** to ensure they return the expected values within a **defined threshold**, helping you **catch** slow responses or failures before they affect users.
+
+With openstatus you can:
+
+- Global monitoring (28 regions / multi-cloud)
+- Monitoring as code
+- Export opentelemetry data
+- HTTP / TCP / DNS checker
+- Assertions
+- Private Locations
+- Notification channels like email, slack, discord,...
 
 [Read more](/)
-
-  </div>
-  <div>
-
-**Custom Domain**
-
-Switch status page, while keeping the same domain.
-
-[Read more](/)
-
-  </div>
-  <div>
-
-**Subscriptions**
-
-Let your users subscribe to your status page, to automatically receive updates about the status of your services.
-
-[Read more](/)
-
-  </div>
-</Grid>
-
-## Monitoring as Code
-
-Apply changes to your monitors directly from the terminal.
-
-```bash
-$ openstatus monitors apply
-```
-
-Use version control to keep track of all your changes.
-
-```yaml
-"openstat.us":
-  active: true
-  frequency: 1m
-  kind: http
-  name: openstat.us
-  regions:
-    - ams
-    - iad
-    - syd
-  request:
-    method: GET
-    url: https://openstat.us
-```
 
 ## FAQ
 

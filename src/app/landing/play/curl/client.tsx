@@ -78,7 +78,7 @@ export function Form() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="grid grid-cols-5 gap-2">
+      <div className="grid grid-cols-5 gap-4">
         <div className="col-span-1 space-y-1">
           <Label htmlFor="method" className="text-base">
             Method
@@ -130,7 +130,7 @@ export function Form() {
             className="p-4 h-auto! rounded-none text-base md:text-base"
           />
         </div>
-        <div className="col-span-5 space-y-1">
+        <div className="col-span-5 space-y-4">
           <div className="flex items-start space-x-2">
             <Checkbox id="json-body" className="rounded-none size-5" />
             <Label
