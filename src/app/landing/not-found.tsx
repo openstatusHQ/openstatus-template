@@ -1,6 +1,5 @@
 import { CustomMDX } from "@/content/mdx";
 import { getUnrelatedPage } from "@/content/utils";
-import Link from "next/link";
 
 export default function NotFound() {
   const page = getUnrelatedPage("not-found");
