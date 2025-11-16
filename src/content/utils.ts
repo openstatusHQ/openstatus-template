@@ -88,6 +88,19 @@ export function getUnrelatedPages(): MDXData[] {
   );
 }
 
+export function getUnrelatedPage(slug: string): MDXData {
+  return getMDXDataFromFile(
+    path.join(
+      process.cwd(),
+      "src",
+      "content",
+      "pages",
+      "unrelated",
+      `${slug}.mdx`
+    )
+  );
+}
+
 export function getMainPages(): MDXData[] {
   return [...getUnrelatedPages(), ...getProductPages()];
 }
