@@ -1,8 +1,10 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { regions } from "@/data/regions";
 import { cn } from "@/lib/utils";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 
 const STATUS_CODES = {
@@ -21,6 +23,10 @@ const r = regions.map((region) => {
 
 export function Table() {
   const [input, setInput] = useState("");
+  const [sort, setSort] = useState<{
+    value: "latency" | "status" | "region";
+    desc: boolean;
+  }>({ value: "latency", desc: false });
   return (
     <div>
       <Input
@@ -38,7 +44,20 @@ export function Table() {
             <th>Connect</th>
             <th>TLS</th>
             <th>TTFB</th>
-            <th className="text-right!">Latency</th>
+            <th className="text-right! p-0!">
+              <TableSort
+                onClick={() => setSort({ value: "latency", desc: !sort.desc })}
+                direction={
+                  sort.value === "latency"
+                    ? sort.desc
+                      ? "desc"
+                      : "asc"
+                    : undefined
+                }
+              >
+                Latency
+              </TableSort>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -53,6 +72,19 @@ export function Table() {
               ].some((value) =>
                 value?.toLowerCase().includes(input.toLowerCase())
               );
+            })
+            .sort((a, b) => {
+              if (sort.value === "status") {
+                return sort.desc ? b.status - a.status : a.status - b.status;
+              }
+              if (sort.value === "latency") {
+                return sort.desc
+                  ? b.latency - a.latency
+                  : a.latency - b.latency;
+              }
+              return sort.desc
+                ? b.region.localeCompare(a.region)
+                : a.region.localeCompare(b.region);
             })
             .map(({ region, latency, status }) => {
               const regionConfig = regions.find((r) => r.code === region);
@@ -97,5 +129,43 @@ export function Table() {
         </tbody>
       </table>
     </div>
+  );
+}
+
+function TableSort({
+  children,
+  className,
+  direction,
+  ...props
+}: React.ComponentProps<typeof Button> & { direction?: "asc" | "desc" }) {
+  return (
+    <Button
+      variant="ghost"
+      className={cn(
+        "w-full p-4 h-auto! rounded-none text-base md:text-base",
+        className
+      )}
+      {...props}
+    >
+      {children}
+      <span className="flex flex-col">
+        <ChevronUp
+          className={cn(
+            "-mb-0.5 size-3",
+            direction === "asc"
+              ? "text-accent-foreground"
+              : "text-muted-foreground"
+          )}
+        />
+        <ChevronDown
+          className={cn(
+            "-mt-0.5 size-3",
+            direction === "desc"
+              ? "text-accent-foreground"
+              : "text-muted-foreground"
+          )}
+        />
+      </span>
+    </Button>
   );
 }

@@ -19,6 +19,10 @@ export default async function Page({
       <h1>{page.metadata.title}</h1>
       <p className="text-lg">{page.metadata.summary}</p>
       <Table />
+      <p>
+        The data will be stored for 7 days. If you want to persist the data,
+        login to your account.
+      </p>
       {/* <CustomMDX source={page.content} /> */}
     </section>
   );
