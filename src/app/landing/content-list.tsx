@@ -4,9 +4,11 @@ import Link from "next/link";
 export function ContentList({
   data,
   prefix,
+  withCategory = false,
 }: {
   data: MDXData[];
   prefix: string;
+  withCategory?: boolean;
 }) {
   return (
     <section className="prose">
@@ -34,6 +36,11 @@ export function ContentList({
                 <span className="text-foreground tracking-tight">
                   {post.metadata.title}
                 </span>
+                {withCategory ? (
+                  <span className="text-muted-foreground">
+                    [{post.metadata.category}]
+                  </span>
+                ) : null}
               </div>
             </Link>
           ))}

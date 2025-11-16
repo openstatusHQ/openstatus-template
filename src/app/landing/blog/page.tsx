@@ -8,7 +8,7 @@ export default function BlogListPage() {
     <div className="prose">
       <h1>Blog</h1>
       <BlogCategory />
-      <ContentList data={allBlogs} prefix="/landing/blog" />
+      <ContentList data={allBlogs} prefix="/landing/blog" withCategory />
     </div>
   );
 }

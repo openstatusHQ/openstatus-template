@@ -31,10 +31,9 @@ export function Footer() {
         <div>
           <Link
             href="https://status.openstatus.dev"
-            className="flex items-center gap-2 w-full p-4 hover:bg-muted"
+            className="flex items-center gap-2 w-full p-4 hover:bg-muted text-success"
           >
             Operational
-            <div className="size-2.5 rounded-full bg-success" />
           </Link>
         </div>
         <div className="sm:col-span-2 md:col-span-1">

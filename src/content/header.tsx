@@ -24,7 +24,7 @@ export function Header() {
       {headerLinks.map((section, index) => (
         <DropdownMenu key={index}>
           <DropdownMenuTrigger className="data-[state=open]:bg-muted group flex items-center gap-1">
-            <span className="w-full text-left">{section.label}</span>
+            <span className="w-full text-left truncate">{section.label}</span>
             <ChevronDown
               className="relative top-[1px] ml-1 size-4 shrink-0 transition duration-300 group-data-[state=open]:rotate-180"
               aria-hidden="true"
@@ -43,9 +43,16 @@ export function Header() {
           </DropdownMenuContent>
         </DropdownMenu>
       ))}
-      <Link href="/landing/pricing">Pricing</Link>
-      <Link href="https://docs.openstatus.dev">Docs</Link>
-      <Link href="https://app.openstatus.dev/login" className="text-info">
+      <Link href="/landing/pricing" className="truncate">
+        Pricing
+      </Link>
+      <Link href="https://docs.openstatus.dev" className="truncate">
+        Docs
+      </Link>
+      <Link
+        href="https://app.openstatus.dev/login"
+        className="text-info truncate"
+      >
         Dashboard
       </Link>
     </header>
