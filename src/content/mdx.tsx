@@ -2,6 +2,8 @@ import Link from "next/link";
 import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";
 import { highlight } from "sugar-high";
 import React from "react";
+import { existsSync } from "fs";
+import { join } from "path";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -170,13 +172,13 @@ function Details({
   );
 }
 
-function CustomImage(props: React.ComponentProps<"img">) {
+function CustomImage({ className, ...props }: React.ComponentProps<"img">) {
   const { src, alt, ...rest } = props;
 
   if (!src || typeof src !== "string") {
     return (
       <figure>
-        <img {...props} />
+        <img className={className} {...props} />
         <figcaption>{alt}</figcaption>
       </figure>
     );
@@ -191,12 +193,35 @@ function CustomImage(props: React.ComponentProps<"img">) {
     return path;
   };
 
+  // Check if dark image exists, fallback to light version if not
+  const checkDarkImageExists = (darkPath: string) => {
+    // If path starts with /, it's in the public directory
+    if (darkPath.startsWith("/")) {
+      const publicPath = join(process.cwd(), "public", darkPath);
+      return existsSync(publicPath);
+    }
+    // For relative paths, check relative to public
+    const publicPath = join(process.cwd(), "public", darkPath);
+    return existsSync(publicPath);
+  };
+
   const darkSrc = getDarkImagePath(src);
+  const useDarkImage = checkDarkImageExists(darkSrc);
 
   return (
     <figure>
-      <img {...rest} src={src} alt={alt} className="block dark:hidden" />
-      <img {...rest} src={darkSrc} alt={alt} className="hidden dark:block" />
+      <img
+        {...rest}
+        src={src}
+        alt={alt}
+        className={cn("block dark:hidden", className)}
+      />
+      <img
+        {...rest}
+        src={useDarkImage ? darkSrc : src}
+        alt={alt}
+        className={cn("hidden dark:block", className)}
+      />
       {alt && <figcaption>{alt}</figcaption>}
     </figure>
   );
