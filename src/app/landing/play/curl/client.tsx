@@ -61,6 +61,8 @@ export function Form() {
 
     console.log(url, method);
 
+    generateCurlCommand();
+
     setValues([]);
 
     const r = regions.map((region) => {
@@ -127,7 +129,8 @@ export function Form() {
             id="body"
             name="body"
             placeholder=""
-            className="p-4 h-auto! rounded-none text-base md:text-base"
+            rows={10}
+            className="p-4 min-h-48 rounded-none text-base md:text-base"
           />
         </div>
         <div className="col-span-5 space-y-4">
@@ -180,4 +183,57 @@ export function Form() {
       </div>
     </form>
   );
+}
+
+function generateCurlCommand(form?: {
+  method: string;
+  url: string;
+  body: string;
+  verbose: boolean;
+  insecure: boolean;
+  json: boolean;
+  headers: { key: string; value: string }[];
+}) {
+  if (!form) return "";
+
+  const { method, url, body, verbose, insecure, json, headers } = form;
+
+  let curlCommand = "curl";
+
+  if (method) {
+    curlCommand += ` -X ${method}`;
+  }
+
+  if (url) {
+    curlCommand += ` "${url}" \\\n`;
+  } else {
+    // force a new line if there is no URL
+    curlCommand += " \\\n";
+  }
+
+  for (const header of headers) {
+    const { key, value } = header;
+    if (key && value) {
+      curlCommand += `  -H "${key}: ${value}" \\\n`;
+    }
+  }
+
+  if (json) {
+    curlCommand += '  -H "Content-Type: application/json" \\\n';
+  }
+
+  if (body?.trim()) {
+    curlCommand += `  -d '${body.trim()}' \\\n`;
+  }
+
+  if (verbose) {
+    curlCommand += "  -v \\\n";
+  }
+
+  if (insecure) {
+    curlCommand += "  -k \\\n";
+  }
+
+  // Remove the trailing ` \` at the end
+  return curlCommand.trim().slice(0, -2);
 }
