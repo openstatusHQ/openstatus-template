@@ -113,61 +113,63 @@ export function Form() {
 export function ResultTable() {
   const { values } = useCheckerContext();
   return (
-    <table>
-      <thead>
-        <tr>
-          <th className="w-12" />
-          <th>Region</th>
-          <th className="text-right!">Latency</th>
-        </tr>
-      </thead>
-      <tbody>
-        {values.length === 0 ? (
+    <div className="table-wrapper">
+      <table>
+        <thead>
           <tr>
-            <td>
-              <div className="size-4 bg-muted-foreground" />
-            </td>
-            <td>
-              <br />
-            </td>
-            <td>
-              <br />
-            </td>
+            <th className="w-12" />
+            <th>Region</th>
+            <th className="text-right!">Latency</th>
           </tr>
-        ) : (
-          values.map((value) => {
-            const regionConfig = regions.find((r) => r.code === value.region);
-            return (
-              <tr key={value.region}>
-                <td>
-                  <div
-                    className={cn(
-                      "size-4",
-                      STATUS_CODES[
-                        value.status.toString()[0] as keyof typeof STATUS_CODES
-                      ]
-                    )}
-                  />
-                </td>
-                <td>
-                  {regionConfig?.flag} {regionConfig?.code}{" "}
-                  <span className="text-muted-foreground">
-                    {regionConfig?.location}
-                  </span>
-                </td>
-                <td className="text-right!">
-                  {Intl.NumberFormat("en-US", {
-                    maximumFractionDigits: 0,
-                  }).format(value.latency)}
-                  ms
-                </td>
-              </tr>
-            );
-          })
-        )}
-      </tbody>
-      <caption>Results of your check</caption>
-    </table>
+        </thead>
+        <tbody>
+          {values.length === 0 ? (
+            <tr>
+              <td>
+                <div className="size-4 bg-muted-foreground" />
+              </td>
+              <td>
+                <br />
+              </td>
+              <td>
+                <br />
+              </td>
+            </tr>
+          ) : (
+            values.map((value) => {
+              const regionConfig = regions.find((r) => r.code === value.region);
+              return (
+                <tr key={value.region}>
+                  <td>
+                    <div
+                      className={cn(
+                        "size-4",
+                        STATUS_CODES[
+                          value.status.toString()[0] as keyof typeof STATUS_CODES
+                        ]
+                      )}
+                    />
+                  </td>
+                  <td>
+                    {regionConfig?.flag} {regionConfig?.code}{" "}
+                    <span className="text-muted-foreground">
+                      {regionConfig?.location}
+                    </span>
+                  </td>
+                  <td className="text-right!">
+                    {Intl.NumberFormat("en-US", {
+                      maximumFractionDigits: 0,
+                    }).format(value.latency)}
+                    ms
+                  </td>
+                </tr>
+              );
+            })
+          )}
+        </tbody>
+        <caption>Results of your check</caption>
+      </table>
+    </div>
   );
 }
 

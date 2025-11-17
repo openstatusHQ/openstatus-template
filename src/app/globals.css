@@ -362,8 +362,13 @@
   @apply text-foreground font-medium;
 }
 
+/* Wrapper for scrollable tables */
+.prose .table-wrapper {
+  @apply w-full overflow-x-auto my-4;
+}
+
 .prose table {
-  @apply w-full border-collapse border border-border text-foreground my-4;
+  @apply w-full border-collapse border border-border text-foreground;
 }
 
 .prose table th {
