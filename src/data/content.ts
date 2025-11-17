@@ -99,10 +99,12 @@ const compareSection = {
 const toolsSection = {
   label: "Tools",
   items: [
-    ...getToolsPages().map((page) => ({
-      label: page.metadata.title,
-      href: `/landing/play/${page.slug}`,
-    })),
+    ...getToolsPages()
+      .filter((page) => page.slug !== "checker-slug")
+      .map((page) => ({
+        label: page.metadata.title,
+        href: `/landing/play/${page.slug}`,
+      })),
     {
       label: "Theme Explorer",
       href: "https://themes.openstatus.dev",

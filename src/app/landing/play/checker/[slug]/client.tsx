@@ -1,7 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { regions } from "@/data/regions";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -18,7 +27,30 @@ const STATUS_CODES = {
 const r = regions.map((region) => {
   const latency = Math.random() * 1000;
   const status = Math.random() < 0.9 ? 200 : 500;
-  return { region: region.code, latency, status };
+  return {
+    region: region.code,
+    latency,
+    status,
+    dns: latency * 0.08,
+    connect: latency * 0.02,
+    tls: latency * 0.1,
+    ttfb: latency * 0.8,
+    headers: {
+      "Alt-Svc": 'h3=":443"; ma=2592000',
+      "Cache-Control": "public, max-age=0, must-revalidate",
+      "Content-Type": "text/html",
+      Date: "Mon, 17 Nov 2025 19:20:52 GMT",
+      Etag: '"9d6228554b13b686fa06d4ef2d30a169"',
+      "Last-Modified": "Thu, 13 Nov 2025 11:44:39 GMT",
+      Link: '<https://framerusercontent.com>; rel="preconnect", <https://framerusercontent.com>; rel="preconnect"; crossorigin=""',
+      Server: "Framer/8d3311c",
+      "Server-Timing":
+        'region;desc="us-east-1", cache;desc="cached", ssg-status;desc="optimized", version;desc="8d3311c"',
+      "Strict-Transport-Security": "max-age=31536000",
+      Vary: "Accept-Encoding",
+      "X-Content-Type-Options": "nosniff",
+    },
+  };
 });
 
 export function Table() {
@@ -89,46 +121,71 @@ export function Table() {
                   ? b.region.localeCompare(a.region)
                   : a.region.localeCompare(b.region);
               })
-              .map(({ region, latency, status }) => {
-                const regionConfig = regions.find((r) => r.code === region);
-                return (
-                  <tr key={region}>
-                    <td>
-                      {regionConfig?.flag} {regionConfig?.code}{" "}
-                      <span className="text-muted-foreground">
-                        {regionConfig?.location}
-                      </span>
-                    </td>
-                    <td
-                      className={cn(
-                        STATUS_CODES[
-                          status.toString()[0] as keyof typeof STATUS_CODES
-                        ]
-                      )}
-                    >
-                      {status}
-                    </td>
-                    <td>
-                      <br />
-                    </td>
-                    <td>
-                      <br />
-                    </td>
-                    <td>
-                      <br />
-                    </td>
-                    <td>
-                      <br />
-                    </td>
-                    <td className="text-right!">
-                      {Intl.NumberFormat("en-US", {
-                        maximumFractionDigits: 0,
-                      }).format(latency)}
-                      ms
-                    </td>
-                  </tr>
-                );
-              })}
+              .map(
+                ({
+                  region,
+                  latency,
+                  status,
+                  dns,
+                  connect,
+                  tls,
+                  ttfb,
+                  headers,
+                }) => {
+                  const regionConfig = regions.find((r) => r.code === region);
+                  return (
+                    <HeadersDialog key={region} headers={headers}>
+                      <tr>
+                        <td>
+                          {regionConfig?.flag} {regionConfig?.code}{" "}
+                          <span className="text-muted-foreground">
+                            {regionConfig?.location}
+                          </span>
+                        </td>
+                        <td
+                          className={cn(
+                            STATUS_CODES[
+                              status.toString()[0] as keyof typeof STATUS_CODES
+                            ]
+                          )}
+                        >
+                          {status}
+                        </td>
+                        <td>
+                          {Intl.NumberFormat("en-US", {
+                            maximumFractionDigits: 0,
+                          }).format(dns)}
+                          ms
+                        </td>
+                        <td>
+                          {Intl.NumberFormat("en-US", {
+                            maximumFractionDigits: 0,
+                          }).format(connect)}
+                          ms
+                        </td>
+                        <td>
+                          {Intl.NumberFormat("en-US", {
+                            maximumFractionDigits: 0,
+                          }).format(tls)}
+                          ms
+                        </td>
+                        <td>
+                          {Intl.NumberFormat("en-US", {
+                            maximumFractionDigits: 0,
+                          }).format(ttfb)}
+                          ms
+                        </td>
+                        <td className="text-right!">
+                          {Intl.NumberFormat("en-US", {
+                            maximumFractionDigits: 0,
+                          }).format(latency)}
+                          ms
+                        </td>
+                      </tr>
+                    </HeadersDialog>
+                  );
+                }
+              )}
           </tbody>
         </table>
       </div>
@@ -171,5 +228,70 @@ function TableSort({
         />
       </span>
     </Button>
+  );
+}
+
+function HeadersDialog({
+  headers,
+  children,
+}: {
+  headers: Record<string, string>;
+  children: React.ReactNode;
+}) {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="font-mono rounded-none sm:max-w-5xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Headers</DialogTitle>
+          <DialogDescription className="text-base">
+            Response headers sent by the server.
+          </DialogDescription>
+        </DialogHeader>
+        <Tabs defaultValue="raw">
+          <TabsList className="w-full rounded-none h-auto">
+            <TabsTrigger
+              value="raw"
+              className="w-full rounded-none p-4 h-auto truncate"
+            >
+              Raw
+            </TabsTrigger>
+            <TabsTrigger
+              value="table"
+              className="w-full rounded-none p-4 h-auto truncate"
+            >
+              Table
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="table" className="prose overflow-x-auto">
+            <div className="prose overflow-x-auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Header</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(headers).map(([key, value]) => (
+                    <tr key={key}>
+                      <td>{key}</td>
+                      <td>{value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </TabsContent>
+          <TabsContent value="raw" className="prose overflow-x-auto">
+            {Object.entries(headers).map(([key, value]) => (
+              <code key={key} className="block">
+                {key}: {value}
+              </code>
+            ))}
+          </TabsContent>
+        </Tabs>
+      </DialogContent>
+    </Dialog>
   );
 }
