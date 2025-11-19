@@ -12,80 +12,46 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { regions } from "@/data/regions";
-import { createContext, useContext, useState } from "react";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { Fragment, useState } from "react";
 
-type Values = { region: string; latency: number; status: number };
-
-type CurlBuilderContextType = {
-  values: Values[];
-  setValues: React.Dispatch<React.SetStateAction<Values[]>>;
+type Values = {
+  url: string;
+  method: string;
+  body: string;
+  headers: { key: string; value: string }[];
+  verbose: boolean;
+  insecure: boolean;
+  json: boolean;
 };
 
-const CurlBuilderContext = createContext<CurlBuilderContextType>({
-  values: [],
-  setValues: () => {},
-});
-
-export function CurlBuilderProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [values, setValues] = useState<Values[]>([]);
-  return (
-    <CurlBuilderContext.Provider value={{ values, setValues }}>
-      {children}
-    </CurlBuilderContext.Provider>
-  );
-}
-
-export function useCurlBuilderContext() {
-  const context = useContext(CurlBuilderContext);
-  if (!context) {
-    throw new Error(
-      "useCurlBuilderContext must be used within a CurlBuilderProvider"
-    );
-  }
-  return context;
-}
-
 export function Form() {
-  const { setValues } = useCurlBuilderContext();
-
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    const url = formData.get("url") as string;
-    const method = formData.get("method") as string;
-
-    console.log(url, method);
-
-    generateCurlCommand();
-
-    setValues([]);
-
-    const r = regions.map((region) => {
-      const latency = Math.random() * 1000;
-      const status = Math.random() < 0.9 ? 200 : 500;
-      return { region: region.code, latency, status };
-    });
-
-    r.forEach((value) => {
-      setTimeout(() => {
-        setValues((prev) => [...prev, value]);
-      }, value.latency);
-    });
-  }
+  const [value, setValue] = useState<Values>({
+    url: "",
+    method: "GET",
+    body: "",
+    headers: [],
+    verbose: false,
+    insecure: false,
+    json: false,
+  });
+  const { copy, isCopied } = useCopyToClipboard();
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <div className="grid grid-cols-5 gap-4">
         <div className="col-span-1 space-y-1">
           <Label htmlFor="method" className="text-base">
             Method
           </Label>
-          <Select name="method" defaultValue="GET">
+          <Select
+            name="method"
+            defaultValue="GET"
+            value={value.method}
+            onValueChange={(value) =>
+              setValue((v) => ({ ...v, method: value }))
+            }
+          >
             <SelectTrigger
               id="method"
               className="w-full h-auto! p-4 rounded-none text-base"
@@ -114,12 +80,71 @@ export function Form() {
             id="url"
             placeholder="https://openstatus.dev"
             className="p-4 h-auto! rounded-none text-base md:text-base"
+            value={value.url}
+            onChange={(e) => setValue((v) => ({ ...v, url: e.target.value }))}
           />
         </div>
         <div className="col-span-5 space-y-1">
-          <Label htmlFor="headers" className="text-base">
-            Headers
-          </Label>
+          <Label className="text-base">Headers</Label>
+          <div className="grid grid-cols-5 gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="col-span-2 p-4 h-auto! rounded-none text-base"
+              onClick={() =>
+                setValue((v) => ({
+                  ...v,
+                  headers: [...v.headers, { key: "", value: "" }],
+                }))
+              }
+            >
+              Add Header
+            </Button>
+            <div className="col-span-3" />
+            {value.headers.map((header, index) => (
+              <Fragment key={index}>
+                <Input
+                  placeholder="Key"
+                  className="col-span-2 p-4 h-auto! rounded-none text-base md:text-base"
+                  value={header.key}
+                  onChange={(e) =>
+                    setValue((v) => ({
+                      ...v,
+                      headers: v.headers.map((h, i) =>
+                        i === index ? { ...h, key: e.target.value } : h
+                      ),
+                    }))
+                  }
+                />
+                <Input
+                  placeholder="Value"
+                  className="col-span-2 p-4 h-auto! rounded-none text-base md:text-base"
+                  value={header.value}
+                  onChange={(e) =>
+                    setValue((v) => ({
+                      ...v,
+                      headers: v.headers.map((h, i) =>
+                        i === index ? { ...h, value: e.target.value } : h
+                      ),
+                    }))
+                  }
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="w-full h-full p-4 rounded-none text-base"
+                  onClick={() =>
+                    setValue((v) => ({
+                      ...v,
+                      headers: v.headers.filter((_, i) => i !== index),
+                    }))
+                  }
+                >
+                  Remove
+                </Button>
+              </Fragment>
+            ))}
+          </div>
         </div>
         <div className="col-span-5 space-y-1">
           <Label htmlFor="body" className="text-base">
@@ -129,13 +154,22 @@ export function Form() {
             id="body"
             name="body"
             placeholder=""
-            rows={10}
-            className="p-4 min-h-48 rounded-none text-base md:text-base"
+            rows={6}
+            className="p-4 rounded-none text-base md:text-base resize-none"
+            value={value.body}
+            onChange={(e) => setValue((v) => ({ ...v, body: e.target.value }))}
           />
         </div>
         <div className="col-span-5 space-y-4">
           <div className="flex items-start space-x-2">
-            <Checkbox id="json-body" className="rounded-none size-5" />
+            <Checkbox
+              id="json-body"
+              className="rounded-none size-5"
+              checked={value.json}
+              onCheckedChange={(checked) =>
+                setValue((v) => ({ ...v, json: Boolean(checked) }))
+              }
+            />
             <Label
               htmlFor="json-body"
               className="text-base flex flex-col items-start gap-0"
@@ -147,7 +181,14 @@ export function Form() {
             </Label>
           </div>
           <div className="flex items-start space-x-2">
-            <Checkbox id="verbose" className="rounded-none size-5" />
+            <Checkbox
+              id="verbose"
+              className="rounded-none size-5"
+              checked={value.verbose}
+              onCheckedChange={(checked) =>
+                setValue((v) => ({ ...v, verbose: Boolean(checked) }))
+              }
+            />
             <Label
               htmlFor="verbose"
               className="text-base flex flex-col items-start gap-0"
@@ -159,7 +200,14 @@ export function Form() {
             </Label>
           </div>
           <div className="flex items-start space-x-2">
-            <Checkbox id="insecure" className="rounded-none size-5" />
+            <Checkbox
+              id="insecure"
+              className="rounded-none size-5"
+              checked={value.insecure}
+              onCheckedChange={(checked) =>
+                setValue((v) => ({ ...v, insecure: Boolean(checked) }))
+              }
+            />
             <Label
               htmlFor="insecure"
               className="text-base flex flex-col items-start gap-0"
@@ -172,12 +220,24 @@ export function Form() {
           </div>
         </div>
         <div className="col-span-5">
+          <Textarea
+            id="headers"
+            name="headers"
+            placeholder=""
+            rows={3}
+            className="p-4 rounded-none text-base md:text-base resize-none"
+            value={generateCurlCommand(value)}
+            readOnly
+          />
+        </div>
+        <div className="col-span-5">
           <Button
-            type="submit"
+            type="button"
+            onClick={() => copy(generateCurlCommand(value), {})}
             variant="outline"
             className="w-full h-full p-4 rounded-none text-base"
           >
-            Submit
+            {isCopied ? "Copied" : "Copy to Clipboard"}
           </Button>
         </div>
       </div>
@@ -185,18 +245,10 @@ export function Form() {
   );
 }
 
-function generateCurlCommand(form?: {
-  method: string;
-  url: string;
-  body: string;
-  verbose: boolean;
-  insecure: boolean;
-  json: boolean;
-  headers: { key: string; value: string }[];
-}) {
-  if (!form) return "";
+function generateCurlCommand(values?: Values) {
+  if (!values) return "";
 
-  const { method, url, body, verbose, insecure, json, headers } = form;
+  const { method, url, body, verbose, insecure, json, headers } = values;
 
   let curlCommand = "curl";
 
