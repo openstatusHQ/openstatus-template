@@ -7,6 +7,7 @@ import { join } from "path";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { LatencyChartTable } from "./latency-chart-table";
+import { CopyButton } from "./copy-button";
 
 function Table({
   data,
@@ -123,9 +124,38 @@ function ButtonLink(
   );
 }
 
-function Code({ children, ...props }: { children: React.ReactNode }) {
+function Code({ children, ...props }: React.ComponentProps<"code">) {
   const codeHTML = highlight(children?.toString() ?? "");
   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
+}
+
+function extractTextFromReactNode(node: React.ReactNode): string {
+  if (typeof node === "string") {
+    return node;
+  }
+  if (typeof node === "number") {
+    return String(node);
+  }
+  if (Array.isArray(node)) {
+    return node.map(extractTextFromReactNode).join("");
+  }
+  if (React.isValidElement(node)) {
+    const props = node.props as { children?: React.ReactNode };
+    if (props.children) {
+      return extractTextFromReactNode(props.children);
+    }
+  }
+  return "";
+}
+
+function Pre({ children, ...props }: React.ComponentProps<"pre">) {
+  const textContent = extractTextFromReactNode(children);
+  return (
+    <pre {...props}>
+      {children}
+      <CopyButton copyText={textContent} className="absolute top-0 right-0" />
+    </pre>
+  );
 }
 
 function slugify(str: string) {
@@ -244,6 +274,7 @@ export const components = {
   a: CustomLink,
   ButtonLink: ButtonLink,
   code: Code,
+  pre: Pre,
   Table,
   Grid,
   Details, // Capital D for JSX usage with props

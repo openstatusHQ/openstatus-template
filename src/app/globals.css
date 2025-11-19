@@ -240,7 +240,7 @@
 }
 
 .prose pre {
-  @apply bg-muted overflow-x-auto border border-border py-2 px-3 text-sm;
+  @apply relative bg-muted overflow-x-auto border border-border py-2.5 px-3.5 text-sm;
 }
 
 .prose code {
