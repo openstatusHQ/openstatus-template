@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
@@ -28,7 +26,9 @@ export function SubNav({ className, ...props }: React.ComponentProps<"div">) {
           </Fragment>
         ))}
       </div>
-      <CopyButton copyText={window.location.href} />
+      <CopyButton
+        copyText={typeof window !== "undefined" ? window.location.href : ""}
+      />
     </div>
   );
 }
