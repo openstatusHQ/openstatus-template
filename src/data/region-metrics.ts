@@ -25,3 +25,14 @@ export const regionMetrics = [
 ];
 
 export type RegionMetric = (typeof regionMetrics)[number];
+
+export type RegionMetricsChartTable = {
+  region: Region;
+  count: number;
+  ok: number;
+  p50Latency: number | null;
+  p75Latency: number | null;
+  p90Latency: number | null;
+  p95Latency: number | null;
+  p99Latency: number | null;
+};

@@ -6,6 +6,7 @@ import { existsSync } from "fs";
 import { join } from "path";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { LatencyChartTable } from "./latency-chart-table";
 
 function Table({
   data,
@@ -40,7 +41,7 @@ function Grid({
   children,
   className,
 }: {
-  cols?: 1 | 2 | 3 | 4;
+  cols?: 1 | 2 | 3 | 4 | 5;
   children: React.ReactNode;
   className?: string;
 }) {
@@ -49,6 +50,7 @@ function Grid({
     2: "md:grid-cols-2",
     3: "md:grid-cols-3",
     4: "md:grid-cols-4",
+    5: "md:grid-cols-5",
   };
 
   // Remove top border from all except first row
@@ -57,6 +59,7 @@ function Grid({
     2: "[&>*]:border-t-0 [&>*:first-child]:border-t md:[&>*:nth-child(-n+2)]:border-t",
     3: "[&>*]:border-t-0 [&>*:first-child]:border-t md:[&>*:nth-child(-n+3)]:border-t",
     4: "[&>*]:border-t-0 [&>*:first-child]:border-t md:[&>*:nth-child(-n+4)]:border-t",
+    5: "[&>*]:border-t-0 [&>*:first-child]:border-t md:[&>*:nth-child(-n+5)]:border-t",
   };
 
   // Remove left border from all except first column (only on md+ screens)
@@ -65,6 +68,7 @@ function Grid({
     2: "md:[&>*]:border-l-0 md:[&>*:nth-child(2n+1)]:border-l",
     3: "md:[&>*]:border-l-0 md:[&>*:nth-child(3n+1)]:border-l",
     4: "md:[&>*]:border-l-0 md:[&>*:nth-child(4n+1)]:border-l",
+    5: "md:[&>*]:border-l-0 md:[&>*:nth-child(5n+1)]:border-l",
   };
 
   return (
@@ -244,6 +248,7 @@ export const components = {
   Grid,
   Details, // Capital D for JSX usage with props
   details: Details, // lowercase for HTML tag replacement
+  LatencyChartTable, // display table with latency metrics for a list of regions
 };
 
 export function CustomMDX(props: MDXRemoteProps) {
