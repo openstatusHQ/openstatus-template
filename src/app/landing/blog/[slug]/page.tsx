@@ -95,8 +95,8 @@ export default async function Blog({
       />
       <h1>{post.metadata.title}</h1>
       <p className="text-muted-foreground flex items-center gap-2.5 divide-x divide-border">
-        <span>{formatDate(post.metadata.publishedAt)}</span>
-        <span>[{post.metadata.category}]</span>
+        {formatDate(post.metadata.publishedAt)} | by {post.metadata.author} | [
+        {post.metadata.category}]
       </p>
       <CustomMDX source={post.content} />
     </section>

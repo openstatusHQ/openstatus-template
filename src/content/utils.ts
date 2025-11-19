@@ -7,6 +7,7 @@ const metadataSchema = z.object({
   publishedAt: z.coerce.date(),
   summary: z.string(),
   category: z.string(),
+  author: z.string(),
   image: z.string().optional(),
 });
 
