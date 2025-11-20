@@ -105,7 +105,7 @@ export function Table() {
                   regionConfig?.flag,
                   regionConfig?.continent,
                 ].some((value) =>
-                  value?.toLowerCase().includes(input.toLowerCase()),
+                  value?.toLowerCase().includes(input.toLowerCase())
                 );
               })
               .sort((a, b) => {
@@ -146,7 +146,7 @@ export function Table() {
                           className={cn(
                             STATUS_CODES[
                               status.toString()[0] as keyof typeof STATUS_CODES
-                            ],
+                            ]
                           )}
                         >
                           {status}
@@ -184,7 +184,7 @@ export function Table() {
                       </tr>
                     </HeadersDialog>
                   );
-                },
+                }
               )}
           </tbody>
         </table>
@@ -204,7 +204,7 @@ function TableSort({
       variant="ghost"
       className={cn(
         "h-auto! w-full rounded-none p-4 text-base md:text-base",
-        className,
+        className
       )}
       {...props}
     >
@@ -215,7 +215,7 @@ function TableSort({
             "-mb-0.5 size-3",
             direction === "asc"
               ? "text-accent-foreground"
-              : "text-muted-foreground",
+              : "text-muted-foreground"
           )}
         />
         <ChevronDown
@@ -223,7 +223,7 @@ function TableSort({
             "-mt-0.5 size-3",
             direction === "desc"
               ? "text-accent-foreground"
-              : "text-muted-foreground",
+              : "text-muted-foreground"
           )}
         />
       </span>
@@ -284,6 +284,7 @@ function HeadersDialog({
             </div>
           </TabsContent>
           <TabsContent value="raw" className="prose overflow-x-auto">
+            {/* NOTE: we can make it a readOnly textarea*/}
             {Object.entries(headers).map(([key, value]) => (
               <code key={key} className="block">
                 {key}: {value}

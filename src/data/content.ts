@@ -150,6 +150,42 @@ const communitySection = {
   ],
 };
 
+export const playSection = {
+  label: "Play",
+  items: [
+    ...getToolsPages()
+      .filter((page) => page.slug !== "checker-slug")
+      .map((page) => ({
+        label: page.metadata.title,
+        href: `/landing/play/${page.slug}`,
+      })),
+    {
+      label: "Theme Explorer",
+      href: "https://themes.openstatus.dev",
+    },
+    {
+      label: "All Status Codes",
+      href: "https://openstat.us",
+    },
+    {
+      label: "Vercel Edge Ping",
+      href: "https://light.openstatus.dev",
+    },
+    {
+      label: "React Data Table",
+      href: "https://logs.run",
+    },
+    {
+      label: "Shadcn Time Picker",
+      href: "https://time.openstatus.dev",
+    },
+    {
+      label: "Astro Status Page",
+      href: "https://astro.openstat.us",
+    },
+  ],
+};
+
 export const headerLinks = [productsSection, resourcesHeaderSection];
 
 export const footerLinks = [

@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "./copy-button";
+import Link from "next/link";
 
 export function SubNav({ className, ...props }: React.ComponentProps<"div">) {
   const pathname = usePathname();
@@ -18,10 +19,12 @@ export function SubNav({ className, ...props }: React.ComponentProps<"div">) {
       className={cn("flex items-center justify-between gap-2", className)}
       {...props}
     >
-      <div className="px-4 text-muted-foreground">
+      <div className="px-4 text-muted-foreground prose">
         {segments.map((segment, index) => (
           <Fragment key={segment}>
-            <span>{segment}</span>
+            <Link href={`/landing/${segments.slice(0, index + 1).join("/")}`}>
+              {segment}
+            </Link>
             {index < segments.length - 1 ? <span>{" | "}</span> : null}
           </Fragment>
         ))}
