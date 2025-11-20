@@ -2,6 +2,40 @@
 title: "Monitoring as Code"
 publishedAt: "2025-11-10"
 author: "Maximilian Kaske"
-summary: "Get rid of ClickOps for your uptime monitoring configuration. Define your Monitors with YAML. Control Them with Our CLI."
+summary: "Openstatus gives you the possibility to store your monitoring as code."
 category: "Product"
 ---
+
+## Why should you store your monitoring as code? 
+
+When you set your monitoring from an external providers. You can set and forget it easily, with monitoring as code your monitoring lives in your git repository. All your team knows about it.
+
+
+```yaml 
+# yaml-language-server: $schema=https://www.openstatus.dev/schema.json
+uptime-monitor:
+  name: "Graphql"
+  description: "GitHub GraphQL API"
+  frequency: "10m"
+  active: true
+  regions:
+    - iad
+    - ams
+    - syd
+    - jnb
+    - gru
+  retry: 3
+  kind: http
+  request:
+    url: https://api.github.com/graphql
+    method: POST
+    headers:
+      User-Agent: OpenStatus
+      Authorization: Bearer YOUR_TOKEN_HERE
+    body: |
+      {
+        "query": "query { viewer { login }}"
+      }
+```
+
+We have a [GitHub repository](https://github.com/openstatusHQ/cli-template) with more templates

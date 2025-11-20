@@ -21,8 +21,8 @@ export function Header() {
         />
         <span className="hidden sm:block">openstatus</span>
       </Link>
-      {headerLinks.map((section, index) => (
-        <DropdownMenu key={index}>
+      {headerLinks.map((section, _) => (
+        <DropdownMenu key={section.label}>
           <DropdownMenuTrigger className="data-[state=open]:bg-muted group flex items-center gap-1">
             <span className="w-full text-left truncate">{section.label}</span>
             <ChevronDown

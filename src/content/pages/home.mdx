@@ -1,7 +1,7 @@
 ---
 title: "The open-source status page with uptime monitoring"
 publishedAt: "2025-11-10"
-author: "Maximilian Kaske"
+author: "openstatus"
 summary: "Openstatus helps you communicate openly during incidents. Share what's happening, keep users updated, and let your status page automatically populate real-time data from our uptime monitoring solution."
 category: "Product"
 ---
@@ -38,20 +38,14 @@ category: "Product"
 
 ## Status Pages
 
-A status page helps youcommunicate incidents more effectively. It adds **transparency**, so users aren’t left guessing. It enables **proactive communication**, giving updates without users needing to ask. And it shows **reliability**, not just in uptime but in how you handle downtime and keep people informed.
-OpenStatus supports this by providing:
+A status page helps you communicate incidents more effectively. It adds **transparency**, so users aren’t left guessing. It enables **proactive communication**, giving updates without users needing to ask. And it shows **reliability**, not just in uptime but in how you handle downtime and keep people informed.
 
 With openstatus you can:
 
-**Theme store**: Choose from dedicated themes or contribute your own.
+- **Customize**: Choose from [dedicated themes](https://themes.openstatus.dev) or contribute your own, update favicon, .
+- **Private status pages**: Share report information internally without exposing it publicly, useful for operations and on-call teams.
+- **Communicate**: Use status reports or maintenances to keep your users up to date of whats going on.
 
-**Defined values**: Define which values you'd like to share: duration time, total requests or manually updates.
-
-**Grouped monitors**: Organise related checks (e.g., by region or service) to give users a clearer picture of what’s affected.
-
-**Private status pages**: Share report information internally without exposing it publicly, useful for operations and on-call teams.
-
-**Communication**: Use status reports or maintenances to keep your users up to date of whats going on.
 
 [Read more](/landing/status-page)
 
@@ -63,7 +57,7 @@ With openstatus you can:
 
 - Global monitoring (28 regions / multi-cloud)
 - [Monitoring as Code](/landing/monitoring-as-code)
-- Export opentelemetry data
+- [Export opentelemetry data](https://docs.openstatus.dev/guides/how-to-export-metrics-to-otlp-endpoint/)
 - HTTP / TCP / DNS checker
 - Assertions
 - [Private Locations](/landing/private-locations)
@@ -72,7 +66,15 @@ With openstatus you can:
 ---
 
 <Grid>
+<div>
 
+**Status Page**
+
+<Image src="/assets/statuspage.png" alt="statuspage home" />
+
+[Visit our Theme Explorer](https://themes.openstatus.dev)
+
+</div>
 <div>
 
 **Dashboard**
@@ -83,32 +85,4 @@ With openstatus you can:
 
 </div>
 
-<div>
-
-**Status Page**
-
-<Image src="/assets/statuspage.png" alt="statuspage home" />
-
-[Visit Theme Explorer](https://themes.openstatus.dev)
-
-</div>
-
 </Grid>
-
-## FAQ
-
-<Details summary="What is openstatus?">
-  Openstatus is an open-source monitoring platform that helps you track your API
-  and website uptime.
-</Details>
-
-<Details summary="How does it work?">
-  We ping your endpoints from multiple regions around the world and track
-  response times and availability.
-</Details>
-
-<Details summary="How are we?">
-  We are [Thibault](https://bluesky.com) and [Max](https://x.com) and we take
-  you with us on our journey.
-  <br /> Read more on our [about](/landing/about) page.
-</Details>
