@@ -6,17 +6,57 @@ summary: "Openstatus provides a global multi-cloud uptime monitoring solution."
 category: "Product"
 ---
 
- Our probes are deployed on Fly.io, Koyeb and Railway. We have deployed it in 3 different regions to give you the opportunity to test it from cloud providers that might not be the one you are currently using.
+Our probes are deployed on Fly.io, Koyeb and Railway. We have deployed it in 3 different regions to give you the opportunity to test it from cloud providers that might not be the one you are currently using.
 
 ## Why uptime monitoring is important?
 
 Uptime monitoring is your first line of defense to ensure your service is available for your customers. By monitoring your service from multiple regions around the world, you can be sure that your customers are able to reach your service.
 
+<Grid>
+<div>
 
-## Why choose openstatus for Uptime monitoring? 
+**Uptime Dashboard**
 
-- Global: Monitor your service from multiple regions around the world
-- Multi cloud: Our probes are deployed on multiple cloud providers (Fly.io, Koyeb, Railway)
-- CLI: You can manage, trigger your uptime monitoring from the CLI
-- Monitoring as code: You can store your monitoring configuration in your git repository
-- Status Pages: Automatically update your status page based on your uptime monitoring results
+<Image src="/assets/dashboard.png" alt="dashboard monitor charts" />
+
+</div>
+<div>
+
+**Response Logs**
+
+<Image src="/assets/dashboard-logs.png" alt="dashboard monitor logs" />
+
+</div>
+</Grid>
+
+## Why choose openstatus for uptime monitoring?
+
+### Global Monitoring
+
+You can monitor your services from multiple regions around the world.
+
+Check all regions in the [global speed checker](/landing/play/checker).
+
+### Multi Cloud
+
+Our probes are deployed on multiple providers like **Fly.io**, **Koyeb** and **Railway**, each having multiple regions.
+
+### CLI
+
+You can manage or trigger your monitors via CLI. We provide a simple [GitHub Action](https://github.com/marketplace/actions/openstatus-synthetics-ci) to run it in your **CI/CD**.
+
+### Monitoring as code
+
+The best way to **version** your monitor changes is via the openstatus CLI and its **`YAML` config**. Additionally, we provide you a [Terraform](https://registry.terraform.io/providers/openstatusHQ/openstatus/latest). Read more [about monitoring as code](/landing/monitoring-as-code)
+
+### Status Pages
+
+Automatically update your status page based on your uptime monitoring results. Push reports and communicate with your users during incidents. Read more [about status pages](/landing/status-page).
+
+---
+
+Check your website's latency
+
+<ButtonLink href="/landing/play/checker">Global Speed Checker</ButtonLink>
+
+---

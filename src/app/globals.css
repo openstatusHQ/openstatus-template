@@ -292,7 +292,7 @@
 }
 
 .prose blockquote {
-  @apply border-l-2 border-foreground pl-4;
+  @apply border-l-2 border-foreground/50 pl-4;
 }
 
 .prose blockquote p::before {
