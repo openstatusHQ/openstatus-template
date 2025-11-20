@@ -6,9 +6,13 @@
     "dev": "next dev --turbopack",
     "build": "next build && shadcn build -o 'out/r'",
     "start": "next start",
-    "lint": "next lint",
     "tsc": "tsc --noEmit",
-    "registry:build": "shadcn build -o out/r"
+    "registry:build": "shadcn build -o out/r",
+    "lint": "biome lint .",
+    "format": "pnpm biome format . --write && pnpm biome check . --write ",
+    "format:fix": "pnpm biome check --fix --unsafe .",
+    "lint:fix": "pnpm biome lint --write --unsafe ."
+
   },
   "dependencies": {
     "@date-fns/tz": "^1.2.0",
@@ -60,7 +64,7 @@
     "zod": "^3.24.4"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
+    "@biomejs/biome": "2.3.6",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
