@@ -3,7 +3,7 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
@@ -13,7 +13,7 @@ import {
 
 const chartData = Array.from({ length: 28 }, (_, i) => ({
   timestamp: new Date(
-    new Date().setHours(new Date().getHours() - i * 6)
+    new Date().setHours(new Date().getHours() - i * 6),
   ).toLocaleString("default", {
     day: "numeric",
     month: "numeric",

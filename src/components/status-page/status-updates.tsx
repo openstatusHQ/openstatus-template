@@ -4,10 +4,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "../ui/input";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { cn } from "@/lib/utils";
+import { Input } from "../ui/input";
 
 export function StatusUpdates({
   className,
@@ -25,7 +25,7 @@ export function StatusUpdates({
           Get updates
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="end" className="p-0 overflow-hidden">
+      <PopoverContent align="end" className="overflow-hidden p-0">
         <Tabs defaultValue="email">
           <TabsList className="w-full rounded-none border-b">
             <TabsTrigger value="email">Email</TabsTrigger>
@@ -33,8 +33,8 @@ export function StatusUpdates({
             <TabsTrigger value="atom">Atom</TabsTrigger>
           </TabsList>
           <TabsContent value="email" className="flex flex-col gap-2">
-            <div className="flex flex-col gap-2 px-2 pb-2 border-b">
-              <p className="text-sm text-foreground">
+            <div className="flex flex-col gap-2 border-b px-2 pb-2">
+              <p className="text-foreground text-sm">
                 Get email notifications whenever a report has been created or
                 resolved
               </p>
@@ -45,7 +45,7 @@ export function StatusUpdates({
             </div>
           </TabsContent>
           <TabsContent value="rss" className="flex flex-col gap-2">
-            <div className="px-2 pb-2 border-b">
+            <div className="border-b px-2 pb-2">
               <Input
                 placeholder="https://status.openstatus.dev/feed/rss"
                 className="disabled:opacity-90"
@@ -60,7 +60,7 @@ export function StatusUpdates({
             </div>
           </TabsContent>
           <TabsContent value="atom" className="flex flex-col gap-2">
-            <div className="px-2 pb-2 border-b">
+            <div className="border-b px-2 pb-2">
               <Input
                 placeholder="https://status.openstatus.dev/feed/atom"
                 className="disabled:opacity-90"

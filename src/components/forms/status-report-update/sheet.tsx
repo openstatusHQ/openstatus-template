@@ -1,12 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { FormCard, FormCardGroup } from "@/components/forms/form-card";
-import {
-  FormStatusReportUpdate,
-  FormValues,
-} from "@/components/forms/status-report-update/form";
 import { useState } from "react";
+import { FormCard, FormCardGroup } from "@/components/forms/form-card";
 import {
   FormSheet,
   FormSheetContent,
@@ -17,6 +12,11 @@ import {
   FormSheetTitle,
   FormSheetTrigger,
 } from "@/components/forms/form-sheet";
+import {
+  FormStatusReportUpdate,
+  type FormValues,
+} from "@/components/forms/status-report-update/form";
+import { Button } from "@/components/ui/button";
 
 export function FormSheetStatusReportUpdate({
   children,
@@ -36,7 +36,7 @@ export function FormSheetStatusReportUpdate({
           </FormSheetDescription>
         </FormSheetHeader>
         <FormCardGroup className="overflow-y-scroll">
-          <FormCard className="border-none overflow-auto">
+          <FormCard className="overflow-auto border-none">
             <FormStatusReportUpdate
               id="status-report-update-form"
               className="my-4"

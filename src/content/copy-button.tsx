@@ -15,7 +15,7 @@ export function CopyButton({
     <Button
       variant="ghost"
       size="lg"
-      className={cn("p-4 rounded-none", className)}
+      className={cn("rounded-none p-4", className)}
       onClick={() => copy(copyText, {})}
       {...props}
     >

@@ -1,20 +1,11 @@
 "use client";
 
-import { InputWithAddons } from "@/components/common/input-with-addons";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormDescription,
-  FormMessage,
-  FormLabel,
-} from "@/components/ui/form";
-
-import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { InputWithAddons } from "@/components/common/input-with-addons";
 import {
   FormCard,
   FormCardContent,
@@ -25,9 +16,17 @@ import {
   FormCardTitle,
 } from "@/components/forms/form-card";
 import { Button } from "@/components/ui/button";
-import { z } from "zod";
-import { useTransition } from "react";
-import { toast } from "sonner";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const schema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -132,7 +131,7 @@ export function FormGeneral({
                   <FormLabel>Favicon</FormLabel>
                   <FormControl>
                     <div className="flex flex-row items-center space-x-2">
-                      <div className="size-[36px] bg-muted rounded-md border"></div>
+                      <div className="size-[36px] rounded-md border bg-muted"></div>
                       <Input type="file" {...field} />
                     </div>
                   </FormControl>

@@ -1,21 +1,20 @@
 "use client";
 
-import { formatDate } from "@/lib/formatter";
-
-import {
-  StatusEventTitle,
-  StatusEventAffected,
-  StatusEventContent,
-  StatusEvent,
-  StatusEventTimelineReport,
-  StatusEventAside,
-} from "@/components/status-page/status-events";
-import { statusReports } from "@/data/status-reports";
-import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Check, Copy } from "lucide-react";
-import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import {
+  StatusEvent,
+  StatusEventAffected,
+  StatusEventAside,
+  StatusEventContent,
+  StatusEventTimelineReport,
+  StatusEventTitle,
+} from "@/components/status-page/status-events";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { statusReports } from "@/data/status-reports";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { formatDate } from "@/lib/formatter";
 import { cn } from "@/lib/utils";
 
 const report = statusReports[1];
@@ -23,7 +22,7 @@ const report = statusReports[1];
 export default function EventPage() {
   return (
     <div className="flex flex-col gap-4">
-      <div className="w-full flex flex-row justify-between items-center gap-2 py-0.5">
+      <div className="flex w-full flex-row items-center justify-between gap-2 py-0.5">
         <BackButton />
         <CopyButton />
       </div>

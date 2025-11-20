@@ -1,15 +1,15 @@
 import * as React from "react";
-import * as RechartsPrimitive from "recharts";
-import { getPayloadConfigFromPayload, useChart } from "@/components/ui/chart";
-import { cn } from "@/lib/utils";
-import { Payload } from "recharts/types/component/DefaultLegendContent";
+import type * as RechartsPrimitive from "recharts";
+import type { Payload } from "recharts/types/component/DefaultLegendContent";
 import { badgeVariants } from "@/components/ui/badge";
+import { getPayloadConfigFromPayload, useChart } from "@/components/ui/chart";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 export function ChartLegendBadge({
   className,
@@ -67,7 +67,7 @@ export function ChartLegendBadge({
       className={cn(
         "flex items-center justify-center gap-2",
         verticalAlign === "top" ? "pb-3" : "pt-3",
-        className
+        className,
       )}
       onKeyDown={handleKeyDown}
       role="group"
@@ -91,9 +91,9 @@ export function ChartLegendBadge({
             className={cn(
               badgeVariants({ variant: "outline" }),
               "outline-none",
-              "[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3",
+              "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground",
               !isActive && "opacity-60",
-              !isActive && hasMaxActive && "opacity-40 cursor-not-allowed"
+              !isActive && hasMaxActive && "cursor-not-allowed opacity-40",
             )}
             onClick={(e) => {
               e.stopPropagation();
@@ -117,7 +117,7 @@ export function ChartLegendBadge({
             )}
             {itemConfig?.label}
             {suffix !== undefined ? (
-              <span className="text-[10px] text-muted-foreground font-mono">
+              <span className="font-mono text-[10px] text-muted-foreground">
                 {suffix}
               </span>
             ) : null}

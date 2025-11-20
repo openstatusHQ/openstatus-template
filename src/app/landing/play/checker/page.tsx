@@ -1,6 +1,6 @@
-import { getToolsPage } from "@/content/utils";
-import { CheckerProvider, Form, ResultTable, ResponseStatus } from "./client";
 import { CustomMDX } from "@/content/mdx";
+import { getToolsPage } from "@/content/utils";
+import { CheckerProvider, Form, ResponseStatus, ResultTable } from "./client";
 
 export default function Page() {
   const page = getToolsPage("checker");

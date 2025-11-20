@@ -1,6 +1,6 @@
+import { CustomMDX } from "@/content/mdx";
 import { getToolsPage } from "@/content/utils";
 import { Table } from "./client";
-import { CustomMDX } from "@/content/mdx";
 
 // just random to have one
 export async function generateStaticParams() {

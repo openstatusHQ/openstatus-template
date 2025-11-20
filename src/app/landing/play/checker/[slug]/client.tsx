@@ -1,5 +1,7 @@
 "use client";
 
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,8 +15,6 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { regions } from "@/data/regions";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useState } from "react";
 
 const STATUS_CODES = {
   "1": "text-muted-foreground",
@@ -65,7 +65,7 @@ export function Table() {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Search by region, flag, location code, or continent"
-        className="p-4 h-auto! rounded-none text-base md:text-base"
+        className="h-auto! rounded-none p-4 text-base md:text-base"
       />
       <div className="table-wrapper">
         <table>
@@ -77,7 +77,7 @@ export function Table() {
               <th>Connect</th>
               <th>TLS</th>
               <th>TTFB</th>
-              <th className="text-right! p-0!">
+              <th className="p-0! text-right!">
                 <TableSort
                   onClick={() =>
                     setSort({ value: "latency", desc: !sort.desc })
@@ -105,7 +105,7 @@ export function Table() {
                   regionConfig?.flag,
                   regionConfig?.continent,
                 ].some((value) =>
-                  value?.toLowerCase().includes(input.toLowerCase())
+                  value?.toLowerCase().includes(input.toLowerCase()),
                 );
               })
               .sort((a, b) => {
@@ -146,7 +146,7 @@ export function Table() {
                           className={cn(
                             STATUS_CODES[
                               status.toString()[0] as keyof typeof STATUS_CODES
-                            ]
+                            ],
                           )}
                         >
                           {status}
@@ -184,7 +184,7 @@ export function Table() {
                       </tr>
                     </HeadersDialog>
                   );
-                }
+                },
               )}
           </tbody>
         </table>
@@ -203,8 +203,8 @@ function TableSort({
     <Button
       variant="ghost"
       className={cn(
-        "w-full p-4 h-auto! rounded-none text-base md:text-base",
-        className
+        "h-auto! w-full rounded-none p-4 text-base md:text-base",
+        className,
       )}
       {...props}
     >
@@ -215,7 +215,7 @@ function TableSort({
             "-mb-0.5 size-3",
             direction === "asc"
               ? "text-accent-foreground"
-              : "text-muted-foreground"
+              : "text-muted-foreground",
           )}
         />
         <ChevronDown
@@ -223,7 +223,7 @@ function TableSort({
             "-mt-0.5 size-3",
             direction === "desc"
               ? "text-accent-foreground"
-              : "text-muted-foreground"
+              : "text-muted-foreground",
           )}
         />
       </span>
@@ -241,7 +241,7 @@ function HeadersDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="font-mono rounded-none sm:max-w-5xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-none font-mono sm:max-w-5xl">
         <DialogHeader>
           <DialogTitle>Headers</DialogTitle>
           <DialogDescription className="text-base">
@@ -249,16 +249,16 @@ function HeadersDialog({
           </DialogDescription>
         </DialogHeader>
         <Tabs defaultValue="raw">
-          <TabsList className="w-full rounded-none h-auto">
+          <TabsList className="h-auto w-full rounded-none">
             <TabsTrigger
               value="raw"
-              className="w-full rounded-none p-4 h-auto truncate"
+              className="h-auto w-full truncate rounded-none p-4"
             >
               Raw
             </TabsTrigger>
             <TabsTrigger
               value="table"
-              className="w-full rounded-none p-4 h-auto truncate"
+              className="h-auto w-full truncate rounded-none p-4"
             >
               Table
             </TabsTrigger>

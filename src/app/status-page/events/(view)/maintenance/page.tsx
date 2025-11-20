@@ -1,29 +1,29 @@
 "use client";
 
-import { formatDate } from "@/lib/formatter";
-
+import { ArrowLeft, Check, Copy } from "lucide-react";
+import Link from "next/link";
 import {
-  StatusEventTitle,
-  StatusEventAffected,
-  StatusEventContent,
   StatusEvent,
-  StatusEventTimelineMaintenance,
+  StatusEventAffected,
   StatusEventAside,
+  StatusEventContent,
+  StatusEventTimelineMaintenance,
+  StatusEventTitle,
 } from "@/components/status-page/status-events";
 import { Badge } from "@/components/ui/badge";
-import { maintenances } from "@/data/maintenances";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Check, Copy } from "lucide-react";
+import { maintenances } from "@/data/maintenances";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import Link from "next/link";
+import { formatDate } from "@/lib/formatter";
 import { cn } from "@/lib/utils";
+
 const maintenance = maintenances[0];
 
 export default function EventPage() {
   const isFuture = maintenance.startDate > new Date();
   return (
     <div className="flex flex-col gap-4">
-      <div className="w-full flex flex-row justify-between items-center gap-2 py-0.5">
+      <div className="flex w-full flex-row items-center justify-between gap-2 py-0.5">
         <BackButton />
         <CopyButton />
       </div>

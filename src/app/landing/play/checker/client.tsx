@@ -1,5 +1,6 @@
 "use client";
 
+import { createContext, useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,7 +12,6 @@ import {
 } from "@/components/ui/select";
 import { regions } from "@/data/regions";
 import { cn } from "@/lib/utils";
-import { createContext, useContext, useState } from "react";
 
 type Values = { region: string; latency: number; status: number };
 
@@ -73,7 +73,7 @@ export function Form() {
       <div className="grid grid-cols-5 gap-2">
         <div className="col-span-1">
           <Select name="method" defaultValue="GET">
-            <SelectTrigger className="w-full h-auto! p-4 rounded-none text-base">
+            <SelectTrigger className="h-auto! w-full rounded-none p-4 text-base">
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="rounded-none">
@@ -93,14 +93,14 @@ export function Form() {
           <Input
             name="url"
             placeholder="https://openstatus.dev"
-            className="p-4 h-auto! rounded-none text-base md:text-base"
+            className="h-auto! rounded-none p-4 text-base md:text-base"
           />
         </div>
         <div>
           <Button
             type="submit"
             variant="outline"
-            className="w-full h-full p-4 rounded-none text-base"
+            className="h-full w-full rounded-none p-4 text-base"
           >
             Submit
           </Button>
@@ -146,7 +146,7 @@ export function ResultTable() {
                         "size-4",
                         STATUS_CODES[
                           value.status.toString()[0] as keyof typeof STATUS_CODES
-                        ]
+                        ],
                       )}
                     />
                   </td>
@@ -185,7 +185,7 @@ export function ResponseStatus() {
   return (
     <div className="flex gap-2">
       {Object.entries(STATUS_CODES).map(([code, className]) => (
-        <div key={code} className={cn("text-base text-background", className)}>
+        <div key={code} className={cn("text-background text-base", className)}>
           {code}xx
         </div>
       ))}

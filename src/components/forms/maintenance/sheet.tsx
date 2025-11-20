@@ -1,12 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { FormCard, FormCardGroup } from "@/components/forms/form-card";
-import {
-  FormMaintenance,
-  FormValues,
-} from "@/components/forms/maintenance/form";
 import { useState } from "react";
+import { FormCard, FormCardGroup } from "@/components/forms/form-card";
 import {
   FormSheet,
   FormSheetContent,
@@ -17,6 +12,11 @@ import {
   FormSheetTitle,
   FormSheetTrigger,
 } from "@/components/forms/form-sheet";
+import {
+  FormMaintenance,
+  type FormValues,
+} from "@/components/forms/maintenance/form";
+import { Button } from "@/components/ui/button";
 
 export function FormSheetMaintenance({
   children,
@@ -36,7 +36,7 @@ export function FormSheetMaintenance({
           </FormSheetDescription>
         </FormSheetHeader>
         <FormCardGroup className="overflow-y-auto">
-          <FormCard className="border-none overflow-auto">
+          <FormCard className="overflow-auto border-none">
             <FormMaintenance
               onSubmit={() => setOpen(false)}
               defaultValues={defaultValues}

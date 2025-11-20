@@ -1,8 +1,17 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
 import { Settings } from "lucide-react";
+import { useTheme } from "next-themes";
+import type React from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -10,17 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 import { THEMES } from "./community-themes";
-import { useTheme } from "next-themes";
 
 export const VARIANT = ["success", "degraded", "error", "info"] as const;
 export type VariantType = (typeof VARIANT)[number];
@@ -85,7 +86,7 @@ export function StatusPageProvider({
   const [showUptime, setShowUptime] = useState<boolean>(defaultShowUptime);
   const { resolvedTheme } = useTheme();
   const [communityTheme, setCommunityTheme] = useState<CommunityTheme>(
-    defaultCommunityTheme
+    defaultCommunityTheme,
   );
   const [emptyState, setEmptyState] = useState<EmptyState>(defaultEmptyState);
 
@@ -155,7 +156,7 @@ export function FloatingButton({ className }: { className?: string }) {
   } = useStatusPage();
 
   return (
-    <div className={cn("fixed bottom-4 right-4 z-50 bg-background", className)}>
+    <div className={cn("fixed right-4 bottom-4 z-50 bg-background", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -171,11 +172,11 @@ export function FloatingButton({ className }: { className?: string }) {
           <div className="space-y-4 p-4">
             <div className="space-y-2">
               <h4 className="font-medium leading-none">Status Page Settings</h4>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Configure the status page appearance
               </p>
             </div>
-            <div className="grid gap-4 grid-cols-2">
+            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="status-variant">Status Variant</Label>
                 <Select
@@ -184,7 +185,7 @@ export function FloatingButton({ className }: { className?: string }) {
                 >
                   <SelectTrigger
                     id="status-variant"
-                    className="capitalize w-full"
+                    className="w-full capitalize"
                   >
                     <SelectValue />
                   </SelectTrigger>
@@ -203,7 +204,7 @@ export function FloatingButton({ className }: { className?: string }) {
                   value={showUptime ? "true" : "false"}
                   onValueChange={(v) => setShowUptime(v === "true")}
                 >
-                  <SelectTrigger id="show-uptime" className="capitalize w-full">
+                  <SelectTrigger id="show-uptime" className="w-full capitalize">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -221,7 +222,7 @@ export function FloatingButton({ className }: { className?: string }) {
                   value={cardType}
                   onValueChange={(v) => setCardType(v as CardType)}
                 >
-                  <SelectTrigger id="card-type" className="capitalize w-full">
+                  <SelectTrigger id="card-type" className="w-full capitalize">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -239,7 +240,7 @@ export function FloatingButton({ className }: { className?: string }) {
                   value={barType}
                   onValueChange={(v) => setBarType(v as BarType)}
                 >
-                  <SelectTrigger id="bar-type" className="capitalize w-full">
+                  <SelectTrigger id="bar-type" className="w-full capitalize">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -263,7 +264,7 @@ export function FloatingButton({ className }: { className?: string }) {
                 >
                   <SelectTrigger
                     id="community-theme"
-                    className="capitalize w-full"
+                    className="w-full capitalize"
                   >
                     <SelectValue />
                   </SelectTrigger>
@@ -282,7 +283,7 @@ export function FloatingButton({ className }: { className?: string }) {
                   value={emptyState ? "true" : "false"}
                   onValueChange={(v) => setEmptyState(v === "true")}
                 >
-                  <SelectTrigger id="empty-state" className="capitalize w-full">
+                  <SelectTrigger id="empty-state" className="w-full capitalize">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

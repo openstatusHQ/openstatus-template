@@ -1,5 +1,7 @@
 "use client";
 
+import { Activity, Newspaper } from "lucide-react";
+import { useStatusPage } from "@/components/status-page/floating-button";
 import {
   Status,
   StatusBanner,
@@ -12,11 +14,9 @@ import {
   StatusTitle,
 } from "@/components/status-page/status";
 import { StatusMonitor } from "@/components/status-page/status-monitor";
-import { useStatusPage } from "@/components/status-page/floating-button";
+import { StatusTrackerGroup } from "@/components/status-page/status-tracker-group";
 import { chartData } from "@/components/status-page/utils";
 import { monitors } from "@/data/monitors";
-import { StatusTrackerGroup } from "@/components/status-page/status-tracker-group";
-import { Activity, Newspaper } from "lucide-react";
 
 export default function Page() {
   const { variant, cardType, barType, showUptime, emptyState } =

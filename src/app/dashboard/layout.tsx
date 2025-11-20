@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 function FloatingButton() {
   return (
-    <div className="fixed bottom-2 right-2 z-50">
+    <div className="fixed right-2 bottom-2 z-50">
       <Button size="sm" asChild>
         <a
           href="https://github.com/openstatusHQ/openstatus-template"

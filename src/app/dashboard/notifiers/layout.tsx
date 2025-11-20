@@ -3,8 +3,8 @@ import {
   AppHeaderActions,
   AppHeaderContent,
 } from "@/components/nav/app-header";
-import { NavBreadcrumb } from "@/components/nav/nav-breadcrumb";
 import { AppSidebarTrigger } from "@/components/nav/app-sidebar";
+import { NavBreadcrumb } from "@/components/nav/nav-breadcrumb";
 import { NavActions } from "./nav-actions";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <NavActions />
         </AppHeaderActions>
       </AppHeader>
-      <main className="flex-1 w-full">{children}</main>
+      <main className="w-full flex-1">{children}</main>
     </div>
   );
 }

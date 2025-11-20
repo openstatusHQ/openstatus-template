@@ -1,13 +1,13 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import type { RegionMetric } from "@/data/region-metrics";
-import { TableCellNumber } from "@/components/data-table/table-cell-number";
-import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
-import { ChartLineRegion } from "@/components/chart/chart-line-region";
-import { getActions } from "@/data/region-metrics.client";
-import { QuickActions } from "@/components/dropdowns/quick-actions";
+import type { ColumnDef } from "@tanstack/react-table";
 import { toast } from "sonner";
+import { ChartLineRegion } from "@/components/chart/chart-line-region";
+import { TableCellNumber } from "@/components/data-table/table-cell-number";
+import { QuickActions } from "@/components/dropdowns/quick-actions";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
+import type { RegionMetric } from "@/data/region-metrics";
+import { getActions } from "@/data/region-metrics.client";
 
 export const columns: ColumnDef<RegionMetric>[] = [
   {

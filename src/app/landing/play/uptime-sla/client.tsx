@@ -1,14 +1,14 @@
 "use client";
 
-import {
-  Tabs as TabsPrimitive,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  TabsContent,
+  TabsList,
+  Tabs as TabsPrimitive,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 
 const periods = ["days", "weeks", "months", "years"] as const;
 
@@ -57,7 +57,7 @@ function parseDowntimeToSeconds(downtime: string): number {
 // Calculate uptime percentage from downtime seconds and period
 function calculateUptimePercentage(
   downtimeSeconds: number,
-  periodSeconds: number
+  periodSeconds: number,
 ): number {
   if (downtimeSeconds >= periodSeconds) return 0;
   const uptimeSeconds = periodSeconds - downtimeSeconds;
@@ -109,21 +109,21 @@ export function Calculation() {
   const [downtimeDuration, setDowntimeDuration] = useState("1h 30m");
   return (
     <TabsPrimitive defaultValue="percentage">
-      <TabsList className="w-full rounded-none h-auto">
+      <TabsList className="h-auto w-full rounded-none">
         <TabsTrigger
           value="percentage"
-          className="w-full rounded-none p-4 h-auto truncate"
+          className="h-auto w-full truncate rounded-none p-4"
         >
           Uptime Percentage
         </TabsTrigger>
         <TabsTrigger
           value="duration"
-          className="w-full rounded-none p-4 h-auto truncate"
+          className="h-auto w-full truncate rounded-none p-4"
         >
           Downtime Duration
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="percentage" className="rounded-none space-y-4">
+      <TabsContent value="percentage" className="space-y-4 rounded-none">
         <div className="grid gap-4 sm:grid-cols-2">
           <Input
             id="uptime-percentage"
@@ -131,7 +131,7 @@ export function Calculation() {
             onChange={(e) => setUptimePercentage(Number(e.target.value))}
             type="number"
             placeholder="99.99"
-            className="p-4 h-auto! rounded-none text-base md:text-base"
+            className="h-auto! rounded-none p-4 text-base md:text-base"
           />
           <div className="flex flex-wrap gap-2">
             {ninesBadges.map((badge) => (
@@ -167,14 +167,14 @@ export function Calculation() {
           })}
         </ul>
       </TabsContent>
-      <TabsContent value="duration" className="rounded-none space-y-4">
+      <TabsContent value="duration" className="space-y-4 rounded-none">
         <div className="grid gap-4 sm:grid-cols-2">
           <Input
             id="duration-downtime"
             value={downtimeDuration}
             placeholder="11h 30m 10s"
             onChange={(e) => setDowntimeDuration(e.target.value)}
-            className="p-4 h-auto! rounded-none text-base md:text-base"
+            className="h-auto! rounded-none p-4 text-base md:text-base"
           />
           <div className="flex flex-wrap gap-2">
             {durationBadges.map((badge) => (
@@ -196,7 +196,7 @@ export function Calculation() {
             const periodSeconds = periodsInSeconds[period];
             const uptimePercentage = calculateUptimePercentage(
               downtimeSeconds,
-              periodSeconds
+              periodSeconds,
             );
 
             return (

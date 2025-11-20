@@ -1,3 +1,5 @@
+import { CircleCheck, CircleDashed, X } from "lucide-react";
+import { Link } from "@/components/common/link";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -5,8 +7,6 @@ import {
   SidebarMenuAction,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { X, CircleDashed, CircleCheck } from "lucide-react";
-import { Link } from "@/components/common/link";
 
 const items = [
   {
@@ -24,7 +24,7 @@ const items = [
 
 export function NavChecklist() {
   return (
-    <SidebarGroup className="group-data-[collapsible=icon]:hidden bg-background rounded-lg border">
+    <SidebarGroup className="rounded-lg border bg-background group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel className="flex items-center justify-between pr-1">
         <span>Getting Started</span>
         <SidebarMenuAction className="relative top-0 right-0">

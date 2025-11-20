@@ -10,8 +10,8 @@
     "registry:build": "shadcn build -o out/r",
     "lint": "biome lint .",
     "format": "pnpm biome format . --write && pnpm biome check . --write ",
-    "format:fix": "pnpm biome check --fix --unsafe .",
-    "lint:fix": "pnpm biome lint --write --unsafe ."
+    "format:fix": "pnpm biome check --fix .",
+    "lint:fix": "pnpm biome lint --write  ."
 
   },
   "dependencies": {

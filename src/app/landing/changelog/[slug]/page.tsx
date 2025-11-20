@@ -94,7 +94,7 @@ export default async function Changelog({
         }}
       />
       <h1>{post.metadata.title}</h1>
-      <p className="text-muted-foreground flex items-center gap-2.5 divide-x divide-border">
+      <p className="flex items-center gap-2.5 divide-x divide-border text-muted-foreground">
         {formatDate(post.metadata.publishedAt)} | by {post.metadata.author} | [
         {post.metadata.category}]
       </p>

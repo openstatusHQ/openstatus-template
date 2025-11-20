@@ -15,7 +15,7 @@ export const responseLogs = [
     assertions: [],
     region: "ams" as const,
     error: false,
-    timestamp: new Date().getTime(),
+    timestamp: Date.now(),
     headers: {
       "Cache-Control":
         "private, no-cache, no-store, max-age=0, must-revalidate",
@@ -41,7 +41,7 @@ export const responseLogs = [
     assertions: [],
     region: "ams" as const,
     error: true,
-    timestamp: new Date().getTime(),
+    timestamp: Date.now(),
     headers: {
       "Cache-Control":
         "private, no-cache, no-store, max-age=0, must-revalidate",

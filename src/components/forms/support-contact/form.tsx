@@ -3,8 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
-
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -13,16 +15,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
-import { SelectItem } from "@/components/ui/select";
-import { SelectContent, SelectValue } from "@/components/ui/select";
-import { SelectTrigger } from "@/components/ui/select";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 
 export const types = [
@@ -107,7 +108,7 @@ export function ContactForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(submitAction)}
-        className={cn("grid sm:grid-cols-2 gap-4", className)}
+        className={cn("grid gap-4 sm:grid-cols-2", className)}
       >
         <FormField
           control={form.control}
@@ -179,7 +180,7 @@ export function ContactForm({
             control={form.control}
             name="blocker"
             render={({ field }) => (
-              <FormItem className="sm:col-span-full flex flex-row items-start">
+              <FormItem className="flex flex-row items-start sm:col-span-full">
                 <FormControl>
                   <Checkbox
                     checked={field.value}

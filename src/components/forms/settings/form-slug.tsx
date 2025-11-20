@@ -1,18 +1,17 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Check, Copy } from "lucide-react";
+import { z } from "zod";
 import {
   FormCard,
   FormCardContent,
+  FormCardDescription,
   FormCardFooter,
   FormCardFooterInfo,
   FormCardHeader,
-  FormCardDescription,
   FormCardTitle,
 } from "@/components/forms/form-card";
-
-import { Check, Copy } from "lucide-react";
-import { z } from "zod";
+import { Button } from "@/components/ui/button";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 
 const schema = z.object({

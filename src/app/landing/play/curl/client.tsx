@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -13,7 +14,6 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { Fragment, useState } from "react";
 
 type Values = {
   url: string;
@@ -54,7 +54,7 @@ export function Form() {
           >
             <SelectTrigger
               id="method"
-              className="w-full h-auto! p-4 rounded-none text-base"
+              className="h-auto! w-full rounded-none p-4 text-base"
             >
               <SelectValue />
             </SelectTrigger>
@@ -79,7 +79,7 @@ export function Form() {
             name="url"
             id="url"
             placeholder="https://openstatus.dev"
-            className="p-4 h-auto! rounded-none text-base md:text-base"
+            className="h-auto! rounded-none p-4 text-base md:text-base"
             value={value.url}
             onChange={(e) => setValue((v) => ({ ...v, url: e.target.value }))}
           />
@@ -90,7 +90,7 @@ export function Form() {
             <Button
               type="button"
               variant="outline"
-              className="col-span-2 p-4 h-auto! rounded-none text-base"
+              className="col-span-2 h-auto! rounded-none p-4 text-base"
               onClick={() =>
                 setValue((v) => ({
                   ...v,
@@ -105,26 +105,26 @@ export function Form() {
               <Fragment key={index}>
                 <Input
                   placeholder="Key"
-                  className="col-span-2 p-4 h-auto! rounded-none text-base md:text-base"
+                  className="col-span-2 h-auto! rounded-none p-4 text-base md:text-base"
                   value={header.key}
                   onChange={(e) =>
                     setValue((v) => ({
                       ...v,
                       headers: v.headers.map((h, i) =>
-                        i === index ? { ...h, key: e.target.value } : h
+                        i === index ? { ...h, key: e.target.value } : h,
                       ),
                     }))
                   }
                 />
                 <Input
                   placeholder="Value"
-                  className="col-span-2 p-4 h-auto! rounded-none text-base md:text-base"
+                  className="col-span-2 h-auto! rounded-none p-4 text-base md:text-base"
                   value={header.value}
                   onChange={(e) =>
                     setValue((v) => ({
                       ...v,
                       headers: v.headers.map((h, i) =>
-                        i === index ? { ...h, value: e.target.value } : h
+                        i === index ? { ...h, value: e.target.value } : h,
                       ),
                     }))
                   }
@@ -132,7 +132,7 @@ export function Form() {
                 <Button
                   type="button"
                   variant="ghost"
-                  className="w-full h-full p-4 rounded-none text-base"
+                  className="h-full w-full rounded-none p-4 text-base"
                   onClick={() =>
                     setValue((v) => ({
                       ...v,
@@ -155,7 +155,7 @@ export function Form() {
             name="body"
             placeholder=""
             rows={6}
-            className="p-4 rounded-none text-base md:text-base resize-none"
+            className="resize-none rounded-none p-4 text-base md:text-base"
             value={value.body}
             onChange={(e) => setValue((v) => ({ ...v, body: e.target.value }))}
           />
@@ -164,7 +164,7 @@ export function Form() {
           <div className="flex items-start space-x-2">
             <Checkbox
               id="json-body"
-              className="rounded-none size-5"
+              className="size-5 rounded-none"
               checked={value.json}
               onCheckedChange={(checked) =>
                 setValue((v) => ({ ...v, json: Boolean(checked) }))
@@ -172,7 +172,7 @@ export function Form() {
             />
             <Label
               htmlFor="json-body"
-              className="text-base flex flex-col items-start gap-0"
+              className="flex flex-col items-start gap-0 text-base"
             >
               <span>JSON Content-Type</span>
               <span className="text-muted-foreground">
@@ -183,7 +183,7 @@ export function Form() {
           <div className="flex items-start space-x-2">
             <Checkbox
               id="verbose"
-              className="rounded-none size-5"
+              className="size-5 rounded-none"
               checked={value.verbose}
               onCheckedChange={(checked) =>
                 setValue((v) => ({ ...v, verbose: Boolean(checked) }))
@@ -191,7 +191,7 @@ export function Form() {
             />
             <Label
               htmlFor="verbose"
-              className="text-base flex flex-col items-start gap-0"
+              className="flex flex-col items-start gap-0 text-base"
             >
               <span>Verbose</span>
               <span className="text-muted-foreground">
@@ -202,7 +202,7 @@ export function Form() {
           <div className="flex items-start space-x-2">
             <Checkbox
               id="insecure"
-              className="rounded-none size-5"
+              className="size-5 rounded-none"
               checked={value.insecure}
               onCheckedChange={(checked) =>
                 setValue((v) => ({ ...v, insecure: Boolean(checked) }))
@@ -210,7 +210,7 @@ export function Form() {
             />
             <Label
               htmlFor="insecure"
-              className="text-base flex flex-col items-start gap-0"
+              className="flex flex-col items-start gap-0 text-base"
             >
               <span>Accept self-signed certificats</span>
               <span className="text-muted-foreground">
@@ -225,7 +225,7 @@ export function Form() {
             name="headers"
             placeholder=""
             rows={3}
-            className="p-4 rounded-none text-base md:text-base resize-none"
+            className="resize-none rounded-none p-4 text-base md:text-base"
             value={generateCurlCommand(value)}
             readOnly
           />
@@ -235,7 +235,7 @@ export function Form() {
             type="button"
             onClick={() => copy(generateCurlCommand(value), {})}
             variant="outline"
-            className="w-full h-full p-4 rounded-none text-base"
+            className="h-full w-full rounded-none p-4 text-base"
           >
             {isCopied ? "Copied" : "Copy to Clipboard"}
           </Button>

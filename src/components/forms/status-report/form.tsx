@@ -1,11 +1,35 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import { CalendarIcon, ClockIcon } from "lucide-react";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 import {
   FormCardContent,
   FormCardSeparator,
 } from "@/components/forms/form-card";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -13,36 +37,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar";
-import { TabsContent } from "@/components/ui/tabs";
-import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tabs } from "@/components/ui/tabs";
-import {
-  Form,
-  FormMessage,
-  FormItem,
-  FormField,
-  FormLabel,
-  FormControl,
-  FormDescription,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useTransition } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
 import { monitors } from "@/data/monitors";
-import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { format } from "date-fns";
-import { CalendarIcon, ClockIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const colors = {
   operational: "text-success/80",
@@ -170,7 +168,7 @@ export function FormStatusReport({
                         size="sm"
                         className={cn(
                           "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
+                          !field.value && "text-muted-foreground",
                         )}
                       >
                         {field.value ? (
@@ -183,7 +181,7 @@ export function FormStatusReport({
                     </PopoverTrigger>
                   </FormControl>
                   <PopoverContent
-                    className="w-auto p-0 pointer-events-auto"
+                    className="pointer-events-auto w-auto p-0"
                     align="start"
                     side="left"
                   >
@@ -209,7 +207,7 @@ export function FormStatusReport({
                             defaultValue="12:00:00"
                             className="peer appearance-none ps-9 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                           />
-                          <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
+                          <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
                             <ClockIcon size={16} aria-hidden="true" />
                           </div>
                         </div>
@@ -251,7 +249,7 @@ export function FormStatusReport({
             <TabsContent value="tab-2">
               <div className="grid gap-2">
                 <Label>Preview</Label>
-                <p className="text-foreground py-2 px-3 text-sm border rounded-md">
+                <p className="rounded-md border px-3 py-2 text-foreground text-sm">
                   {watchMessage}
                 </p>
               </div>
@@ -277,7 +275,7 @@ export function FormStatusReport({
                         checked={field.value?.length === monitors.length}
                         onCheckedChange={(checked) => {
                           field.onChange(
-                            checked ? monitors.map((m) => m.id) : []
+                            checked ? monitors.map((m) => m.id) : [],
                           );
                         }}
                       />

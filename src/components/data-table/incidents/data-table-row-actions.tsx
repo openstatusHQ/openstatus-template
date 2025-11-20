@@ -1,8 +1,8 @@
 "use client";
 
-import { Row } from "@tanstack/react-table";
-
-import { getActions } from "@/data/incidents.client";
+import type { Row } from "@tanstack/react-table";
+import { useMemo, useState, useTransition } from "react";
+import { toast } from "sonner";
 import { QuickActions } from "@/components/dropdowns/quick-actions";
 import {
   AlertDialog,
@@ -14,16 +14,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useMemo, useState, useTransition } from "react";
-import { toast } from "sonner";
+import { getActions } from "@/data/incidents.client";
 
 interface DataTableRowActionsProps<TData> {
   row?: Row<TData>;
 }
 
 export function DataTableRowActions<TData>(
-
-  _props: DataTableRowActionsProps<TData>
+  _props: DataTableRowActionsProps<TData>,
 ) {
   const [isPending, startTransition] = useTransition();
   const [type, setType] = useState<"acknowledge" | "resolve" | null>(null);

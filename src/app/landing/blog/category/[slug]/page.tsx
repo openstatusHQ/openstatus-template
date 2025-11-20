@@ -1,6 +1,6 @@
-import { getBlogPosts } from "@/content/utils";
-import { ContentList } from "@/app/landing/content-list";
 import { BlogCategory } from "@/app/landing/blog/category";
+import { ContentList } from "@/app/landing/content-list";
+import { getBlogPosts } from "@/content/utils";
 
 export async function generateStaticParams() {
   const posts = getBlogPosts();
@@ -20,7 +20,7 @@ export default async function BlogCategoryPage({
 }) {
   const { slug } = await params;
   const allBlogs = getBlogPosts().filter(
-    (post) => post.metadata.category.toLowerCase() === slug.toLowerCase()
+    (post) => post.metadata.category.toLowerCase() === slug.toLowerCase(),
   );
 
   return (

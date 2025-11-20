@@ -1,5 +1,7 @@
 "use client";
 
+import { Plus } from "lucide-react";
+import { FormSheetStatusReportUpdate } from "@/components/forms/status-report-update/sheet";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,8 +15,6 @@ import { icons } from "@/data/icons";
 import { statusReports } from "@/data/status-reports";
 import { cn } from "@/lib/utils";
 import { DataTableRowActions } from "./data-table-row-actions";
-import { Plus } from "lucide-react";
-import { FormSheetStatusReportUpdate } from "@/components/forms/status-report-update/sheet";
 
 const colors = {
   operational: "text-success/80",
@@ -40,7 +40,7 @@ export function DataTable() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="flex h-7 w-7 p-0 ml-auto"
+                className="ml-auto flex h-7 w-7 p-0"
               >
                 <Plus />
                 <span className="sr-only">Create Status Report Update</span>
@@ -62,7 +62,7 @@ export function DataTable() {
               <TableCell>
                 <p className="text-wrap">{update.message}</p>
               </TableCell>
-              <TableCell className="text-muted-foreground w-[170px]">
+              <TableCell className="w-[170px] text-muted-foreground">
                 {update.date.toLocaleString()}
               </TableCell>
               <TableCell className="w-8">

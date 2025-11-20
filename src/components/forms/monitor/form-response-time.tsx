@@ -1,20 +1,11 @@
 "use client";
 
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-
-import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 import {
   FormCard,
   FormCardContent,
@@ -24,8 +15,16 @@ import {
   FormCardTitle,
 } from "@/components/forms/form-card";
 import { Button } from "@/components/ui/button";
-import { DevTool } from "@hookform/devtools";
-import { toast } from "sonner";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 const DEGRADED = 30_000;
 const TIMEOUT = 45_000;
@@ -83,7 +82,7 @@ export function FormResponseTime({
               Configure your degraded and timeout thresholds.
             </FormCardDescription>
           </FormCardHeader>
-          <FormCardContent className="grid sm:grid-cols-2 gap-4">
+          <FormCardContent className="grid gap-4 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="degraded"

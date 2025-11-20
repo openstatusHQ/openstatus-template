@@ -1,29 +1,27 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Lock } from "lucide-react";
+import type React from "react";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { InputWithAddons } from "@/components/common/input-with-addons";
+import { Link } from "@/components/common/link";
 import {
   FormCard,
+  FormCardContent,
+  FormCardDescription,
   FormCardFooter,
   FormCardFooterInfo,
   FormCardHeader,
   FormCardTitle,
-  FormCardDescription,
-  FormCardContent,
   FormCardUpgrade,
 } from "@/components/forms/form-card";
-
-import { Label } from "@/components/ui/label";
-
-import { InputWithAddons } from "@/components/common/input-with-addons";
-import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import React, { useTransition } from "react";
-import { toast } from "sonner";
-import { Link } from "@/components/common/link";
+import { Label } from "@/components/ui/label";
 
 const LOCKED = true;
 

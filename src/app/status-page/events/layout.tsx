@@ -1,5 +1,6 @@
 "use client";
 
+import { useStatusPage } from "@/components/status-page/floating-button";
 import {
   Status,
   StatusContent,
@@ -7,7 +8,6 @@ import {
   StatusHeader,
   StatusTitle,
 } from "@/components/status-page/status";
-import { useStatusPage } from "@/components/status-page/floating-button";
 
 export default function EventLayout({
   children,

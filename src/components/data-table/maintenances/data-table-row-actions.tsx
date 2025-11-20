@@ -1,18 +1,17 @@
 "use client";
 
-import { Row } from "@tanstack/react-table";
-import { getActions } from "@/data/maintenances.client";
-import { QuickActions } from "@/components/dropdowns/quick-actions";
+import type { Row } from "@tanstack/react-table";
 import { useRef } from "react";
+import { QuickActions } from "@/components/dropdowns/quick-actions";
 import { FormSheetMaintenance } from "@/components/forms/maintenance/sheet";
+import { getActions } from "@/data/maintenances.client";
 
 interface DataTableRowActionsProps<TData> {
   row?: Row<TData>;
 }
 
 export function DataTableRowActions<TData>(
-
-  _props: DataTableRowActionsProps<TData>
+  _props: DataTableRowActionsProps<TData>,
 ) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const actions = getActions({

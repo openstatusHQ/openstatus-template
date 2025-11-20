@@ -1,5 +1,11 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Inbox, LoaderCircle } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,12 +22,6 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Inbox, LoaderCircle } from "lucide-react";
-import { useEffect, useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const schema = z.object({
   message: z.string().min(1),
@@ -111,12 +111,12 @@ export function Feedback({
           size="sm"
           className={cn(
             "group gap-0 px-2 text-muted-foreground text-sm hover:bg-transparent hover:text-foreground data-[state=open]:text-foreground",
-            className
+            className,
           )}
           {...props}
         >
           Feedback{" "}
-          <kbd className="bg-background text-muted-foreground/70 ms-2 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 text-[0.625rem] font-medium font-mono group-hover:text-foreground group-data-[state=open]:text-foreground">
+          <kbd className="-me-1 ms-2 inline-flex h-5 max-h-full items-center rounded border bg-background px-1 font-medium font-mono text-[0.625rem] text-muted-foreground/70 group-hover:text-foreground group-data-[state=open]:text-foreground">
             F
           </kbd>
         </Button>
@@ -162,10 +162,10 @@ export function Feedback({
                 ) : (
                   <>
                     Send
-                    <kbd className="bg-background text-muted-foreground/70 ms-2 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 text-[0.625rem] font-medium font-mono group-hover:text-foreground">
+                    <kbd className="-me-1 ms-2 inline-flex h-5 max-h-full items-center rounded border bg-background px-1 font-medium font-mono text-[0.625rem] text-muted-foreground/70 group-hover:text-foreground">
                       ⌘
                     </kbd>
-                    <kbd className="bg-background text-muted-foreground/70 ms-2 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 text-[0.625rem] font-medium font-mono group-hover:text-foreground">
+                    <kbd className="-me-1 ms-2 inline-flex h-5 max-h-full items-center rounded border bg-background px-1 font-medium font-mono text-[0.625rem] text-muted-foreground/70 group-hover:text-foreground">
                       ↵
                     </kbd>
                   </>

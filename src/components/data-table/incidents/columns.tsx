@@ -1,13 +1,13 @@
 "use client";
 
-import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
-import { ColumnDef } from "@tanstack/react-table";
-import { DataTableRowActions } from "./data-table-row-actions";
-import { Incident } from "@/data/incidents";
+import type { ColumnDef } from "@tanstack/react-table";
+import { formatDistanceStrict } from "date-fns";
 import { TableCellDate } from "@/components/data-table/table-cell-date";
 import { TableCellLink } from "@/components/data-table/table-cell-link";
 import { TableCellNumber } from "@/components/data-table/table-cell-number";
-import { formatDistanceStrict } from "date-fns";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
+import type { Incident } from "@/data/incidents";
+import { DataTableRowActions } from "./data-table-row-actions";
 
 export const columns: ColumnDef<Incident>[] = [
   {

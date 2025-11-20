@@ -8,6 +8,10 @@
  * - use the '@/components/status-page` for the components
  */
 
+import { Menu } from "lucide-react";
+import NextLink from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { Link } from "@/components/common/link";
 import {
   FloatingButton,
@@ -22,11 +26,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
-import NextLink from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+
 const nav = [
   { label: "Status", href: "/status-page" },
   { label: "Events", href: "/status-page/events" },
@@ -36,9 +37,9 @@ const nav = [
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <StatusPageProvider>
-      <div className="min-h-screen flex flex-col gap-4">
+      <div className="flex min-h-screen flex-col gap-4">
         <header className="w-full border-b">
-          <nav className="max-w-2xl mx-auto px-3 py-2 flex items-center justify-between gap-3">
+          <nav className="mx-auto flex max-w-2xl items-center justify-between gap-3 px-3 py-2">
             {/* NOTE: same width as the `StatusUpdates` button */}
             <div className="w-[105px] shrink-0">
               <Link href="/">
@@ -57,11 +58,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </nav>
         </header>
-        <main className="max-w-2xl w-full mx-auto flex-1 px-3 py-2">
+        <main className="mx-auto w-full max-w-2xl flex-1 px-3 py-2">
           {children}
         </main>
         <footer className="w-full border-t">
-          <div className="max-w-2xl mx-auto px-3 py-2">
+          <div className="mx-auto max-w-2xl px-3 py-2">
             <p className="text-center text-muted-foreground">
               Powered by <Link href="#">OpenStatus</Link>
             </p>

@@ -1,5 +1,5 @@
-import { formatDate, type MDXData } from "@/content/utils";
 import Link from "next/link";
+import { formatDate, type MDXData } from "@/content/utils";
 
 export function ContentList({
   data,
@@ -26,10 +26,10 @@ export function ContentList({
           .map((post) => (
             <Link
               key={post.slug}
-              className="flex flex-col no-underline! hover:bg-muted"
+              className="no-underline! flex flex-col hover:bg-muted"
               href={`${prefix}/${post.slug}`}
             >
-              <div className="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
+              <div className="flex w-full flex-col space-x-0 md:flex-row md:space-x-2">
                 <span className="text-muted-foreground tabular-nums">
                   {formatDate(post.metadata.publishedAt, false)}
                 </span>

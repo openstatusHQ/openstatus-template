@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -8,30 +9,28 @@ import {
   // XAxis,
   YAxis,
 } from "recharts";
-
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { cn } from "@/lib/utils";
-import { ChartTooltipNumber } from "./chart-tooltip-number";
-import { ChartLegendBadge } from "./chart-legend-badge";
-import { useState } from "react";
 import { regions } from "@/data/regions";
 import { formatMilliseconds } from "@/lib/formatter";
+import { cn } from "@/lib/utils";
+import { ChartLegendBadge } from "./chart-legend-badge";
+import { ChartTooltipNumber } from "./chart-tooltip-number";
 
 const r = regions.filter((r) =>
-  ["ams", "bog", "arn", "atl", "bom", "syd", "fra"].includes(r.code)
+  ["ams", "bog", "arn", "atl", "bom", "syd", "fra"].includes(r.code),
 );
 
 const randomizer = Math.random() * 50;
 
 const chartData = Array.from({ length: 30 }, (_, i) => ({
   timestamp: new Date(
-    new Date().setMinutes(new Date().getMinutes() - i)
+    new Date().setMinutes(new Date().getMinutes() - i),
   ).toLocaleString("default", {
     hour: "numeric",
     minute: "numeric",
@@ -53,7 +52,7 @@ const s = r.sort((a, b) => {
         return value;
       }
       return 0;
-    })
+    }),
   );
   const bAvg = avg(
     chartData.map((d) => {
@@ -62,7 +61,7 @@ const s = r.sort((a, b) => {
         return value;
       }
       return 0;
-    })
+    }),
   );
   return bAvg - aAvg;
 });
@@ -73,36 +72,45 @@ const chartConfig = s
     label: item.code,
     color: `var(--rainbow-${index + 1})`,
   }))
-  .reduce((acc, item) => {
-    acc[item.code] = item;
-    return acc;
-  }, {} as Record<string, { label: string; color: string }>) satisfies ChartConfig;
+  .reduce(
+    (acc, item) => {
+      acc[item.code] = item;
+      return acc;
+    },
+    {} as Record<string, { label: string; color: string }>,
+  ) satisfies ChartConfig;
 
 function avg(values: number[]) {
   return Math.round(
-    values.reduce((acc, curr) => acc + curr, 0) / values.length
+    values.reduce((acc, curr) => acc + curr, 0) / values.length,
   );
 }
 
-const annotation = r.reduce((acc, item) => {
-  acc[item.code] = formatMilliseconds(
-    avg(
-      chartData.map((d) => {
-        const value = d[item.code as keyof typeof d];
-        if (typeof value === "number") {
-          return value;
-        }
-        return 0;
-      })
-    )
-  );
-  return acc;
-}, {} as Record<string, string>);
+const annotation = r.reduce(
+  (acc, item) => {
+    acc[item.code] = formatMilliseconds(
+      avg(
+        chartData.map((d) => {
+          const value = d[item.code as keyof typeof d];
+          if (typeof value === "number") {
+            return value;
+          }
+          return 0;
+        }),
+      ),
+    );
+    return acc;
+  },
+  {} as Record<string, string>,
+);
 
-const tooltip = r.reduce((acc, item) => {
-  acc[item.code] = item.location;
-  return acc;
-}, {} as Record<string, string>);
+const tooltip = r.reduce(
+  (acc, item) => {
+    acc[item.code] = item.location;
+    return acc;
+  },
+  {} as Record<string, string>,
+);
 
 export function ChartLineRegions({ className }: { className?: string }) {
   const [activeSeries, setActiveSeries] = useState<
@@ -139,7 +147,7 @@ export function ChartLineRegions({ className }: { className?: string }) {
                     return (
                       <>
                         <span className="font-mono">{name}</span>{" "}
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-muted-foreground text-xs">
                           {region?.location}
                         </span>
                       </>
@@ -189,7 +197,7 @@ export function ChartLineRegions({ className }: { className?: string }) {
               maxActive={4}
               annotation={annotation}
               tooltip={tooltip}
-              className="overflow-x-scroll pt-1 ps-1 justify-start font-mono"
+              className="justify-start overflow-x-scroll ps-1 pt-1 font-mono"
             />
           }
         />

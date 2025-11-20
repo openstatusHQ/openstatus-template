@@ -1,8 +1,8 @@
 import {
   EmptyStateContainer,
+  EmptyStateDescription,
   EmptyStateTitle,
 } from "@/components/content/empty-state";
-import { EmptyStateDescription } from "@/components/content/empty-state";
 import {
   Section,
   SectionGroup,

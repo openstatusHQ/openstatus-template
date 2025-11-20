@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -6,8 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ContactForm, FormValues } from "./form";
-import { useState } from "react";
+import { ContactForm, type FormValues } from "./form";
 
 export function FormDialogSupportContact({
   children,

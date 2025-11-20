@@ -1,5 +1,5 @@
-import { getToolsPage } from "@/content/utils";
 import { CustomMDX } from "@/content/mdx";
+import { getToolsPage } from "@/content/utils";
 import { Calculation } from "./client";
 
 export default function Page() {
