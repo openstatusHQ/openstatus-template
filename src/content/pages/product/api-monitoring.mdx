@@ -6,18 +6,61 @@ summary: "Openstatus allows your to monitor your API from multiple regions aroun
 category: "Product"
 ---
 
-
-## Why monitor your API from an external providers? 
+## Why monitor your API from an external providers?
 
 Internally you might already have a Grafana, or Signoz deployed. They are working great to monitor your internal metrics, but they are not able to monitor from an external point of view.
 
 With openstatus you can monitor your API from multiple regions around the world, and be sure that your customers are able to reach your API.
 
+<Grid>
+<div>
+
+**Monitoring Dashboard**
+
+<Image src="/assets/dashboard.png" alt="dashboard monitor charts" />
+
+</div>
+<div>
+
+**Response Logs**
+
+<Image src="/assets/dashboard-logs.png" alt="dashboard monitor logs" />
+
+</div>
+</Grid>
 
 ## Why choose openstatus for API monitoring?
 
-- CLI: You can manage, trigger your API monitoring from the CLI
-- Monitoring as code: You can store your monitoring configuration in your git repository
-- Global: Monitor your API from multiple regions around the world
-- Multi cloud: Our probes are deployed on multiple cloud providers (Fly.io, Koyeb, Railway)
-- Export your API monitoring metrics to your observability stack with our opentelemetry exporter
+### CLI
+
+You can manage or trigger your monitors via CLI. We provide a simple [GitHub Action](https://github.com/marketplace/actions/openstatus-synthetics-ci) to run it in your **CI/CD**.
+
+### Assertions
+
+Validating your response can be important. You can do **status code**, **header** or **body text** assertions. Read more [in the docs](https://docs.openstatus.dev/reference/http-monitor/#assertions).
+
+Read your GraphQL query e.g.:
+
+```json
+...
+```
+
+### Thresholds
+
+You can set a **degraded at** and **timeout** threshold whenever required. We will send you a notification whenever the responses exceed the thresholds.
+
+### Open Telemetry
+
+When needed, you can **export to OTel** every response we do. Access the data and set yourself an **alert channel** in Grafana, Honeycomb etc.. Read more [in our guide](https://docs.openstatus.dev/guides/how-to-export-metrics-to-otlp-endpoint/).
+
+### Private locations
+
+You can **deploy our probes** on your own VPC, [Cloudflare Containers](https://docs.openstatus.dev/guides/how-to-deploy-probes-cloudflare-containers/) and more. It is **8.5MB small** and fits even on a [Raspberry Pi 3](/blog) with ease. Read more [in the docs](https://docs.openstatus.dev/tutorial/how-to-create-private-location/).
+
+---
+
+Check your website's latency
+
+<ButtonLink href="/landing/play/checker">Global Speed Checker</ButtonLink>
+
+---
