@@ -38,93 +38,32 @@ category: "Product"
 
 ## Status Pages
 
-### Why do you need a Status Page?
-
 A status page helps you communicate incidents more effectively. It adds **transparency**, so users aren't left guessing. It enables **proactive communication**, giving updates without users needing to ask. And it shows **reliability**, not just in uptime but in how you handle downtime and keep people informed.
 
-### Why choose openstatus for Status Pages?
-
-#### Customization
-
-Make it yours. Pick themes that match your brand, customize colors, or contribute your own design to the community.
+Make it yours with [themes from our Theme Store](https://themes.openstatus.dev), custom domains, and branding. Share publicly or password protect for internal teams. Keep everyone in the loop with status reports, maintenance windows, and subscriptions.
 
 - [Pick a theme from our Theme Store](https://themes.openstatus.dev)
-- Update favicon and branding
-- Custom domains to keep your brand consistent
-
-#### Visibility
-
-Control who sees what. Share publicly or keep it internal—you decide.
-
-- **Public status pages** for transparent communication
-- **Password protected pages** for internal teams or clients
-- RSS feeds work even on private pages with `?pw=` parameter
-
-#### Communication
-
-Keep everyone in the loop. Post updates and let users subscribe to stay informed.
-
-- Create status reports for ongoing incidents
-- Schedule maintenance windows
-- Subscription channels: email, RSS/Atom, SSH
+- Public or **password protected** pages
+- **Custom domains**
+- **Status reports** and **maintenance windows**
+- **Subscription channels**: email, RSS/Atom, SSH
 
 Read more [about status pages](/landing/status-page).
 
 ## Monitoring
 
-### Why do you need Monitoring?
+Uptime monitoring helps you detect when your website or service goes down. Instead of learning about issues from users, you get **notified immediately** and can respond faster. Monitor your APIs to ensure they return the expected values within a **defined threshold**, helping you **catch** slow responses or failures before they affect users.
 
-Uptime monitoring helps you detect when your website or service goes down. Instead of learning about issues from users, you get **notified immediately** and can respond faster. You can also **monitor your APIs** to ensure they return the expected values within a **defined threshold**, helping you **catch** slow responses or failures before they affect users.
+Get a real picture with **28 regions** across multiple clouds. Validate your APIs with **assertions** and **thresholds**. Define monitors as **YAML configuration** with our [CLI](https://docs.openstatus.dev/tutorial/get-started-with-openstatus-cli/). Deploy our **8.5MB Docker image** behind firewalls or export to [OpenTelemetry](https://docs.openstatus.dev/guides/how-to-export-metrics-to-otlp-endpoint/).
 
-### Why choose openstatus for Monitoring?
-
-#### Global Multi-Cloud
-
-Get a real picture of your uptime. Test from where your users actually are.
-
-- **28 regions** across Fly.io, Koyeb, and Railway
-- Multi-cloud means no single point of failure
+- **28 regions** across multi-cloud providers (Fly.io, Koyeb, Railway)
+- **API Monitoring**: assertions, thresholds, status codes, headers, body validation
+- **Monitoring as Code**: YAML configuration, GitHub Actions, CLI
+- **Private Locations**: 8.5MB Docker image for internal monitoring
+- **Integrations**: OpenTelemetry export, notification channels (email, Slack, Discord, etc.)
 - Check all regions in our [global speed checker](/landing/play/checker)
 
-Read more [about uptime monitoring](/landing/uptime-monitoring).
-
-#### API Monitoring
-
-Make sure your API actually works, not just responds. Validate the details that matter.
-
-- **Assertions** for status codes, headers, and body content
-- **Thresholds** for degraded performance and timeouts
-- Catch issues before they reach production
-
-Read more [about API monitoring](/landing/api-monitoring).
-
-#### Monitoring as Code
-
-Stop clicking through dashboards. Define monitors once, version them like code.
-
-- **YAML configuration** that lives in your repo
-- [GitHub Action](https://github.com/marketplace/actions/openstatus-synthetics-ci) for CI/CD integration
-- CLI for scripting and automation
-
-Read more [about monitoring as code](/landing/monitoring-as-code).
-
-#### Private Locations
-
-Monitor internal services behind firewalls. Deploy our probes where you need them.
-
-- **8.5MB Docker image** that runs anywhere
-- Deploy on [Cloudflare Containers](https://docs.openstatus.dev/guides/how-to-deploy-probes-cloudflare-containers/), Raspberry Pi, or your VPC
-- Monitor services not accessible from the internet
-
-Read more [about private locations](/landing/private-locations).
-
-#### Integrations
-
-Export your data. Integrate with your existing observability stack.
-
-- [Export to OpenTelemetry](https://docs.openstatus.dev/guides/how-to-export-metrics-to-otlp-endpoint/)
-- Set alerts in Grafana, Honeycomb, or any OTel-compatible platform
-- Notification channels: email, Slack, Discord, and more
+Read more about [uptime monitoring](/landing/uptime-monitoring), [API monitoring](/landing/api-monitoring), [monitoring as code](/landing/monitoring-as-code), and [private locations](/landing/private-locations).
 
 ---
 
