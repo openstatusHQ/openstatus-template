@@ -103,7 +103,7 @@ export default function Home() {
             <CopyIcon className="shrink-0" />
           )}
         </Button>
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex flex-wrap items-center justify-center gap-2">
           <Button size="sm" variant="outline" asChild>
             <NextLink
               href="https://github.com/openstatusHQ/openstatus-template"
@@ -117,8 +117,11 @@ export default function Home() {
           <Button size="sm" asChild>
             <NextLink href="/dashboard/onboarding">Dashboard</NextLink>
           </Button>
-          <Button size="sm" variant="ghost" asChild>
+          <Button size="sm" variant="secondary" asChild>
             <NextLink href="/status-page">Status Page</NextLink>
+          </Button>
+          <Button size="sm" variant="ghost" asChild>
+            <NextLink href="/landing">Landing</NextLink>
           </Button>
         </div>
       </main>
