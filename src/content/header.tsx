@@ -59,7 +59,7 @@ export function Header() {
           <DropdownMenuTrigger className="group flex items-center gap-1 data-[state=open]:bg-muted">
             <span className="w-full truncate text-left">{section.label}</span>
             <span
-              className="text-muted-foreground relative top-[1px] text-xs shrink-0 origin-center transition duration-300 group-data-[state=open]:rotate-180 group-data-[state=open]:text-foreground group-hover:text-foreground"
+              className="text-muted-foreground relative top-[1px] text-[10px] shrink-0 origin-center transition duration-300 group-data-[state=open]:rotate-180 group-data-[state=open]:text-foreground group-hover:text-foreground"
               aria-hidden="true"
             >
               ▲
