@@ -1,6 +1,12 @@
 import { CustomMDX } from "@/content/mdx";
 import { getToolsPage } from "@/content/utils";
-import { CheckerProvider, Form, ResponseStatus, ResultTable } from "./client";
+import {
+  CheckerProvider,
+  DetailsButtonLink,
+  Form,
+  ResponseStatus,
+  ResultTable,
+} from "./client";
 
 export default function Page() {
   const page = getToolsPage("checker");
@@ -12,6 +18,7 @@ export default function Page() {
         <Form />
         <ResponseStatus />
         <ResultTable />
+        <DetailsButtonLink />
       </CheckerProvider>
       <CustomMDX source={page.content} />
     </section>

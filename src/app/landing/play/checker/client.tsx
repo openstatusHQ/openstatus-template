@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { regions } from "@/data/regions";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type Values = { region: string; latency: number; status: number };
 
@@ -70,7 +71,7 @@ export function Form() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="grid grid-cols-5 gap-2">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
         <div className="col-span-1">
           <Select name="method" defaultValue="GET">
             <SelectTrigger className="h-auto! w-full rounded-none p-4 text-base">
@@ -89,17 +90,17 @@ export function Form() {
             </SelectContent>
           </Select>
         </div>
-        <div className="col-span-3">
+        <div className="col-span-2 md:col-span-3">
           <Input
             name="url"
             placeholder="https://openstatus.dev"
             className="h-auto! rounded-none p-4 text-base md:text-base"
           />
         </div>
-        <div>
+        <div className="col-span-3 sm:col-span-1">
           <Button
             type="submit"
-            variant="outline"
+            variant="default"
             className="h-full w-full rounded-none p-4 text-base"
           >
             Submit
@@ -147,7 +148,7 @@ export function ResultTable() {
                         "size-4",
                         STATUS_CODES[
                           value.status.toString()[0] as keyof typeof STATUS_CODES
-                        ],
+                        ]
                       )}
                     />
                   </td>
@@ -191,5 +192,27 @@ export function ResponseStatus() {
         </div>
       ))}
     </div>
+  );
+}
+
+export function DetailsButtonLink() {
+  const { values } = useCheckerContext();
+
+  if (values.length !== regions.length) {
+    return null;
+  }
+  return (
+    <Button
+      variant="default"
+      className="h-full w-full rounded-none p-4 text-base"
+      asChild
+    >
+      <Link
+        href="/landing/play/checker/1"
+        className="no-underline! text-background!"
+      >
+        Response details
+      </Link>
+    </Button>
   );
 }
