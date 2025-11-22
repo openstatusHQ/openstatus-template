@@ -82,7 +82,7 @@ function Grid({
         colsClass[cols],
         topBorderClass[cols],
         leftBorderClass[cols],
-        className
+        className,
       )}
     >
       {children}
@@ -109,7 +109,7 @@ function CustomLink(props: React.ComponentProps<"a">) {
 }
 
 function ButtonLink(
-  props: React.ComponentProps<typeof Button> & { href: string }
+  props: React.ComponentProps<typeof Button> & { href: string },
 ) {
   return (
     <Button
@@ -185,7 +185,7 @@ function createHeading(level: number) {
           className: "anchor",
         }),
       ],
-      children
+      children,
     );
   };
 

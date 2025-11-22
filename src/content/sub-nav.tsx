@@ -1,10 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "./copy-button";
-import Link from "next/link";
 
 export function SubNav({ className, ...props }: React.ComponentProps<"div">) {
   const pathname = usePathname();

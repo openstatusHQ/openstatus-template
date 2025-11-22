@@ -1,5 +1,5 @@
-import { components } from "@/content/mdx";
 import Link from "next/link";
+import { components } from "@/content/mdx";
 
 export default function Page() {
   return (
