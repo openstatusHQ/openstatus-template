@@ -35,15 +35,36 @@ With openstatus you can monitor your API from multiple regions around the world,
 
 You can manage or trigger your monitors via CLI. We provide a simple [GitHub Action](https://github.com/marketplace/actions/openstatus-synthetics-ci) to run it in your **CI/CD**.
 
+```
++------------------------------------------------------------------------------------------+
+| dwightschrute@computer ~ > openstatus                                                    |
+|                                                                                          |
+| NAME:                                                                                    |
+| OpenStatus - This is OpenStatus Command Line Interface                                   |
+|                                                                                          |
+| USAGE:                                                                                   |
+| OpenStatus [global options] [command [command options]] [arguments...]                   |
+|                                                                                          |
+| VERSION:                                                                                 |
+| v0.0.7                                                                                   |
+|                                                                                          |
+| COMMANDS:                                                                                |
+| monitors  Manage your monitors                                                           |
+| run, r    Run your synthetics tests defined in your configuration file                   |
+| whoami, w Get your current workspace Information                                         |
+| help, h   Shows a list of commands or help for one command                               |
+|                                                                                          |
+| GLOBAL OPTIONS:                                                                          |
+| --help, -h    show help                                                                  |
+| --version, -v print the version                                                          |
+|                                                                                          |
++------------------------------------------------------------------------------------------+
+```
+
 ### Assertions
 
 Validating your response can be important. You can do **status code**, **header** or **body text** assertions. Read more [in the docs](https://docs.openstatus.dev/reference/http-monitor/#assertions).
 
-Read your GraphQL query e.g.:
-
-```json
-...
-```
 
 ### Thresholds
 
@@ -51,7 +72,7 @@ You can set a **degraded at** and **timeout** threshold whenever required. We wi
 
 ### Open Telemetry
 
-When needed, you can **export to OTel** every response we do. Access the data and set yourself an **alert channel** in Grafana, Honeycomb etc.. Read more [in our guide](https://docs.openstatus.dev/guides/how-to-export-metrics-to-otlp-endpoint/).
+When needed, you can export to your **OTLP endpoint** the metrics for every request we do. Access the data and set yourself an **alert channel** in Grafana, Honeycomb etc.. Read more [in our guide](https://docs.openstatus.dev/guides/how-to-export-metrics-to-otlp-endpoint/).
 
 ### Private locations
 

@@ -89,6 +89,10 @@ const companySection = {
       label: "Privacy",
       href: "/landing/privacy",
     },
+    {
+      label: "Subprocessors",
+      href: "/landing/subprocessors",
+    },
   ],
 };
 
