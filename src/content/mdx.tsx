@@ -75,14 +75,14 @@ function Grid({
   return (
     <div
       className={cn(
-        "my-6 grid grid-cols-1",
+        "my-4 grid grid-cols-1",
         "[&>*]:border [&>*]:border-border [&>*]:p-4",
         // NOTE: remove extra margin from prose grid cells of first and last element
         "[&>*>*:first-child]:!mt-0 [&>*>*:last-child]:!mb-0",
         colsClass[cols],
         topBorderClass[cols],
         leftBorderClass[cols],
-        className,
+        className
       )}
     >
       {children}
@@ -109,7 +109,7 @@ function CustomLink(props: React.ComponentProps<"a">) {
 }
 
 function ButtonLink(
-  props: React.ComponentProps<typeof Button> & { href: string },
+  props: React.ComponentProps<typeof Button> & { href: string }
 ) {
   return (
     <Button
@@ -185,7 +185,7 @@ function createHeading(level: number) {
           className: "anchor",
         }),
       ],
-      children,
+      children
     );
   };
 
