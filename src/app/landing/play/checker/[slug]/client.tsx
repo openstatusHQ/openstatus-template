@@ -105,7 +105,7 @@ export function Table() {
                   regionConfig?.flag,
                   regionConfig?.continent,
                 ].some((value) =>
-                  value?.toLowerCase().includes(input.toLowerCase()),
+                  value?.toLowerCase().includes(input.toLowerCase())
                 );
               })
               .sort((a, b) => {
@@ -146,7 +146,7 @@ export function Table() {
                           className={cn(
                             STATUS_CODES[
                               status.toString()[0] as keyof typeof STATUS_CODES
-                            ],
+                            ]
                           )}
                         >
                           {status}
@@ -184,7 +184,7 @@ export function Table() {
                       </tr>
                     </HeadersDialog>
                   );
-                },
+                }
               )}
           </tbody>
         </table>
@@ -204,28 +204,34 @@ function TableSort({
       variant="ghost"
       className={cn(
         "h-auto! w-full rounded-none p-4 text-base md:text-base",
-        className,
+        className
       )}
       {...props}
     >
       {children}
       <span className="flex flex-col">
-        <ChevronUp
+        <span
+          aria-hidden="true"
           className={cn(
-            "-mb-0.5 size-3",
+            "text-[8px] shrink-0",
             direction === "asc"
               ? "text-accent-foreground"
-              : "text-muted-foreground",
+              : "text-muted-foreground"
           )}
-        />
-        <ChevronDown
+        >
+          ▲
+        </span>
+        <span
+          aria-hidden="true"
           className={cn(
-            "-mt-0.5 size-3",
+            "text-[8px] shrink-0",
             direction === "desc"
               ? "text-accent-foreground"
-              : "text-muted-foreground",
+              : "text-muted-foreground"
           )}
-        />
+        >
+          ▼
+        </span>
       </span>
     </Button>
   );

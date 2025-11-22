@@ -1,4 +1,3 @@
-import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -59,10 +58,12 @@ export function Header() {
         <DropdownMenu key={section.label}>
           <DropdownMenuTrigger className="group flex items-center gap-1 data-[state=open]:bg-muted">
             <span className="w-full truncate text-left">{section.label}</span>
-            <ChevronDown
-              className="relative top-[1px] ml-1 size-4 shrink-0 transition duration-300 group-data-[state=open]:rotate-180"
+            <span
+              className="text-muted-foreground relative top-[1px] text-xs shrink-0 origin-center transition duration-300 group-data-[state=open]:rotate-180 group-data-[state=open]:text-foreground group-hover:text-foreground"
               aria-hidden="true"
-            />
+            >
+              ▲
+            </span>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="start"
