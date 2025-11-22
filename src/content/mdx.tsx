@@ -125,9 +125,27 @@ function ButtonLink(
   );
 }
 
-function Code({ children, ...props }: React.ComponentProps<"code">) {
-  const codeHTML = highlight(children?.toString() ?? "");
-  return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
+function Code({ children, className, ...props }: React.ComponentProps<"code">) {
+  // Only apply syntax highlighting if a language is specified (className contains "language-")
+  const hasLanguage = className?.includes("language-");
+
+  if (hasLanguage) {
+    const codeHTML = highlight(children?.toString() ?? "");
+    return (
+      <code
+        dangerouslySetInnerHTML={{ __html: codeHTML }}
+        className={className}
+        {...props}
+      />
+    );
+  }
+
+  // Plain code block without language - render as-is
+  return (
+    <code className={className} {...props}>
+      {children}
+    </code>
+  );
 }
 
 function extractTextFromReactNode(node: React.ReactNode): string {
