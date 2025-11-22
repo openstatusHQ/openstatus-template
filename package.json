@@ -57,6 +57,7 @@
     "react-day-picker": "8.10.1",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.2",
+    "react-medium-image-zoom": "^5.4.0",
     "recharts": "^2.15.3",
     "sonner": "^2.0.3",
     "sugar-high": "^0.9.4",

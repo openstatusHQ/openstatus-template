@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "./copy-button";
 import { LatencyChartTable } from "./latency-chart-table";
+import { ImageZoom } from "./image-zoom";
 
 function Table({
   data,
@@ -217,7 +218,14 @@ function CustomImage({ className, ...props }: React.ComponentProps<"img">) {
   if (!src || typeof src !== "string") {
     return (
       <figure>
-        <img className={className} {...props} />
+        <ImageZoom
+          backdropClassName={cn(
+            '[&_[data-rmiz-modal-overlay="visible"]]:bg-background/80'
+          )}
+          zoomMargin={16}
+        >
+          <img className={className} {...props} />
+        </ImageZoom>
         <figcaption>{alt}</figcaption>
       </figure>
     );
@@ -249,18 +257,32 @@ function CustomImage({ className, ...props }: React.ComponentProps<"img">) {
 
   return (
     <figure>
-      <img
-        {...rest}
-        src={src}
-        alt={alt}
-        className={cn("block dark:hidden", className)}
-      />
-      <img
-        {...rest}
-        src={useDarkImage ? darkSrc : src}
-        alt={alt}
-        className={cn("hidden dark:block", className)}
-      />
+      <ImageZoom
+        backdropClassName={cn(
+          '[&_[data-rmiz-modal-overlay="visible"]]:bg-black/80'
+        )}
+        zoomMargin={16}
+      >
+        <img
+          {...rest}
+          src={src}
+          alt={alt}
+          className={cn("block dark:hidden", className)}
+        />
+      </ImageZoom>
+      <ImageZoom
+        backdropClassName={cn(
+          '[&_[data-rmiz-modal-overlay="visible"]]:bg-black/80'
+        )}
+        zoomMargin={16}
+      >
+        <img
+          {...rest}
+          src={useDarkImage ? darkSrc : src}
+          alt={alt}
+          className={cn("hidden dark:block", className)}
+        />
+      </ImageZoom>
       {alt && <figcaption>{alt}</figcaption>}
     </figure>
   );
