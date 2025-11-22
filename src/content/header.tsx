@@ -30,7 +30,12 @@ export function Header() {
               aria-hidden="true"
             />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-56 rounded-none">
+          <DropdownMenuContent
+            align="start"
+            className="rounded-none min-w-[var(--radix-dropdown-menu-trigger-width)]"
+            alignOffset={0}
+            sideOffset={0}
+          >
             {section.items.map((item) => (
               <DropdownMenuItem
                 key={item.href}
