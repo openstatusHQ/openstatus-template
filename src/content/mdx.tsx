@@ -82,7 +82,7 @@ function Grid({
         colsClass[cols],
         topBorderClass[cols],
         leftBorderClass[cols],
-        className,
+        className
       )}
     >
       {children}
@@ -109,7 +109,7 @@ function CustomLink(props: React.ComponentProps<"a">) {
 }
 
 function ButtonLink(
-  props: React.ComponentProps<typeof Button> & { href: string },
+  props: React.ComponentProps<typeof Button> & { href: string }
 ) {
   return (
     <Button
@@ -151,10 +151,13 @@ function extractTextFromReactNode(node: React.ReactNode): string {
 function Pre({ children, ...props }: React.ComponentProps<"pre">) {
   const textContent = extractTextFromReactNode(children);
   return (
-    <pre {...props}>
-      {children}
-      <CopyButton copyText={textContent} className="absolute top-0 right-0" />
-    </pre>
+    <div className="relative">
+      <pre {...props}>{children}</pre>
+      <CopyButton
+        copyText={textContent}
+        className="absolute top-px right-px backdrop-blur-xs"
+      />
+    </div>
   );
 }
 
@@ -182,7 +185,7 @@ function createHeading(level: number) {
           className: "anchor",
         }),
       ],
-      children,
+      children
     );
   };
 

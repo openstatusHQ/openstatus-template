@@ -105,6 +105,7 @@ export function Form() {
             Submit
           </Button>
         </div>
+        {/* TOOD: add button to details */}
       </div>
     </form>
   );
@@ -146,7 +147,7 @@ export function ResultTable() {
                         "size-4",
                         STATUS_CODES[
                           value.status.toString()[0] as keyof typeof STATUS_CODES
-                        ],
+                        ]
                       )}
                     />
                   </td>

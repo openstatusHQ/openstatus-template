@@ -59,6 +59,10 @@ const resourcesHeaderSection = {
       label: "Compare",
       href: "/landing/compare",
     },
+    {
+      label: "Playground (Tools)",
+      href: "/landing/play",
+    },
   ],
 };
 

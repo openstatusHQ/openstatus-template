@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Page() {
   return (
     <section className="prose">
-      <h1>Playground</h1>
+      <h1>Playground (Tools)</h1>
       <components.Grid cols={2}>
         {PLAY.map((tool) => (
           <div key={tool.href}>
