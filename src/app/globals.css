@@ -327,6 +327,7 @@
 }
 
 .prose ol {
+  /* NOTE: maybe replace by default pl and list-inside */
   @apply pl-4 list-outside list-decimal marker:text-muted-foreground;
 }
 

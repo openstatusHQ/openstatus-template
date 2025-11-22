@@ -111,7 +111,7 @@ export function Form() {
                     setValue((v) => ({
                       ...v,
                       headers: v.headers.map((h, i) =>
-                        i === index ? { ...h, key: e.target.value } : h,
+                        i === index ? { ...h, key: e.target.value } : h
                       ),
                     }))
                   }
@@ -124,7 +124,7 @@ export function Form() {
                     setValue((v) => ({
                       ...v,
                       headers: v.headers.map((h, i) =>
-                        i === index ? { ...h, value: e.target.value } : h,
+                        i === index ? { ...h, value: e.target.value } : h
                       ),
                     }))
                   }
@@ -234,7 +234,6 @@ export function Form() {
           <Button
             type="button"
             onClick={() => copy(generateCurlCommand(value), {})}
-            variant="outline"
             className="h-full w-full rounded-none p-4 text-base"
           >
             {isCopied ? "Copied" : "Copy to Clipboard"}

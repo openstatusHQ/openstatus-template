@@ -1,4 +1,10 @@
 import { components } from "@/content/mdx";
+import {
+  ContentBoxDescription,
+  ContentBoxLink,
+  ContentBoxTitle,
+  ContentBoxUrl,
+} from "../content-box";
 
 export default function Page() {
   return (
@@ -6,17 +12,20 @@ export default function Page() {
       <h1>External Status</h1>
       <components.Grid cols={2}>
         {EXTERNAL_STATUS.map((status) => (
-          <div key={status.name}>
-            <p>
-              <strong>{status.name}</strong>
-            </p>
-            <p className={STATUS[status.status_description]}>
+          <ContentBoxLink
+            key={status.name}
+            href={status.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <ContentBoxTitle>{status.name}</ContentBoxTitle>
+            <ContentBoxDescription
+              className={STATUS[status.status_description]}
+            >
               {status.status_description}
-            </p>
-            <a href={status.url} target="_blank" rel="noopener noreferrer">
-              {status.url.replace(/^https:\/\/(www\.)?/, "")}
-            </a>
-          </div>
+            </ContentBoxDescription>
+            <ContentBoxUrl url={status.url} />
+          </ContentBoxLink>
         ))}
       </components.Grid>
     </section>

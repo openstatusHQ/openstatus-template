@@ -134,7 +134,7 @@ export function Table() {
                   const regionConfig = regions.find((r) => r.code === region);
                   return (
                     <HeadersDialog key={region} headers={headers}>
-                      <tr>
+                      <tr className="hover:bg-muted/50">
                         <td>
                           {regionConfig?.flag} {regionConfig?.code}{" "}
                           <span className="text-muted-foreground">

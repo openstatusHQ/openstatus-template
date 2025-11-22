@@ -1,5 +1,10 @@
-import Link from "next/link";
 import { components } from "@/content/mdx";
+import {
+  ContentBoxDescription,
+  ContentBoxLink,
+  ContentBoxTitle,
+  ContentBoxUrl,
+} from "../content-box";
 
 export default function Page() {
   return (
@@ -7,17 +12,11 @@ export default function Page() {
       <h1>Playground (Tools)</h1>
       <components.Grid cols={2}>
         {PLAY.map((tool) => (
-          <div key={tool.href}>
-            <p>
-              <strong>{tool.label}</strong>
-            </p>
-            <p className="text-muted-foreground">{tool.description}</p>
-            <Link href={tool.href}>
-              {tool.href
-                .replace(/^https:\/\/(www\.)?/, "")
-                .replace("/landing", "")}
-            </Link>
-          </div>
+          <ContentBoxLink key={tool.href} href={tool.href}>
+            <ContentBoxTitle>{tool.label}</ContentBoxTitle>
+            <ContentBoxDescription>{tool.description}</ContentBoxDescription>
+            <ContentBoxUrl url={tool.href.replace("/landing", "")} />
+          </ContentBoxLink>
         ))}
       </components.Grid>
     </section>

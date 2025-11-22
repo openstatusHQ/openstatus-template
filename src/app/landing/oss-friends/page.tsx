@@ -1,4 +1,10 @@
 import { components } from "@/content/mdx";
+import {
+  ContentBoxDescription,
+  ContentBoxLink,
+  ContentBoxTitle,
+  ContentBoxUrl,
+} from "../content-box";
 
 export default function Page() {
   return (
@@ -6,15 +12,11 @@ export default function Page() {
       <h1>OSS Friends</h1>
       <components.Grid cols={2}>
         {OSS_FRIENDS.data.map((friend) => (
-          <div key={friend.name}>
-            <p>
-              <strong>{friend.name}</strong>
-            </p>
-            <p>{friend.description}</p>
-            <a href={friend.href} target="_blank" rel="noopener noreferrer">
-              {friend.href.replace(/^https:\/\/(www\.)?/, "")}
-            </a>
-          </div>
+          <ContentBoxLink key={friend.href} href={friend.href}>
+            <ContentBoxTitle>{friend.name}</ContentBoxTitle>
+            <ContentBoxDescription>{friend.description}</ContentBoxDescription>
+            <ContentBoxUrl url={friend.href} />
+          </ContentBoxLink>
         ))}
       </components.Grid>
     </section>
