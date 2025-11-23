@@ -1,16 +1,16 @@
+import { ExternalLink } from "lucide-react";
 import { Link } from "@/components/common/link";
+import { TableCellBoolean } from "@/components/data-table/table-cell-boolean";
+import { TableCellLink } from "@/components/data-table/table-cell-link";
 import { SidebarRight } from "@/components/nav/sidebar-right";
 import {
-  TooltipContent,
   Tooltip,
+  TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ExternalLink } from "lucide-react";
-import { statusPages } from "@/data/status-pages";
 import { monitors } from "@/data/monitors";
-import { TableCellLink } from "@/components/data-table/table-cell-link";
-import { TableCellBoolean } from "@/components/data-table/table-cell-boolean";
+import { statusPages } from "@/data/status-pages";
 
 // NOTE:
 const BADGE_URL =
@@ -34,7 +34,7 @@ export function Sidebar() {
             {
               label: "Favicon",
               value: (
-                <div className="rounded border bg-muted size-4 overflow-hidden">
+                <div className="size-4 overflow-hidden rounded border bg-muted">
                   <img src={statusPage.favicon} alt="favicon" />
                 </div>
               ),
@@ -72,7 +72,7 @@ export function Sidebar() {
           items: monitors
             // NOTE: only show the first 2 monitors
             .slice(0, 2)
-            .map((monitor) => {
+            .flatMap((monitor) => {
               const arr = [];
               const url = new URL(monitor.url);
               arr.push({
@@ -90,8 +90,7 @@ export function Sidebar() {
                 isNested: true,
               });
               return arr;
-            })
-            .flat(),
+            }),
           // items: [
           //   {
           //     label: "Name",

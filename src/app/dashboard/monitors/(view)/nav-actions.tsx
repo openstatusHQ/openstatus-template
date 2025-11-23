@@ -1,20 +1,20 @@
 "use client";
 
 import { Zap } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+import { ExportCodeDialog } from "@/components/dialogs/export-code";
+import { QuickActions } from "@/components/dropdowns/quick-actions";
+import { Feedback } from "@/components/feedback";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
+  TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  TooltipContent,
 } from "@/components/ui/tooltip";
-import { QuickActions } from "@/components/dropdowns/quick-actions";
-import { useRouter } from "next/navigation";
 import { getActions } from "@/data/monitors.client";
-import { toast } from "sonner";
-import { useState } from "react";
-import { ExportCodeDialog } from "@/components/dialogs/export-code";
-import { Feedback } from "@/components/feedback";
 
 export function NavActions() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -44,9 +44,9 @@ export function NavActions() {
       <Feedback />
       <div className="hidden font-medium text-muted-foreground lg:inline-block">
         5m ago
-        <span className="relative inline-flex ml-1.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success/80 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success" />
+        <span className="relative ml-1.5 inline-flex">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success/80 opacity-75" />
+          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
         </span>
       </div>
       <TooltipProvider>

@@ -1,21 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
-
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { ChartLegendBadge } from "./chart-legend-badge";
 
 const chartData = Array.from({ length: 28 }, (_, i) => ({
   timestamp: new Date(
-    new Date().setHours(new Date().getHours() - i * 6)
+    new Date().setHours(new Date().getHours() - i * 6),
   ).toLocaleString("default", {
     day: "numeric",
     month: "numeric",
@@ -113,7 +112,7 @@ export function ChartBarUptime({ className }: { className?: string }) {
                 });
               }}
               annotation={annotation}
-              className="overflow-x-scroll pt-1 ps-1 justify-start"
+              className="justify-start overflow-x-scroll ps-1 pt-1"
             />
           }
         />

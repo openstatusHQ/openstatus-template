@@ -1,3 +1,4 @@
+import { Lock, X } from "lucide-react";
 import { Link } from "@/components/common/link";
 import {
   BillingOverlay,
@@ -6,13 +7,12 @@ import {
   BillingOverlayDescription,
 } from "@/components/content/billing-overlay";
 import {
+  Section,
   SectionDescription,
   SectionGroup,
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
-
-import { Section } from "@/components/content/section";
 import { DataTable } from "@/components/data-table/response-logs/data-table";
 import DatePicker from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
@@ -22,13 +22,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { responseLogs } from "@/data/response-logs";
-import { Lock, X } from "lucide-react";
 
 const LOCKED = false;
 
-const logs = Array.from({ length: 10 })
-  .map(() => responseLogs)
-  .flat();
+const logs = Array.from({ length: 10 }).flatMap(() => responseLogs);
 
 export default function Page() {
   return (

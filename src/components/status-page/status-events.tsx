@@ -1,22 +1,22 @@
-import { type StatusReport } from "@/data/status-reports";
-import { type Maintenance } from "@/data/maintenances";
-import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
-import { formatTime } from "@/lib/formatter";
+import { UTCDate } from "@date-fns/utc";
+import { HoverCardPortal } from "@radix-ui/react-hover-card";
 import {
   format,
   formatDistanceStrict,
   formatDistanceToNowStrict,
 } from "date-fns";
+import { Check, Copy } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import type { Maintenance } from "@/data/maintenances";
+import type { StatusReport } from "@/data/status-reports";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { formatTime } from "@/lib/formatter";
+import { cn } from "@/lib/utils";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "../ui/hover-card";
-import { HoverCardPortal } from "@radix-ui/react-hover-card";
-import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { Check, Copy } from "lucide-react";
-import { UTCDate } from "@date-fns/utc";
 
 const STATUS_LABELS = {
   operational: "Resolved",
@@ -50,9 +50,9 @@ export function StatusEventContent({
     <div
       data-hoverable={hoverable}
       className={cn(
-        "group flex flex-col gap-2 border border-transparent rounded-lg px-3 -mx-3 py-2 -my-2",
-        "data-[hoverable=true]:hover:cursor-pointer data-[hoverable=true]:hover:bg-muted/50 data-[hoverable=true]:hover:border-border/50",
-        className
+        "group -mx-3 -my-2 flex flex-col gap-2 rounded-lg border border-transparent px-3 py-2",
+        "data-[hoverable=true]:hover:cursor-pointer data-[hoverable=true]:hover:border-border/50 data-[hoverable=true]:hover:bg-muted/50",
+        className,
       )}
       {...props}
     >
@@ -80,7 +80,7 @@ export function StatusEventAffected({
   ...props
 }: React.ComponentProps<"div">) {
   return (
-    <div className={cn("text-sm text-muted-foreground", className)} {...props}>
+    <div className={cn("text-muted-foreground text-sm", className)} {...props}>
       {children}
     </div>
   );
@@ -92,11 +92,11 @@ export function StatusEventAside({
   ...props
 }: React.ComponentProps<"div">) {
   return (
-    <div className="lg:absolute lg:-left-32 lg:top-0 lg:h-full">
+    <div className="lg:-left-32 lg:absolute lg:top-0 lg:h-full">
       <div
         className={cn(
           "flex flex-col gap-1 lg:sticky lg:top-0 lg:left-0",
-          className
+          className,
         )}
         {...props}
       >
@@ -117,7 +117,7 @@ export function StatusEventTimelineReport({
   const endedAt = new Date(updates[updates.length - 1].date);
   const duration = formatDistanceStrict(startedAt, endedAt);
   return (
-    <div className={cn("text-sm text-muted-foreground", className)} {...props}>
+    <div className={cn("text-muted-foreground text-sm", className)} {...props}>
       {/* TODO: make sure they are sorted by date */}
       {updates
         .sort((a, b) => b.date.getTime() - a.date.getTime())
@@ -151,7 +151,7 @@ function StatusEventTimelineReportUpdate({
       <div className="flex flex-row items-center justify-between gap-2">
         <div className="flex flex-row gap-2">
           <div className="flex flex-col">
-            <div className="flex flex-col items-center justify-center h-5">
+            <div className="flex h-5 flex-col items-center justify-center">
               <StatusEventTimelineDot />
             </div>
             {withSeparator ? <StatusEventTimelineSeparator /> : null}
@@ -159,13 +159,13 @@ function StatusEventTimelineReportUpdate({
           <div className="mb-2">
             <StatusEventTimelineTitle>
               <span>{STATUS_LABELS[report.status]}</span>{" "}
-              <span className="text-xs text-muted-foreground/70 font-mono underline underline-offset-2 decoration-dashed">
+              <span className="font-mono text-muted-foreground/70 text-xs underline decoration-dashed underline-offset-2">
                 <StatusEventDateHoverCard date={new Date(report.date)}>
                   {formatTime(report.date)}
                 </StatusEventDateHoverCard>
               </span>{" "}
               {duration ? (
-                <span className="text-xs text-muted-foreground/70 font-mono">
+                <span className="font-mono text-muted-foreground/70 text-xs">
                   (in {duration})
                 </span>
               ) : null}
@@ -193,28 +193,28 @@ export function StatusEventTimelineMaintenance({
       <div className="flex flex-row items-center justify-between gap-2">
         <div className="flex flex-row gap-2">
           <div className="flex flex-col">
-            <div className="flex flex-col items-center justify-center h-5">
+            <div className="flex h-5 flex-col items-center justify-center">
               <StatusEventTimelineDot />
             </div>
           </div>
           <div className="mb-2">
             <StatusEventTimelineTitle>
               <span>Maintenance</span>{" "}
-              <span className="text-xs text-muted-foreground/70 font-mono">
-                <span className="underline underline-offset-2 decoration-dashed">
+              <span className="font-mono text-muted-foreground/70 text-xs">
+                <span className="underline decoration-dashed underline-offset-2">
                   <StatusEventDateHoverCard date={new Date(start)}>
                     {formatTime(start)}
                   </StatusEventDateHoverCard>
                 </span>
                 {" - "}
-                <span className="underline underline-offset-2 decoration-dashed">
+                <span className="underline decoration-dashed underline-offset-2">
                   <StatusEventDateHoverCard date={new Date(end)}>
                     {formatTime(end)}
                   </StatusEventDateHoverCard>
                 </span>
               </span>{" "}
               {duration ? (
-                <span className="text-xs text-muted-foreground/70 font-mono">
+                <span className="font-mono text-muted-foreground/70 text-xs">
                   (for {duration})
                 </span>
               ) : null}
@@ -236,7 +236,7 @@ export function StatusEventTimelineTitle({
 }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("text-sm font-medium text-foreground", className)}
+      className={cn("font-medium text-foreground text-sm", className)}
       {...props}
     >
       {children}
@@ -251,7 +251,7 @@ export function StatusEventTimelineMessage({
   ...props
 }: React.ComponentProps<"div">) {
   return (
-    <div className={cn("text-sm text-muted-foreground", className)} {...props}>
+    <div className={cn("text-muted-foreground text-sm", className)} {...props}>
       {children}
     </div>
   );
@@ -264,13 +264,13 @@ export function StatusEventTimelineDot({
   return (
     <div
       className={cn(
-        "size-2.5 rounded-full bg-muted shrink-0",
+        "size-2.5 shrink-0 rounded-full bg-muted",
         "group-data-[variant=operational]:bg-success",
         "group-data-[variant=monitoring]:bg-info",
         "group-data-[variant=identified]:bg-warning",
         "group-data-[variant=investigating]:bg-destructive",
         "group-data-[variant=maintenance]:bg-info",
-        className
+        className,
       )}
       {...props}
     />
@@ -285,13 +285,13 @@ export function StatusEventTimelineSeparator({
     <Separator
       orientation="vertical"
       className={cn(
-        "flex-1 mx-auto",
+        "mx-auto flex-1",
         "group-data-[variant=operational]:bg-success",
         "group-data-[variant=monitoring]:bg-info",
         "group-data-[variant=identified]:bg-warning",
         "group-data-[variant=investigating]:bg-destructive",
         "group-data-[variant=maintenance]:bg-info",
-        className
+        className,
       )}
       {...props}
     />
@@ -315,7 +315,7 @@ export function StatusEventDateHoverCard({
       </HoverCardTrigger>
       <HoverCardPortal>
         <HoverCardContent
-          className="p-2 w-auto z-10"
+          className="z-10 w-auto p-2"
           {...{ side, align, alignOffset, sideOffset }}
         >
           <dl className="flex flex-col gap-1">
@@ -342,14 +342,14 @@ function Row({ value, label }: { value: string; label: string }) {
 
   return (
     <div
-      className="group flex gap-4 text-sm justify-between items-center"
+      className="group flex items-center justify-between gap-4 text-sm"
       onClick={(e) => {
         e.stopPropagation();
         copy(value, {});
       }}
     >
       <dt className="text-muted-foreground">{label}</dt>
-      <dd className="font-mono truncate flex items-center gap-1">
+      <dd className="flex items-center gap-1 truncate font-mono">
         <span className="invisible group-hover:visible">
           {!isCopied ? (
             <Copy className="h-3 w-3" />

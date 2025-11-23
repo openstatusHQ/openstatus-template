@@ -78,7 +78,7 @@ export const PRIORITY = {
 export function getHighestPriorityStatus(item: ChartData) {
   return (
     VARIANT.filter((status) => item[status] > 0).sort(
-      (a, b) => PRIORITY[b] - PRIORITY[a]
+      (a, b) => PRIORITY[b] - PRIORITY[a],
     )[0] || "success"
   );
 }

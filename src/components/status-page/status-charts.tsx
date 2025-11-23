@@ -40,7 +40,7 @@ export function StatusChartTitle({
   return (
     <div
       data-slot="status-chart-title"
-      className={cn("text-foreground text-base font-medium", className)}
+      className={cn("font-medium text-base text-foreground", className)}
       {...props}
     >
       {children}
@@ -56,7 +56,7 @@ export function StatusChartDescription({
   return (
     <div
       data-slot="status-chart-description"
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-muted-foreground text-sm", className)}
       {...props}
     >
       {children}

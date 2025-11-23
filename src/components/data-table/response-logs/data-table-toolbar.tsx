@@ -1,14 +1,14 @@
 "use client";
 
-import { Table } from "@tanstack/react-table";
+import type { Table } from "@tanstack/react-table";
 import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
 import { DataTableFacetedFilter } from "@/components/ui/data-table/data-table-faceted-filter";
+import { regions } from "@/data/regions";
 import type { ResponseLog } from "@/data/response-logs";
 import { statusCodes } from "@/data/status-codes";
-import { regions } from "@/data/regions";
 
 export interface ResponseLogsDataTableToolbarProps {
   table: Table<ResponseLog>;
@@ -21,7 +21,7 @@ export function ResponseLogsDataTableToolbar({
 
   return (
     <div className="flex items-center justify-between">
-      <div className="flex flex-1 flex-wrap items-center gap-2 flex-warp">
+      <div className="flex flex-1 flex-warp flex-wrap items-center gap-2">
         {table.getColumn("status") && (
           <DataTableFacetedFilter
             column={table.getColumn("status")}

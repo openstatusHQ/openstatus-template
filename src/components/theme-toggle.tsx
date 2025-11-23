@@ -1,9 +1,9 @@
 "use client";
 
-import { useTheme } from "next-themes";
-import * as React from "react";
-
 import { Laptop, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import type * as React from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -11,8 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
-import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 export function ThemeToggle({

@@ -2,7 +2,7 @@ const randomizer = Math.random() * 10;
 
 export const regionPercentile = Array.from({ length: 30 }, (_, i) => ({
   timestamp: new Date(
-    new Date().setMinutes(new Date().getMinutes() - i)
+    new Date().setMinutes(new Date().getMinutes() - i),
   ).toLocaleString("default", {
     hour: "numeric",
     minute: "numeric",

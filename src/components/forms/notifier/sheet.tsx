@@ -1,12 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import {
   FormCard,
   FormCardContent,
   FormCardGroup,
 } from "@/components/forms/form-card";
-import { useState } from "react";
 import {
   FormSheet,
   FormSheetContent,
@@ -16,8 +15,9 @@ import {
   FormSheetTitle,
   FormSheetTrigger,
 } from "@/components/forms/form-sheet";
-import { FormValues } from "./form";
+import { Button } from "@/components/ui/button";
 import { config, type NotifierProvider } from "@/data/notifiers.client";
+import type { FormValues } from "./form";
 
 export function FormSheetNotifier({
   children,
@@ -39,7 +39,7 @@ export function FormSheetNotifier({
           </FormSheetDescription>
         </FormSheetHeader>
         <FormCardGroup className="overflow-y-auto">
-          <FormCard className="border-none overflow-auto">
+          <FormCard className="overflow-auto border-none">
             <FormCardContent>
               {Form && (
                 <Form

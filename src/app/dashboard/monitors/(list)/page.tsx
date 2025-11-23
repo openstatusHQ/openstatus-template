@@ -1,5 +1,9 @@
 "use client";
 
+import type { ColumnFiltersState, SortingState } from "@tanstack/react-table";
+import { ArrowDown, CheckCircle, ListFilter } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   Section,
   SectionDescription,
@@ -7,23 +11,19 @@ import {
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
+import { columns } from "@/components/data-table/monitors/columns";
+import { MonitorDataTableActionBar } from "@/components/data-table/monitors/data-table-action-bar";
+import { MonitorDataTableToolbar } from "@/components/data-table/monitors/data-table-toolbar";
 import {
+  MetricCardButton,
   MetricCardGroup,
   MetricCardHeader,
   MetricCardTitle,
   MetricCardValue,
-  MetricCardButton,
 } from "@/components/metric/metric-card";
 import { DataTable } from "@/components/ui/data-table/data-table";
-import { monitors } from "@/data/monitors";
-import { columns } from "@/components/data-table/monitors/columns";
-import { MonitorDataTableActionBar } from "@/components/data-table/monitors/data-table-action-bar";
-import { MonitorDataTableToolbar } from "@/components/data-table/monitors/data-table-toolbar";
-import { ArrowDown, CheckCircle, ListFilter } from "lucide-react";
-import type { ColumnFiltersState, SortingState } from "@tanstack/react-table";
-import { useState } from "react";
 import { DataTablePaginationSimple } from "@/components/ui/data-table/data-table-pagination";
-import { useRouter } from "next/navigation";
+import { monitors } from "@/data/monitors";
 
 // NOTE: connect with table filter and sorting
 const metrics = [
@@ -87,12 +87,12 @@ export default function Page() {
         <MetricCardGroup>
           {metrics.map((metric) => {
             const array = columnFilters.find(
-              (filter) => filter.id === "status"
+              (filter) => filter.id === "status",
             )?.value;
             const isFilterActive =
               Array.isArray(array) && array?.includes(metric.title);
             const isSortingActive = sorting.find(
-              (sort) => sort.id === "p99"
+              (sort) => sort.id === "p99",
             )?.desc;
 
             const isActive =
@@ -126,7 +126,7 @@ export default function Page() {
                   }
                 }}
               >
-                <MetricCardHeader className="flex justify-between items-center gap-2 w-full">
+                <MetricCardHeader className="flex w-full items-center justify-between gap-2">
                   <MetricCardTitle className="truncate">
                     {metric.title}
                   </MetricCardTitle>

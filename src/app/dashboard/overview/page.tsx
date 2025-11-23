@@ -1,12 +1,20 @@
+import { List, Plus, Search } from "lucide-react";
+import Link from "next/link";
 import {
+  EmptyStateContainer,
+  EmptyStateTitle,
+} from "@/components/content/empty-state";
+import {
+  Section,
   SectionDescription,
   SectionGroup,
   SectionHeader,
   SectionHeaderRow,
   SectionTitle,
 } from "@/components/content/section";
-
-import { Section } from "@/components/content/section";
+import { columns } from "@/components/data-table/incidents/columns";
+import { FormSheetMaintenance } from "@/components/forms/maintenance/sheet";
+import { FormSheetStatusReport } from "@/components/forms/status-report/sheet";
 import {
   MetricCard,
   MetricCardGroup,
@@ -14,20 +22,11 @@ import {
   MetricCardTitle,
   MetricCardValue,
 } from "@/components/metric/metric-card";
-import {
-  EmptyStateContainer,
-  EmptyStateTitle,
-} from "@/components/content/empty-state";
 import { Button } from "@/components/ui/button";
-import { List, Plus, Search } from "lucide-react";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { incidents } from "@/data/incidents";
-import { columns } from "@/components/data-table/incidents/columns";
-import { FormSheetStatusReport } from "@/components/forms/status-report/sheet";
-import { FormSheetMaintenance } from "@/components/forms/maintenance/sheet";
 import { monitors } from "@/data/monitors";
 import { statusPages } from "@/data/status-pages";
-import Link from "next/link";
 
 const metrics = [
   {
@@ -81,7 +80,7 @@ export default function Page() {
           {metrics.map((metric) => (
             <Link href={metric.href} key={metric.title}>
               <MetricCard variant={metric.variant}>
-                <MetricCardHeader className="flex justify-between items-center gap-2">
+                <MetricCardHeader className="flex items-center justify-between gap-2">
                   <MetricCardTitle className="truncate">
                     {metric.title}
                   </MetricCardTitle>

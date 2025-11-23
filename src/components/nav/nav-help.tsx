@@ -1,14 +1,15 @@
 "use client";
 
-import * as React from "react";
-
 import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
+  Book,
+  Braces,
+  CalendarClock,
+  HelpCircle,
+  LifeBuoy,
+} from "lucide-react";
+import Link from "next/link";
+import { FormDialogSupportContact } from "@/components/forms/support-contact/dialog";
+import { DiscordIcon } from "@/components/icons/discord";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,16 +18,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Book,
-  Braces,
-  CalendarClock,
-  HelpCircle,
-  LifeBuoy,
-} from "lucide-react";
-import { useSidebar } from "@/components/ui/sidebar";
-import Link from "next/link";
-import { DiscordIcon } from "@/components/icons/discord";
-import { FormDialogSupportContact } from "@/components/forms/support-contact/dialog";
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
 
 export function NavHelp() {
   const { isMobile } = useSidebar();

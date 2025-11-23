@@ -3,7 +3,6 @@
 import { SelectTrigger } from "@radix-ui/react-select";
 import type { Table } from "@tanstack/react-table";
 import { CheckCircle2, Trash2 } from "lucide-react";
-import * as React from "react";
 
 import {
   DataTableActionBar,
@@ -17,7 +16,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Monitor } from "@/data/monitors";
+import type { Monitor } from "@/data/monitors";
 
 interface MonitorDataTableActionBarProps {
   table: Table<Monitor>;

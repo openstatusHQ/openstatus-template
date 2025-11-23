@@ -1,20 +1,20 @@
 "use client";
 
-import { CartesianGrid, Area, XAxis, YAxis, AreaChart } from "recharts";
+import { useState } from "react";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import type { AxisDomain } from "recharts/types/util/types";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { cn } from "@/lib/utils";
-import { ChartTooltipNumber } from "./chart-tooltip-number";
-import { useState } from "react";
-import { ChartLegendBadge } from "./chart-legend-badge";
-import { formatMilliseconds } from "@/lib/formatter";
 import { regionPercentile } from "@/data/region-percentile";
-import { AxisDomain } from "recharts/types/util/types";
+import { formatMilliseconds } from "@/lib/formatter";
+import { cn } from "@/lib/utils";
+import { ChartLegendBadge } from "./chart-legend-badge";
+import { ChartTooltipNumber } from "./chart-tooltip-number";
 
 const chartConfig = {
   p50: {
@@ -45,7 +45,7 @@ const chartConfig = {
 
 function avg(values: number[]) {
   return Math.round(
-    values.reduce((acc, curr) => acc + curr, 0) / values.length
+    values.reduce((acc, curr) => acc + curr, 0) / values.length,
   );
 }
 

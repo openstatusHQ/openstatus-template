@@ -1,21 +1,10 @@
 "use client";
 
-import * as React from "react";
+import type { DropdownMenuContentProps } from "@radix-ui/react-dropdown-menu";
+import { type LucideIcon, MoreHorizontal, Trash2 } from "lucide-react";
+import type * as React from "react";
 import { useState, useTransition } from "react";
-
-import { MoreHorizontal, Trash2, LucideIcon } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { DropdownMenuContentProps } from "@radix-ui/react-dropdown-menu";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,8 +16,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 
 interface QuickActionsProps extends React.ComponentProps<typeof Button> {
   align?: DropdownMenuContentProps["align"];
@@ -169,7 +167,7 @@ export function QuickActions({
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60"
+            className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40"
             disabled={
               (deleteAction?.confirmationValue &&
                 value !== deleteAction?.confirmationValue) ||

@@ -1,19 +1,25 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import {
+  EmptyStateContainer,
+  EmptyStateTitle,
+} from "@/components/content/empty-state";
 import {
   FormCard,
   FormCardContent,
   FormCardDescription,
   FormCardFooter,
   FormCardHeader,
-  FormCardTitle,
   FormCardSeparator,
+  FormCardTitle,
 } from "@/components/forms/form-card";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -24,13 +30,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import {
-  EmptyStateContainer,
-  EmptyStateTitle,
-} from "@/components/content/empty-state";
 import { statusPages } from "@/data/status-pages";
-import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 
 const schema = z.object({
@@ -143,17 +143,17 @@ export function FormStatusPages({
                         type="button"
                         className={cn(
                           watchStatusPages.length === statusPages.length &&
-                            "text-muted-foreground"
+                            "text-muted-foreground",
                         )}
                         onClick={() => {
                           const allSelected = statusPages.every((item) =>
-                            watchStatusPages.includes(item.id)
+                            watchStatusPages.includes(item.id),
                           );
 
                           if (!allSelected) {
                             form.setValue(
                               "statusPages",
-                              statusPages.map((item) => item.id)
+                              statusPages.map((item) => item.id),
                             );
                           } else {
                             form.setValue("statusPages", []);
@@ -187,13 +187,13 @@ export function FormStatusPages({
                                         ])
                                       : field.onChange(
                                           field.value?.filter(
-                                            (value) => value !== item.id
-                                          )
+                                            (value) => value !== item.id,
+                                          ),
                                         );
                                   }}
                                 />
                               </FormControl>
-                              <FormLabel className="text-sm font-normal">
+                              <FormLabel className="font-normal text-sm">
                                 {item.name}
                               </FormLabel>
                             </FormItem>

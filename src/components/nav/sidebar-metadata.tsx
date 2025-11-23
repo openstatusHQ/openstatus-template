@@ -1,6 +1,10 @@
-import * as React from "react";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { ChevronRight } from "lucide-react";
-
+import * as React from "react";
+import {
+  EmptyStateContainer,
+  EmptyStateDescription,
+} from "@/components/content/empty-state";
 import {
   Collapsible,
   CollapsibleContent,
@@ -13,20 +17,15 @@ import {
 } from "@/components/ui/sidebar";
 import {
   Table,
+  TableBody,
+  TableCell,
+  TableHead,
   TableHeader,
   TableRow,
-  TableHead,
-  TableCell,
-  TableBody,
 } from "@/components/ui/table";
-import {
-  EmptyStateContainer,
-  EmptyStateDescription,
-} from "@/components/content/empty-state";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export type SidebarMetadataProps = {
   label: string;
@@ -43,7 +42,7 @@ export function SidebarMetadata({ label, items }: SidebarMetadataProps) {
       <Collapsible defaultOpen className="group/collapsible border-b">
         <SidebarGroupLabel
           asChild
-          className="group/label w-full text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-none h-9"
+          className="group/label h-9 w-full rounded-none text-sidebar-foreground text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
         >
           <CollapsibleTrigger>
             {label}{" "}
@@ -87,8 +86,8 @@ function SidebarMetadataTable({
       <TableBody>
         {items.map((item, index) => (
           <TableRow key={index}>
-            <TableCell className="w-24 text-muted-foreground border-r">
-              <div className="truncate min-w-[80px] max-w-[80px]">
+            <TableCell className="w-24 border-r text-muted-foreground">
+              <div className="min-w-[80px] max-w-[80px] truncate">
                 {item.isNested ? "└ " : ""}
                 {item.label}
               </div>
@@ -96,7 +95,7 @@ function SidebarMetadataTable({
             {/* <TableCell className="font-mono truncate max-w-0">
               {item.value}
             </TableCell> */}
-            <SidebarMetadataTableCell className="font-mono truncate max-w-0">
+            <SidebarMetadataTableCell className="max-w-0 truncate font-mono">
               {item.value}
             </SidebarMetadataTableCell>
           </TableRow>
@@ -119,7 +118,7 @@ function SidebarMetadataTableCell({
     if (ref.current) {
       setIsTruncated(ref.current.scrollWidth > ref.current.clientWidth);
     }
-  }, [ref]);
+  }, []);
 
   const handleClick = () => {
     if (typeof props.children === "string") {
@@ -137,7 +136,7 @@ function SidebarMetadataTableCell({
       ref={ref}
       className={cn(
         typeof props.children === "string" && "cursor-pointer",
-        className
+        className,
       )}
       onClick={handleClick}
     >

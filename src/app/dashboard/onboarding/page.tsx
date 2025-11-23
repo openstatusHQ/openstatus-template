@@ -1,3 +1,5 @@
+import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 import {
   ActionCard,
   ActionCardDescription,
@@ -23,8 +25,6 @@ import {
 import { CreateMonitorForm } from "@/components/forms/onboarding/create-monitor";
 import { CreatePageForm } from "@/components/forms/onboarding/create-page";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
 
 const moreActions = [
   {
@@ -130,7 +130,7 @@ export default function Page() {
                     <ActionCardTitle className="flex items-center justify-between gap-2">
                       {action.title}
                       {isExternal && (
-                        <ArrowUpRight className="shrink-0 size-4 group-hover/action-card:text-foreground text-muted-foreground" />
+                        <ArrowUpRight className="size-4 shrink-0 text-muted-foreground group-hover/action-card:text-foreground" />
                       )}
                     </ActionCardTitle>
                     <ActionCardDescription>

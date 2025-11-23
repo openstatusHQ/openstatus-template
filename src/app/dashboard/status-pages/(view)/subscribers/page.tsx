@@ -1,3 +1,4 @@
+import { Lock } from "lucide-react";
 import { Link } from "@/components/common/link";
 import {
   BillingOverlay,
@@ -6,17 +7,15 @@ import {
   BillingOverlayDescription,
 } from "@/components/content/billing-overlay";
 import {
+  Section,
   SectionDescription,
   SectionGroup,
   SectionHeader,
   SectionTitle,
 } from "@/components/content/section";
-
-import { Section } from "@/components/content/section";
 import { columns } from "@/components/data-table/subscribers/columns";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { subscribers } from "@/data/subscribers";
-import { Lock } from "lucide-react";
 
 const LOCKED = true;
 

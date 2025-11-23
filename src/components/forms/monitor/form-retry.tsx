@@ -1,6 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { Link } from "@/components/common/link";
 import {
   FormCard,
   FormCardContent,
@@ -10,10 +15,7 @@ import {
   FormCardHeader,
   FormCardTitle,
 } from "@/components/forms/form-card";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -23,9 +25,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
-import { Link } from "@/components/common/link";
 
 const RETRY_MIN = 1;
 const RETRY_MAX = 10;
@@ -82,7 +82,7 @@ export function FormRetry({
               Configure the retry policy for your monitor.
             </FormCardDescription>
           </FormCardHeader>
-          <FormCardContent className="grid sm:grid-cols-2 gap-4">
+          <FormCardContent className="grid gap-4 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="retry"

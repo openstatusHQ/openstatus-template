@@ -5,16 +5,14 @@ import {
   SectionTitle,
 } from "@/components/content/section";
 import {
+  FormCard,
+  FormCardContent,
   FormCardDescription,
+  FormCardFooter,
   FormCardFooterInfo,
   FormCardHeader,
   FormCardTitle,
   FormCardUpgrade,
-} from "@/components/forms/form-card";
-import {
-  FormCard,
-  FormCardContent,
-  FormCardFooter,
 } from "@/components/forms/form-card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Input } from "@/components/ui/input";

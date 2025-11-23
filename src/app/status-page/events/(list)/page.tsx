@@ -1,27 +1,27 @@
 "use client";
 
-import { statusReports } from "@/data/status-reports";
-import { maintenances } from "@/data/maintenances";
-import { Badge } from "@/components/ui/badge";
-import { formatDate } from "@/lib/formatter";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Newspaper } from "lucide-react";
 import Link from "next/link";
-import {
-  StatusEvent,
-  StatusEventTitle,
-  StatusEventAside,
-  StatusEventAffected,
-  StatusEventTimelineReport,
-  StatusEventContent,
-  StatusEventTimelineMaintenance,
-} from "@/components/status-page/status-events";
+import { useStatusPage } from "@/components/status-page/floating-button";
 import {
   StatusEmptyState,
-  StatusEmptyStateTitle,
   StatusEmptyStateDescription,
+  StatusEmptyStateTitle,
 } from "@/components/status-page/status";
-import { useStatusPage } from "@/components/status-page/floating-button";
-import { Newspaper } from "lucide-react";
+import {
+  StatusEvent,
+  StatusEventAffected,
+  StatusEventAside,
+  StatusEventContent,
+  StatusEventTimelineMaintenance,
+  StatusEventTimelineReport,
+  StatusEventTitle,
+} from "@/components/status-page/status-events";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { maintenances } from "@/data/maintenances";
+import { statusReports } from "@/data/status-reports";
+import { formatDate } from "@/lib/formatter";
 
 export default function Page() {
   const { emptyState } = useStatusPage();
@@ -34,7 +34,7 @@ export default function Page() {
       </TabsList>
       <TabsContent
         value="reports"
-        className="flex flex-col gap-4 px-3 -mx-3 py-2 -my-2 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-lg"
+        className="-mx-3 -my-2 flex flex-col gap-4 rounded-lg px-3 py-2 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
       >
         {emptyState ? (
           <StatusEmptyState>
@@ -75,7 +75,7 @@ export default function Page() {
       </TabsContent>
       <TabsContent
         value="maintenances"
-        className="flex flex-col gap-4 px-3 -mx-3 py-2 -my-2 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-lg"
+        className="-mx-3 -my-2 flex flex-col gap-4 rounded-lg px-3 py-2 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
       >
         {emptyState ? (
           <StatusEmptyState>

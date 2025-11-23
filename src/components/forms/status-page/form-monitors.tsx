@@ -1,6 +1,23 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import type { UniqueIdentifier } from "@dnd-kit/core";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Check,
+  ChevronsUpDown,
+  GripVertical,
+  PlusIcon,
+  Trash2,
+} from "lucide-react";
+import { useCallback, useEffect, useState, useTransition } from "react";
+import { type UseFormReturn, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { Link } from "@/components/common/link";
+import {
+  EmptyStateContainer,
+  EmptyStateTitle,
+} from "@/components/content/empty-state";
 import {
   FormCard,
   FormCardContent,
@@ -11,28 +28,7 @@ import {
   FormCardSeparator,
   FormCardTitle,
 } from "@/components/forms/form-card";
-import { useForm, UseFormReturn } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback, useEffect, useState, useTransition } from "react";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { toast } from "sonner";
-import {
-  EmptyStateContainer,
-  EmptyStateTitle,
-} from "@/components/content/empty-state";
-import { Monitor } from "@/data/monitors";
-import { PopoverContent } from "@/components/ui/popover";
-import { Popover, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -42,21 +38,20 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import {
-  Check,
-  ChevronsUpDown,
-  GripVertical,
-  PlusIcon,
-  Trash2,
-} from "lucide-react";
-import { UniqueIdentifier } from "@dnd-kit/core";
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
-  Sortable,
-  SortableContent,
-  SortableItem,
-  SortableItemHandle,
-  SortableOverlay,
-} from "@/components/ui/sortable";
-import { monitors } from "@/data/monitors";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -64,8 +59,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Link } from "@/components/common/link";
-import { Input } from "@/components/ui/input";
+import {
+  Sortable,
+  SortableContent,
+  SortableItem,
+  SortableItemHandle,
+  SortableOverlay,
+} from "@/components/ui/sortable";
+import type { Monitor } from "@/data/monitors";
+import { monitors } from "@/data/monitors";
+import { cn } from "@/lib/utils";
 
 // TODO: add type selection + reordering
 
@@ -92,7 +95,7 @@ const schema = z.object({
       id: z.string(),
       name: z.string().min(1, "Group name is required"),
       monitors: z.array(monitorSchema),
-    })
+    }),
   ),
 });
 
@@ -133,11 +136,11 @@ export function FormMonitors({
       ],
     },
   });
-  const watchMonitors = form.watch("monitors");
+  const _watchMonitors = form.watch("monitors");
   const [isPending, startTransition] = useTransition();
   const [data, setData] = useState<(Monitor | MonitorGroup)[]>([
     ...monitors.filter((monitor) =>
-      IDS.some((id) => id.id === monitor.id && id.type === "monitor")
+      IDS.some((id) => id.id === monitor.id && id.type === "monitor"),
     ),
     {
       id: "7",
@@ -152,13 +155,13 @@ export function FormMonitors({
     //     watchMonitors.some((m) => m.id === monitor.id)
     //   )
     // );
-  }, [watchMonitors]);
+  }, []);
 
   const onValueChange = useCallback(
     (newMonitors: (Monitor | MonitorGroup)[]) => {
       setData(newMonitors);
     },
-    []
+    [],
   );
 
   const handleAddGroup = useCallback(() => {
@@ -170,23 +173,23 @@ export function FormMonitors({
     ];
     form.setValue("groups", newGroups);
     setData((prev) => [...prev, { id: newGroupId, name: "", monitors: [] }]);
-  }, [form, setData]);
+  }, [form]);
 
   const handleDeleteGroup = useCallback(
     (groupId: string) => {
       const existingGroups = form.getValues("groups") ?? [];
       form.setValue(
         "groups",
-        existingGroups.filter((g) => g.id !== groupId)
+        existingGroups.filter((g) => g.id !== groupId),
       );
       setData((prev) => prev.filter((item) => item.id !== groupId));
     },
-    [form]
+    [form],
   );
 
   const getItemValue = useCallback(
     (item: Monitor | MonitorGroup) => item.id,
-    []
+    [],
   );
 
   const renderOverlay = useCallback(
@@ -200,7 +203,7 @@ export function FormMonitors({
           <MonitorRow
             monitor={monitor}
             form={form}
-            className="px-2 border-x border-transparent"
+            className="border-transparent border-x px-2"
           />
         );
       }
@@ -216,7 +219,7 @@ export function FormMonitors({
         />
       );
     },
-    [data, handleDeleteGroup]
+    [data, handleDeleteGroup, form],
   );
 
   function submitAction(values: FormValues) {
@@ -248,7 +251,7 @@ export function FormMonitors({
               Connect your monitors to your status page.
             </FormCardDescription>
           </FormCardHeader>
-          <FormCardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+          <FormCardContent className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
             <FormField
               control={form.control}
               name="monitors"
@@ -263,7 +266,7 @@ export function FormMonitors({
                           role="combobox"
                           className={cn(
                             "w-full justify-between",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value.length > 0
@@ -293,8 +296,8 @@ export function FormMonitors({
                                     form.setValue(
                                       "monitors",
                                       field.value.filter(
-                                        (m) => m.id !== monitor.id
-                                      )
+                                        (m) => m.id !== monitor.id,
+                                      ),
                                     );
                                   } else {
                                     form.setValue("monitors", [
@@ -310,7 +313,7 @@ export function FormMonitors({
                                     "ml-auto",
                                     field.value.some((m) => m.id === monitor.id)
                                       ? "opacity-100"
-                                      : "opacity-0"
+                                      : "opacity-0",
                                   )}
                                 />
                               </CommandItem>
@@ -361,7 +364,7 @@ export function FormMonitors({
                       return (
                         <MonitorRow
                           key={`${item.id}-monitor`}
-                          className="px-2 border-x border-transparent"
+                          className="border-transparent border-x px-2"
                           monitor={item}
                           form={form}
                         />
@@ -370,7 +373,7 @@ export function FormMonitors({
                     console.log(item);
                     const groups = form.getValues("groups") ?? [];
                     const groupIndex = groups.findIndex(
-                      (g) => g.id === item.id
+                      (g) => g.id === item.id,
                     );
                     return (
                       <MonitorGroup
@@ -437,7 +440,7 @@ function MonitorRow({ monitor, ...props }: MonitorRowProps) {
           </SortableItemHandle>
           <span className="truncate text-sm">{monitor.name}</span>
         </div>
-        <div className="truncate self-center text-sm text-muted-foreground">
+        <div className="self-center truncate text-muted-foreground text-sm">
           {monitor.url}
         </div>
         <div>
@@ -454,7 +457,7 @@ function MonitorRow({ monitor, ...props }: MonitorRowProps) {
                 >
                   {value.label}{" "}
                   {DISABLED_TYPES.includes(key) && (
-                    <span className="text-xs text-foreground">(Upgrade)</span>
+                    <span className="text-foreground text-xs">(Upgrade)</span>
                   )}
                 </SelectItem>
               ))}
@@ -495,7 +498,7 @@ function MonitorGroup({
 
       return <MonitorRow monitor={monitor} form={form} />;
     },
-    [data]
+    [data, form],
   );
 
   return (
@@ -549,7 +552,7 @@ function MonitorGroup({
                         role="combobox"
                         className={cn(
                           "w-full justify-between",
-                          !field.value && "text-muted-foreground"
+                          !field.value && "text-muted-foreground",
                         )}
                       >
                         {Array.isArray(field.value) && field.value.length > 0
@@ -582,7 +585,7 @@ function MonitorGroup({
                                   form.setValue(
                                     `groups.${groupIndex}.monitors`,
                                     current.filter((m) => m.id !== monitor.id),
-                                    { shouldValidate: true }
+                                    { shouldValidate: true },
                                   );
                                 } else {
                                   form.setValue(
@@ -591,7 +594,7 @@ function MonitorGroup({
                                       ...current,
                                       { id: monitor.id, order: 0, type: "all" },
                                     ],
-                                    { shouldValidate: true }
+                                    { shouldValidate: true },
                                   );
                                 }
                               }}
@@ -601,10 +604,10 @@ function MonitorGroup({
                                 className={cn(
                                   "ml-auto",
                                   (field.value ?? []).some(
-                                    (m) => m.id === monitor.id
+                                    (m) => m.id === monitor.id,
                                   )
                                     ? "opacity-100"
-                                    : "opacity-0"
+                                    : "opacity-0",
                                 )}
                               />
                             </CommandItem>
@@ -620,7 +623,7 @@ function MonitorGroup({
           />
         </div>
       </div>
-      <div className="border-t mt-2 pt-2 px-2 pb-2">
+      <div className="mt-2 border-t px-2 pt-2 pb-2">
         <Sortable
           value={data}
           onValueChange={onValueChange}

@@ -1,9 +1,7 @@
 "use client";
 
+import { LayoutGrid, Logs, Pencil, Siren } from "lucide-react";
 import { NavBreadcrumb } from "@/components/nav/nav-breadcrumb";
-import { Pencil, Siren } from "lucide-react";
-import { Logs } from "lucide-react";
-import { LayoutGrid } from "lucide-react";
 
 // TODO: make it dynamic
 

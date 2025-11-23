@@ -1,22 +1,22 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { chartConfig, getHighestPriorityStatus, type ChartData } from "./utils";
+import { formatDistanceStrict, isSameDay } from "date-fns";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { Kbd } from "@/components/common/kbd";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { formatDistanceStrict, isSameDay } from "date-fns";
-import { messages, requests } from "./messages";
 import { Separator } from "@/components/ui/separator";
 // TODO: make it a property of the component
 import { statusReports } from "@/data/status-reports";
-import Link from "next/link";
-import { Kbd } from "@/components/common/kbd";
-import { CardType, BarType, VARIANT } from "./floating-button";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { formatDateRange } from "@/lib/formatter";
+import { type BarType, type CardType, VARIANT } from "./floating-button";
+import { messages, requests } from "./messages";
+import { type ChartData, chartConfig, getHighestPriorityStatus } from "./utils";
 
 // TODO: keyboard arrow navigation
 // FIXME: on small screens, avoid pinned state
@@ -93,7 +93,6 @@ export function StatusTracker({
       ref={containerRef}
       className="flex h-[50px] w-full items-end"
       onKeyDown={handleKeyDown}
-      tabIndex={0}
     >
       {data.map((item, index) => {
         const isPinned = pinnedIndex === index;
@@ -113,7 +112,7 @@ export function StatusTracker({
           >
             <HoverCardTrigger asChild>
               <div
-                className="group relative flex h-full w-full cursor-pointer flex-col transition-opacity hover:opacity-80 px-px" // sm:px-0.5
+                className="group relative flex h-full w-full cursor-pointer flex-col px-px transition-opacity hover:opacity-80" // sm:px-0.5
                 onClick={() => handleBarClick(index)}
               >
                 {(() => {
@@ -130,14 +129,14 @@ export function StatusTracker({
             </HoverCardTrigger>
             <HoverCardContent side="top" align="center" className="w-auto p-0">
               <div>
-                <div className="text-xs p-2">
+                <div className="p-2 text-xs">
                   {new Date(item.timestamp).toLocaleDateString("default", {
                     day: "numeric",
                     month: "short",
                   })}
                 </div>
                 <Separator />
-                <div className="p-2 space-y-1 text-sm">
+                <div className="space-y-1 p-2 text-sm">
                   {(() => {
                     switch (cardType) {
                       case "duration":
@@ -157,29 +156,29 @@ export function StatusTracker({
                     <div className="p-2">
                       {reports.map((report) => {
                         const updates = report.updates.sort(
-                          (a, b) => a.date.getTime() - b.date.getTime()
+                          (a, b) => a.date.getTime() - b.date.getTime(),
                         );
                         const startedAt = new Date(updates[0].date);
                         const endedAt = new Date(
-                          updates[updates.length - 1].date
+                          updates[updates.length - 1].date,
                         );
                         const duration = formatDistanceStrict(
                           startedAt,
-                          endedAt
+                          endedAt,
                         );
                         return (
                           <Link
                             key={report.id}
                             href="/status-page/events/report"
                           >
-                            <div className="group text-sm relative">
+                            <div className="group relative text-sm">
                               {/* NOTE: this is to make the text truncate based on the with of the sibling element */}
                               {/* REMINDER: height needs to be equal the text height */}
-                              <div className="w-full h-4" />
+                              <div className="h-4 w-full" />
                               <div className="absolute inset-0 text-muted-foreground hover:text-foreground">
                                 <div className="truncate">{report.name}</div>
                               </div>
-                              <div className="text-xs text-muted-foreground mt-1">
+                              <div className="mt-1 text-muted-foreground text-xs">
                                 {formatDateRange(startedAt, endedAt)}{" "}
                                 <span className="ml-1.5 font-mono text-muted-foreground/70">
                                   {duration}
@@ -195,7 +194,7 @@ export function StatusTracker({
                 {isPinned && !isTouch && (
                   <>
                     <Separator />
-                    <div className="p-2 cursor-pointer flex items-center text-xs text-muted-foreground">
+                    <div className="flex cursor-pointer items-center p-2 text-muted-foreground text-xs">
                       <span>Click again to unpin</span>
                       <Kbd>Esc</Kbd>
                     </div>
@@ -256,7 +255,7 @@ function StatusTrackerContentDuration({ item }: { item: ChartData }) {
     const now = new Date();
     const duration = formatDistanceStrict(
       now,
-      new Date(now.getTime() + value * 60 * 1000)
+      new Date(now.getTime() + value * 60 * 1000),
     );
 
     return (
@@ -281,7 +280,7 @@ function StatusTrackerContentDuration({ item }: { item: ChartData }) {
 function StatusTrackerContentDominant({ item }: { item: ChartData }) {
   const highestPriorityStatus = getHighestPriorityStatus(item);
   return (
-    <div className="flex items-baseline gap-4 min-w-32">
+    <div className="flex min-w-32 items-baseline gap-4">
       <div className="flex items-center gap-2">
         <div
           className="h-2.5 w-2.5 rounded-sm"

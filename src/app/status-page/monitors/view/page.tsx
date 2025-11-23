@@ -1,5 +1,10 @@
 "use client";
 
+import { Check, Copy, TrendingUp } from "lucide-react";
+import { useState } from "react";
+import { ChartAreaPercentiles } from "@/components/chart/chart-area-percentiles";
+import { ChartBarUptime } from "@/components/chart/chart-bar-uptime-2";
+import { ChartLineRegions } from "@/components/chart/chart-line-regions";
 import {
   Status,
   StatusContent,
@@ -7,18 +12,22 @@ import {
   StatusHeader,
   StatusTitle,
 } from "@/components/status-page/status";
-import { ChartAreaPercentiles } from "@/components/chart/chart-area-percentiles";
-import { cn } from "@/lib/utils";
-import { ChartLineRegions } from "@/components/chart/chart-line-regions";
-import { Button } from "@/components/ui/button";
-import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { Check, Copy, TrendingUp } from "lucide-react";
 import {
   StatusChartContent,
   StatusChartDescription,
   StatusChartHeader,
   StatusChartTitle,
 } from "@/components/status-page/status-charts";
+import {
+  StatusMonitorTabs,
+  StatusMonitorTabsContent,
+  StatusMonitorTabsList,
+  StatusMonitorTabsTrigger,
+  StatusMonitorTabsTriggerLabel,
+  StatusMonitorTabsTriggerValue,
+} from "@/components/status-page/status-monitor-tabs";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,24 +36,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { formatNumber } from "@/lib/formatter";
-import { ChartBarUptime } from "@/components/chart/chart-bar-uptime-2";
-import {
-  StatusMonitorTabs,
-  StatusMonitorTabsList,
-  StatusMonitorTabsTrigger,
-  StatusMonitorTabsTriggerLabel,
-  StatusMonitorTabsTriggerValue,
-  StatusMonitorTabsContent,
-} from "@/components/status-page/status-monitor-tabs";
+import { cn } from "@/lib/utils";
 
 // TODO: add error range on ChartAreaLatency
 // TODO: add timerange (1d, 7d, 14d) or leave as is and have 7d default?
@@ -60,7 +60,7 @@ export default function Page() {
         </StatusDescription>
       </StatusHeader>
       <StatusContent className="flex flex-col gap-6">
-        <div className="w-full flex flex-row justify-between items-center gap-2 py-0.5">
+        <div className="flex w-full flex-row items-center justify-between gap-2 py-0.5">
           <DropdownPeriod />
           <CopyButton />
         </div>
@@ -72,7 +72,7 @@ export default function Page() {
               </StatusMonitorTabsTriggerLabel>
               <StatusMonitorTabsTriggerValue>
                 287 - 568ms{" "}
-                <Badge variant="outline" className="text-[10px] py-px">
+                <Badge variant="outline" className="py-px text-[10px]">
                   p75
                 </Badge>
               </StatusMonitorTabsTriggerValue>
@@ -85,7 +85,7 @@ export default function Page() {
                 7 regions{" "}
                 <Badge
                   variant="outline"
-                  className="text-[10px] py-px font-mono"
+                  className="py-px font-mono text-[10px]"
                 >
                   arn <TrendingUp className="size-3" />
                 </Badge>
@@ -97,7 +97,7 @@ export default function Page() {
               </StatusMonitorTabsTriggerLabel>
               <StatusMonitorTabsTriggerValue>
                 99.99%{" "}
-                <Badge variant="outline" className="text-[10px] py-px">
+                <Badge variant="outline" className="py-px text-[10px]">
                   {formatNumber(5102, {
                     notation: "compact",
                     compactDisplay: "short",
@@ -132,10 +132,10 @@ export default function Page() {
                 <StatusChartDescription>
                   {/* TODO: we could add an information to p95 that it takes the highest selected global latency percentile */}
                   Region latency per{" "}
-                  <code className="text-foreground font-medium">p75</code>{" "}
+                  <code className="font-medium text-foreground">p75</code>{" "}
                   <PopoverQuantile>quantile</PopoverQuantile>, sorted by slowest
                   region. Compare up to{" "}
-                  <code className="text-foreground font-medium">4</code>{" "}
+                  <code className="font-medium text-foreground">4</code>{" "}
                   regions.
                 </StatusChartDescription>
               </StatusChartHeader>
@@ -235,7 +235,7 @@ function PopoverQuantile({
       <PopoverTrigger
         className={cn(
           "shrink-0 rounded-md p-0 underline decoration-muted-foreground/70 decoration-dotted underline-offset-2 outline-none transition-all hover:decoration-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=open]:decoration-foreground dark:aria-invalid:ring-destructive/40",
-          className
+          className,
         )}
         {...props}
       >

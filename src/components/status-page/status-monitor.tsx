@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { StatusTracker } from "./status-tracker";
+import { formatDistanceToNowStrict } from "date-fns";
 import {
   AlertCircleIcon,
   CheckIcon,
@@ -14,13 +8,19 @@ import {
   TriangleAlertIcon,
   WrenchIcon,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { BarType, CardType, VariantType } from "./floating-button";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { useState } from "react";
-import { type ChartData } from "./utils";
-import { Monitor } from "@/data/monitors";
-import { formatDistanceToNowStrict } from "date-fns";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import type { Monitor } from "@/data/monitors";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
+import type { BarType, CardType, VariantType } from "./floating-button";
+import { StatusTracker } from "./status-tracker";
+import type { ChartData } from "./utils";
 
 export function StatusMonitor({
   className,
@@ -61,8 +61,8 @@ export function StatusMonitor({
       <StatusTracker cardType={cardType} barType={barType} data={data} />
       <div
         className={cn(
-          "flex flex-row items-center justify-between text-xs text-muted-foreground",
-          className
+          "flex flex-row items-center justify-between text-muted-foreground text-xs",
+          className,
         )}
         {...props}
       >
@@ -123,19 +123,19 @@ export function StatusMonitorIcon({
   return (
     <div
       className={cn(
-        "size-4 text-background rounded-full bg-muted flex items-center justify-center [&>svg]:size-2.5",
+        "flex size-4 items-center justify-center rounded-full bg-muted text-background [&>svg]:size-2.5",
         "group-data-[variant=success]/monitor:bg-success",
         "group-data-[variant=degraded]/monitor:bg-warning",
         "group-data-[variant=error]/monitor:bg-destructive",
         "group-data-[variant=info]/monitor:bg-info",
-        className
+        className,
       )}
       {...props}
     >
-      <CheckIcon className="group-data-[variant=success]/monitor:block hidden" />
-      <TriangleAlertIcon className="group-data-[variant=degraded]/monitor:block hidden" />
-      <AlertCircleIcon className="group-data-[variant=error]/monitor:block hidden" />
-      <WrenchIcon className="group-data-[variant=info]/monitor:block hidden" />
+      <CheckIcon className="hidden group-data-[variant=success]/monitor:block" />
+      <TriangleAlertIcon className="hidden group-data-[variant=degraded]/monitor:block" />
+      <AlertCircleIcon className="hidden group-data-[variant=error]/monitor:block" />
+      <WrenchIcon className="hidden group-data-[variant=info]/monitor:block" />
     </div>
   );
 }
@@ -146,7 +146,7 @@ export function StatusMonitorUptime({
   return (
     <div
       {...props}
-      className={cn("text-sm text-muted-foreground font-mono", className)}
+      className={cn("font-mono text-muted-foreground text-sm", className)}
     >
       99.90%
     </div>
@@ -159,16 +159,16 @@ export function StatusMonitorStatus({
 }: React.ComponentProps<"div">) {
   return (
     <div className={cn(className)} {...props}>
-      <span className="group-data-[variant=success]/monitor:block hidden">
+      <span className="hidden group-data-[variant=success]/monitor:block">
         Operational
       </span>
-      <span className="group-data-[variant=degraded]/monitor:block hidden">
+      <span className="hidden group-data-[variant=degraded]/monitor:block">
         Degraded
       </span>
-      <span className="group-data-[variant=error]/monitor:block hidden">
+      <span className="hidden group-data-[variant=error]/monitor:block">
         Downtime
       </span>
-      <span className="group-data-[variant=info]/monitor:block hidden">
+      <span className="hidden group-data-[variant=info]/monitor:block">
         Maintenance
       </span>
     </div>

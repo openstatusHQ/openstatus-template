@@ -14,7 +14,7 @@ export function StatusMonitorTabsList({
 }: React.ComponentProps<typeof TabsList>) {
   return (
     <TabsList
-      className={cn("flex w-full h-auto min-h-fit", className)}
+      className={cn("flex h-auto min-h-fit w-full", className)}
       {...props}
     />
   );
@@ -27,8 +27,8 @@ export function StatusMonitorTabsTrigger({
   return (
     <TabsTrigger
       className={cn(
-        "flex-1 gap-0.5 flex-col items-start min-w-0 text-foreground dark:text-foreground",
-        className
+        "min-w-0 flex-1 flex-col items-start gap-0.5 text-foreground dark:text-foreground",
+        className,
       )}
       {...props}
     />
@@ -40,7 +40,7 @@ export function StatusMonitorTabsTriggerLabel({
   ...props
 }: React.ComponentProps<"div">) {
   return (
-    <div className={cn("truncate w-full text-left", className)} {...props} />
+    <div className={cn("w-full truncate text-left", className)} {...props} />
   );
 }
 
@@ -51,8 +51,8 @@ export function StatusMonitorTabsTriggerValue({
   return (
     <div
       className={cn(
-        "text-muted-foreground text-xs text-left text-wrap",
-        className
+        "text-wrap text-left text-muted-foreground text-xs",
+        className,
       )}
       {...props}
     />
@@ -66,8 +66,8 @@ export function StatusMonitorTabsContent({
   return (
     <TabsContent
       className={cn(
-        "flex flex-col gap-2 px-3 -mx-3 py-2 -my-2 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-lg",
-        className
+        "-mx-3 -my-2 flex flex-col gap-2 rounded-lg px-3 py-2 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
+        className,
       )}
       {...props}
     />

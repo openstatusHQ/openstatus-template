@@ -1,5 +1,9 @@
 "use client";
 
+import { Activity } from "lucide-react";
+import Link from "next/link";
+import { ChartAreaPercentiles } from "@/components/chart/chart-area-percentiles";
+import { useStatusPage } from "@/components/status-page/floating-button";
 import {
   Status,
   StatusContent,
@@ -10,13 +14,11 @@ import {
   StatusHeader,
   StatusTitle,
 } from "@/components/status-page/status";
-import { useStatusPage } from "@/components/status-page/floating-button";
-import { StatusMonitorTitle } from "@/components/status-page/status-monitor";
-import { StatusMonitorDescription } from "@/components/status-page/status-monitor";
+import {
+  StatusMonitorDescription,
+  StatusMonitorTitle,
+} from "@/components/status-page/status-monitor";
 import { monitors } from "@/data/monitors";
-import { ChartAreaPercentiles } from "@/components/chart/chart-area-percentiles";
-import Link from "next/link";
-import { Activity } from "lucide-react";
 
 export default function Page() {
   const { variant, emptyState } = useStatusPage();
@@ -45,7 +47,7 @@ export default function Page() {
                 href="/status-page/monitors/view"
                 className="rounded-lg"
               >
-                <div className="group flex flex-col gap-2 hover:bg-muted/50 border border-transparent hover:border-border/50 rounded-lg px-3 -mx-3 py-2 -my-2">
+                <div className="group -mx-3 -my-2 flex flex-col gap-2 rounded-lg border border-transparent px-3 py-2 hover:border-border/50 hover:bg-muted/50">
                   <div className="flex flex-row items-center gap-2">
                     <StatusMonitorTitle>{monitor.name}</StatusMonitorTitle>
                     <StatusMonitorDescription>
