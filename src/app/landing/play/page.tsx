@@ -69,4 +69,9 @@ const PLAY = [
     description: "Astro status page with openstatus integration",
     href: "https://astro.openstat.us",
   },
+  {
+    label: "Open-source templates",
+    description: "Template for dashboard, statuspage and marketing",
+    href: "https://template.openstatus.dev",
+  },
 ];
