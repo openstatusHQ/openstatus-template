@@ -263,7 +263,7 @@
 }
 
 .prose p {
-  @apply my-4;
+  @apply my-4 leading-7;
 }
 
 .prose h1 {
@@ -329,6 +329,10 @@
 .prose ol {
   /* NOTE: maybe replace by default pl and list-inside */
   @apply pl-4 list-outside list-decimal marker:text-muted-foreground;
+}
+
+.prose li {
+  @apply leading-7;
 }
 
 .prose details {
