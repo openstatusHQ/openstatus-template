@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { createContext, useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +13,6 @@ import {
 } from "@/components/ui/select";
 import { regions } from "@/data/regions";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 type Values = { region: string; latency: number; status: number };
 
@@ -148,7 +148,7 @@ export function ResultTable() {
                         "size-4",
                         STATUS_CODES[
                           value.status.toString()[0] as keyof typeof STATUS_CODES
-                        ]
+                        ],
                       )}
                     />
                   </td>

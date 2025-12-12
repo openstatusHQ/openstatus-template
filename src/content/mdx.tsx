@@ -7,8 +7,8 @@ import { highlight } from "sugar-high";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "./copy-button";
-import { LatencyChartTable } from "./latency-chart-table";
 import { ImageZoom } from "./image-zoom";
+import { LatencyChartTable } from "./latency-chart-table";
 
 function Table({
   data,
@@ -83,7 +83,7 @@ function Grid({
         colsClass[cols],
         topBorderClass[cols],
         leftBorderClass[cols],
-        className
+        className,
       )}
     >
       {children}
@@ -110,7 +110,7 @@ function CustomLink(props: React.ComponentProps<"a">) {
 }
 
 function ButtonLink(
-  props: React.ComponentProps<typeof Button> & { href: string }
+  props: React.ComponentProps<typeof Button> & { href: string },
 ) {
   return (
     <Button
@@ -204,7 +204,7 @@ function createHeading(level: number) {
           className: "anchor",
         }),
       ],
-      children
+      children,
     );
   };
 
@@ -238,7 +238,7 @@ function CustomImage({ className, ...props }: React.ComponentProps<"img">) {
       <figure>
         <ImageZoom
           backdropClassName={cn(
-            '[&_[data-rmiz-modal-overlay="visible"]]:bg-background/80'
+            '[&_[data-rmiz-modal-overlay="visible"]]:bg-background/80',
           )}
           zoomMargin={16}
         >
@@ -277,7 +277,7 @@ function CustomImage({ className, ...props }: React.ComponentProps<"img">) {
     <figure>
       <ImageZoom
         backdropClassName={cn(
-          '[&_[data-rmiz-modal-overlay="visible"]]:bg-black/80'
+          '[&_[data-rmiz-modal-overlay="visible"]]:bg-black/80',
         )}
         zoomMargin={16}
       >
@@ -290,7 +290,7 @@ function CustomImage({ className, ...props }: React.ComponentProps<"img">) {
       </ImageZoom>
       <ImageZoom
         backdropClassName={cn(
-          '[&_[data-rmiz-modal-overlay="visible"]]:bg-black/80'
+          '[&_[data-rmiz-modal-overlay="visible"]]:bg-black/80',
         )}
         zoomMargin={16}
       >

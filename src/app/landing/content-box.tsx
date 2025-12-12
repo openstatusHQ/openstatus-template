@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import type React from "react";
 import { cn } from "@/lib/utils";
 
 export function ContentBoxLink({
@@ -64,7 +64,7 @@ export function ContentBoxUrl({
     <div
       className={cn(
         "underline transition-all decoration-muted-foreground/50 underline-offset-2 decoration-2 group-hover:decoration-muted-foreground",
-        className
+        className,
       )}
       {...props}
     >

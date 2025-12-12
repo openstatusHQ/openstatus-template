@@ -62,7 +62,7 @@ export function ContentListItem({
     <div
       className={cn(
         "flex w-full flex-col space-x-0 md:flex-row md:space-x-2",
-        className
+        className,
       )}
       {...props}
     >

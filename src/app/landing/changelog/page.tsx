@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { getChangelogPosts } from "@/content/utils";
 import { ContentList } from "../content-list";
-import Link from "next/link";
 
 export default function ChangelogListPage() {
   const allChangelogs = getChangelogPosts();

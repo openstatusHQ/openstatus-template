@@ -1,7 +1,7 @@
+import Link from "next/link";
 import { getBlogPosts } from "@/content/utils";
 import { ContentList } from "../content-list";
 import { BlogCategory } from "./category";
-import Link from "next/link";
 
 export default function BlogListPage() {
   const allBlogs = getBlogPosts();
